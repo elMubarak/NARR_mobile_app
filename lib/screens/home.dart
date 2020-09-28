@@ -3,6 +3,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:narr/screens/about.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/document_convert.dart';
+import 'package:narr/screens/history.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/upload_document.dart';
 import 'package:narr/screens/video_conf.dart';
@@ -717,6 +718,14 @@ class DrawerItems extends StatelessWidget {
                   title: Text('Chat'),
                   onTap: () {
                     Navigator.of(context).popAndPushNamed(ChatScreen.id);
+                    // Update the state of the app.
+                    // ...
+                  },
+                ),
+                ListTile(
+                  title: Text('History'),
+                  onTap: () {
+                    Navigator.of(context).popAndPushNamed(History.id);
                     // Update the state of the app.
                     // ...
                   },
