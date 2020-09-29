@@ -5,6 +5,7 @@ import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/document_convert.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/ocr.dart';
+import 'package:narr/screens/profile.dart';
 import 'package:narr/screens/upload_document.dart';
 import 'package:narr/screens/video_conf.dart';
 import 'dart:async';
@@ -759,6 +760,13 @@ class DrawerItems extends StatelessWidget {
                   title: Text('About'),
                   onTap: () {
                     Navigator.of(context).popAndPushNamed(AboutUs.id);
+                    // ...
+                  },
+                ),
+                ListTile(
+                  title: Text('Profile'),
+                  onTap: () {
+                    Navigator.of(context).popAndPushNamed(Profile.id);
                     // ...
                   },
                 ),
