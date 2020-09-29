@@ -8,6 +8,6 @@ class Mentions extends StatefulWidget {
 class _MentionsState extends State<Mentions> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold();
   }
 }

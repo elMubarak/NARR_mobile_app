@@ -3,6 +3,7 @@ import 'package:narr/screens/about.dart';
 import 'package:narr/screens/bulk_file_upload.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/document_convert.dart';
+import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/single_file_upload.dart';
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
         OCRScreen.id: (context) => OCRScreen(),
         AboutUs.id: (context) => AboutUs(),
         VideoConferenceScreen.id: (context) => VideoConferenceScreen(),
-        DocumentConvert.id: (context) => DocumentConvert()
+        DocumentConvert.id: (context) => DocumentConvert(),
+        History.id: (context) => History(),
       },
     );
   }
