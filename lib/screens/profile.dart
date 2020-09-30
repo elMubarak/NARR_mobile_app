@@ -10,105 +10,144 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+        backgroundColor: Colors.green[700],
+      ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 12.0, right: 12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset(
-                    'images/musa.jpg',
-                    width: 70.0,
-                  ),
-                  Icon(Icons.edit),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Musa Jibril',
-                    style: TextStyle(fontSize: 28.0),
-                  ),
-                  Text('musjib999@gmail.com'),
-                ],
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Row(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.school),
-                      SizedBox(
-                        width: 4.0,
-                      ),
-                      Text(
-                        'Bayero University Kani',
-                        style: TextStyle(fontSize: 28.0),
-                      ),
-                    ],
+                  SizedBox(
+                    height: 12.0,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(
-                        width: 4.0,
+                      CircleAvatar(
+                        backgroundImage: AssetImage('images/musa.jpg'),
+                        radius: 50.0,
                       ),
-                      Text(
-                        'Software Enginnering',
-                        style: TextStyle(fontSize: 28.0),
-                      ),
+                      Icon(Icons.edit),
                     ],
                   ),
-                ],
-              ),
-              ReuseableCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'My Projects',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.person,
+                            size: 20.0,
                           ),
+                          Text(
+                            'Musa Jibril',
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.email,
+                            size: 20.0,
+                          ),
+                          Text(
+                            'musjib999@gmail.com',
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.school,
+                            size: 20.0,
+                          ),
+                          SizedBox(
+                            width: 4.0,
+                          ),
+                          Text(
+                            'Bayero University Kano',
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            width: 6.0,
+                          ),
+                          Text(
+                            'Software Enginnering',
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  ReuseableCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'My Researches',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text('6 researches'),
+                        Projects(
+                          title: 'Urban Planning',
+                          percentage: '23',
+                        ),
+                        Projects(
+                          title: 'Conflict',
+                          percentage: '13',
+                        ),
+                        Projects(
+                          title: 'Covid-19',
+                          percentage: '19',
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          'See more+',
+                          style: TextStyle(color: Colors.blue),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text('6 Projects'),
-                    Projects(
-                      title: 'Urban Planning',
-                    ),
-                    Projects(
-                      title: 'Conflict',
-                    ),
-                    Projects(
-                      title: 'Covid-19',
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      'See more+',
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -117,7 +156,8 @@ class _ProfileState extends State<Profile> {
 
 class Projects extends StatelessWidget {
   final String title;
-  Projects({@required this.title});
+  final String percentage;
+  Projects({@required this.title, this.percentage});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,7 +191,11 @@ class Projects extends StatelessWidget {
             ],
           ),
           CircleAvatar(
-            backgroundImage: AssetImage('images/musa.jpg'),
+            child: Text(
+              percentage,
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.green[700],
           ),
         ],
       ),
@@ -167,7 +211,6 @@ class ReuseableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.all(12.0),
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
       decoration: BoxDecoration(
         color: Colors.grey[200],
