@@ -36,6 +36,7 @@ class DrawerItems extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ListTile(
+                    leading: Icon(Icons.chrome_reader_mode),
                     title: Text('Document Convertion'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(DocumentConvert.id);
@@ -44,6 +45,7 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   ListTile(
+                    leading: Icon(Icons.history),
                     title: Text('Reading History'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(ChatScreen.id);
@@ -52,6 +54,7 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   ListTile(
+                    leading: Icon(Icons.monetization_on),
                     title: Text('Research Grant'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(ChatScreen.id);
@@ -60,6 +63,7 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   ListTile(
+                    leading: Icon(Icons.show_chart),
                     title: Text('Analytics'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(ChatScreen.id);
@@ -69,6 +73,7 @@ class DrawerItems extends StatelessWidget {
                   ),
                   Divider(),
                   ListTile(
+                    leading: Icon(Icons.message),
                     title: Text('Chat'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(ChatScreen.id);
@@ -77,6 +82,7 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   ListTile(
+                    leading: Icon(Icons.settings_overscan),
                     title: Text('OCR'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(OCRScreen.id);
@@ -85,6 +91,7 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   ListTile(
+                    leading: Icon(Icons.video_call),
                     title: Text('Video Conferencing'),
                     onTap: () {
                       Navigator.of(context)
@@ -94,6 +101,7 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   ListTile(
+                    leading: Icon(Icons.info),
                     title: Text('About'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(AboutUs.id);

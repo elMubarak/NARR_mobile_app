@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:narr/screens/history.dart';
+import 'package:narr/screens/profile.dart';
 import 'package:narr/screens/upload_document.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/search_filter.dart';
 import 'dart:async';
-
 import 'package:narr/widgets/menu_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -103,7 +103,9 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.account_circle,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(Profile.id);
+            },
           ),
           IconButton(
             padding: EdgeInsets.all(2),

@@ -6,6 +6,7 @@ import 'package:narr/screens/document_convert.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr.dart';
+import 'package:narr/screens/profile.dart';
 import 'package:narr/screens/single_file_upload.dart';
 import 'package:narr/screens/upload_document.dart';
 import 'package:narr/screens/video_conf.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
         primaryColor: Color(0xff00a368),
-        splashColor: Color(0xff00a368),
+        // splashColor: Color(0xff00a368),
         accentColor: Color(0xff00a368),
         cursorColor: Color(0xff00a368),
 
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         VideoConferenceScreen.id: (context) => VideoConferenceScreen(),
         DocumentConvert.id: (context) => DocumentConvert(),
         History.id: (context) => History(),
+        Profile.id: (context) => Profile(),
       },
     );
   }
