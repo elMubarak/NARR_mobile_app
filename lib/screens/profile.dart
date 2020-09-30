@@ -26,6 +26,7 @@ class _ProfileState extends State<Profile> {
                     height: 12.0,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircleAvatar(
                         backgroundImage: AssetImage('images/musa.jpg'),
@@ -39,41 +40,38 @@ class _ProfileState extends State<Profile> {
                   ),
                   Column(
                     children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.person,
-                              size: 20.0,
-                            ),
-                            Text(
-                              'Musa Jibril',
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.email,
-                              size: 20.0,
-                            ),
-                            Text(
-                              'musjib999@gmail.com',
-                            ),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.person,
+                            size: 20.0,
+                          ),
+                          Text(
+                            'Musa Jibril',
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.email,
+                            size: 20.0,
+                          ),
+                          Text(
+                            'musjib999@gmail.com',
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(
                             Icons.school,
@@ -89,6 +87,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       SizedBox(height: 20.0),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(
                             width: 6.0,
@@ -111,7 +110,7 @@ class _ProfileState extends State<Profile> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              'My Projects',
+                              'My Researches',
                               style: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
@@ -122,7 +121,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 15,
                         ),
-                        Text('6 Projects'),
+                        Text('6 researches'),
                         Projects(
                           title: 'Urban Planning',
                           percentage: '23',
