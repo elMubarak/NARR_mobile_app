@@ -18,7 +18,10 @@ class _HistoryState extends State<History> {
         itemCount: topics.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: CircleAvatar(),
+            leading: CircleAvatar(
+              child: Icon(Icons.insert_drive_file),
+              radius: 18,
+            ),
             title: Text(topics[index]),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

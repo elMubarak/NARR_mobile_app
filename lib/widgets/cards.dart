@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 
 class HeaderCard extends StatelessWidget {
-  const HeaderCard({
-    Key key,
-    this.title,
-    this.count,
-    this.onTap,
-    this.color,
-  }) : super(key: key);
+  const HeaderCard(
+      {Key key, this.title, this.count, this.onTap, this.color, this.icon})
+      : super(key: key);
   final String title;
   final String count;
   final Function onTap;
   final Color color;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +39,12 @@ class HeaderCard extends StatelessWidget {
                   children: [
                     SizedBox(width: 5),
                     CircleAvatar(
-                      radius: 15,
+                      radius: 18,
                       backgroundColor: color,
+                      child: Icon(
+                        icon,
+                        color: Colors.white,
+                      ),
                     ),
                     SizedBox(width: 2),
                     Text(

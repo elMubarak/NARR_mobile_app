@@ -53,11 +53,8 @@ class MyApp extends StatelessWidget {
         AboutUs.id: (context) => AboutUs(),
         VideoConferenceScreen.id: (context) => VideoConferenceScreen(),
         DocumentConvert.id: (context) => DocumentConvert(),
-<<<<<<< HEAD
-        History.id: (context) => History(),
-=======
->>>>>>> aa359febd4cdb06b57bb50d3037f982c5f26676c
         Profile.id: (context) => Profile(),
+        History.id: (context) => History(),
       },
     );
   }

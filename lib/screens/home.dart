@@ -221,16 +221,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: 'Documents',
                           count: '22',
                           color: Color(0xff00a368),
+                          icon: Icons.insert_drive_file,
                         ),
                         HeaderCard(
                           title: 'Recomendations',
                           count: '15',
                           color: Colors.blue,
+                          icon: Icons.book,
                         ),
                         HeaderCard(
                           title: 'Mentions',
                           count: '30',
                           color: Colors.orange,
+                          icon: Icons.person,
                         ),
                         HeaderCard(
                           title: 'Research Work',
@@ -295,7 +298,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          leading: CircleAvatar(),
+                          leading: CircleAvatar(
+                            child: Icon(Icons.insert_drive_file),
+                          ),
                           title: Text('Medical Research'),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -318,7 +323,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          leading: CircleAvatar(),
+                          leading: CircleAvatar(
+                            child: Icon(Icons.insert_drive_file),
+                          ),
                           title: Text('Fintech grant work'),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,7 +348,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          leading: CircleAvatar(),
+                          leading: CircleAvatar(
+                            child: Icon(Icons.insert_drive_file),
+                          ),
                           title: Text('The scm wireOs'),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,7 +373,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          leading: CircleAvatar(),
+                          leading: CircleAvatar(
+                            child: Icon(Icons.insert_drive_file),
+                          ),
                           title: Text('The scm wireOs'),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -387,7 +398,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          leading: CircleAvatar(),
+                          leading: CircleAvatar(
+                            child: Icon(Icons.insert_drive_file),
+                          ),
                           title: Text('The scm wireOs'),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

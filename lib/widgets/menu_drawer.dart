@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:narr/screens/about.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/document_convert.dart';
+import 'package:narr/screens/history.dart';
 import 'package:narr/screens/ocr.dart';
+import 'package:narr/screens/profile.dart';
+import 'package:narr/screens/research_grants.dart';
 import 'package:narr/screens/video_conf.dart';
 
 class DrawerItems extends StatelessWidget {
@@ -32,8 +35,7 @@ class DrawerItems extends StatelessWidget {
           ),
           Flexible(
             child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              child: ListView(
                 children: [
                   ListTile(
                     leading: Icon(Icons.chrome_reader_mode),
@@ -48,7 +50,7 @@ class DrawerItems extends StatelessWidget {
                     leading: Icon(Icons.history),
                     title: Text('Reading History'),
                     onTap: () {
-                      Navigator.of(context).popAndPushNamed(ChatScreen.id);
+                      Navigator.of(context).popAndPushNamed(History.id);
                       // Update the state of the app.
                       // ...
                     },
@@ -57,7 +59,7 @@ class DrawerItems extends StatelessWidget {
                     leading: Icon(Icons.monetization_on),
                     title: Text('Research Grant'),
                     onTap: () {
-                      Navigator.of(context).popAndPushNamed(ChatScreen.id);
+                      Navigator.of(context).popAndPushNamed(ResearchGrants.id);
                       // Update the state of the app.
                       // ...
                     },
@@ -67,6 +69,15 @@ class DrawerItems extends StatelessWidget {
                     title: Text('Analytics'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(ChatScreen.id);
+                      // Update the state of the app.
+                      // ...
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Profile'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(Profile.id);
                       // Update the state of the app.
                       // ...
                     },
