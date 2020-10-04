@@ -5,8 +5,10 @@ import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/document_convert.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/screens/login.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/profile.dart';
+import 'package:narr/screens/register.dart';
 import 'package:narr/screens/single_file_upload.dart';
 import 'package:narr/screens/upload_document.dart';
 import 'package:narr/screens/video_conf.dart';
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: HomeScreen.id,
+      initialRoute: Login.id,
       routes: {
         HomeScreen.id: (context) => HomeScreen(),
         UploadDoc.id: (context) => UploadDoc(),
@@ -55,6 +57,8 @@ class MyApp extends StatelessWidget {
         DocumentConvert.id: (context) => DocumentConvert(),
         Profile.id: (context) => Profile(),
         History.id: (context) => History(),
+        Login.id: (context) => Login(),
+        Register.id: (context) => Register(),
       },
     );
   }

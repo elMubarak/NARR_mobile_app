@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/widgets/custom_button.dart';
 
 class BulkFileUpload extends StatefulWidget {
   static const String id = 'BulkFileUpload';
@@ -261,25 +262,7 @@ class _BulkFileUploadState extends State<BulkFileUpload> {
                                 ],
                               ),
                               child: Center(
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                    top: 10,
-                                    bottom: 10,
-                                    left: 55,
-                                    right: 55,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xff00a368),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    'Publish',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
+                                child: CustomBotton(),
                               ),
                             ),
                           ],
