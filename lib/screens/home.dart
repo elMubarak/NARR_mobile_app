@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               padding: EdgeInsets.only(left: 15, right: 15),
-              height: MediaQuery.of(context).size.height / 2,
+              height: MediaQuery.of(context).size.height * 0.5 - 15,
               width: double.infinity,
               decoration: BoxDecoration(
                   color: Color(0xff00a368),
@@ -131,76 +131,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        flex: 3,
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          height: 38,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 2.5),
-                                blurRadius: 8,
-                                color: Colors.black.withOpacity(0.25),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    hintText: 'Search Research Work',
-                                    suffixIcon: Icon(Icons.search),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Tooltip(
-                        message: 'Categories',
-                        child: GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                              enableDrag: true,
-                              backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (context) => BottomSheet(),
-                            );
-                          },
-                          child: Container(
-                            height: 38,
-                            width: 38,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              // boxShadow: [
-                              //   BoxShadow(
-                              //     offset: Offset(0, 2.5),
-                              //     blurRadius: 8,
-                              //     color: Colors.black.withOpacity(0.25),
-                              //   ),
-                              // ],
-                            ),
-                            child: Icon(
-                              Icons.format_list_numbered,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ), //search and ctgr
                   SizedBox(height: 15),
+
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 2.5),
+                          blurRadius: 8,
+                          color: Colors.black.withOpacity(0.25),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search Research Work',
+                        border: InputBorder.none,
+                        suffixIcon: Icon(Icons.search),
+                      ),
+                    ),
+                  ), //search and ctgr
+                  SizedBox(height: 25),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       HeaderCard(
                         title: 'Documents',

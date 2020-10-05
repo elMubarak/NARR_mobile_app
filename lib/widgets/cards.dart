@@ -14,66 +14,61 @@ class HeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Row(
-        children: [
-          Container(
-            width: 72,
-            height: 60,
-            margin: EdgeInsets.only(left: 5, right: 5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 2.5),
-                  blurRadius: 8,
-                  color: Colors.black.withOpacity(0.25),
+      child: Container(
+        width: 70,
+        height: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0, 2.5),
+              blurRadius: 8,
+              color: Colors.black.withOpacity(0.25),
+            ),
+          ],
+          color: Colors.white,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                SizedBox(width: 5),
+                CircleAvatar(
+                  radius: 13,
+                  backgroundColor: color,
+                  child: Icon(
+                    icon,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(width: 2),
+                Text(
+                  '$count',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
-              color: Colors.white,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            SizedBox(height: 5),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  children: [
-                    SizedBox(width: 5),
-                    CircleAvatar(
-                      radius: 13,
-                      backgroundColor: color,
-                      child: Icon(
-                        icon,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(width: 2),
-                    Text(
-                      '$count',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: color,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '$title',
-                      style: TextStyle(
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                Text(
+                  '$title',
+                  style: TextStyle(
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

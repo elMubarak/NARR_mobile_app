@@ -96,7 +96,8 @@ class _LoginState extends State<Login> {
                           SizedBox(height: 25.0),
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pushNamed(HomeScreen.id);
+                              Navigator.of(context)
+                                  .pushReplacementNamed(HomeScreen.id);
                             },
                             child: CustomBotton(
                               buttonTitle: 'Login',
@@ -105,7 +106,8 @@ class _LoginState extends State<Login> {
                           SizedBox(height: 25.0),
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pushNamed(Register.id);
+                              Navigator.of(context)
+                                  .pushReplacementNamed(Register.id);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
