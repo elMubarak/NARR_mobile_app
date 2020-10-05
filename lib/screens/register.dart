@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
 import 'package:narr/widgets/custom_button.dart';
+import 'package:narr/widgets/formCard.dart';
 
 class Register extends StatefulWidget {
   static String id = 'register';
@@ -50,9 +51,9 @@ class _RegisterState extends State<Register> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 18.0),
                 child: Text(
-                  'REGISTER',
+                  'CREATE ACCOUNT',
                   style: TextStyle(
-                    fontSize: 50.0,
+                    fontSize: 35.0,
                     fontWeight: FontWeight.bold,
                     color: Color(0xff00a368),
                   ),
@@ -60,20 +61,7 @@ class _RegisterState extends State<Register> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(12.0),
-            padding: EdgeInsets.all(14.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 2.5),
-                  blurRadius: 8,
-                  color: Colors.black.withOpacity(0.25),
-                ),
-              ],
-            ),
+          FormCard(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -82,6 +70,7 @@ class _RegisterState extends State<Register> {
                     border: InputBorder.none,
                     hintText: 'First Name',
                     filled: true,
+                    prefixIcon: Icon(Icons.person),
                   ),
                 ),
                 SizedBox(
@@ -92,6 +81,7 @@ class _RegisterState extends State<Register> {
                     border: InputBorder.none,
                     hintText: 'Last Name',
                     filled: true,
+                    prefixIcon: Icon(Icons.person),
                   ),
                 ),
                 SizedBox(
@@ -102,6 +92,7 @@ class _RegisterState extends State<Register> {
                     border: InputBorder.none,
                     hintText: 'Email',
                     filled: true,
+                    prefixIcon: Icon(Icons.email),
                   ),
                 ),
                 SizedBox(
@@ -112,6 +103,7 @@ class _RegisterState extends State<Register> {
                     border: InputBorder.none,
                     hintText: 'Date of Birth',
                     filled: true,
+                    prefixIcon: Icon(Icons.calendar_today),
                   ),
                 ),
                 SizedBox(
@@ -122,6 +114,7 @@ class _RegisterState extends State<Register> {
                     border: InputBorder.none,
                     hintText: 'Phone Number',
                     filled: true,
+                    prefixIcon: Icon(Icons.phone),
                   ),
                 ),
                 SizedBox(
@@ -204,6 +197,7 @@ class _RegisterState extends State<Register> {
                     border: InputBorder.none,
                     hintText: 'Password',
                     filled: true,
+                    prefixIcon: Icon(Icons.lock),
                   ),
                 ),
                 SizedBox(
@@ -214,6 +208,7 @@ class _RegisterState extends State<Register> {
                     border: InputBorder.none,
                     hintText: 'Confirm Password',
                     filled: true,
+                    prefixIcon: Icon(Icons.lock),
                   ),
                 ),
                 SizedBox(

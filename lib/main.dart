@@ -3,6 +3,7 @@ import 'package:narr/screens/about.dart';
 import 'package:narr/screens/bulk_file_upload.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/document_convert.dart';
+import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         History.id: (context) => History(),
         Login.id: (context) => Login(),
         Register.id: (context) => Register(),
+        ForgotPassword.id: (context) => ForgotPassword(),
       },
     );
   }

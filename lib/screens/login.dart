@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/widgets/custom_button.dart';
+import 'package:narr/widgets/formCard.dart';
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -22,27 +24,14 @@ class _LoginState extends State<Login> {
               child: Text(
                 'LOGIN',
                 style: TextStyle(
-                  fontSize: 50.0,
+                  fontSize: 35.0,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff00a368),
                 ),
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(12.0),
-            padding: EdgeInsets.all(14.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 2.5),
-                  blurRadius: 8,
-                  color: Colors.black.withOpacity(0.25),
-                ),
-              ],
-            ),
+          FormCard(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -51,6 +40,7 @@ class _LoginState extends State<Login> {
                     border: InputBorder.none,
                     hintText: 'Email',
                     filled: true,
+                    prefixIcon: Icon(Icons.email),
                   ),
                 ),
                 SizedBox(
@@ -61,6 +51,7 @@ class _LoginState extends State<Login> {
                     border: InputBorder.none,
                     hintText: 'Password',
                     filled: true,
+                    prefixIcon: Icon(Icons.lock),
                   ),
                 ),
                 SizedBox(
@@ -84,19 +75,29 @@ class _LoginState extends State<Login> {
                       onTap: () {
                         Navigator.of(context).pushNamed(Register.id);
                       },
+                      child: Column(
+                        children: <Widget>[
+                          Text('Don\'t have an account?'),
+                          Text(
+                            'Register',
+                            style: TextStyle(
+                              color: Color(0xff00a368),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(ForgotPassword.id);
+                      },
                       child: Text(
-                        'Register',
+                        'forgot Password?',
                         style: TextStyle(
                           color: Color(0xff00a368),
                           fontWeight: FontWeight.w600,
                         ),
-                      ),
-                    ),
-                    Text(
-                      'forgot Password?',
-                      style: TextStyle(
-                        color: Color(0xff00a368),
-                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
