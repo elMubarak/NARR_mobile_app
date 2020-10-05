@@ -44,27 +44,22 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff00a368),
       body: ListView(
         children: <Widget>[
-          Center(
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 18.0),
-                child: Text(
-                  'CREATE ACCOUNT',
-                  style: TextStyle(
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff00a368),
-                  ),
-                ),
-              ),
-            ),
-          ),
           FormCard(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: 15),
+                Text(
+                  'CREATE ACCOUNT',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    color: Color(0xff00a368),
+                  ),
+                ),
+                SizedBox(height: 15),
                 TextField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
