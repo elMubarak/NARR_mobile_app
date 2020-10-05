@@ -17,9 +17,9 @@ class HeaderCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 90,
-            height: 70,
-            margin: EdgeInsets.only(left: 10, right: 10),
+            width: 72,
+            height: 60,
+            margin: EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
@@ -39,7 +39,7 @@ class HeaderCard extends StatelessWidget {
                   children: [
                     SizedBox(width: 5),
                     CircleAvatar(
-                      radius: 18,
+                      radius: 13,
                       backgroundColor: color,
                       child: Icon(
                         icon,
@@ -50,7 +50,7 @@ class HeaderCard extends StatelessWidget {
                     Text(
                       '$count',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 11,
                         color: color,
                         fontWeight: FontWeight.bold,
                       ),
@@ -64,7 +64,7 @@ class HeaderCard extends StatelessWidget {
                     Text(
                       '$title',
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 9,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

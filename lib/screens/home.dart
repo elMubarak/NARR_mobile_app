@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               padding: EdgeInsets.only(left: 15, right: 15),
-              height: MediaQuery.of(context).size.height / 2 + 10,
+              height: MediaQuery.of(context).size.height / 2,
               width: double.infinity,
               decoration: BoxDecoration(
                   color: Color(0xff00a368),
@@ -199,51 +199,36 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ), //search and ctgr
-                  SizedBox(height: 10),
-                  Container(
-                    width: double.infinity,
-                    height: 85,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 2.5),
-                          blurRadius: 8,
-                          color: Colors.black.withOpacity(0.25),
-                        ),
-                      ],
-                    ),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        HeaderCard(
-                          title: 'Documents',
-                          count: '22',
-                          color: Color(0xff00a368),
-                          icon: Icons.insert_drive_file,
-                        ),
-                        HeaderCard(
-                          title: 'Recomendations',
-                          count: '15',
-                          color: Colors.blue,
-                          icon: Icons.book,
-                        ),
-                        HeaderCard(
-                          title: 'Mentions',
-                          count: '30',
-                          color: Colors.orange,
-                          icon: Icons.person,
-                        ),
-                        HeaderCard(
-                          title: 'Research Work',
-                          color: Colors.pink,
-                          count: '29',
-                        ),
-                      ],
-                    ),
+                  SizedBox(height: 15),
+                  Row(
+                    children: [
+                      HeaderCard(
+                        title: 'Documents',
+                        count: '22',
+                        color: Color(0xff00a368),
+                        icon: Icons.insert_drive_file,
+                      ),
+                      HeaderCard(
+                        title: 'Recomendations',
+                        count: '15',
+                        color: Colors.blue,
+                        icon: Icons.book,
+                      ),
+                      HeaderCard(
+                        title: 'Mentions',
+                        count: '30',
+                        color: Colors.orange,
+                        icon: Icons.person,
+                      ),
+                      HeaderCard(
+                        title: 'Research Work',
+                        color: Colors.pink,
+                        count: '29',
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 10),
+
+                  SizedBox(height: 15),
                   Analytics(chartWidget: chartWidget),
                 ],
               ),
