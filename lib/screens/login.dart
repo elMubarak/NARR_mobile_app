@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:narr/helpers/network_helper.dart';
+import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/register.dart';
@@ -13,6 +15,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  UserLogin _login = UserLogin();
+  TextEditingController _emailController;
+  TextEditingController _passwordController;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +62,10 @@ class _LoginState extends State<Login> {
                           ),
                           SizedBox(height: 15),
                           TextField(
+                            controller: _emailController,
+                            onChanged: (val) {
+                              _login.username = val;
+                            },
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Email',
@@ -68,6 +77,10 @@ class _LoginState extends State<Login> {
                             height: 20.0,
                           ),
                           TextField(
+                            controller: _passwordController,
+                            onChanged: (val) {
+                              _login.password = val;
+                            },
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Password',
@@ -96,8 +109,10 @@ class _LoginState extends State<Login> {
                           SizedBox(height: 25.0),
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(HomeScreen.id);
+                              getToken(_login);
+
+                              // Navigator.of(context)
+                              //     .pushReplacementNamed(HomeScreen.id);
                             },
                             child: CustomBotton(
                               buttonTitle: 'Login',
