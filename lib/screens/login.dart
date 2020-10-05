@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
           children: [
             Positioned.fill(
               child: SvgPicture.asset(
-                'images/bck.svg',
+                'images/greenBck.svg',
                 fit: BoxFit.fill,
               ),
             ),
