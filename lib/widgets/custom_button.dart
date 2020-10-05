@@ -16,6 +16,13 @@ class CustomBotton extends StatelessWidget {
       decoration: BoxDecoration(
         color: Color(0xff00a368),
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 2.5),
+            blurRadius: 5,
+            color: Color(0xff00a368).withOpacity(0.3),
+          ),
+        ],
       ),
       child: Text(
         buttonTitle,
