@@ -8,7 +8,7 @@ class FormCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(12.0),
-      padding: EdgeInsets.all(14.0),
+      padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),

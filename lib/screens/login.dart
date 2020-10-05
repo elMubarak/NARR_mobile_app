@@ -12,6 +12,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,77 +33,99 @@ class _LoginState extends State<Login> {
             ),
           ),
           FormCard(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Email',
-                    filled: true,
-                    prefixIcon: Icon(Icons.email),
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Password',
-                    filled: true,
-                    prefixIcon: Icon(Icons.lock),
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(HomeScreen.id);
-                  },
-                  child: CustomBotton(
-                    buttonTitle: 'Login',
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(Register.id);
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          Text('Don\'t have an account?'),
-                          Text(
-                            'Register',
-                            style: TextStyle(
-                              color: Color(0xff00a368),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter an email';
+                      } else if (!value.contains('@')) {
+                        return 'Please supply a valide email';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Email',
+                      filled: true,
+                      prefixIcon: Icon(Icons.email),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(ForgotPassword.id);
-                      },
-                      child: Text(
-                        'forgot Password?',
-                        style: TextStyle(
-                          color: Color(0xff00a368),
-                          fontWeight: FontWeight.w600,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter a password';
+                      } else if (value.length < 6) {
+                        return 'Password can\'t be less than 6 characters';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Password',
+                      filled: true,
+                      prefixIcon: Icon(Icons.lock),
+                    ),
+                    obscureText: true,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (_formKey.currentState.validate()) {
+                        Navigator.of(context).pushNamed(HomeScreen.id);
+                      }
+                    },
+                    child: CustomBotton(
+                      buttonTitle: 'Login',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(Register.id);
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            Text('Don\'t have an account?'),
+                            Text(
+                              'Register',
+                              style: TextStyle(
+                                color: Color(0xff00a368),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(ForgotPassword.id);
+                        },
+                        child: Text(
+                          'forgot Password?',
+                          style: TextStyle(
+                            color: Color(0xff00a368),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],

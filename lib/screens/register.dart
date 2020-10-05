@@ -126,6 +126,9 @@ class _RegisterState extends State<Register> {
                       border: UnderlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
+                      prefixIcon: Icon(
+                        Icons.school,
+                      ),
                     ),
                     value: selectedInstitutionType,
                     items: [
@@ -134,16 +137,16 @@ class _RegisterState extends State<Register> {
                         value: 'Institution Type',
                       ),
                       DropdownMenuItem(
-                        child: Text('None'),
-                        value: 'None',
+                        child: Text('University'),
+                        value: 'University',
                       ),
                       DropdownMenuItem(
-                        child: Text('Federal University'),
-                        value: 'Federal University',
+                        child: Text('Polytechnic'),
+                        value: 'Polytechnic',
                       ),
                       DropdownMenuItem(
-                        child: Text('Federal Polytechnic'),
-                        value: 'Federal Polytechnic',
+                        child: Text('College of Education'),
+                        value: 'College of Education',
                       ),
                     ],
                     onChanged: (value) {
@@ -161,6 +164,9 @@ class _RegisterState extends State<Register> {
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(
                         borderSide: BorderSide.none,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.school,
                       ),
                     ),
                     value: selectedInstitutionName,
