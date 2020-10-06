@@ -13,6 +13,9 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   String selectedInstitutionType = 'Institution Type';
   String selectedInstitutionName = 'Institution Name';
+  String password;
+  String cPassword;
+  bool _obscureText = true;
   final _formKey = GlobalKey<FormState>();
 
   // List<String> institutionType = [
@@ -78,7 +81,13 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                         SizedBox(height: 15),
-                        TextField(
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'First Name is required';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'First Name',
@@ -89,7 +98,13 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        TextField(
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Last Name is required';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Last Name',
@@ -155,16 +170,16 @@ class _RegisterState extends State<Register> {
                                 value: 'Institution Type',
                               ),
                               DropdownMenuItem(
-                                child: Text('None'),
-                                value: 'None',
+                                child: Text('University'),
+                                value: 'University',
                               ),
                               DropdownMenuItem(
-                                child: Text('Federal University'),
-                                value: 'Federal University',
+                                child: Text('Polytechnic'),
+                                value: 'Polytechnic',
                               ),
                               DropdownMenuItem(
-                                child: Text('Federal Polytechnic'),
-                                value: 'Federal Polytechnic',
+                                child: Text('College Of Education'),
+                                value: 'College Of Education',
                               ),
                             ],
                             onChanged: (value) {
@@ -202,6 +217,10 @@ class _RegisterState extends State<Register> {
                                 child: Text('KASU'),
                                 value: 'KASU',
                               ),
+                              DropdownMenuItem(
+                                child: Text('Others'),
+                                value: 'KASU',
+                              ),
                             ],
                             onChanged: (value) {
                               setState(() {
@@ -213,32 +232,77 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        TextField(
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Password is required';
+                            } else if (value.length < 6) {
+                              return 'Password less than 6 characters';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Password',
                             filled: true,
                             prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                              icon: Icon(Icons.visibility),
+                            ),
                           ),
+                          obscureText: _obscureText,
+                          onChanged: (value) {
+                            password = value;
+                          },
                         ),
                         SizedBox(
                           height: 20.0,
                         ),
-                        TextField(
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Password is required';
+                            } else if (password != cPassword) {
+                              return 'Passwords not matched';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Confirm Password',
                             filled: true,
                             prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                            ),
                           ),
+                          obscureText: _obscureText,
+                          onChanged: (value) {
+                            cPassword = value;
+                          },
                         ),
                         SizedBox(
                           height: 20.0,
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(HomeScreen.id);
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                _formKey.currentState.save();
+                              });
+                              Navigator.of(context)
+                                  .pushReplacementNamed(HomeScreen.id);
+                            }
                           },
                           child: CustomBotton(
                             buttonTitle: 'Register',

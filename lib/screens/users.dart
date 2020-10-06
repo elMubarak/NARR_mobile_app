@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:narr/services/loginAuth.dart';
 
 class Users extends StatefulWidget {
+  static String id = 'users';
   @override
   _UsersState createState() => _UsersState();
 }
@@ -9,16 +11,90 @@ class _UsersState extends State<Users> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Text(snapshot.data.payload);
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text('Users'),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Users',
+                style: TextStyle(
+                  fontSize: 30.0,
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              RaisedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return UserData();
+                  }));
+                },
+                child: Text('Fetch Users'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  loginUser();
+                },
+                child: Text('Refresh token'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-          return CircularProgressIndicator();
-        },
+class UserData extends StatefulWidget {
+  @override
+  _UserDataState createState() => _UserDataState();
+}
+
+class _UserDataState extends State<UserData> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text('Users'),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Users',
+                style: TextStyle(
+                  fontSize: 30.0,
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              FutureBuilder(
+                future: loginUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Center(child: Text(snapshot.data));
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+
+                  return CircularProgressIndicator();
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

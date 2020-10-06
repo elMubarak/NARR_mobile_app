@@ -122,12 +122,13 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               padding: EdgeInsets.only(left: 15, right: 15),
-              height: MediaQuery.of(context).size.height * 0.5 - 15,
+              // height: MediaQuery.of(context).size.height * 0.100,
               width: double.infinity,
               decoration: BoxDecoration(
                   color: Color(0xff00a368),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
                   )),
               child: Column(
                 children: [
