@@ -1,27 +1,44 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:narr/models/user_model.dart';
 
-final _base = "http:/192.168.1.4:3000/api/v1";
-final _tokenEndpoint = "/auth/login";
-final _tokenURL = _base + _tokenEndpoint;
+String baseEndpoint = 'http://192.168.1.4:3000/api/v1';
+String logInEndpoint = '/auth/login';
+String getAllUsers = '$baseEndpoint/user';
+String token = '/token';
+String auth = baseEndpoint + logInEndpoint;
+String userName = "shamskhalil@gmail.com";
+String password = "secret";
+String body = '{"username": "$userName", "password": "$password"}';
 
-Future<Token> getToken(UserLogin userLogin) async {
-  print(_tokenURL);
-  final http.Response response = await http.post(
-    _tokenURL,
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(
-      userLogin.toJson(),
-    ),
-  );
-  if (response.statusCode == 200) {
-    return Token.fromJson(json.decode(response.body));
-  } else {
-    print(json.decode(response.body).toString());
-    throw Exception(json.decode(response.body));
+class NetworkHelper {
+  Future loginUser() async {
+    print('Test');
+    http.Response response = await http.post(
+      auth,
+      body: jsonDecode(body),
+    );
+
+    String data = response.body;
+
+    print(data);
+  }
+
+  Future root() async {
+    print('Test');
+    http.Response response = await http.get(
+      baseEndpoint,
+    );
+
+    String data = response.body;
+    print(data);
+  }
+
+  Future getUser() async {
+    http.Response response = await http.get(
+      getAllUsers,
+    );
+    String users = response.body;
+    print(users);
   }
 }

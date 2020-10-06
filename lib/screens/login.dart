@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:narr/helpers/network_helper.dart';
-import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -15,9 +15,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  UserLogin _login = UserLogin();
-  TextEditingController _emailController;
-  TextEditingController _passwordController;
+  String email;
+  String password;
+  NetworkHelper networkHelper = NetworkHelper();
+
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,12 +27,6 @@ class _LoginState extends State<Login> {
         color: Color(0xff00a368),
         child: Stack(
           children: [
-            Positioned.fill(
-              child: SvgPicture.asset(
-                'images/greenBck.svg',
-                fit: BoxFit.fill,
-              ),
-            ),
             SafeArea(
               child: Container(
                 margin: EdgeInsets.only(top: 15),
@@ -49,101 +45,114 @@ class _LoginState extends State<Login> {
                     ),
                     SizedBox(height: 15),
                     FormCard(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(height: 15),
-                          Text(
-                            'LOGIN',
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              color: Color(0xff00a368),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(height: 15),
+                            Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                fontSize: 25.0,
+                                color: Color(0xff00a368),
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 15),
-                          TextField(
-                            controller: _emailController,
-                            onChanged: (val) {
-                              _login.username = val;
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Email',
-                              filled: true,
-                              prefixIcon: Icon(Icons.email),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          TextField(
-                            controller: _passwordController,
-                            onChanged: (val) {
-                              _login.password = val;
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Password',
-                              filled: true,
-                              prefixIcon: Icon(Icons.lock),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(ForgotPassword.id);
+                            SizedBox(height: 15),
+                            TextFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Email is required';
+                                } else if (!value.contains('@')) {
+                                  return 'Invalid email';
+                                }
+                                return null;
                               },
-                              child: Text(
-                                'forgot Password ? ',
-                                style: TextStyle(
-                                  color: Colors.grey[500],
-                                  decoration: TextDecoration.underline,
-                                  fontWeight: FontWeight.w600,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Email',
+                                filled: true,
+                                prefixIcon: Icon(Icons.email),
+                              ),
+                              onChanged: (value) {
+                                email = value;
+                              },
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            TextFormField(
+                              validator: (value) {
+                                if (value.length < 6) {
+                                  return 'Password less than 6 characters';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Password',
+                                filled: true,
+                                prefixIcon: Icon(Icons.lock),
+                              ),
+                              obscureText: true,
+                              onChanged: (value) {
+                                password = value;
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed(ForgotPassword.id);
+                                },
+                                child: Text(
+                                  'forgot Password ? ',
+                                  style: TextStyle(
+                                    color: Colors.grey[500],
+                                    decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 25.0),
-                          GestureDetector(
-                            onTap: () {
-                              getToken(_login);
-
-                              // Navigator.of(context)
-                              //     .pushReplacementNamed(HomeScreen.id);
-                            },
-                            child: CustomBotton(
-                              buttonTitle: 'Login',
+                            SizedBox(height: 25.0),
+                            GestureDetector(
+                              onTap: () {
+                                networkHelper.getUser();
+                              },
+                              child: CustomBotton(
+                                buttonTitle: 'Login',
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 25.0),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(Register.id);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Text('Don\'t have an account?'),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      'Register',
-                                      style: TextStyle(
-                                        color: Color(0xff00a368),
-                                        fontWeight: FontWeight.w600,
+                            SizedBox(height: 25.0),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushReplacementNamed(Register.id);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Text('Don\'t have an account?'),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Register',
+                                        style: TextStyle(
+                                          color: Color(0xff00a368),
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
