@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
         primaryColor: Color(0xff00a368),
         // splashColor: Color(0xff00a368),
         accentColor: Color(0xff00a368),
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: Login.id,
+      initialRoute: BulkFileUpload.id,
       routes: {
         HomeScreen.id: (context) => HomeScreen(),
         UploadDoc.id: (context) => UploadDoc(),

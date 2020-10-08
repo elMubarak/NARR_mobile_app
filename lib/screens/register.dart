@@ -45,9 +45,24 @@ class _RegisterState extends State<Register> {
   //   }
   //   return newdropdownItemList;
   // }
+  DateTime selectedDate = DateTime.now();
+  bool isPicked = false;
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1990, 1),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+        isPicked = true;
+      }); //get
+  }
 
   @override
   Widget build(BuildContext context) {
+    String dateOfBirth = '${selectedDate.toLocal()}'.split(' ')[0];
     return Scaffold(
       backgroundColor: Color(0xff00a368),
       body: SingleChildScrollView(
@@ -134,14 +149,42 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Date of Birth',
-                            filled: true,
-                            prefixIcon: Icon(Icons.calendar_today),
+                        GestureDetector(
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                  color: Colors.grey[600],
+                                  size: 20,
+                                ),
+                                SizedBox(width: 15),
+                                Text(
+                                  isPicked ? dateOfBirth : 'Date of Birth',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+                        // TextField(
+                        //   decoration: InputDecoration(
+                        //     border: InputBorder.none,
+                        //     hintText: 'Date of Birth',
+                        //     filled: true,
+                        //     prefixIcon: Icon(Icons.calendar_today),
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 20.0,
                         ),
