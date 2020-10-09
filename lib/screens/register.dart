@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
-import 'package:narr/services/loginAuth.dart';
+// import 'package:narr/services/loginAuth.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 import 'dart:convert';
@@ -28,8 +28,6 @@ class _RegisterState extends State<Register> {
 
   static Institution institution =
       Institution(name: selectedInstitutionName, type: selectedInstitutionType);
-
-  var call = institution.toJson();
 
   bool _obscureText = true;
   bool showSpiner = false;
@@ -61,10 +59,10 @@ class _RegisterState extends State<Register> {
     String json =
         '{"username": "$email", "password": "$password", "fname": "$fname", "lname": "$lname", "phone": "$phone", "address": "$address", "dob": "$dob", "institution": {"type": "${institution.type}", "name": "${institution.name}"}}';
 
-    String decjson = jsonDecode(json);
+    // var testJson = Institution.fromJson(jsonDecode(json));
     http.Response response = await http.post(
-      'http://192.168.1.4:3000/api/v1/auth/register',
-      body: decjson,
+      'http://192.168.43.219:3000/api/v1/auth/register',
+      body: jsonDecode(json),
     );
     if (response.statusCode == 200) {
       String data = response.body;
@@ -80,33 +78,22 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  List<String> institutionType = [
-    'Institution Type',
-    'None',
-    'Federal University',
-    'Federal Poly',
-    'State University',
-    'State Poly'
-  ];
-  List<String> institutionName = [
-    'ABU',
-    'BUK',
-    'KASU',
-    'KadPoly',
-    'FUDMA',
-    'ATBU'
-  ];
-  // getInstitutionType() {
-  //   List<DropdownMenuItem<String>> newdropdownItemList = [];
-  //   for (var item in institutionType) {
-  //     var newInstTypeItem = DropdownMenuItem(
-  //       child: Text(item),
-  //       value: item,
-  //     );
-  //     newdropdownItemList.add(newInstTypeItem);
-  //   }
-  //   return newdropdownItemList;
-  // }
+  // List<String> institutionType = [
+  //   'Institution Type',
+  //   'None',
+  //   'Federal University',
+  //   'Federal Poly',
+  //   'State University',
+  //   'State Poly'
+  // ];
+  // List<String> institutionName = [
+  //   'ABU',
+  //   'BUK',
+  //   'KASU',
+  //   'KadPoly',
+  //   'FUDMA',
+  //   'ATBU'
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -481,9 +468,9 @@ class Institution {
   String type;
   Institution({this.name, this.type});
 
-  Institution.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        type = json['type'];
+  // Institution.fromJson(Map<String, dynamic> json)
+  //     name: json['name'],
+  //     type: json['type']
 
   Map<String, String> toJson() => {
         'name': name,

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/register.dart';
-// import 'package:narr/services/loginAuth.dart';
-// import 'package:narr/screens/users.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -32,7 +30,7 @@ class _LoginState extends State<Login> {
   Future loginUser() async {
     String json = '{"username": "$email", "password": "$password"}';
     http.Response response = await http.post(
-      'http://192.168.1.4:3000/api/v1/auth/login',
+      'http://192.168.43.219:3000/api/v1/auth/login',
       body: jsonDecode(json),
     );
     if (response.statusCode == 200) {

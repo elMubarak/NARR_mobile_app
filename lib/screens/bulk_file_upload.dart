@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:narr/widgets/custom_button.dart';
 
 class BulkFileUpload extends StatefulWidget {
@@ -11,16 +13,16 @@ class BulkFileUpload extends StatefulWidget {
 }
 
 class _BulkFileUploadState extends State<BulkFileUpload> {
-  bool isUpLoading = true;
+  bool isUpLoading = false;
+  bool isFileSelected = false;
   bool isLoading = false;
-
+  List<PlatformFile> myFiles = [];
   File _document;
   PlatformFile _documentInfo;
   PlatformFile _documentInfo2;
-  PlatformFile _documentInfo3;
-  PlatformFile _documentInfo4;
-  PlatformFile _documentInfo5;
-  PlatformFile _documentInfo6;
+  // PlatformFile _documentInfo3;
+  // PlatformFile _documentInfo4;
+  // PlatformFile _documentInfo5;
 
   String extensionName;
   String fileName1;
@@ -28,7 +30,6 @@ class _BulkFileUploadState extends State<BulkFileUpload> {
   String fileName3;
   String fileName4;
   String fileName5;
-  String fileName6;
   int fileNumbers;
   pickFile() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
@@ -37,27 +38,42 @@ class _BulkFileUploadState extends State<BulkFileUpload> {
       allowedExtensions: ['pdf', 'doc', 'txt', 'docx'],
     );
 
-    if (result != null) {
+    if (result.files.isNotEmpty) {
       setState(() {
+        isFileSelected = true;
+        isLoading = false;
+
         _document = File(result.files.first.path);
         fileNumbers = result.files.length;
         _documentInfo = result.files[0];
         _documentInfo2 = result.files[1];
+        // _documentInfo3 = result.files[2];
+        // _documentInfo4 = result.files[4];
+        // _documentInfo5 = result.files[5];
 
         extensionName = _documentInfo.extension;
         fileName1 = _documentInfo.name;
         fileName2 = _documentInfo2.name;
+        // fileName3 = _documentInfo3.name;
+        // fileName4 = _documentInfo4.name;
+        // fileName5 = _documentInfo5.name;
+
         print('the extension ${extensionName ?? extensionName}');
         print('the doc $_document');
         print('file2 is $fileName2 file3 is $fileName3');
-        if (fileName1 != null)
-          setState(() {
-            isUpLoading = true;
-            isLoading = false;
-          });
       });
-    } else {
-      print('file is null');
+
+      try {
+        String fileToUpload = fileName1.split('/').last;
+        FormData formData = FormData.fromMap({
+          "file": await http.MultipartFile.fromPath(
+            fileToUpload,
+            _documentInfo.path,
+          )
+        });
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
@@ -95,221 +111,208 @@ class _BulkFileUploadState extends State<BulkFileUpload> {
               ),
             )
           : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 95,
-                    margin: EdgeInsets.only(
-                      top: 15,
-                      left: 15,
-                      right: 15,
-                      bottom: 5,
-                    ),
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: isUpLoading
-                          ? BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                            )
-                          : BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 2.5),
-                          color: Colors.black.withOpacity(0.10),
-                          blurRadius: 8,
-                        ),
-                      ],
-                    ),
-                    child: isUpLoading
-                        ? Container(
-                            child: Stack(
-                              children: [
-                                Center(
-                                    child: Container(
-                                  child: ListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    leading: CircleAvatar(
-                                      backgroundColor: Color(0xff00a368),
-                                      radius: 19,
-                                      child: Center(
-                                        child: Text(
-                                          '30%',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    title: LinearProgressIndicator(),
-                                    subtitle: Text(
-                                      'Uploading 1/3 files',
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    trailing: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          isUpLoading = false;
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                          color: Colors.black38,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Text(
-                                          'X',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )),
-                                GestureDetector(
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.only(bottom: 8, right: 5),
-                                    child: Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: Text(
-                                        'View all',
-                                        style: TextStyle(
-                                          color: Colors.black38,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        : Center(
-                            child: GestureDetector(
-                              onTap: () {
-                                pickFile();
-                                setState(() {
-                                  isLoading = true;
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Color(0xff00a368),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  'Upload Files',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
+              child: isUpLoading
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ListTile(
+                            leading: CircleAvatar(),
+                            title: LinearProgressIndicator(),
+                            subtitle: Text('File Name'),
+                            trailing: Text('X'),
                           ),
-                  ),
-                  isUpLoading
-                      ? Column(
-                          children: [
-                            FileInfoCard(
-                              fileNumber: '1',
-                              fileName: '$fileName1' ?? 'SCM-research.pdf',
-                            ),
-                            FileInfoCard(
-                              fileNumber: '2',
-                              fileName:
-                                  '$fileName2' ?? 'SCM-research-part2.pdf',
-                            ),
-                            FileInfoCard(
-                              fileNumber: '3',
-                              fileName: 'the prio justice act.docx',
-                            ),
-                            Container(
-                              width: double.infinity,
-                              margin: EdgeInsets.only(
-                                left: 15,
-                                right: 15,
-                                bottom: 25,
-                              ),
-                              padding: EdgeInsets.only(
-                                left: 10,
-                                right: 10,
-                                bottom: 20,
-                                top: 20,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: Offset(0, 2.5),
-                                    color: Colors.black.withOpacity(0.10),
-                                    blurRadius: 8,
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: CustomBotton(),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                  top: 100,
-                                  left: 15,
-                                  right: 15,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Click the upload files \n button to start \n upload proccess.',
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                      color: Color(0xff00a368),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  pickFile();
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.file_upload,
-                                  color: Color(0xff00a368).withOpacity(0.25),
-                                ),
+                          ListTile(
+                            leading: CircleAvatar(),
+                            title: LinearProgressIndicator(),
+                            subtitle: Text('File Name'),
+                            trailing: Text('X'),
+                          ),
+                          ListTile(
+                            leading: CircleAvatar(),
+                            title: LinearProgressIndicator(),
+                            subtitle: Text('File Name'),
+                            trailing: Text('X'),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 95,
+                          margin: EdgeInsets.only(
+                            top: 15,
+                            left: 15,
+                            right: 15,
+                            bottom: 5,
+                          ),
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: isFileSelected
+                                ? BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  )
+                                : BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0, 2.5),
+                                color: Colors.black.withOpacity(0.10),
+                                blurRadius: 8,
                               ),
                             ],
                           ),
+                          child: isFileSelected
+                              ? Container(
+                                  child: Center(
+                                    child: Text(
+                                      'Fill The Form With Corresponding Meta-Data',
+                                      style: TextStyle(
+                                        color: Color(0xff00a368),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 23,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                )
+                              : Center(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      pickFile();
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff00a368),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        'Upload Files',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                         ),
-                ],
-              ),
+                        isFileSelected
+                            ? Column(
+                                children: [
+                                  FileInfoCard(
+                                    fileNumber: '1',
+                                    fileName: isFileSelected
+                                        ? '$fileName1'
+                                        : 'SCM-research.pdf',
+                                  ),
+                                  FileInfoCard(
+                                    fileNumber: '2',
+                                    fileName: isFileSelected
+                                        ? '$fileName2'
+                                        : 'SCM-research-part2.pdf',
+                                  ),
+                                  // FileInfoCard(
+                                  //   fileNumber: '3',
+                                  //   fileName: isFileSelected
+                                  //       ? '$fileName3'
+                                  //       : 'the prio justice act.docx',
+                                  // ),
+                                  Container(
+                                    width: double.infinity,
+                                    margin: EdgeInsets.only(
+                                      left: 15,
+                                      right: 15,
+                                      bottom: 25,
+                                    ),
+                                    padding: EdgeInsets.only(
+                                      left: 10,
+                                      right: 10,
+                                      bottom: 20,
+                                      top: 20,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: Offset(0, 2.5),
+                                          color: Colors.black.withOpacity(0.10),
+                                          blurRadius: 8,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: CustomBotton(
+                                        buttonTitle: 'Upload',
+                                        onTap: () {
+                                          if (_document != null) {
+                                            setState(() {
+                                              isUpLoading = true;
+                                            });
+                                          } else {
+                                            print('No File To Upload');
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        top: 100,
+                                        left: 15,
+                                        right: 15,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Click the upload files \n button to start \n upload proccess.',
+                                          maxLines: 3,
+                                          style: TextStyle(
+                                            color: Color(0xff00a368),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        pickFile();
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.file_upload,
+                                        color:
+                                            Color(0xff00a368).withOpacity(0.25),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ],
+                    ),
             ),
     );
   }
