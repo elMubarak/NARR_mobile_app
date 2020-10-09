@@ -4,6 +4,7 @@ import 'package:narr/screens/about.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/document_convert.dart';
 import 'package:narr/screens/history.dart';
+import 'package:narr/screens/login.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:narr/screens/research_grants.dart';
@@ -136,19 +137,24 @@ class DrawerItems extends StatelessWidget {
                 Divider(
                   color: Colors.black,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Log Out',
-                      style: TextStyle(
-                        color: Colors.red.withOpacity(0.5),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, Login.id);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Log Out',
+                        style: TextStyle(
+                          color: Colors.red.withOpacity(0.5),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
-                    Icon(Icons.exit_to_app),
-                  ],
+                      Icon(Icons.exit_to_app),
+                    ],
+                  ),
                 ),
               ],
             ),
