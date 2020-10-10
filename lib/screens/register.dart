@@ -59,7 +59,6 @@ class _RegisterState extends State<Register> {
     String json =
         '{"username": "$email", "password": "$password", "fname": "$fname", "lname": "$lname", "phone": "$phone", "address": "$address", "dob": "$dob", "institution": {"type": "${institution.type}", "name": "${institution.name}"}}';
 
-    // var testJson = Institution.fromJson(jsonDecode(json));
     http.Response response = await http.post(
       'http://192.168.43.219:3000/api/v1/auth/register',
       body: jsonDecode(json),
@@ -68,7 +67,7 @@ class _RegisterState extends State<Register> {
       String data = response.body;
 
       print(data);
-      Navigator.pushReplacementNamed(context, HomeScreen.id);
+      // Navigator.pushReplacementNamed(context, HomeScreen.id);
       return jsonDecode(data);
     } else {
       String data = response.body;
@@ -78,22 +77,41 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  // List<String> institutionType = [
-  //   'Institution Type',
-  //   'None',
-  //   'Federal University',
-  //   'Federal Poly',
-  //   'State University',
-  //   'State Poly'
-  // ];
-  // List<String> institutionName = [
-  //   'ABU',
-  //   'BUK',
-  //   'KASU',
-  //   'KadPoly',
-  //   'FUDMA',
-  //   'ATBU'
-  // ];
+  List<String> institutionType = [
+    'Institution Type',
+    'University',
+    'Polytechnic',
+    'Collage of Education',
+  ];
+  List<String> institutionName = [
+    'Institution Name',
+    'Ahmadu Bello University',
+    'Bayero University Kano',
+    'Kaduna State University'
+  ];
+
+  List<DropdownMenuItem> getInstitutionTypeDropdownItems() {
+    List<DropdownMenuItem<String>> dropdowmItems = [];
+
+    for (String type in institutionType) {
+      var newItem = DropdownMenuItem(
+        child: Text(type),
+        value: type,
+      );
+      dropdowmItems.add(newItem);
+    }
+    return dropdowmItems;
+  }
+
+  List<DropdownMenuItem> getInstitutionNameDropdownItems() {
+    List<DropdownMenuItem<String>> dropdowmItems = [];
+
+    for (String name in institutionName) {
+      var newItem = DropdownMenuItem(child: Text(name), value: name);
+      dropdowmItems.add(newItem);
+    }
+    return dropdowmItems;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -262,24 +280,7 @@ class _RegisterState extends State<Register> {
                               ),
                               hint: Text('Institution Type'),
                               value: institution.type,
-                              items: [
-                                DropdownMenuItem(
-                                  child: Text('Institution Type'),
-                                  value: 'Institution Type',
-                                ),
-                                DropdownMenuItem(
-                                  child: Text('University'),
-                                  value: 'University',
-                                ),
-                                DropdownMenuItem(
-                                  child: Text('Polytechnic'),
-                                  value: 'Polytechnic',
-                                ),
-                                DropdownMenuItem(
-                                  child: Text('College Of Education'),
-                                  value: 'College Of Education',
-                                ),
-                              ],
+                              items: getInstitutionTypeDropdownItems(),
                               onChanged: (value) {
                                 setState(() {
                                   institution.type = value;
@@ -299,20 +300,7 @@ class _RegisterState extends State<Register> {
                               ),
                               hint: Text('Institution Name'),
                               value: institution.name,
-                              items: [
-                                DropdownMenuItem(
-                                  child: Text('Institution Name'),
-                                  value: 'Institution Name',
-                                ),
-                                DropdownMenuItem(
-                                  child: Text('Ahmadu Bello University'),
-                                  value: 'Ahmadu Bello University',
-                                ),
-                                DropdownMenuItem(
-                                  child: Text('Bayero University Kano'),
-                                  value: 'Bayero University Kano',
-                                ),
-                              ],
+                              items: getInstitutionNameDropdownItems(),
                               onChanged: (value) {
                                 setState(() {
                                   institution.name = value;
@@ -387,17 +375,17 @@ class _RegisterState extends State<Register> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
-                                setState(() {
-                                  showSpiner = true;
-                                });
-                                registerUser();
+                              // if (_formKey.currentState.validate()) {
+                              //   _formKey.currentState.save();
+                              //   setState(() {
+                              //     showSpiner = true;
+                              //   });
+                              registerUser();
 
-                                setState(() {
-                                  showSpiner = false;
-                                });
-                              }
+                              //   setState(() {
+                              //     showSpiner = false;
+                              //   });
+                              // }
                             },
                             child: CustomBotton(
                               buttonTitle: 'Register',
