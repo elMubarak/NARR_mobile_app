@@ -7,6 +7,26 @@ import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:narr/models/user_model.dart';
+
+Future<UserLoginModel> loginUser(String username, String password) async {
+  final http.Response response = await http.post(
+    'http://192.168.43.219:3000/api/v1/auth/login',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(
+      <String, String>{"username": username, "password": password},
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    print(response.body);
+    return UserLoginModel.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('${response.statusCode} Username or password incorrect');
+  }
+}
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -19,30 +39,6 @@ class _LoginState extends State<Login> {
   String password;
   bool _obscureText = true;
   bool showSpiner = false;
-
-  void displayDialog(BuildContext context, String title, String text) =>
-      showDialog(
-        context: context,
-        builder: (context) =>
-            AlertDialog(title: Text(title), content: Text(text)),
-      );
-
-  Future loginUser() async {
-    String json = '{"username": "$email", "password": "$password"}';
-    http.Response response = await http.post(
-      'http://192.168.43.219:3000/api/v1/auth/login',
-      body: jsonDecode(json),
-    );
-    if (response.statusCode == 200) {
-      String data = response.body;
-      print(data);
-      Navigator.pushReplacementNamed(context, HomeScreen.id);
-      return data;
-    } else {
-      displayDialog(context, "An Error Occurred",
-          "${response.statusCode} No account was found matching that username and password");
-    }
-  }
 
   final _formKey = GlobalKey<FormState>();
   @override
@@ -167,7 +163,7 @@ class _LoginState extends State<Login> {
                                       });
                                       // NetworkHelper()
                                       //     .loginUser(email, password);
-                                      loginUser();
+                                      loginUser(email, password);
 
                                       setState(() {
                                         showSpiner = false;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
 // import 'package:narr/services/loginAuth.dart';
@@ -25,9 +26,6 @@ class _RegisterState extends State<Register> {
   String address;
   String password;
   String cPassword;
-
-  static Institution institution =
-      Institution(name: selectedInstitutionName, type: selectedInstitutionType);
 
   bool _obscureText = true;
   bool showSpiner = false;
@@ -55,25 +53,47 @@ class _RegisterState extends State<Register> {
             AlertDialog(title: Text(title), content: Text(text)),
       );
 
-  Future registerUser() async {
-    String json =
-        '{"username": "$email", "password": "$password", "fname": "$fname", "lname": "$lname", "phone": "$phone", "address": "$address", "dob": "$dob", "institution": {"type": "${institution.type}", "name": "${institution.name}"}}';
-
-    http.Response response = await http.post(
+  Future<UserRegistrationModel> userRegistration(
+      String username,
+      String password,
+      String fname,
+      String lname,
+      String dob,
+      String phone,
+      String address,
+      String institutionType,
+      String institutionName) async {
+    final http.Response response = await http.post(
       'http://192.168.43.219:3000/api/v1/auth/register',
-      body: jsonDecode(json),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          "username": username,
+          "password": password,
+          "fname": fname,
+          "lname": lname,
+          "dob": dob,
+          "phone": phone,
+          "address": address,
+          "institution": {
+            "name": institutionName,
+            "type": institutionType,
+          },
+        },
+      ),
     );
-    if (response.statusCode == 200) {
-      String data = response.body;
 
-      print(data);
-      // Navigator.pushReplacementNamed(context, HomeScreen.id);
-      return jsonDecode(data);
-    } else {
-      String data = response.body;
-      var message = jsonDecode(data);
+    if (response.statusCode == 200) {
+      print(response.body);
       displayDialog(
-          context, "An Error Occurred ${response.statusCode} ", "$message");
+        context,
+        'Congratulations',
+        "Dear $email you have registered successfully, please verify your account",
+      );
+    } else {
+      throw Exception('${response.statusCode} Failed to create a user.');
     }
   }
 
@@ -279,11 +299,11 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                               hint: Text('Institution Type'),
-                              value: institution.type,
+                              value: selectedInstitutionType,
                               items: getInstitutionTypeDropdownItems(),
                               onChanged: (value) {
                                 setState(() {
-                                  institution.type = value;
+                                  selectedInstitutionType = value;
                                 });
                               },
                             ),
@@ -299,11 +319,11 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                               hint: Text('Institution Name'),
-                              value: institution.name,
+                              value: selectedInstitutionName,
                               items: getInstitutionNameDropdownItems(),
                               onChanged: (value) {
                                 setState(() {
-                                  institution.name = value;
+                                  selectedInstitutionName = value;
                                 });
                               },
                             ),
@@ -375,17 +395,28 @@ class _RegisterState extends State<Register> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // if (_formKey.currentState.validate()) {
-                              //   _formKey.currentState.save();
-                              //   setState(() {
-                              //     showSpiner = true;
-                              //   });
-                              registerUser();
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                setState(() {
+                                  showSpiner = true;
+                                });
 
-                              //   setState(() {
-                              //     showSpiner = false;
-                              //   });
-                              // }
+                                userRegistration(
+                                  email,
+                                  password,
+                                  fname,
+                                  lname,
+                                  dob,
+                                  phone,
+                                  address,
+                                  selectedInstitutionType,
+                                  selectedInstitutionName,
+                                );
+
+                                setState(() {
+                                  showSpiner = false;
+                                });
+                              }
                             },
                             child: CustomBotton(
                               buttonTitle: 'Register',
@@ -456,12 +487,10 @@ class Institution {
   String type;
   Institution({this.name, this.type});
 
-  // Institution.fromJson(Map<String, dynamic> json)
-  //     name: json['name'],
-  //     type: json['type']
-
-  Map<String, String> toJson() => {
-        'name': name,
-        'type': type,
-      };
+  factory Institution.fromJson(Map<String, dynamic> json) {
+    return Institution(
+      name: json['name'],
+      type: json['type'],
+    );
+  }
 }

@@ -1,39 +1,47 @@
-// class User {
-//   int id;
-//   String username;
-//   String password;
+class UserLoginModel {
+  String username;
+  String password;
 
-//   String token;
-//   User({this.id, this.username, this.token, this.password});
+  UserLoginModel({this.username, this.password});
 
-//   factory User.fromJson(Map<String, dynamic> data) => User(
-//         id: data['id'],
-//         username: data['email'],
-//         password: data['password'],
-//         token: data['token'],
-//       );
+  factory UserLoginModel.fromJson(Map<String, dynamic> data) {
+    return UserLoginModel(
+      username: data['email'],
+      password: data['password'],
+    );
+  }
+}
 
-//   Map<String, dynamic> toJson() =>
-//       {"id": this.id, "username": this.username, "token": this.token};
-// }
+class UserRegistrationModel {
+  String username;
+  String password;
+  String fname;
+  String lname;
+  Institution institution;
+  UserRegistrationModel(
+      {this.username, this.password, this.fname, this.lname, this.institution});
 
-// class UserLogin {
-//   String username;
-//   String password;
+  factory UserRegistrationModel.fromJson(Map<String, dynamic> data) {
+    return UserRegistrationModel(
+      username: data['email'],
+      password: data['password'],
+      fname: data['fname'],
+      lname: data['lname'],
+      institution: Institution.fromJson(data['institution']),
+    );
+  }
+}
 
-//   UserLogin(
-//       {this.username = 'shamskhalil@gmail.com', this.password = 'secret'});
+class Institution {
+  String name;
+  String type;
 
-//   Map<String, dynamic> toJson() =>
-//       {"username": this.username, "password": this.password};
-// }
+  Institution({this.name, this.type});
 
-// class Token {
-//   String token;
-
-//   Token({this.token});
-
-//   factory Token.fromJson(Map<String, dynamic> json) {
-//     return Token(token: json['token']);
-//   }
-// }
+  factory Institution.fromJson(Map<String, dynamic> data) {
+    return Institution(
+      name: data['name'],
+      type: data['type'],
+    );
+  }
+}
