@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -126,9 +124,13 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                             backgroundColor: Colors.grey,
                             value: progress != null ? progress : 0,
                           ),
-                          subtitle: Text(
+                          subtitle: Text(progress != null
+                              ? '$bytesSent of $bytesTotal'
+                              : ''),
+                          trailing: Text(
                               progress != null ? '${progress.toInt()} %' : ''),
                         ),
+
                         SizedBox(height: 10),
 
                         Text(

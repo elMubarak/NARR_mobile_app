@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:narr/models/user_model.dart';
-import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
 // import 'package:narr/services/loginAuth.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class Register extends StatefulWidget {
   static String id = 'register';
@@ -52,50 +48,6 @@ class _RegisterState extends State<Register> {
         builder: (context) =>
             AlertDialog(title: Text(title), content: Text(text)),
       );
-
-  Future<UserRegistrationModel> userRegistration(
-      String username,
-      String password,
-      String fname,
-      String lname,
-      String dob,
-      String phone,
-      String address,
-      String institutionType,
-      String institutionName) async {
-    final http.Response response = await http.post(
-      'http://192.168.43.219:3000/api/v1/auth/register',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-        <String, dynamic>{
-          "username": username,
-          "password": password,
-          "fname": fname,
-          "lname": lname,
-          "dob": dob,
-          "phone": phone,
-          "address": address,
-          "institution": {
-            "name": institutionName,
-            "type": institutionType,
-          },
-        },
-      ),
-    );
-
-    if (response.statusCode == 200) {
-      print(response.body);
-      displayDialog(
-        context,
-        'Congratulations',
-        "Dear $email you have registered successfully, please verify your account",
-      );
-    } else {
-      throw Exception('${response.statusCode} Failed to create a user.');
-    }
-  }
 
   List<String> institutionType = [
     'Institution Type',
@@ -400,18 +352,6 @@ class _RegisterState extends State<Register> {
                                 setState(() {
                                   showSpiner = true;
                                 });
-
-                                userRegistration(
-                                  email,
-                                  password,
-                                  fname,
-                                  lname,
-                                  dob,
-                                  phone,
-                                  address,
-                                  selectedInstitutionType,
-                                  selectedInstitutionName,
-                                );
 
                                 setState(() {
                                   showSpiner = false;

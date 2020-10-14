@@ -28,7 +28,7 @@ class ClicksPerYear {
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  void incrementCounter() {
     print('Works');
     setState(() {
       _counter++;
@@ -72,10 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
       series,
       animate: true,
     );
-    var chart2 = charts.PieChart(
-      series,
-      animate: true,
-    );
+    // var chart2 = charts.PieChart(
+    //   series,
+    //   animate: true,
+    // );
     var chartWidget = Padding(
       padding: EdgeInsets.zero,
       child: SizedBox(
@@ -83,10 +83,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: chart,
       ),
     );
-    var chartWidget2 = Container(
-      height: 35,
-      child: chart2,
-    );
+    // var chartWidget2 = Container(
+    //   height: 35,
+    //   child: chart2,
+    // );
     return Scaffold(
       drawer: Drawer(
         child: DrawerItems(),

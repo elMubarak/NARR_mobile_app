@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'package:dio/dio.dart' as ddio;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:narr/widgets/custom_button.dart';
 
 class BulkFileUpload extends StatefulWidget {
@@ -62,18 +60,18 @@ class _BulkFileUploadState extends State<BulkFileUpload> {
         print('file2 is $fileName2 file3 is $fileName3');
       });
 
-      try {
-        String fileToUpload = fileName1.split('/').last;
-        ddio.FormData formData = ddio.FormData.fromMap({
-          "file": await http.MultipartFile.fromPath(
-            fileToUpload,
-            _documentInfo.path,
-          )
-        });
-        // ddio.Response response = await ddio.post("path",data:);
-      } catch (e) {
-        print(e);
-      }
+      // try {
+      //   String fileToUpload = fileName1.split('/').last;
+      //   ddio.FormData formData = ddio.FormData.fromMap({
+      //     "file": await http.MultipartFile.fromPath(
+      //       fileToUpload,
+      //       _documentInfo.path,
+      //     )
+      //   });
+      //   // ddio.Response response = await ddio.post("path",data:);
+      // } catch (e) {
+      //   print(e);
+      // }
     }
   }
 
