@@ -12,7 +12,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        backgroundColor: Colors.green[700],
+        backgroundColor: Color(0xff00a368),
       ),
       body: SafeArea(
         child: ListView(
@@ -195,7 +195,7 @@ class Projects extends StatelessWidget {
               percentage,
               style: TextStyle(color: Colors.white),
             ),
-            backgroundColor: Colors.green[700],
+            backgroundColor: Color(0xff00a368),
           ),
         ],
       ),

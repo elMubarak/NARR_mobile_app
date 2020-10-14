@@ -13,6 +13,7 @@ import 'package:narr/screens/register.dart';
 import 'package:narr/screens/single_file_upload.dart';
 import 'package:narr/screens/upload_document.dart';
 import 'package:narr/screens/users.dart';
+import 'package:narr/screens/verify_email.dart';
 import 'package:narr/screens/video_conf.dart';
 
 void main() {
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
         Register.id: (context) => Register(),
         ForgotPassword.id: (context) => ForgotPassword(),
         Users.id: (context) => Users(),
+        VerifyAccount.id: (context) => VerifyAccount(),
       },
     );
   }
