@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: Login.id,
+      initialRoute: SingleFileUpload.id,
       routes: {
         HomeScreen.id: (context) => HomeScreen(),
         UploadDoc.id: (context) => UploadDoc(),

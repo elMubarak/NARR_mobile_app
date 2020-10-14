@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as ddio;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -65,12 +64,13 @@ class _BulkFileUploadState extends State<BulkFileUpload> {
 
       try {
         String fileToUpload = fileName1.split('/').last;
-        FormData formData = FormData.fromMap({
+        ddio.FormData formData = ddio.FormData.fromMap({
           "file": await http.MultipartFile.fromPath(
             fileToUpload,
             _documentInfo.path,
           )
         });
+        // ddio.Response response = await ddio.post("path",data:);
       } catch (e) {
         print(e);
       }

@@ -135,7 +135,7 @@ class _LoginState extends State<Login> {
                               });
                               // NetworkHelper()
                               //     .loginUser(email, password);
-                              loginUser(email, password);
+                              loginUser(email, password, context);
 
                               setState(() {
                                 showSpiner = false;

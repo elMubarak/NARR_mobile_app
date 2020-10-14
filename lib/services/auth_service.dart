@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/models/user_model.dart';
+import 'package:narr/screens/home.dart';
 import 'package:narr/screens/verify_email.dart';
 
 //registration
@@ -45,16 +46,17 @@ Future<UserRegistrationModel> userRegistration(
 
     Navigator.pushNamed(context, VerifyAccount.id);
 
-    // var fullName = jsonDecode(data)['payload']['fullName'];
+    var fullName = jsonDecode(data)['payload']['fullName'];
     // var username = jsonDecode(data)['paylaod']['username'];
-    // return fullName;
+    return fullName;
   } else {
     throw Exception('${response.statusCode} Failed to create a user.');
   }
 }
 
 //login
-Future<UserLoginModel> loginUser(String username, String password) async {
+Future<UserLoginModel> loginUser(
+    String username, String password, BuildContext context) async {
   final http.Response response = await http.post(
     'http://192.168.43.219:3000/api/v1/auth/login',
     headers: <String, String>{
@@ -67,6 +69,7 @@ Future<UserLoginModel> loginUser(String username, String password) async {
 
   if (response.statusCode == 200) {
     print(response.body);
+    Navigator.pushNamed(context, HomeScreen.id);
     return UserLoginModel.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('${response.statusCode} Username or password incorrect');
