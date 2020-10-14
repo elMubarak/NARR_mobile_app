@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:narr/services/loginAuth.dart';
 
 class Users extends StatefulWidget {
   static String id = 'users';
@@ -18,8 +17,8 @@ class _UsersState extends State<Users> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 'Users',
@@ -40,7 +39,7 @@ class _UsersState extends State<Users> {
               ),
               RaisedButton(
                 onPressed: () {
-                  loginUser();
+                  // loginUser();
                 },
                 child: Text('Refresh token'),
               ),
@@ -68,8 +67,8 @@ class _UserDataState extends State<UserData> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 'Users',
@@ -81,7 +80,7 @@ class _UserDataState extends State<UserData> {
                 height: 20.0,
               ),
               FutureBuilder(
-                future: loginUser(),
+                // future: loginUser(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Center(child: Text(snapshot.data));

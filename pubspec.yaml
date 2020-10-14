@@ -31,6 +31,10 @@ dependencies:
   oauth_dio: ^0.2.2+2
   http: ^0.12.2
   dio: ^3.0.10
+  # dio: ^3.0.9
+  path: ^1.6.4
+
+
   mime: ^0.9.7
   # front end package
   cupertino_icons: ^0.1.3

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:narr/helpers/network_helper.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/register.dart';
@@ -7,6 +7,26 @@ import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:narr/models/user_model.dart';
+
+Future<UserLoginModel> loginUser(String username, String password) async {
+  final http.Response response = await http.post(
+    'http://192.168.43.219:3000/api/v1/auth/login',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(
+      <String, String>{"username": username, "password": password},
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    print(response.body);
+    return UserLoginModel.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('${response.statusCode} Username or password incorrect');
+  }
+}
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -17,149 +37,180 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String email;
   String password;
-  // NetworkHelper networkHelper = NetworkHelper();
+  bool _obscureText = true;
+  bool showSpiner = false;
 
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Color(0xff00a368),
-        child: Stack(
-          children: [
-            SafeArea(
-              child: Container(
-                margin: EdgeInsets.only(top: 15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Welcome Back \n Researcher',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    FormCard(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(height: 15),
-                            Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                fontSize: 25.0,
-                                color: Color(0xff00a368),
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            TextFormField(
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Email is required';
-                                } else if (!value.contains('@')) {
-                                  return 'Invalid email';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Email',
-                                filled: true,
-                                prefixIcon: Icon(Icons.email),
-                              ),
-                              onChanged: (value) {
-                                email = value;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            TextFormField(
-                              validator: (value) {
-                                if (value.length < 6) {
-                                  return 'Password less than 6 characters';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Password',
-                                filled: true,
-                                prefixIcon: Icon(Icons.lock),
-                              ),
-                              obscureText: true,
-                              onChanged: (value) {
-                                password = value;
-                              },
-                            ),
-                            SizedBox(height: 10),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(ForgotPassword.id);
-                                },
-                                child: Text(
-                                  'forgot Password ? ',
+      backgroundColor: Color(0xff00a368),
+      body: ModalProgressHUD(
+        inAsyncCall: showSpiner,
+        child: SingleChildScrollView(
+          child: Container(
+            child: Stack(
+              children: [
+                SafeArea(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Welcome Back \n Researcher',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            // fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        FormCard(
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(height: 15),
+                                Text(
+                                  'LOGIN',
                                   style: TextStyle(
-                                    color: Colors.grey[500],
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 25.0,
+                                    color: Color(0xff00a368),
                                   ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(height: 25.0),
-                            GestureDetector(
-                              onTap: () {
-                                // networkHelper.getUser();
-                              },
-                              child: CustomBotton(
-                                buttonTitle: 'Login',
-                              ),
-                            ),
-                            SizedBox(height: 25.0),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacementNamed(Register.id);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Row(
+                                SizedBox(height: 15),
+                                TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Email is required';
+                                    } else if (!value.contains('@')) {
+                                      return 'Invalid email';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Email',
+                                    filled: true,
+                                    prefixIcon: Icon(Icons.email),
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  onChanged: (value) {
+                                    email = value;
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                                TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Password is required';
+                                    } else if (value.length < 6) {
+                                      return 'Password less than 6 characters';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Password',
+                                    filled: true,
+                                    prefixIcon: Icon(Icons.lock),
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscureText = !_obscureText;
+                                        });
+                                      },
+                                      icon: Icon(Icons.visibility),
+                                    ),
+                                  ),
+                                  obscureText: _obscureText,
+                                  onChanged: (value) {
+                                    password = value;
+                                  },
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .pushNamed(ForgotPassword.id);
+                                    },
+                                    child: Text(
+                                      'forgot Password ? ',
+                                      style: TextStyle(
+                                        color: Colors.grey[500],
+                                        decoration: TextDecoration.underline,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 25.0),
+                                GestureDetector(
+                                  onTap: () async {
+                                    if (_formKey.currentState.validate()) {
+                                      _formKey.currentState.save();
+
+                                      setState(() {
+                                        showSpiner = true;
+                                      });
+                                      // NetworkHelper()
+                                      //     .loginUser(email, password);
+                                      loginUser(email, password);
+
+                                      setState(() {
+                                        showSpiner = false;
+                                      });
+                                      // loginUser();
+                                    }
+                                  },
+                                  child: CustomBotton(
+                                    buttonTitle: 'Login',
+                                  ),
+                                ),
+                                SizedBox(height: 30.0),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(Register.id);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text('Don\'t have an account?'),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Register',
-                                        style: TextStyle(
-                                          color: Color(0xff00a368),
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                      Row(
+                                        children: <Widget>[
+                                          Text('Do not have an account'),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            'Register',
+                                            style: TextStyle(
+                                              color: Color(0xff00a368),
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

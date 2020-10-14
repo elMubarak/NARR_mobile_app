@@ -1,19 +1,50 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future loginUser() async {
-  String json = '{"username": "shamskhalil@gmail.com", "password": "secret"}';
-  http.Response response = await http.post(
-    'http://192.168.1.4:3000/api/v1/auth/login',
-    body: jsonDecode(json),
-  );
+void displayDialog(BuildContext context, String title, String text) =>
+    showDialog(
+      context: context,
+      builder: (context) =>
+          AlertDialog(title: Text(title), content: Text(text)),
+    );
 
-  String data = response.body;
-  var token = jsonDecode(data)['payload']['token'];
-  var refreshtoken = jsonDecode(data)['payload']['refreshToken'];
-  // print(data);
-  getRefresToken(refreshtoken);
+class NetworkHelper {
+  // NetworkHelper(this.url);
+  // final String url;
+
+  Future loginUser(String email, String password) async {
+    String json = '{"username": "$email", "password": "$password"}';
+    http.Response response = await http.post(
+      'http://192.168.43.219:3000/api/v1/auth/login',
+      body: jsonDecode(json),
+    );
+    if (response.statusCode == 200) {
+      String data = response.body;
+      print(data);
+      return data;
+    } else {
+      // displayDialog(context, "An Error Occurred",
+      //     "No account was found matching that username and password");
+    }
+  }
+
+  Future registerUser(
+      String email, String password, String fname, String lname) async {
+    String json =
+        '{"username": "$email", "password": "$password", "fname": "$fname", "lname": "$lname"}';
+    http.Response response = await http.post(
+      'http://192.168.43.219:3000/api/v1/auth/register',
+      body: jsonDecode(json),
+    );
+    if (response.statusCode == 200) {
+      String data = response.body;
+      print(data);
+      return jsonDecode(data);
+    } else {
+      return response.statusCode;
+    }
+  }
 }
 
 Future getUsers(String token) async {
