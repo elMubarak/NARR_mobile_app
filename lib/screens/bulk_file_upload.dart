@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import 'dart:convert';
-=======
->>>>>>> dc5faaeaf68f084643718d8ed06e72e69e02e476
 import 'dart:io';
-
 import 'package:dio/dio.dart' as ddio;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

@@ -40,9 +40,8 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
     );
 
     if (result != null) {
-      fileExtension = result.files.first.extension;
+      fileName = result.files.first.name;
       selectedfile = result.files.first.path;
-      fileName = result.paths.first;
       print(selectedfile);
       print(fileExtension);
       setState(() {});
@@ -85,168 +84,150 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.grey[600],
-        ),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          'Single Upload',
-          style: TextStyle(
+          iconTheme: IconThemeData(
             color: Colors.grey[600],
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                height: 70,
-                margin: EdgeInsets.only(
-                  top: 15,
-                  left: 15,
-                  right: 15,
-                  bottom: 5,
-                ),
-                padding: EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0, 2.5),
-                      color: Colors.black.withOpacity(0.10),
-                      blurRadius: 8,
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text(
+            'Single Upload',
+            style: TextStyle(
+              color: Colors.grey[600],
+            ),
+          )),
+      body: selectedfile != null
+          ? SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 2.5),
+                          color: Colors.black.withOpacity(0.10),
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: LinearProgressIndicator(
+                            backgroundColor: Colors.grey,
+                            value: progress != null ? progress : 0,
+                          ),
+                          subtitle: Text(
+                              progress != null ? '${progress.toInt()} %' : ''),
+                        ),
+                        SizedBox(height: 10),
+
+                        Text(
+                          '$fileName',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        //
+                        TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Topic',
+                            filled: true,
+                          ),
+                        ),
+                        SizedBox(height: 14),
+                        TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Author',
+                            filled: true,
+                          ),
+                        ),
+                        SizedBox(height: 14),
+                        TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Category',
+                            filled: true,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        GestureDetector(
+                          onTap: _uploadFile,
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            padding: EdgeInsets.only(
+                              top: 8,
+                              bottom: 8,
+                              left: 18,
+                              right: 18,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(0xff00a368),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              'Upload',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : GestureDetector(
+              onTap: () {
+                _selectDoc();
+              },
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(15),
+                      child: Center(
+                        child: Text(
+                          'Click the upload file \n button to start \n upload proccess.',
+                          maxLines: 3,
+                          style: TextStyle(
+                            color: Colors.grey[900].withOpacity(0.25),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Icon(
+                      Icons.file_upload,
+                      color: Color(0xff00a368),
                     ),
                   ],
                 ),
-                child: selectedfile == null
-                    ? Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                          bottom: 15,
-                        ),
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 2.5),
-                              color: Colors.black.withOpacity(0.10),
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 10),
-
-                            Text(
-                              'File Info',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            //
-                            TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Topic',
-                                filled: true,
-                              ),
-                            ),
-                            SizedBox(height: 14),
-                            TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Author',
-                                filled: true,
-                              ),
-                            ),
-                            SizedBox(height: 14),
-                            TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Category',
-                                filled: true,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            Container(
-                              margin: EdgeInsets.all(10),
-                              padding: EdgeInsets.only(
-                                top: 8,
-                                bottom: 8,
-                                left: 18,
-                                right: 18,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color(0xff00a368),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                'Publish',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                              top: 100,
-                              left: 15,
-                              right: 15,
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Click the upload file \n button to start \n upload proccess.',
-                                maxLines: 3,
-                                style: TextStyle(
-                                  color: Color(0xff00a368),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {});
-                            },
-                            child: Icon(
-                              Icons.file_upload,
-                              color: Color(0xff00a368).withOpacity(0.25),
-                            ),
-                          ),
-                        ],
-                      ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
