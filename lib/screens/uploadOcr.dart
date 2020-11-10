@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:narr/widgets/custom_button.dart';
+// import 'package:dio/dio.dart';
+// import 'package:file_picker/file_picker.dart';
+// import 'package:narr/services/backend_service.dart';
 
-class UploadOcr extends StatelessWidget {
-  final imagePicked;
-  UploadOcr(this.imagePicked);
+class UploadOcr extends StatefulWidget {
+  final String imagePicked;
+  // final Response response;
+  // final String selectedfile;
+  // final Map uploadMeta;
+  UploadOcr(
+    this.imagePicked,
+  );
+
+  @override
+  _UploadOcrState createState() => _UploadOcrState();
+}
+
+class _UploadOcrState extends State<UploadOcr> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,14 +42,14 @@ class UploadOcr extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Text(imagePicked),
+                child: Text(widget.imagePicked),
               ),
               SizedBox(
                 height: 15,
               ),
               CustomBotton(
                 buttonTitle: 'OCR',
-                onTap: () {},
+                onTap: () async {},
               ),
             ],
           ),

@@ -1,6 +1,8 @@
 // import 'dart:io';
-
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:narr/screens/uploadOcr.dart';
@@ -15,6 +17,37 @@ class _OCRScreenState extends State<OCRScreen> {
   String imageFileName;
   String selectedImageFile;
   String imageExtension;
+  static String topic;
+  static String author;
+  static String category;
+  String baseUrl = 'http://192.168.43.219:3000/upload';
+  bool flag = false;
+  String selectedfile;
+  String fileExtension;
+  String fileName;
+  Dio dio = Dio();
+  Response response;
+  double progress;
+  int bytesSent;
+  int bytesTotal;
+  Map uploadMeta = {
+    "Author": {
+      "authorId": "298",
+      "authorName": '$author',
+      // "createDate": "${dateTime.hour}" //hrs
+    },
+    "Topic": "$topic",
+    "Category": "$category"
+  };
+  void onSendProgress(int sent, int total) {
+    double percentage = (sent / total * 100);
+    setState(() {
+      bytesSent = sent;
+      bytesTotal = total;
+      progress = percentage;
+      //update the progress
+    });
+  }
 
   Future<String> _selectImage() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
@@ -50,7 +83,9 @@ class _OCRScreenState extends State<OCRScreen> {
         ),
       ),
       body: selectedImageFile != null
-          ? UploadOcr(imageFileName)
+          ? UploadOcr(
+              imageFileName,
+            )
           : Center(
               child: Container(
                 margin: EdgeInsets.all(15),
