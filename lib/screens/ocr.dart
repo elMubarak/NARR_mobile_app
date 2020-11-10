@@ -88,15 +88,6 @@ class _OCRScreenState extends State<OCRScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: () async {
-                  // await _uploadFile();
-                  await NetworkHelper(baseUrl).uploadFile(
-                    response: response,
-                    selectedfile: selectedImageFile,
-                    onSendProgress: onSendProgress,
-                    context: context,
-                  );
-                },
                 child: Text(
                   'Select Picture Upload Method',
                   style: TextStyle(
