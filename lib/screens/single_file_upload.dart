@@ -10,29 +10,31 @@ class SingleFileUpload extends StatefulWidget {
 }
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
-  static DateTime dateTime = DateTime.now();
-
-  static String topic;
-  static String author;
-  static String category;
   String baseUrl = 'http://192.168.43.219:3000/upload';
+
+  static DateTime dateTime = DateTime.now();
+  static TextEditingController topicController = TextEditingController();
+  static TextEditingController authorController = TextEditingController();
+  static TextEditingController categoryController = TextEditingController();
+  //
+  Dio dio = Dio();
   bool flag = false;
   String selectedfile;
   String fileExtension;
   String fileName;
-  Dio dio = Dio();
   Response response;
   double progress;
   int bytesSent;
   int bytesTotal;
+
   Map uploadMeta = {
     "Author": {
       "authorId": "298",
-      "authorName": '$author',
-      "createDate": "${dateTime.hour}" //hrs
+      "authorName": '${authorController.text}',
+      "createDate": "${dateTime.toIso8601String()}" //hrs
     },
-    "Topic": "$topic",
-    "Category": "$category"
+    "Topic": "${topicController.text}",
+    "Category": "${categoryController.text}"
   };
   void onSendProgress(int sent, int total) {
     double percentage = (sent / total * 100);
@@ -47,6 +49,11 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
 //pick file
   Future<String> _selectDoc() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
+      onFileLoading: (val) {
+        if (val != null) {
+          // do something
+        }
+      },
       type: FileType.custom,
       allowedExtensions: [
         'docx',
@@ -71,6 +78,16 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
       setState(() {});
     }
     return fileExtension;
+  }
+
+//drop file
+  void dropFile() {
+    fileName = null;
+    fileExtension = null;
+    selectedfile = null;
+    setState(() {
+      flag = false;
+    });
   }
 
   @override
@@ -131,47 +148,51 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
 
                         SizedBox(height: 10),
 
-                        Text(
-                          '$fileName',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '$fileName',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            InkWell(
+                              onTap: () => dropFile(),
+                              child: Icon(Icons.close),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 20),
                         //
                         TextField(
+                          controller: topicController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Research Topic',
                             filled: true,
                           ),
-                          onChanged: (value) {
-                            topic = value;
-                          },
                         ),
                         SizedBox(height: 14),
                         TextField(
+                          controller: authorController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Author',
                             filled: true,
                           ),
-                          onChanged: (value) {
-                            author = value;
-                          },
                         ),
                         SizedBox(height: 14),
                         TextField(
+                          controller: categoryController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Category',
                             filled: true,
                           ),
-                          onChanged: (value) {
-                            category = value;
-                          },
                         ),
                         SizedBox(height: 20),
                         GestureDetector(
@@ -213,6 +234,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
               ),
             )
           : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -220,7 +242,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                   },
                   child: Container(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
                           margin: EdgeInsets.all(15),
@@ -231,18 +253,116 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               style: TextStyle(
                                 color: Colors.grey[900].withOpacity(0.25),
                                 fontWeight: FontWeight.bold,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                               textAlign: TextAlign.center,
                             ),
                           ),
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
                         Icon(
                           Icons.file_upload,
                           color: Color(0xff00a368),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text('Recent Uploads:'),
+                    ),
+                  ],
+                ),
+                Flexible(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
+                        ),
+                        ListTile(
+                          title: Text('SCM intergration'),
+                          subtitle: Text('12/12/2020'),
                         ),
                       ],
                     ),
