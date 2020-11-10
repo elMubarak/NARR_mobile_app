@@ -210,39 +210,35 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                 ],
               ),
             )
-          : GestureDetector(
-              onTap: () {
-                _selectDoc();
-              },
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(15),
-                      child: Center(
-                        child: Text(
-                          'Click the upload file \n button to start \n upload proccess.',
-                          maxLines: 3,
-                          style: TextStyle(
-                            color: Colors.grey[900].withOpacity(0.25),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
+          : Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _selectDoc();
+                  },
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(15),
+                          child: Center(
+                            child: Text(
+                              'Click the upload file \n button to start \n upload proccess.',
+                              maxLines: 3,
+                              style: TextStyle(
+                                color: Colors.grey[900].withOpacity(0.25),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                      ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Icon(
-                      Icons.file_upload,
-                      color: Color(0xff00a368),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
     );
   }
