@@ -19,7 +19,7 @@ class _OCRScreenState extends State<OCRScreen> {
   Future<String> _selectImage() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['jpg', 'png', 'tiff', 'gif'],
+      allowedExtensions: ['jpg', 'png', 'tiff', 'gif', 'jpeg'],
     );
 
     if (result != null) {
@@ -49,69 +49,63 @@ class _OCRScreenState extends State<OCRScreen> {
           ),
         ),
       ),
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.all(15),
-          padding: EdgeInsets.all(15),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: [
-              BoxShadow(
-                offset: Offset(0, 2.5),
-                color: Colors.black.withOpacity(0.15),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Select Picture Upload Method',
-                style: TextStyle(
-                  color: Color(0xff00a368),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+      body: selectedImageFile != null
+          ? UploadOcr(imageFileName)
+          : Center(
+              child: Container(
+                margin: EdgeInsets.all(15),
+                padding: EdgeInsets.all(15),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(0, 2.5),
+                      color: Colors.black.withOpacity(0.15),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Select Picture Upload Method',
+                      style: TextStyle(
+                        color: Color(0xff00a368),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Navigator.of(context).pushNamed(SingleFileUpload.id);
+                          },
+                          child: OcrCard(
+                            icon: Icons.camera_alt,
+                            cardTitle: 'Take Photo',
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        GestureDetector(
+                          onTap: () {
+                            _selectImage();
+                          },
+                          child: OcrCard(
+                            icon: Icons.photo,
+                            cardTitle: 'Select from photos',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 15),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // Navigator.of(context).pushNamed(SingleFileUpload.id);
-                    },
-                    child: OcrCard(
-                      icon: Icons.camera_alt,
-                      cardTitle: 'Take Photo',
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  GestureDetector(
-                    onTap: () {
-                      _selectImage();
-                      if (selectedImageFile != null) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return UploadOcr();
-                          }),
-                        );
-                      }
-                    },
-                    child: OcrCard(
-                      icon: Icons.photo,
-                      cardTitle: 'Select from photos',
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

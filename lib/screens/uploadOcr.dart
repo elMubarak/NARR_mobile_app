@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:narr/widgets/custom_button.dart';
 
 class UploadOcr extends StatelessWidget {
-  // final imagePicked;
-  // UploadOcr(this.imagePicked);
+  final imagePicked;
+  UploadOcr(this.imagePicked);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,7 @@ class UploadOcr extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: null,
+                child: Text(imagePicked),
               ),
               SizedBox(
                 height: 15,
@@ -41,6 +41,15 @@ class UploadOcr extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ConvertedImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(''),
     );
   }
 }

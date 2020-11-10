@@ -134,4 +134,25 @@ class NetworkHelper {
       displayDialog(context, "An Error Occurred", "$err");
     }
   }
+
+  // Future uploadImage(Response response, String selectedfile, Map uploadMeta,
+  //     Function onSendProgress, BuildContext context) async {
+  //   String uploadurl = url;
+  //   try {
+  //     response = await dio.post(uploadurl,
+  //          onSendProgress: onSendProgress);
+
+  //     if (response.statusCode == 200) {
+  //       print(response.toString());
+  //       Navigator.pushReplacementNamed(context, SingleFileUpload.id);
+  //       displayDialog(context, "Success",
+  //           "${basename(selectedfile)} file uploaded successfully");
+  //       //print response from server
+  //     } else {
+  //       print("Error during connection to server.");
+  //     }
+  //   } catch (err) {
+  //     displayDialog(context, "An Error Occurred", "$err");
+  //   }
+  // }
 }
