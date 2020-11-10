@@ -10,6 +10,8 @@ class SingleFileUpload extends StatefulWidget {
 }
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
+  static DateTime dateTime = DateTime.now();
+
   static String topic;
   static String author;
   static String category;
@@ -18,7 +20,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   String selectedfile;
   String fileExtension;
   String fileName;
-  Dio dio = new Dio();
+  Dio dio = Dio();
   Response response;
   double progress;
   int bytesSent;
@@ -27,7 +29,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
     "Author": {
       "authorId": "298",
       "authorName": '$author',
-      "createDate": "2018-12-21 20:44:45.8"
+      "createDate": "${dateTime.hour}" //hrs
     },
     "Topic": "$topic",
     "Category": "$category"
@@ -46,14 +48,26 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   Future<String> _selectDoc() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['docx', 'pdf', 'txt', 'doc'],
+      allowedExtensions: [
+        'docx',
+        'pdf',
+        'txt',
+        'doc',
+        'odt',
+        'odp',
+        'rtf',
+        'pptx',
+        'ppt',
+        'html',
+      ],
     );
 
     if (result != null) {
       fileName = result.files.first.name;
       selectedfile = result.files.first.path;
-      print(selectedfile);
-      print(fileExtension);
+      fileExtension = result.files.first.extension;
+      print('File Name $selectedfile');
+      print('File Extension :: $fileExtension');
       setState(() {});
     }
     return fileExtension;
@@ -69,7 +83,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
-            'Single Upload',
+            'Upload',
             style: TextStyle(
               color: Colors.grey[600],
             ),
@@ -174,8 +188,8 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                           child: Container(
                             margin: EdgeInsets.all(10),
                             padding: EdgeInsets.only(
-                              top: 8,
-                              bottom: 8,
+                              top: 10,
+                              bottom: 10,
                               left: 18,
                               right: 18,
                             ),
@@ -198,39 +212,43 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                 ],
               ),
             )
-          : GestureDetector(
-              onTap: () {
-                _selectDoc();
-              },
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(15),
-                      child: Center(
-                        child: Text(
-                          'Click the upload file \n button to start \n upload proccess.',
-                          maxLines: 3,
-                          style: TextStyle(
-                            color: Colors.grey[900].withOpacity(0.25),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
+          : Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _selectDoc();
+                  },
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(15),
+                          child: Center(
+                            child: Text(
+                              'Click the upload file \n button to start \n upload proccess.',
+                              maxLines: 3,
+                              style: TextStyle(
+                                color: Colors.grey[900].withOpacity(0.25),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                      ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Icon(
+                          Icons.file_upload,
+                          color: Color(0xff00a368),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Icon(
-                      Icons.file_upload,
-                      color: Color(0xff00a368),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
     );
   }

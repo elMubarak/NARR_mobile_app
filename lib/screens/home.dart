@@ -10,6 +10,8 @@ import 'package:narr/widgets/search_filter.dart';
 import 'dart:async';
 import 'package:narr/widgets/menu_drawer.dart';
 
+import 'single_file_upload.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String id = 'HomeScreen';
   @override
@@ -401,7 +403,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Color(0xff00a368),
         onPressed: () {
-          Navigator.of(context).pushNamed(UploadDoc.id);
+          Navigator.of(context).pushNamed(SingleFileUpload.id);
         },
         label: Text('Upload File'),
         icon: Icon(Icons.add),

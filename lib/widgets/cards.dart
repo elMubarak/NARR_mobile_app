@@ -15,8 +15,8 @@ class HeaderCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 120,
-        padding: EdgeInsets.all(12),
+        width: 130,
+        padding: EdgeInsets.only(top: 12, bottom: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
