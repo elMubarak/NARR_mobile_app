@@ -15,7 +15,7 @@ class OCRScreen extends StatefulWidget {
 }
 
 class _OCRScreenState extends State<OCRScreen> {
-  String baseUrl = 'https://shamskhalil/ngrok.io/tika/form';
+  String baseUrl = 'https://shamskhalil.ngrok.io/tika/form';
   bool isFileSelected = false;
   String imageFileName;
   String selectedImageFile;
@@ -36,7 +36,7 @@ class _OCRScreenState extends State<OCRScreen> {
       imageFileName = result.files.first.name;
       selectedImageFile = result.files.first.path;
       print(selectedImageFile);
-      print(imageExtension);
+      // print(imageExtension);
       setState(() {
         isFileSelected = true;
       });
@@ -50,6 +50,7 @@ class _OCRScreenState extends State<OCRScreen> {
       bytesSent = sent;
       bytesTotal = total;
       progress = percentage;
+      print('progress :: $sent');
       //update the progress
     });
   }
@@ -89,28 +90,28 @@ class _OCRScreenState extends State<OCRScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              isFileSelected
-                  ? InkWell(
-                      onTap: () async {
-                        // await _uploadFile();
-                        await NetworkHelper(baseUrl).uploadFile(
-                          response: response,
-                          selectedfile: selectedImageFile,
-                          context: context,
-                        );
-                      },
-                      child: Text('Upload'),
-                    )
-                  : InkWell(
-                      child: Text(
-                        'Select Picture Upload Method',
-                        style: TextStyle(
-                          color: Color(0xff00a368),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
+              InkWell(
+                onTap: () async {
+                  // await _uploadFile();
+                  await NetworkHelper(baseUrl).uploadFile(
+                    response: response,
+                    selectedfile: selectedImageFile,
+                    onSendProgress: onSendProgress,
+                    context: context,
+                  );
+                },
+                child: Text('Upload'),
+              ),
+              InkWell(
+                child: Text(
+                  'Select Picture Upload Method',
+                  style: TextStyle(
+                    color: Color(0xff00a368),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
               SizedBox(height: 15),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

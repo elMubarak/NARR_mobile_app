@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/single_file_upload.dart';
@@ -109,18 +110,20 @@ class NetworkHelper {
   }
 
   //upload process
-  Future uploadFile(
-      {Response response,
-      String selectedfile,
-      Map uploadMeta,
-      Function onSendProgress,
-      BuildContext context}) async {
+  Future uploadFile({
+    Response response,
+    String selectedfile,
+    Map uploadMeta,
+    Function onSendProgress,
+    BuildContext context,
+  }) async {
     String uploadurl = url;
     FormData formdata = FormData.fromMap({
       "meta": uploadMeta,
       "file": await MultipartFile.fromFile(
         selectedfile,
         filename: basename(selectedfile),
+        // contentType: MediaType.parse('text/plain'),
       ),
     });
     try {
@@ -128,7 +131,7 @@ class NetworkHelper {
           data: formdata, onSendProgress: onSendProgress);
 
       if (response.statusCode == 200) {
-        print(response.toString());
+        print('response ${response.toString()}');
         Navigator.pushReplacementNamed(context, SingleFileUpload.id);
         displayDialog(context, "Success",
             "${basename(selectedfile)} file uploaded successfully");
