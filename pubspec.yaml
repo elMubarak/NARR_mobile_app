@@ -33,7 +33,7 @@ dependencies:
   dio: ^3.0.10
   # dio: ^3.0.9
   path: ^1.6.4
-
+  image_picker: ^0.6.7+14
 
   mime: ^0.9.7
   # front end package

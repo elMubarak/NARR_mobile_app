@@ -109,13 +109,19 @@ class NetworkHelper {
   }
 
   //upload process
-  Future uploadFile(Response response, String selectedfile, Map uploadMeta,
-      Function onSendProgress, BuildContext context) async {
+  Future uploadFile(
+      {Response response,
+      String selectedfile,
+      Map uploadMeta,
+      Function onSendProgress,
+      BuildContext context}) async {
     String uploadurl = url;
     FormData formdata = FormData.fromMap({
       "meta": uploadMeta,
-      "file": await MultipartFile.fromFile(selectedfile,
-          filename: basename(selectedfile)),
+      "file": await MultipartFile.fromFile(
+        selectedfile,
+        filename: basename(selectedfile),
+      ),
     });
     try {
       response = await dio.post(uploadurl,
