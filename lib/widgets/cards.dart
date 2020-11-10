@@ -15,9 +15,8 @@ class HeaderCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.only(left: 5),
-        width: 60,
-        height: 60,
+        width: 120,
+        padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
@@ -37,7 +36,7 @@ class HeaderCard extends StatelessWidget {
               children: [
                 SizedBox(width: 5),
                 CircleAvatar(
-                  radius: 13,
+                  radius: 18,
                   backgroundColor: color,
                   child: Icon(
                     icon,
@@ -62,7 +61,7 @@ class HeaderCard extends StatelessWidget {
                 Text(
                   '$title',
                   style: TextStyle(
-                    fontSize: 9,
+                    fontSize: 13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -1,0 +1,32 @@
+version : '3'
+
+services: 
+    mongo:
+        image: mongo
+        ports:
+            - "27017:27017"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: "musjib"
+            MONGO_INITDB_ROOT_PASSWORD: "123456"
+        networks:
+            - narrnet
+        
+    
+    authapi:
+        image: galadima/lexdocker:v1.3
+        restart: always
+        ports: 
+            - "80:80"
+        environment:
+            MONGOUSER: "musjib"
+            MONGOPASS: "123456"
+            MONGODB: "narrdb"
+        networks: 
+            - narrnet
+        depends_on:
+            - mongo
+        
+
+networks:
+    narrnet:
+        driver: bridge

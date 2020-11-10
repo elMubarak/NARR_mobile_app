@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:narr/screens/about.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/document_convert.dart';
 import 'package:narr/screens/history.dart';
+import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/profile.dart';
@@ -11,10 +11,6 @@ import 'package:narr/screens/research_grants.dart';
 import 'package:narr/screens/video_conf.dart';
 
 class DrawerItems extends StatelessWidget {
-  const DrawerItems({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,37 +35,20 @@ class DrawerItems extends StatelessWidget {
               child: ListView(
                 children: [
                   ListTile(
-                    leading: Icon(Icons.chrome_reader_mode),
-                    title: Text('Document Convertion'),
+                    leading: Icon(Icons.home),
+                    title: Text('Home'),
+                    enabled: true,
                     onTap: () {
-                      Navigator.of(context).popAndPushNamed(DocumentConvert.id);
+                      Navigator.of(context).popAndPushNamed(HomeScreen.id);
                       // Update the state of the app.
                       // ...
                     },
                   ),
                   ListTile(
                     leading: Icon(Icons.history),
-                    title: Text('Reading History'),
+                    title: Text('Reading List'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(History.id);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.monetization_on),
-                    title: Text('Research Grant'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(ResearchGrants.id);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.show_chart),
-                    title: Text('Analytics'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(ChatScreen.id);
                       // Update the state of the app.
                       // ...
                     },
@@ -83,9 +62,32 @@ class DrawerItems extends StatelessWidget {
                       // ...
                     },
                   ),
+                  ListTile(
+                    leading: Icon(Icons.monetization_on),
+                    title: Text('Research Grant'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(ResearchGrants.id);
+                      // Update the state of the app.
+                      // ...
+                    },
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Text(
+                      'SERVICES',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
                   Divider(),
                   ListTile(
-                    leading: Icon(Icons.message),
+                    leading: Icon(Icons.chat),
                     title: Text('Chat'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(ChatScreen.id);
@@ -95,10 +97,18 @@ class DrawerItems extends StatelessWidget {
                   ),
                   ListTile(
                     leading: Icon(Icons.settings_overscan),
-                    title: Text('OCR'),
+                    title: Text('Image to Text'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(OCRScreen.id);
                       // Update the state of the app.
+                      // ...
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text('Document Conversion'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(DocumentConvert.id);
                       // ...
                     },
                   ),
@@ -109,14 +119,6 @@ class DrawerItems extends StatelessWidget {
                       Navigator.of(context)
                           .popAndPushNamed(VideoConferenceScreen.id);
                       // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.info),
-                    title: Text('About'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(AboutUs.id);
                       // ...
                     },
                   ),

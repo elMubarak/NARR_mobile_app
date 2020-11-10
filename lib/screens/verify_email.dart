@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:narr/services/auth_service.dart';
 
 class VerifyAccount extends StatefulWidget {
   static String id = 'verify account';

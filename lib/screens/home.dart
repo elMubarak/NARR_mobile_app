@@ -5,6 +5,7 @@ import 'package:narr/screens/profile.dart';
 import 'package:narr/screens/upload_document.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
+import 'package:narr/widgets/container_card.dart';
 import 'package:narr/widgets/search_filter.dart';
 import 'dart:async';
 import 'package:narr/widgets/menu_drawer.dart';
@@ -26,9 +27,9 @@ class ClicksPerYear {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _counter = 0;
+  int _counter = 20;
 
-  void _incrementCounter() {
+  void incrementCounter() {
     print('Works');
     setState(() {
       _counter++;
@@ -54,8 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var data = [
-      ClicksPerYear('20k', 22, Colors.red),
-      ClicksPerYear('1M', 52, Colors.yellow),
+      ClicksPerYear('22', 42, Colors.red),
+      ClicksPerYear('52', 52, Colors.yellow),
+      ClicksPerYear('75', 80, Color(0xff00a368)),
+      ClicksPerYear('34', 32, Colors.blue),
       ClicksPerYear('$_counter', _counter, Colors.green),
     ];
 
@@ -72,10 +75,10 @@ class _HomeScreenState extends State<HomeScreen> {
       series,
       animate: true,
     );
-    var chart2 = charts.PieChart(
-      series,
-      animate: true,
-    );
+    // var chart2 = charts.PieChart(
+    //   series,
+    //   animate: true,
+    // );
     var chartWidget = Padding(
       padding: EdgeInsets.zero,
       child: SizedBox(
@@ -83,10 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: chart,
       ),
     );
-    var chartWidget2 = Container(
-      height: 35,
-      child: chart2,
-    );
+    // var chartWidget2 = Container(
+    //   height: 35,
+    //   child: chart2,
+    // );
     return Scaffold(
       drawer: Drawer(
         child: DrawerItems(),
@@ -173,6 +176,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.blue,
                         icon: Icons.book,
                       ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
                       HeaderCard(
                         title: 'Mentions',
                         count: '30',
@@ -201,25 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: 15,
-                      bottom: 15,
-                      left: 15,
-                      right: 15,
-                    ),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 2.4),
-                          blurRadius: 5,
-                          color: Colors.grey.withOpacity(0.25),
-                        ),
-                      ],
-                    ),
+                  ContainerCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -368,6 +360,38 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  ContainerCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Suggestions',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SugesstionCardContent(),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        SugesstionCardContent(),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        SugesstionCardContent(),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        SugesstionCardContent(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -386,11 +410,39 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class BottomSheet extends StatelessWidget {
-  const BottomSheet({
+class SugesstionCardContent extends StatelessWidget {
+  const SugesstionCardContent({
     Key key,
   }) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: CircleAvatar(
+        child: Icon(
+          Icons.insert_drive_file,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.blueAccent,
+      ),
+      title: Text('A research on neurral network...'),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            'While i was researching on the case the criminals hair was...',
+          ),
+          SizedBox(height: 5),
+          Text('12/08/2020')
+        ],
+      ),
+    );
+  }
+}
+
+class BottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

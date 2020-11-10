@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+// import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
-import 'package:narr/services/auth_service.dart';
+import 'package:narr/services/backend_service.dart';
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -135,7 +135,9 @@ class _LoginState extends State<Login> {
                               });
                               // NetworkHelper()
                               //     .loginUser(email, password);
-                              loginUser(email, password, context);
+                              NetworkHelper(
+                                      'http://b32c293c7e73.ngrok.io/api/v1/auth/login')
+                                  .loginUser(email, password, context);
 
                               setState(() {
                                 showSpiner = false;

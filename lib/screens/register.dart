@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:narr/screens/login.dart';
-import 'package:narr/screens/verify_email.dart';
-import 'package:narr/services/auth_service.dart';
+// import 'package:narr/screens/verify_email.dart';
+import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 
@@ -342,30 +342,32 @@ class _RegisterState extends State<Register> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // if (_formKey.currentState.validate()) {
-                              //   _formKey.currentState.save();
-                              //   setState(() {
-                              //     showSpiner = true;
-                              //   });
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                setState(() {
+                                  showSpiner = true;
+                                });
 
-                              // userRegistration(
-                              //   email,
-                              //   password,
-                              //   fname,
-                              //   lname,
-                              //   dob,
-                              //   phone,
-                              //   address,
-                              //   selectedInstitutionType,
-                              //   selectedInstitutionName,
-                              //   context,
-                              // );
-                              Navigator.pushNamed(context, VerifyAccount.id);
+                                NetworkHelper(
+                                  'http://b32c293c7e73.ngrok.io/api/v1/auth/register',
+                                ).userRegistration(
+                                  email,
+                                  password,
+                                  fname,
+                                  lname,
+                                  dob,
+                                  phone,
+                                  address,
+                                  selectedInstitutionType,
+                                  selectedInstitutionName,
+                                  context,
+                                );
+                                // Navigator.pushNamed(context, VerifyAccount.id);
 
-                              // setState(() {
-                              //   showSpiner = false;
-                              // });
-                              // }
+                                setState(() {
+                                  showSpiner = false;
+                                });
+                              }
                             },
                             child: CustomBotton(
                               buttonTitle: 'Register',

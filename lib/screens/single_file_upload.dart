@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
+import 'package:narr/services/backend_service.dart';
 
 class SingleFileUpload extends StatefulWidget {
   static const String id = 'SingleFileUpload';
@@ -12,8 +10,11 @@ class SingleFileUpload extends StatefulWidget {
 }
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
+  static String topic;
+  static String author;
+  static String category;
   String baseUrl = 'http://192.168.43.219:3000/upload';
-
+  bool flag = false;
   String selectedfile;
   String fileExtension;
   String fileName;
@@ -25,12 +26,21 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   Map uploadMeta = {
     "Author": {
       "authorId": "298",
-      "authorName": "Mubarak",
+      "authorName": '$author',
       "createDate": "2018-12-21 20:44:45.8"
     },
-    "Topic": "Some awesome research",
-    "Category": "Grant"
+    "Topic": "$topic",
+    "Category": "$category"
   };
+  void onSendProgress(int sent, int total) {
+    double percentage = (sent / total * 100);
+    setState(() {
+      bytesSent = sent;
+      bytesTotal = total;
+      progress = percentage;
+      //update the progress
+    });
+  }
 
 //pick file
   Future<String> _selectDoc() async {
@@ -47,37 +57,6 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
       setState(() {});
     }
     return fileExtension;
-  }
-
-  //upload process
-  _uploadFile() async {
-    String uploadurl = baseUrl;
-    FormData formdata = FormData.fromMap({
-      "meta": uploadMeta,
-      "file": await MultipartFile.fromFile(selectedfile,
-          filename: basename(selectedfile)),
-    });
-
-    response = await dio.post(
-      uploadurl,
-      data: formdata,
-      onSendProgress: (int sent, int total) {
-        double percentage = (sent / total * 100);
-        setState(() {
-          bytesSent = sent;
-          bytesTotal = total;
-          progress = percentage;
-          //update the progress
-        });
-      },
-    );
-
-    if (response.statusCode == 200) {
-      print(response.toString());
-      //print response from server
-    } else {
-      print("Error during connection to server.");
-    }
   }
 
   @override
@@ -120,15 +99,22 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                     ),
                     child: Column(
                       children: [
-                        ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: LinearProgressIndicator(
-                            backgroundColor: Colors.grey,
-                            value: progress != null ? progress : 0,
-                          ),
-                          subtitle: Text(
-                              progress != null ? '${progress.toInt()} %' : ''),
-                        ),
+                        flag
+                            ? ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                title: LinearProgressIndicator(
+                                  backgroundColor: Colors.grey,
+                                  value: progress != null ? progress : 0,
+                                ),
+                                subtitle: Text(progress != null
+                                    ? '$bytesSent of $bytesTotal'
+                                    : ''),
+                                trailing: Text(progress != null
+                                    ? '${progress.toInt()} %'
+                                    : ''),
+                              )
+                            : Container(),
+
                         SizedBox(height: 10),
 
                         Text(
@@ -144,9 +130,12 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                         TextField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Topic',
+                            hintText: 'Research Topic',
                             filled: true,
                           ),
+                          onChanged: (value) {
+                            topic = value;
+                          },
                         ),
                         SizedBox(height: 14),
                         TextField(
@@ -155,6 +144,9 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                             hintText: 'Author',
                             filled: true,
                           ),
+                          onChanged: (value) {
+                            author = value;
+                          },
                         ),
                         SizedBox(height: 14),
                         TextField(
@@ -163,10 +155,22 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                             hintText: 'Category',
                             filled: true,
                           ),
+                          onChanged: (value) {
+                            category = value;
+                          },
                         ),
                         SizedBox(height: 20),
                         GestureDetector(
-                          onTap: _uploadFile,
+                          onTap: () async {
+                            flag = true;
+                            // await _uploadFile();
+                            await NetworkHelper(baseUrl).uploadFile(
+                                response,
+                                selectedfile,
+                                uploadMeta,
+                                onSendProgress,
+                                context);
+                          },
                           child: Container(
                             margin: EdgeInsets.all(10),
                             padding: EdgeInsets.only(
