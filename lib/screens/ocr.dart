@@ -16,7 +16,7 @@ class OCRScreen extends StatefulWidget {
 
 class _OCRScreenState extends State<OCRScreen> {
   String baseUrl = 'https://shamskhalil/ngrok.io/tika/form';
-
+  bool isFileSelected = false;
   String imageFileName;
   String selectedImageFile;
   String imageExtension;
@@ -37,7 +37,9 @@ class _OCRScreenState extends State<OCRScreen> {
       selectedImageFile = result.files.first.path;
       print(selectedImageFile);
       print(imageExtension);
-      setState(() {});
+      setState(() {
+        isFileSelected = true;
+      });
     }
     return imageExtension;
   }
@@ -87,16 +89,28 @@ class _OCRScreenState extends State<OCRScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(
-                child: Text(
-                  'Select Picture Upload Method',
-                  style: TextStyle(
-                    color: Color(0xff00a368),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+              isFileSelected
+                  ? InkWell(
+                      onTap: () async {
+                        // await _uploadFile();
+                        await NetworkHelper(baseUrl).uploadFile(
+                          response: response,
+                          selectedfile: selectedImageFile,
+                          context: context,
+                        );
+                      },
+                      child: Text('Upload'),
+                    )
+                  : InkWell(
+                      child: Text(
+                        'Select Picture Upload Method',
+                        style: TextStyle(
+                          color: Color(0xff00a368),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
               SizedBox(height: 15),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

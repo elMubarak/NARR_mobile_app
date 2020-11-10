@@ -200,11 +200,11 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                             flag = true;
                             // await _uploadFile();
                             await NetworkHelper(baseUrl).uploadFile(
-                                response,
-                                selectedfile,
-                                uploadMeta,
-                                onSendProgress,
-                                context);
+                                response: response,
+                                selectedfile: selectedfile,
+                                uploadMeta: uploadMeta,
+                                onSendProgress: onSendProgress,
+                                context: context);
                           },
                           child: Container(
                             margin: EdgeInsets.all(10),
