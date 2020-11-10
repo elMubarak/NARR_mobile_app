@@ -81,7 +81,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
-            'Single Upload',
+            'Upload',
             style: TextStyle(
               color: Colors.grey[600],
             ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:narr/screens/bulk_file_upload.dart';
 import 'package:narr/screens/single_file_upload.dart';
 
+import 'single_file_upload.dart';
+
 class UploadDoc extends StatefulWidget {
   static const String id = 'UploadDoc';
   @override
@@ -29,99 +31,33 @@ class _UploadDocState extends State<UploadDoc> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: EdgeInsets.all(15),
-            padding: EdgeInsets.all(10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 2.5),
-                  color: Colors.black.withOpacity(0.15),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Text(
-                  'Select File Upload Method',
-                  style: TextStyle(
-                    color: Colors.black45,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+          InkWell(
+            onTap: () {
+              Navigator.of(context).pushNamed(SingleFileUpload.id);
+            },
+            child: Container(
+              margin: EdgeInsets.all(15),
+              padding: EdgeInsets.all(10),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(0, 2.5),
+                    color: Colors.black.withOpacity(0.15),
                   ),
+                ],
+              ),
+              child: Text(
+                'tap to start upload',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black45,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
-                SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(SingleFileUpload.id);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.grey[700].withOpacity(0.5),
-                            width: 1.0,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.receipt,
-                              size: 60,
-                              color: Colors.grey[700].withOpacity(0.5),
-                            ),
-                            SizedBox(height: 3),
-                            Text(
-                              'Quick, Single File Upload',
-                              style: TextStyle(
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(BulkFileUpload.id);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.grey[700].withOpacity(0.5),
-                            width: 1.0,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.unarchive,
-                              size: 60,
-                              color: Colors.grey[700].withOpacity(0.5),
-                            ),
-                            SizedBox(height: 3),
-                            Text(
-                              'Bulk, Multi File Upload',
-                              style: TextStyle(
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
           Container(
@@ -129,9 +65,6 @@ class _UploadDocState extends State<UploadDoc> {
               child: Column(
                 children: [
                   Text('Recent Uploads'),
-                  // Expanded(
-                  //   child: ListView(),
-                  // ),
                 ],
               ))
         ],
