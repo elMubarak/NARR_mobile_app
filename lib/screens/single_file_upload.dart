@@ -10,6 +10,8 @@ class SingleFileUpload extends StatefulWidget {
 }
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
+  static DateTime dateTime = DateTime.now();
+
   static String topic;
   static String author;
   static String category;
@@ -27,7 +29,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
     "Author": {
       "authorId": "298",
       "authorName": '$author',
-      "createDate": "2018-12-21 20:44:45.8"
+      "createDate": "${dateTime.hour}" //hrs
     },
     "Topic": "$topic",
     "Category": "$category"
@@ -46,7 +48,17 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   Future<String> _selectDoc() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['docx', 'pdf', 'txt', 'doc'],
+      allowedExtensions: [
+        'docx',
+        'pdf',
+        'txt',
+        'doc',
+        'odt',
+        'odp',
+        'rtf',
+        'pptx',
+        'ppt',
+      ],
     );
 
     if (result != null) {
