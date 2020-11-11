@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:narr/screens/doc_to_pdf_screen.dart';
+import 'package:narr/services/socket_service.dart';
 
 class DocumentConvert extends StatefulWidget {
   static const String id = 'DocumentConvert';
@@ -7,6 +11,7 @@ class DocumentConvert extends StatefulWidget {
 }
 
 class _DocumentConvertState extends State<DocumentConvert> {
+  SocketIO socketIO = SocketIO();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,9 +83,15 @@ class _DocumentConvertState extends State<DocumentConvert> {
                         imagePath: 'images/excel.png',
                         title: 'Excel to PDF',
                       ),
-                      DocumentServiceCard(
-                        imagePath: 'images/txt.png',
-                        title: 'Txt to PDF',
+                      GestureDetector(
+                        onTap: () {
+                          socketIO.socketCon();
+                          // Navigator.of(context).pushNamed(DocToPDFConvert.id);
+                        },
+                        child: DocumentServiceCard(
+                          imagePath: 'images/txt.png',
+                          title: 'Txt to PDF',
+                        ),
                       )
                     ],
                   ),

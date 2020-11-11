@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/doc_to_pdf_screen.dart';
 import 'package:narr/screens/ocr_result.dart';
 
 import '../screens/about.dart';
@@ -33,5 +34,6 @@ Map<String, WidgetBuilder> myRoute = {
   ForgotPassword.id: (context) => ForgotPassword(),
   Users.id: (context) => Users(),
   VerifyAccount.id: (context) => VerifyAccount(),
-  OcrResult.id: (context) => OcrResult()
+  OcrResult.id: (context) => OcrResult(),
+  DocToPDFConvert.id: (context) => DocToPDFConvert(),
 };
