@@ -34,7 +34,7 @@ class _UploadOcrState extends State<UploadOcr> {
       bytesSent = sent;
       bytesTotal = total;
       progress = percentage;
-      print('progress :: $sent');
+      print('progress: $sent');
       //update the progress
     });
   }
