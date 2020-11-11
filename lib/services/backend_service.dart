@@ -110,6 +110,9 @@ class NetworkHelper {
   }
 
   //upload process
+  Map<String, dynamic> headers = {
+    'Accept': 'text/plain', //TODO:param to pass
+  };
   Future uploadFile({
     Response response,
     String selectedfile,
@@ -123,12 +126,15 @@ class NetworkHelper {
       "file": await MultipartFile.fromFile(
         selectedfile,
         filename: basename(selectedfile),
-        // contentType: MediaType.parse('text/plain'),
       ),
     });
     try {
-      response = await dio.post(uploadurl,
-          data: formdata, onSendProgress: onSendProgress);
+      response = await dio.post(
+        uploadurl,
+        data: formdata,
+        onSendProgress: onSendProgress,
+        options: Options(headers: headers),
+      );
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
