@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/convert_to_pdf.dart';
 
 class DocumentConvert extends StatefulWidget {
   static const String id = 'DocumentConvert';
@@ -47,47 +48,59 @@ class _DocumentConvertState extends State<DocumentConvert> {
             height: 20.0,
           ),
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
+              child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
               ),
+            ),
+            child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   Row(
-                    children: <Widget>[
+                    children: [
                       DocumentServiceCard(
                         imagePath: 'images/pdf.png',
-                        title: 'PDF to word',
+                        title: 'to PDF',
+                        onTap: () {
+                          Navigator.pushNamed(context, ConvertToPDF.id);
+                        },
                       ),
-                      DocumentServiceCard(
-                        imagePath: 'images/word.png',
-                        title: 'Word to txt',
-                      )
                     ],
                   ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      DocumentServiceCard(
-                        imagePath: 'images/excel.png',
-                        title: 'Excel to PDF',
-                      ),
-                      DocumentServiceCard(
-                        imagePath: 'images/txt.png',
-                        title: 'Txt to PDF',
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     DocumentServiceCard(
+                  //       imagePath: 'images/pdf.png',
+                  //       title: 'PDF to word',
+                  //     ),
+                  //     DocumentServiceCard(
+                  //       imagePath: 'images/word.png',
+                  //       title: 'Word to txt',
+                  //     )
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 30.0,
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     DocumentServiceCard(
+                  //       imagePath: 'images/excel.png',
+                  //       title: 'Excel to PDF',
+                  //     ),
+                  //     DocumentServiceCard(
+                  //       imagePath: 'images/txt.png',
+                  //       title: 'Txt to PDF',
+                  //     )
+                  //   ],
+                  // ),
                 ],
               ),
             ),
-          ),
+          )),
         ],
       ),
     );
@@ -98,31 +111,35 @@ class DocumentServiceCard extends StatelessWidget {
   final String imagePath;
   final String title;
   final String subTitle;
-  DocumentServiceCard({this.imagePath, this.title, this.subTitle});
+  final Function onTap;
+  DocumentServiceCard({this.imagePath, this.title, this.subTitle, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(12),
-        margin: EdgeInsets.all(20),
-        child: Column(
-          children: <Widget>[
-            Image.asset(
-              imagePath,
-              width: 70,
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.all(12),
+          margin: EdgeInsets.all(20),
+          child: Column(
+            children: <Widget>[
+              Image.asset(
+                imagePath,
+                width: 50,
               ),
-            ),
-          ],
+              SizedBox(
+                height: 8.0,
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

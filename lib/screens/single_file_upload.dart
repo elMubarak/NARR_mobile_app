@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/helpers/file_picker.dart';
 import 'package:narr/services/backend_service.dart';
+import 'package:narr/widgets/container_with_shadow.dart';
 
 class SingleFileUpload extends StatefulWidget {
   static const String id = 'SingleFileUpload';
@@ -16,12 +17,11 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   static TextEditingController topicController = TextEditingController();
   static TextEditingController authorController = TextEditingController();
   static TextEditingController categoryController = TextEditingController();
+
+  FilePickerHelper filePicker = FilePickerHelper();
   //
   Dio dio = Dio();
   bool flag = false;
-  String selectedfile;
-  String fileExtension;
-  String fileName;
   Response response;
   double progress;
   int bytesSent;
@@ -46,49 +46,17 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
     });
   }
 
-//pick file
-  Future<String> _selectDoc() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
-      onFileLoading: (val) {
-        if (val != null) {
-          // do something
-        }
-      },
-      type: FileType.custom,
-      allowedExtensions: [
-        'docx',
-        'pdf',
-        'txt',
-        'doc',
-        'odt',
-        'odp',
-        'rtf',
-        'pptx',
-        'ppt',
-        'html',
-      ],
-    );
-
-    if (result != null) {
-      fileName = result.files.first.name;
-      selectedfile = result.files.first.path;
-      fileExtension = result.files.first.extension;
-      print('File Name $selectedfile');
-      print('File Extension :: $fileExtension');
-      setState(() {});
-    }
-    return fileExtension;
-  }
-
-//drop file
+// drop file
   void dropFile() {
-    fileName = null;
-    fileExtension = null;
-    selectedfile = null;
+    filePicker.fileName = null;
+    filePicker.fileExtension = null;
+    filePicker.selectedfile = null;
     setState(() {
       flag = false;
     });
   }
+
+  void getFileName;
 
   @override
   Widget build(BuildContext context) {
@@ -105,29 +73,12 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
               color: Colors.grey[600],
             ),
           )),
-      body: selectedfile != null
+      body: filePicker.selectedfile != null
           ? SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.all(15),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 2.5),
-                          color: Colors.black.withOpacity(0.10),
-                          blurRadius: 8,
-                        ),
-                      ],
-                    ),
+                  ContainerWithShadow(
                     child: Column(
                       children: [
                         flag
@@ -152,7 +103,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '$fileName',
+                              '${filePicker.fileName}',
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.bold,
@@ -201,7 +152,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                             // await _uploadFile();
                             await NetworkHelper(baseUrl).uploadFile(
                                 response: response,
-                                selectedfile: selectedfile,
+                                selectedfile: filePicker.selectedfile,
                                 uploadMeta: uploadMeta,
                                 onSendProgress: onSendProgress,
                                 context: context);
@@ -237,8 +188,11 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    _selectDoc();
+                  onTap: () async {
+                    await filePicker.selectDoc();
+                    setState(() {
+                      flag = true;
+                    });
                   },
                   child: Container(
                     child: Column(

@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
@@ -17,12 +18,18 @@ class OcrResult extends StatefulWidget {
 
 class _OcrResultState extends State<OcrResult> {
   @override
+  void initState() {
+    super.initState();
+
+    // print('result>>> ${widget.response.data}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: ContainerWithShadow(
+        child: ContainerWithShadow(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -47,7 +54,12 @@ class _OcrResultState extends State<OcrResult> {
                       width: 1.0,
                     ),
                   ),
-                  child: Text('${widget.response.data}'),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${widget.response.data}'),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 10,
@@ -56,7 +68,12 @@ class _OcrResultState extends State<OcrResult> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomBotton(
-                      buttonTitle: 'Save',
+                      buttonTitle: 'Copy Text',
+                      onTap: () {
+                        FlutterClipboard.copy(widget.response.data).then(
+                          (value) => print('Copied'),
+                        );
+                      },
                     ),
                   ],
                 ),

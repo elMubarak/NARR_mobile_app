@@ -155,7 +155,10 @@ class _UploadOcrState extends State<UploadOcr> {
                         contentPadding: EdgeInsets.zero,
                         title: LinearProgressIndicator(
                           backgroundColor: Colors.grey,
-                          value: progress != null ? progress : 0,
+                          value: progress != null ? progress * 100 : 0,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Color(0xff00a368),
+                          ),
                         ),
                         subtitle: Text(progress != null
                             ? '$bytesSent of $bytesTotal'
@@ -219,15 +222,6 @@ class _UploadOcrState extends State<UploadOcr> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ConvertedImage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(''),
     );
   }
 }

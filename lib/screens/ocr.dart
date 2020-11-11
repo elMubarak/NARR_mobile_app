@@ -1,12 +1,9 @@
-// import 'dart:io';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:image_picker/image_picker.dart';
 import 'package:narr/screens/uploadOcr.dart';
 import 'package:narr/widgets/ocr_card.dart';
 
@@ -60,7 +57,7 @@ class _OCRScreenState extends State<OCRScreen> {
     if (pickedFile != null) {
       _pickedImage = File(pickedFile.path);
       _pickedSImage = pickedFile.path;
-      print('Picked String file :: ${_pickedSImage}');
+      print('Picked String file :: $_pickedSImage');
       setState(() {
         isFileSelected = true;
       });
