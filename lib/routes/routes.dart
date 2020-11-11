@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/ocr_result.dart';
 
 import '../screens/about.dart';
 import '../screens/bulk_file_upload.dart';
@@ -32,4 +33,5 @@ Map<String, WidgetBuilder> myRoute = {
   ForgotPassword.id: (context) => ForgotPassword(),
   Users.id: (context) => Users(),
   VerifyAccount.id: (context) => VerifyAccount(),
+  OcrResult.id: (context) => OcrResult()
 };
