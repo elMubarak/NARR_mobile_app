@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
-import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/single_file_upload.dart';
 import 'package:narr/screens/verify_email.dart';
