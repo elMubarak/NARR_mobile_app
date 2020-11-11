@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/helpers/file_picker.dart';
+import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 
 class ConvertToPDF extends StatefulWidget {
@@ -10,6 +14,9 @@ class ConvertToPDF extends StatefulWidget {
 }
 
 class _ConvertToPDFState extends State<ConvertToPDF> {
+  String filePicked;
+  String selectedFile;
+  Response response;
   FilePickerHelper filePicker = FilePickerHelper();
   List<String> convertionExtensions = [
     'doc',
@@ -92,6 +99,13 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                           GestureDetector(
                             onTap: () async {
                               flag = true;
+                              await NetworkHelper(
+                                      'https://shamskhalil.ngrok.io/convert/office')
+                                  .uploadFileToConvert(
+                                      response: response,
+                                      selectedfile: filePicker.selectedfile,
+                                      onSendProgress: onSendProgress,
+                                      context: context);
                             },
                             child: Container(
                               margin: EdgeInsets.all(10),

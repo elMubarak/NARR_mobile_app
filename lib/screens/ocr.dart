@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:narr/screens/uploadOcr.dart';
@@ -25,7 +23,8 @@ class _OCRScreenState extends State<OCRScreen> {
   Response response;
 //
   Future _cameraImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile =
+        await picker.getImage(source: ImageSource.camera, imageQuality: 30);
 
     if (pickedFile != null) {
       _pickedImage = File(pickedFile.path);
@@ -52,8 +51,8 @@ class _OCRScreenState extends State<OCRScreen> {
 
 //
   Future<String> _galleryImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
+    final pickedFile =
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 30);
     if (pickedFile != null) {
       _pickedImage = File(pickedFile.path);
       _pickedSImage = pickedFile.path;
