@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/widgets/custom_button.dart';
 
@@ -18,12 +17,6 @@ class OcrResult extends StatefulWidget {
 
 class _OcrResultState extends State<OcrResult> {
   @override
-  void initState() {
-    super.initState();
-
-    // print('result>>> ${widget.response.data}');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
