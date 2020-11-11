@@ -27,46 +27,48 @@ class _OcrResultState extends State<OcrResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: ContainerWithShadow(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Result',
-                style: TextStyle(
-                  color: Color(0xff00a368),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: double.infinity,
-                padding:
-                    EdgeInsets.only(top: 35, bottom: 35, left: 10, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.grey[600].withOpacity(0.5),
-                    width: 1.0,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: ContainerWithShadow(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Result',
+                  style: TextStyle(
+                    color: Color(0xff00a368),
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                child: Text('${widget.response.data}'),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomBotton(
-                    buttonTitle: 'Save',
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  width: double.infinity,
+                  padding:
+                      EdgeInsets.only(top: 35, bottom: 35, left: 10, right: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.grey[600].withOpacity(0.5),
+                      width: 1.0,
+                    ),
                   ),
-                ],
-              ),
-            ],
+                  child: Text('${widget.response.data}'),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomBotton(
+                      buttonTitle: 'Save',
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

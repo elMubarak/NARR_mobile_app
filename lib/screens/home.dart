@@ -195,6 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: 'Research Work',
                         color: Colors.pink,
                         count: '29',
+                        icon: Icons.import_contacts,
                       ),
                     ],
                   ),
