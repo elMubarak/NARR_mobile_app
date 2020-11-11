@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/single_file_upload.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
@@ -109,21 +110,27 @@ class NetworkHelper {
   }
 
   //upload process
-  Future uploadFile(Response response, String selectedfile, Map uploadMeta,
-      Function onSendProgress, BuildContext context) async {
+  Future uploadPhoto({
+    Response response,
+    String selectedfile,
+    Function onSendProgress,
+    BuildContext context,
+  }) async {
     String uploadurl = url;
     FormData formdata = FormData.fromMap({
-      "meta": uploadMeta,
-      "file": await MultipartFile.fromFile(selectedfile,
-          filename: basename(selectedfile)),
+      "file": await MultipartFile.fromFile(
+        selectedfile,
+        filename: basename(selectedfile),
+        // contentType: MediaType.parse('text/plain'),
+      ),
     });
     try {
       response = await dio.post(uploadurl,
           data: formdata, onSendProgress: onSendProgress);
 
       if (response.statusCode == 200) {
-        print(response.toString());
-        Navigator.pushReplacementNamed(context, SingleFileUpload.id);
+        print('response ${response.toString()}');
+        Navigator.pushNamed(context, OCRScreen.id);
         displayDialog(context, "Success",
             "${basename(selectedfile)} file uploaded successfully");
         //print response from server
@@ -135,24 +142,38 @@ class NetworkHelper {
     }
   }
 
-  // Future uploadImage(Response response, String selectedfile, Map uploadMeta,
-  //     Function onSendProgress, BuildContext context) async {
-  //   String uploadurl = url;
-  //   try {
-  //     response = await dio.post(uploadurl,
-  //          onSendProgress: onSendProgress);
+  //upload image
+  Future uploadFile({
+    Response response,
+    String selectedfile,
+    Map uploadMeta,
+    Function onSendProgress,
+    BuildContext context,
+  }) async {
+    String uploadurl = url;
+    FormData formdata = FormData.fromMap({
+      "meta": uploadMeta,
+      "file": await MultipartFile.fromFile(
+        selectedfile,
+        filename: basename(selectedfile),
+        // contentType: MediaType.parse('text/plain'),
+      ),
+    });
+    try {
+      response = await dio.post(uploadurl,
+          data: formdata, onSendProgress: onSendProgress);
 
-  //     if (response.statusCode == 200) {
-  //       print(response.toString());
-  //       Navigator.pushReplacementNamed(context, SingleFileUpload.id);
-  //       displayDialog(context, "Success",
-  //           "${basename(selectedfile)} file uploaded successfully");
-  //       //print response from server
-  //     } else {
-  //       print("Error during connection to server.");
-  //     }
-  //   } catch (err) {
-  //     displayDialog(context, "An Error Occurred", "$err");
-  //   }
-  // }
+      if (response.statusCode == 200) {
+        print('response ${response.toString()}');
+        Navigator.pushReplacementNamed(context, SingleFileUpload.id);
+        displayDialog(context, "Success",
+            "${basename(selectedfile)} file uploaded successfully");
+        //print response from server
+      } else {
+        print("Error during connection to server.");
+      }
+    } catch (err) {
+      displayDialog(context, "An Error Occurred", "$err");
+    }
+  }
 }

@@ -14,40 +14,12 @@ class OCRScreen extends StatefulWidget {
 }
 
 class _OCRScreenState extends State<OCRScreen> {
+  bool isFileSelected = false;
   String imageFileName;
   String selectedImageFile;
   String imageExtension;
-  static String topic;
-  static String author;
-  static String category;
-  String baseUrl = 'http://192.168.43.219:3000/upload';
-  bool flag = false;
-  String selectedfile;
-  String fileExtension;
-  String fileName;
   Dio dio = Dio();
   Response response;
-  double progress;
-  int bytesSent;
-  int bytesTotal;
-  Map uploadMeta = {
-    "Author": {
-      "authorId": "298",
-      "authorName": '$author',
-      // "createDate": "${dateTime.hour}" //hrs
-    },
-    "Topic": "$topic",
-    "Category": "$category"
-  };
-  void onSendProgress(int sent, int total) {
-    double percentage = (sent / total * 100);
-    setState(() {
-      bytesSent = sent;
-      bytesTotal = total;
-      progress = percentage;
-      //update the progress
-    });
-  }
 
   Future<String> _selectImage() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
@@ -59,9 +31,23 @@ class _OCRScreenState extends State<OCRScreen> {
       imageFileName = result.files.first.name;
       selectedImageFile = result.files.first.path;
       print(selectedImageFile);
-      print(imageExtension);
-      setState(() {});
+
+      // print(imageExtension);
+      setState(() {
+        isFileSelected = true;
+      });
     }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return UploadOcr(
+          imagePicked: imageFileName,
+          response: response,
+          selectedFile: selectedImageFile,
+          // onSendProgress: onSendProgress(bytesSent, bytesTotal),
+        );
+      }),
+    );
     return imageExtension;
   }
 
@@ -82,65 +68,69 @@ class _OCRScreenState extends State<OCRScreen> {
           ),
         ),
       ),
-      body: selectedImageFile != null
-          ? UploadOcr(
-              imageFileName,
-            )
-          : Center(
-              child: Container(
-                margin: EdgeInsets.all(15),
-                padding: EdgeInsets.all(15),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0, 2.5),
-                      color: Colors.black.withOpacity(0.15),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Select Picture Upload Method',
-                      style: TextStyle(
-                        color: Color(0xff00a368),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Navigator.of(context).pushNamed(SingleFileUpload.id);
-                          },
-                          child: OcrCard(
-                            icon: Icons.camera_alt,
-                            cardTitle: 'Take Photo',
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () {
-                            _selectImage();
-                          },
-                          child: OcrCard(
-                            icon: Icons.photo,
-                            cardTitle: 'Select from photos',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+      body: Center(
+        child: Container(
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(15),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0, 2.5),
+                color: Colors.black.withOpacity(0.15),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () async {
+                  // await _uploadFile();
+                },
+                child: Text('Upload'),
+              ),
+              InkWell(
+                child: Text(
+                  'Select Picture Upload Method',
+                  style: TextStyle(
+                    color: Color(0xff00a368),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
               ),
-            ),
+              SizedBox(height: 15),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      // Navigator.of(context).pushNamed(SingleFileUpload.id);
+                    },
+                    child: OcrCard(
+                      icon: Icons.camera_alt,
+                      cardTitle: 'Take Photo',
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  GestureDetector(
+                    onTap: () {
+                      _selectImage();
+                    },
+                    child: OcrCard(
+                      icon: Icons.photo,
+                      cardTitle: 'Select from photos',
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

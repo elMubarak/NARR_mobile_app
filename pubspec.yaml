@@ -31,6 +31,7 @@ dependencies:
   oauth_dio: ^0.2.2+2
   http: ^0.12.2
   dio: ^3.0.10
+  http_parser: ^3.1.4
   # dio: ^3.0.9
   path: ^1.6.4
   image_picker: ^0.6.7+14
