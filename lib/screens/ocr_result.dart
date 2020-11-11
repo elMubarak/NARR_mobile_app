@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/services/backend_service.dart';
@@ -53,7 +54,17 @@ class _OcrResultState extends State<OcrResult> {
                     width: 1.0,
                   ),
                 ),
-                child: Text('${widget.response.data}'),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        FlutterClipboard.copy(widget.response.data)
+                            .then((value) => print('Copied'));
+                      },
+                      child: Text('${widget.response.data}'),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 10,
