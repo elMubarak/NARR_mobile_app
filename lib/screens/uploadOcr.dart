@@ -92,127 +92,130 @@ class _UploadOcrState extends State<UploadOcr> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: ContainerWithShadow(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    margin: EdgeInsets.all(15),
-                    height: 300,
-                    width: double.infinity,
-                    child: widget.imagePicked != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.file(
-                              widget.pickedCameraImage,
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                        : Container(),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      // showDialog(
-                      //   context: context,
-                      //   barrierDismissible: false,
-                      //   builder: (context) {
-                      //     return Container(
-                      //       color: Colors.white,
-                      //       child: Column(
-                      //         children: [
-                      //           Text('Are you Sure you wan\'t to close?')
-                      //         ],
-                      //       ),
-                      //     );
-                      //   },
-                      // );
-                      Navigator.of(context).pop();
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(2),
-                      margin: EdgeInsets.only(left: 5),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: ContainerWithShadow(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    Container(
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: EdgeInsets.all(15),
+                      height: 300,
+                      width: double.infinity,
+                      child: widget.imagePicked != null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                widget.pickedCameraImage,
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                          : Container(),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // showDialog(
+                        //   context: context,
+                        //   barrierDismissible: false,
+                        //   builder: (context) {
+                        //     return Container(
+                        //       color: Colors.white,
+                        //       child: Column(
+                        //         children: [
+                        //           Text('Are you Sure you wan\'t to close?')
+                        //         ],
+                        //       ),
+                        //     );
+                        //   },
+                        // );
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(2),
+                        margin: EdgeInsets.only(left: 5),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xff00a368),
+                        ),
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // widget.imagePicked != null
+                flag
+                    ? ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: LinearProgressIndicator(
+                          backgroundColor: Colors.grey,
+                          value: progress != null ? progress : 0,
+                        ),
+                        subtitle: Text(progress != null
+                            ? '$bytesSent of $bytesTotal'
+                            : ''),
+                        trailing: Text(
+                            progress != null ? '${progress.toInt()} %' : ''),
+                      )
+                    : Container(),
+                // Container(
+                //   child: Text(widget.imagePicked),
+                // ),
+                Text('Select Convertion method'),
+                SizedBox(
+                  height: 15,
+                ),
+                DropdownButtonFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Display format',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
                         color: Color(0xff00a368),
                       ),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.white,
-                      ),
                     ),
                   ),
-                ],
-              ),
-              // widget.imagePicked != null
-              flag
-                  ? ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: LinearProgressIndicator(
-                        backgroundColor: Colors.grey,
-                        value: progress != null ? progress : 0,
-                      ),
-                      subtitle: Text(
-                          progress != null ? '$bytesSent of $bytesTotal' : ''),
-                      trailing:
-                          Text(progress != null ? '${progress.toInt()} %' : ''),
-                    )
-                  : Container(),
-              // Container(
-              //   child: Text(widget.imagePicked),
-              // ),
-              Text('Select Convertion method'),
-              SizedBox(
-                height: 15,
-              ),
-              DropdownButtonFormField(
-                decoration: InputDecoration(
-                  hintText: 'Display format',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Color(0xff00a368),
-                    ),
-                  ),
+                  hint: Text('convert Type'),
+                  value: selectedAcceptType,
+                  items: acceptTypeDropdownItems(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedAcceptType = value;
+                    });
+                  },
                 ),
-                hint: Text('convert Type'),
-                value: selectedAcceptType,
-                items: acceptTypeDropdownItems(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedAcceptType = value;
-                  });
-                },
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              CustomBotton(
-                buttonTitle: 'Convert to Text',
-                onTap: () async {
-                  widget.imagePicked != null
-                      ? setState(() {
-                          flag = true;
-                        })
-                      : setState(() {
-                          flag = false;
-                        });
+                SizedBox(
+                  height: 25,
+                ),
+                CustomBotton(
+                  buttonTitle: 'Convert to Text',
+                  onTap: () async {
+                    widget.imagePicked != null
+                        ? setState(() {
+                            flag = true;
+                          })
+                        : setState(() {
+                            flag = false;
+                          });
 
-                  await NetworkHelper(baseUrl).uploadPhoto(
-                    response: widget.response,
-                    selectedfile: widget.selectedFile,
-                    onSendProgress: onSendProgress,
-                    headers: headers,
-                    context: context,
-                  );
-                },
-              ),
-            ],
+                    await NetworkHelper(baseUrl).uploadPhoto(
+                      response: widget.response,
+                      selectedfile: widget.selectedFile,
+                      onSendProgress: onSendProgress,
+                      headers: headers,
+                      context: context,
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
