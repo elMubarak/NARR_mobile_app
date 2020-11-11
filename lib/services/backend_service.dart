@@ -135,7 +135,12 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
-        Navigator.pushReplacementNamed(context, OcrResult.id);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return OcrResult(
+            response: response,
+          );
+        }));
         displayDialog(context, "Success",
             "${basename(selectedfile)} file uploaded successfully");
         //print response from server
