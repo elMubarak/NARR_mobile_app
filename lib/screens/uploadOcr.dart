@@ -44,13 +44,12 @@ class _UploadOcrState extends State<UploadOcr> {
     });
   }
 
-  static String selectedAcceptType = 'text/plain';
-  List<String> acceptType = [
-    'text/plain',
-    'text/html',
-    'application/xml',
-    'application/json',
-  ];
+  // static String selectedAcceptType = 'text/plain';
+  // List<String> acceptType = [
+  //   'text/plain',
+  //   'text/html',
+  //   // 'application/xml',
+  // ];
   List<String> dropDownValue = [
     //
     'text',
@@ -59,21 +58,21 @@ class _UploadOcrState extends State<UploadOcr> {
     'json'
   ];
   Map<String, dynamic> headers = {
-    'Accept': '$selectedAcceptType',
+    'Accept': 'text/plain',
   };
 
-  List<DropdownMenuItem> acceptTypeDropdownItems() {
-    List<DropdownMenuItem<String>> dropdowmItems = [];
+  // List<DropdownMenuItem> acceptTypeDropdownItems() {
+  //   List<DropdownMenuItem<String>> dropdowmItems = [];
 
-    for (String type in acceptType) {
-      var newItem = DropdownMenuItem(
-        child: Text(type),
-        value: type,
-      );
-      dropdowmItems.add(newItem);
-    }
-    return dropdowmItems;
-  }
+  //   for (String type in acceptType) {
+  //     var newItem = DropdownMenuItem(
+  //       child: Text(type),
+  //       value: type,
+  //     );
+  //     dropdowmItems.add(newItem);
+  //   }
+  //   return dropdowmItems;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -175,30 +174,31 @@ class _UploadOcrState extends State<UploadOcr> {
                 SizedBox(
                   height: 15,
                 ),
-                DropdownButtonFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Display format',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Color(0xff00a368),
-                      ),
-                    ),
-                  ),
-                  hint: Text('convert Type'),
-                  value: selectedAcceptType,
-                  items: acceptTypeDropdownItems(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedAcceptType = value;
-                    });
-                  },
-                ),
+                // DropdownButtonFormField(
+                //   decoration: InputDecoration(
+                //     hintText: 'Display format',
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(8),
+                //       borderSide: BorderSide(
+                //         color: Color(0xff00a368),
+                //       ),
+                //     ),
+                //   ),
+                //   hint: Text('convert Type'),
+                //   value: selectedAcceptType,
+                //   items: acceptTypeDropdownItems(),
+                //   onChanged: (value) {
+                //     setState(() {
+                //       selectedAcceptType = value;
+                //       print(selectedAcceptType);
+                //     });
+                //   },
+                // ),
                 SizedBox(
                   height: 25,
                 ),
                 CustomBotton(
-                  buttonTitle: 'Convert to Text',
+                  buttonTitle: 'Convert',
                   onTap: () async {
                     widget.imagePicked != null
                         ? setState(() {
@@ -222,15 +222,6 @@ class _UploadOcrState extends State<UploadOcr> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ConvertedImage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(''),
     );
   }
 }
