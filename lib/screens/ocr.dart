@@ -1,11 +1,15 @@
 // import 'dart:io';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 
 // import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:narr/screens/uploadOcr.dart';
+import 'package:narr/widgets/ocr_card.dart';
 
 class OCRScreen extends StatefulWidget {
   static const String id = 'OCRScreen';
@@ -14,40 +18,67 @@ class OCRScreen extends StatefulWidget {
 }
 
 class _OCRScreenState extends State<OCRScreen> {
+  File _pickedImage;
+  String _pickedSImage;
+  final picker = ImagePicker();
   bool isFileSelected = false;
   String imageFileName;
   String selectedImageFile;
   String imageExtension;
   Dio dio = Dio();
   Response response;
+//
+  Future _cameraImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
 
-  Future<String> _selectImage() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'png', 'tiff', 'gif', 'jpeg'],
-    );
-
-    if (result != null) {
-      imageFileName = result.files.first.name;
-      selectedImageFile = result.files.first.path;
-      print(selectedImageFile);
-
-      // print(imageExtension);
+    if (pickedFile != null) {
+      _pickedImage = File(pickedFile.path);
+      _pickedSImage = pickedFile.path;
+      print('Picked String file :: $_pickedSImage');
       setState(() {
         isFileSelected = true;
       });
+//pass param to next screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return UploadOcr(
+            imagePicked: _pickedSImage,
+            pickedCameraImage: _pickedImage,
+            response: response,
+            selectedFile: _pickedSImage,
+            // onSendProgress: onSendProgress(bytesSent, bytesTotal),
+          );
+        }),
+      );
     }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return UploadOcr(
-          imagePicked: imageFileName,
-          response: response,
-          selectedFile: selectedImageFile,
-          // onSendProgress: onSendProgress(bytesSent, bytesTotal),
-        );
-      }),
-    );
+  }
+
+//
+  Future<String> _galleryImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      _pickedImage = File(pickedFile.path);
+      _pickedSImage = pickedFile.path;
+      print('Picked String file :: ${_pickedSImage}');
+      setState(() {
+        isFileSelected = true;
+      });
+//pass param to next screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return UploadOcr(
+            imagePicked: _pickedSImage,
+            pickedCameraImage: _pickedImage,
+            response: response,
+            selectedFile: _pickedSImage,
+          );
+        }),
+      );
+    }
+
     return imageExtension;
   }
 
@@ -57,13 +88,13 @@ class _OCRScreenState extends State<OCRScreen> {
       appBar: AppBar(
         centerTitle: true,
         iconTheme: IconThemeData(
-          color: Color(0xff00a368),
+          color: Colors.black,
         ),
         backgroundColor: Colors.white,
         title: Text(
           'OCR',
           style: TextStyle(
-            color: Color(0xff00a368),
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -102,7 +133,7 @@ class _OCRScreenState extends State<OCRScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      // Navigator.of(context).pushNamed(SingleFileUpload.id);
+                      _cameraImage();
                     },
                     child: OcrCard(
                       icon: Icons.camera_alt,
@@ -112,7 +143,7 @@ class _OCRScreenState extends State<OCRScreen> {
                   SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {
-                      _selectImage();
+                      _galleryImage();
                     },
                     child: OcrCard(
                       icon: Icons.photo,
@@ -124,45 +155,6 @@ class _OCRScreenState extends State<OCRScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class OcrCard extends StatelessWidget {
-  final IconData icon;
-  final String cardTitle;
-  const OcrCard({Key key, this.icon, this.cardTitle}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(top: 35, bottom: 35),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.grey[600].withOpacity(0.5),
-          width: 1.0,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 40,
-            color: Color(0xff00a368),
-          ),
-          SizedBox(height: 3),
-          Text(
-            cardTitle,
-            style: TextStyle(
-              fontSize: 11,
-              color: Color(0xff00a368),
-            ),
-          ),
-        ],
       ),
     );
   }

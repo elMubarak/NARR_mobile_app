@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/services/backend_service.dart';
@@ -7,6 +9,7 @@ import 'package:narr/widgets/container_with_shadow.dart';
 // import 'package:narr/services/backend_service.dart';
 
 class UploadOcr extends StatefulWidget {
+  final File pickedCameraImage;
   final String imagePicked;
   final String selectedFile;
   final Response response;
@@ -16,13 +19,15 @@ class UploadOcr extends StatefulWidget {
       {this.imagePicked,
       this.response,
       this.selectedFile,
-      this.onSendProgress});
+      this.onSendProgress,
+      this.pickedCameraImage});
 
   @override
   _UploadOcrState createState() => _UploadOcrState();
 }
 
 class _UploadOcrState extends State<UploadOcr> {
+  bool flag = false;
   String baseUrl = 'https://shamskhalil.ngrok.io/tika/form';
 
   double progress;
@@ -40,11 +45,18 @@ class _UploadOcrState extends State<UploadOcr> {
   }
 
   static String selectedAcceptType = 'text/plain';
-  List<String> accetType = [
+  List<String> acceptType = [
     'text/plain',
     'text/html',
     'application/xml',
     'application/json',
+  ];
+  List<String> dropDownValue = [
+    //
+    'text',
+    'html',
+    'xml',
+    'json'
   ];
   Map<String, dynamic> headers = {
     'Accept': '$selectedAcceptType',
@@ -53,7 +65,7 @@ class _UploadOcrState extends State<UploadOcr> {
   List<DropdownMenuItem> acceptTypeDropdownItems() {
     List<DropdownMenuItem<String>> dropdowmItems = [];
 
-    for (String type in accetType) {
+    for (String type in acceptType) {
       var newItem = DropdownMenuItem(
         child: Text(type),
         value: type,
@@ -65,14 +77,80 @@ class _UploadOcrState extends State<UploadOcr> {
 
   @override
   Widget build(BuildContext context) {
-    bool flag = false;
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          'convert OCR',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: ContainerWithShadow(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              widget.selectedFile != null || flag
+              Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: EdgeInsets.all(15),
+                    height: 300,
+                    width: double.infinity,
+                    child: widget.imagePicked != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.file(
+                              widget.pickedCameraImage,
+                              fit: BoxFit.fill,
+                            ),
+                          )
+                        : Container(),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // showDialog(
+                      //   context: context,
+                      //   barrierDismissible: false,
+                      //   builder: (context) {
+                      //     return Container(
+                      //       color: Colors.white,
+                      //       child: Column(
+                      //         children: [
+                      //           Text('Are you Sure you wan\'t to close?')
+                      //         ],
+                      //       ),
+                      //     );
+                      //   },
+                      // );
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(2),
+                      margin: EdgeInsets.only(left: 5),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xff00a368),
+                      ),
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              // widget.imagePicked != null
+              flag
                   ? ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: LinearProgressIndicator(
@@ -85,9 +163,10 @@ class _UploadOcrState extends State<UploadOcr> {
                           Text(progress != null ? '${progress.toInt()} %' : ''),
                     )
                   : Container(),
-              Container(
-                child: Text(widget.imagePicked),
-              ),
+              // Container(
+              //   child: Text(widget.imagePicked),
+              // ),
+              Text('Select Convertion method'),
               SizedBox(
                 height: 15,
               ),
@@ -101,7 +180,7 @@ class _UploadOcrState extends State<UploadOcr> {
                     ),
                   ),
                 ),
-                hint: Text('Institution Type'),
+                hint: Text('convert Type'),
                 value: selectedAcceptType,
                 items: acceptTypeDropdownItems(),
                 onChanged: (value) {
@@ -111,12 +190,18 @@ class _UploadOcrState extends State<UploadOcr> {
                 },
               ),
               SizedBox(
-                height: 15,
+                height: 25,
               ),
               CustomBotton(
                 buttonTitle: 'Convert to Text',
                 onTap: () async {
-                  flag = true;
+                  widget.imagePicked != null
+                      ? setState(() {
+                          flag = true;
+                        })
+                      : setState(() {
+                          flag = false;
+                        });
 
                   await NetworkHelper(baseUrl).uploadPhoto(
                     response: widget.response,
