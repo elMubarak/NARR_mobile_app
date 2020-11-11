@@ -1,7 +1,6 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/widgets/custom_button.dart';
 

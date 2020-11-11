@@ -156,7 +156,7 @@ class _UploadOcrState extends State<UploadOcr> {
                         contentPadding: EdgeInsets.zero,
                         title: LinearProgressIndicator(
                           backgroundColor: Colors.grey,
-                          value: progress != null ? progress * 100 : 0,
+                          value: progress != null ? progress / 2 : 0,
                           valueColor: AlwaysStoppedAnimation<Color>(
                             Color(0xff00a368),
                           ),
