@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:narr/helpers/document_to_pdf.dart';
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
@@ -179,6 +181,11 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
+        DocToPDF docToPDF = DocToPDF();
+        docToPDF.writeFile(response.data);
+        docToPDF.readFile();
+        //save path
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
