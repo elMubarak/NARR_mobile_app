@@ -155,6 +155,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                 selectedfile: filePicker.selectedfile,
                                 uploadMeta: uploadMeta,
                                 onSendProgress: onSendProgress,
+                                trancitionedScreen: SingleFileUpload(),
                                 context: context);
                           },
                           child: Container(

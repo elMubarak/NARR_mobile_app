@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/helpers/file_picker.dart';
@@ -101,10 +99,11 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                               flag = true;
                               await NetworkHelper(
                                       'https://shamskhalil.ngrok.io/convert/office')
-                                  .uploadFileToConvert(
+                                  .uploadFile(
                                       response: response,
                                       selectedfile: filePicker.selectedfile,
                                       onSendProgress: onSendProgress,
+                                      trancitionedScreen: ConvertToPDF(),
                                       context: context);
                             },
                             child: Container(

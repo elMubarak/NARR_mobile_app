@@ -3,10 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/models/user_model.dart';
-import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
-import 'package:narr/screens/single_file_upload.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
 
@@ -110,7 +108,7 @@ class NetworkHelper {
     }
   }
 
-  //upload process
+  //upload image
   Future uploadPhoto({
     Response response,
     String selectedfile,
@@ -154,13 +152,14 @@ class NetworkHelper {
     }
   }
 
-  //upload image
+  //upload file
 
   Future uploadFile({
     Response response,
     String selectedfile,
     Map uploadMeta,
     Function onSendProgress,
+    Widget trancitionedScreen,
     BuildContext context,
   }) async {
     String uploadurl = url;
@@ -180,46 +179,14 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
-        Navigator.pushReplacementNamed(context, SingleFileUpload.id);
-        displayDialog(context, "Success",
-            "${basename(selectedfile)} file uploaded successfully");
-        //print response from server
-      } else {
-        print("Error during connection to server.");
-      }
-    } catch (err) {
-      displayDialog(context, "An Error Occurred", "$err");
-    }
-  }
-
-  Future uploadFileToConvert({
-    Response response,
-    String selectedfile,
-    Map uploadMeta,
-    Function onSendProgress,
-    BuildContext context,
-  }) async {
-    String uploadurl = url;
-    FormData formdata = FormData.fromMap({
-      "meta": uploadMeta,
-      "file": await MultipartFile.fromFile(
-        selectedfile,
-        filename: basename(selectedfile),
-      ),
-    });
-    try {
-      response = await dio.post(
-        uploadurl,
-        data: formdata,
-        onSendProgress: onSendProgress,
-      );
-
-      if (response.statusCode == 200) {
-        print('response ${response.toString()}');
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return ConvertToPDF();
-        }));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return trancitionedScreen;
+            },
+          ),
+        );
         displayDialog(context, "Success",
             "${basename(selectedfile)} file uploaded successfully");
         //print response from server

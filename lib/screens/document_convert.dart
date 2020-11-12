@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/services/socket_service.dart';
@@ -69,10 +67,14 @@ class _DocumentConvertState extends State<DocumentConvert> {
                         imagePath: 'images/pdf.png',
                         title: 'to PDF',
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return ConvertToPDF();
-                          }));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ConvertToPDF();
+                              },
+                            ),
+                          );
                         },
                       ),
                     ],
