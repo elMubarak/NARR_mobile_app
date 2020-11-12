@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/helpers/document_to_pdf.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/services/socket_service.dart';
 
@@ -12,6 +15,17 @@ class DocumentConvert extends StatefulWidget {
 
 class _DocumentConvertState extends State<DocumentConvert> {
   SocketIO socketIO = SocketIO();
+  final testFile =
+      "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+
+  DocToPDF docToPDF = DocToPDF();
+  Dio dio = Dio();
+  @override
+  void initState() {
+    docToPDF.getPermission();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +82,14 @@ class _DocumentConvertState extends State<DocumentConvert> {
                       DocumentServiceCard(
                         imagePath: 'images/pdf.png',
                         title: 'to PDF',
+                        // onTap: () async {
+                        //   String path = await ExtStorage
+                        //       .getExternalStoragePublicDirectory(
+                        //           ExtStorage.DIRECTORY_DOWNLOADS);
+                        //   String savePath = "$path/narrPdF.pdf";
+                        //   print('full path $savePath');
+                        //   docToPDF.downloadFile(dio, testFile, savePath);
+                        // },
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {

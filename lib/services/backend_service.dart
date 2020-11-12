@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:narr/helpers/document_to_pdf.dart';
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/home.dart';
@@ -216,6 +218,17 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
+        DocToPDF docToPDF = DocToPDF();
+        //save path
+        String path = await ExtStorage.getExternalStoragePublicDirectory(
+            ExtStorage.DIRECTORY_DOWNLOADS);
+        String savePath = "$path/test.pdf";
+        print('full path $savePath');
+        //get permision
+        docToPDF.getPermission();
+        //download
+        docToPDF.downloadFile(dio, response.data, savePath);
+
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {
           return ConvertToPDF();
