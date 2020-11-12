@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:narr/helpers/document_to_pdf.dart';
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 Future displayDialog(BuildContext context, String title, String text) =>
     showDialog(
@@ -179,6 +183,29 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
+        // DocToPDF docToPDF = DocToPDF();
+        //save path
+        // String path = await ExtStorage.getExternalStoragePublicDirectory(
+        //     ExtStorage.DIRECTORY_DOWNLOADS);
+        // String savePath = "$path/test.pdf";
+        // print('full path $savePath');
+        //get permision
+        // docToPDF.getPermission();
+        // //download
+        // docToPDF.downloadFile(dio, response.data, savePath);
+        final doc = pw.Document();
+
+        doc.addPage(
+          pw.Page(
+            build: (pw.Context context) => pw.Center(
+              child: pw.Text('Hello World!'),
+            ),
+          ),
+        );
+
+        final file = File(response.data);
+        file.writeAsBytesSync(doc.save());
+        print(file);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
