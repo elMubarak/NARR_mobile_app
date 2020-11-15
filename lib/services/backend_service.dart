@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/helpers/document_to_pdf.dart';
@@ -9,6 +9,7 @@ import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future displayDialog(BuildContext context, String title, String text) =>
     showDialog(
@@ -155,6 +156,7 @@ class NetworkHelper {
   }
 
   //upload file
+  var httpClient = http.Client();
 
   Future uploadFile({
     Response response,
@@ -173,6 +175,7 @@ class NetworkHelper {
       ),
     });
     try {
+      // var responsez = httpClient.send(request);
       response = await dio.post(
         uploadurl,
         data: formdata,
@@ -180,10 +183,10 @@ class NetworkHelper {
       );
 
       if (response.statusCode == 200) {
-        print('response ${response.toString()}');
+        print(response.runtimeType);
         DocToPDF docToPDF = DocToPDF();
-        docToPDF.writeFile(response.data);
-        docToPDF.readFile();
+        docToPDF.writeFile(response);
+        // docToPDF.readFile();
         //save path
 
         Navigator.pushReplacement(
