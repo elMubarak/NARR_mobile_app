@@ -1,10 +1,7 @@
 import 'dart:io';
 
-import 'package:path_provider/path_provider.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:http/http.dart' as http;
-
-String myTesturl = 'https://shamskhalil.ngrok.io/convert/office';
-String localUrl = 'http://192.168.43.70:3000/convert';
 
 class FileConvertHelper {
   uploadDocument({String filePath, String fileName, String url}) async {
@@ -17,16 +14,20 @@ class FileConvertHelper {
       if (res.contentLength == 0) {
         return;
       }
-      Directory newDir = await getDownloadsDirectory();
-      Directory dir = await getExternalStorageDirectory();
-      String path = dir.path;
-      String newPath = newDir.path;
-      File file = File(
-          '$newPath/${fileName.split('.')[0]}.pdf'); //.pdf to emulate convert
-      print(file.path);
-      var sink = file.openWrite();
-      await res.stream.pipe(sink);
-      sink.close();
+      String getDir = await ExtStorage.getExternalStorageDirectory();
+      String folderName = 'Narr/converted';
+      String savedFile = fileName;
+      Directory fullPathToSave = Directory('$getDir/$folderName');
+      Directory fileDir = fullPathToSave;
+      if (await fullPathToSave.exists()) {
+        File file = File('${fileDir.path}/$savedFile');
+        var sink = file.openWrite();
+        await res.stream.pipe(sink);
+        sink.close();
+        print('file path => ${file.path}');
+      } else {
+        await fileDir.create(recursive: true);
+      }
     } catch (e) {
       print(e);
     }
