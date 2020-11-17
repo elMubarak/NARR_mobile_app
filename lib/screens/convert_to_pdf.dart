@@ -97,8 +97,19 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                           GestureDetector(
                             onTap: () async {
                               flag = true;
+
+                              // await NetworkHelper(
+                              //         url:
+                              //             'http://shamskhalil.ngrok.io/convert/office')
+                              //     .uploadFile(
+                              //         response: response,
+                              //         selectedfile: filePicker.selectedfile,
+                              //         onSendProgress: onSendProgress,
+                              //         trancitionedScreen: ConvertToPDF(),
+                              //         context: context);
+
                               await NetworkHelper(
-                                      'https://shamskhalil.ngrok.io/convert/office')
+                                      url: 'http://192.168.43.219:3000/convert')
                                   .uploadFile(
                                       response: response,
                                       selectedfile: filePicker.selectedfile,
@@ -119,7 +130,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                'Upload',
+                                'Convert',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,

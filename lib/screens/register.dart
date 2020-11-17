@@ -349,7 +349,8 @@ class _RegisterState extends State<Register> {
                                 });
 
                                 NetworkHelper(
-                                  'http://b32c293c7e73.ngrok.io/api/v1/auth/register',
+                                  url:
+                                      'http://b32c293c7e73.ngrok.io/api/v1/auth/register',
                                 ).userRegistration(
                                   email,
                                   password,

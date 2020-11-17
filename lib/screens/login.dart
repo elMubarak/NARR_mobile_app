@@ -136,7 +136,8 @@ class _LoginState extends State<Login> {
                               // NetworkHelper()
                               //     .loginUser(email, password);
                               NetworkHelper(
-                                      'http://b32c293c7e73.ngrok.io/api/v1/auth/login')
+                                      url:
+                                          'http://b32c293c7e73.ngrok.io/api/v1/auth/login')
                                   .loginUser(email, password, context);
 
                               setState(() {

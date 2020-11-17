@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 class DocToPDF {
   //get device dir
   Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
+    final directory = await getExternalStorageDirectory();
 
     return directory.path;
   }
@@ -14,7 +14,7 @@ class DocToPDF {
 //save file to dir
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/test.pdf');
+    return File('$path/fileSAved2.pdf');
   }
 
   //read file
@@ -23,7 +23,9 @@ class DocToPDF {
       final file = await _localFile;
 
       // Read the file
-      String contents = await file.readAsString();
+      var contents = await file.readAsString();
+
+      print('goten file => $contents');
 
       return contents;
     } catch (e) {
@@ -33,11 +35,11 @@ class DocToPDF {
   }
 
   //write file:: test more
-  Future<File> writeFile(Response file) async {
+  Future<File> writeFile(String gotFile) async {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString('$file');
+    return file.writeAsString(gotFile);
   }
 
   //

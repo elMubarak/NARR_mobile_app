@@ -208,7 +208,7 @@ class _UploadOcrState extends State<UploadOcr> {
                             flag = false;
                           });
 
-                    await NetworkHelper(baseUrl).uploadPhoto(
+                    await NetworkHelper(url: baseUrl).uploadPhoto(
                       response: widget.response,
                       selectedfile: widget.selectedFile,
                       onSendProgress: onSendProgress,

@@ -150,7 +150,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                           onTap: () async {
                             flag = true;
                             // await _uploadFile();
-                            await NetworkHelper(baseUrl).uploadFile(
+                            await NetworkHelper(url: baseUrl).uploadFile(
                                 response: response,
                                 selectedfile: filePicker.selectedfile,
                                 uploadMeta: uploadMeta,
