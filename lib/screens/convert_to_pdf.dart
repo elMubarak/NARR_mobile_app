@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:narr/helpers/file_picker.dart';
-import 'package:narr/services/backend_service.dart';
+import 'package:narr/helpers/file_convert_helper.dart';
+import 'package:narr/helpers/file_picker_helper.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 
 class ConvertToPDF extends StatefulWidget {
@@ -12,10 +12,14 @@ class ConvertToPDF extends StatefulWidget {
 }
 
 class _ConvertToPDFState extends State<ConvertToPDF> {
+  String convertUrl = 'https://shamskhalil.ngrok.io/convert/office';
+  String mylocalUrl = 'http://192.168.43.70:3000/convert';
+
   String filePicked;
   String selectedFile;
   Response response;
-  FilePickerHelper filePicker = FilePickerHelper();
+  FilePickerHelper _filePickerHelper = FilePickerHelper();
+  FileConvertHelper _fileConvertHelper = FileConvertHelper();
   List<String> convertionExtensions = [
     'doc',
     'docx',
@@ -38,9 +42,9 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   }
 
   void dropFile() {
-    filePicker.fileName = null;
-    filePicker.fileExtension = null;
-    filePicker.selectedfile = null;
+    _filePickerHelper.fileName = null;
+    _filePickerHelper.fileExtension = null;
+    _filePickerHelper.selectedfile = null;
     setState(() {
       flag = false;
     });
@@ -79,7 +83,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '${filePicker.fileName}',
+                                '${_filePickerHelper.fileName}',
                                 style: TextStyle(
                                   color: Colors.grey[600],
                                   fontWeight: FontWeight.bold,
@@ -97,25 +101,11 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                           GestureDetector(
                             onTap: () async {
                               flag = true;
-
-                              // await NetworkHelper(
-                              //         url:
-                              //             'http://shamskhalil.ngrok.io/convert/office')
-                              //     .uploadFile(
-                              //         response: response,
-                              //         selectedfile: filePicker.selectedfile,
-                              //         onSendProgress: onSendProgress,
-                              //         trancitionedScreen: ConvertToPDF(),
-                              //         context: context);
-
-                              await NetworkHelper(
-                                      url: 'http://192.168.43.219:3000/convert')
-                                  .uploadFile(
-                                      response: response,
-                                      selectedfile: filePicker.selectedfile,
-                                      onSendProgress: onSendProgress,
-                                      trancitionedScreen: ConvertToPDF(),
-                                      context: context);
+                              _fileConvertHelper.uploadDocument(
+                                filePath: _filePickerHelper.selectedfile,
+                                fileName: _filePickerHelper.fileName,
+                                url: convertUrl,
+                              );
                             },
                             child: Container(
                               margin: EdgeInsets.all(10),
@@ -130,7 +120,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                'Convert',
+                                'Upload',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -151,7 +141,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      await filePicker.selectDoc(
+                      await _filePickerHelper.selectDoc(
                           allowedExtensions: convertionExtensions);
                       setState(() {
                         flag = true;
