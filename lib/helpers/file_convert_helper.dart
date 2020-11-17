@@ -15,9 +15,12 @@ class FileConvertHelper {
       if (res.contentLength == 0) {
         return;
       }
+      Directory newDir = await getDownloadsDirectory();
       Directory dir = await getExternalStorageDirectory();
       String path = dir.path;
-      File file = File('$path/$fileName'); //.pdf to emulate convert
+      String newPath = newDir.path;
+      File file = File(
+          '$newPath/${fileName.split('.')[0]}.pdf'); //.pdf to emulate convert
       print(file.path);
       var sink = file.openWrite();
       await res.stream.pipe(sink);
