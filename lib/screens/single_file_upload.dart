@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:narr/helpers/file_picker.dart';
+import 'package:narr/helpers/file_picker_helper.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 

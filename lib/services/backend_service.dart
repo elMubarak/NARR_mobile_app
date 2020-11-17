@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:narr/helpers/document_to_pdf.dart';
+import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
@@ -184,8 +184,6 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print(response.runtimeType);
-        DocToPDF docToPDF = DocToPDF();
-        docToPDF.writeFile(response);
         // docToPDF.readFile();
         //save path
 

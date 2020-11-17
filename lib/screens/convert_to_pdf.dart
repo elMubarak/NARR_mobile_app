@@ -1,12 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:narr/helpers/document_to_pdf.dart';
-import 'package:narr/helpers/file_picker.dart';
-import 'package:narr/helpers/test.dart';
-import 'package:narr/services/backend_service.dart';
-import 'package:narr/widgets/container_with_shadow.dart';
-
-String myTesturl = 'https://shamskhalil.ngrok.io/convert/office';
+import 'package:narr/helpers/file_convert_helper.dart';
+import 'package:narr/helpers/file_picker_helper.dart';
 
 class ConvertToPDF extends StatefulWidget {
   static String id = 'convertToPdf';
@@ -16,12 +11,14 @@ class ConvertToPDF extends StatefulWidget {
 }
 
 class _ConvertToPDFState extends State<ConvertToPDF> {
-  FilePickerHelper filePickerHelper = FilePickerHelper();
+  String myTesturl = 'https://shamskhalil.ngrok.io/convert/office';
+  String mylocalUrl = 'http://192.168.43.70:3000/convert';
 
   String filePicked;
   String selectedFile;
   Response response;
-  FilePickerHelper filePicker = FilePickerHelper();
+  FilePickerHelper _filePickerHelper = FilePickerHelper();
+  FileConvertHelper _fileConvertHelper = FileConvertHelper();
   List<String> convertionExtensions = [
     'doc',
     'docx',
@@ -44,9 +41,9 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   }
 
   void dropFile() {
-    filePicker.fileName = null;
-    filePicker.fileExtension = null;
-    filePicker.selectedfile = null;
+    _filePickerHelper.fileName = null;
+    _filePickerHelper.fileExtension = null;
+    _filePickerHelper.selectedfile = null;
     setState(() {
       flag = false;
     });
@@ -60,22 +57,16 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
         children: [
           GestureDetector(
             onTap: () async {
-              await filePickerHelper.selectDoc();
-
-              // TestDownload testDownload = TestDownload();
+              await _filePickerHelper.selectDoc();
             },
             child: Text('Pick'),
           ),
           GestureDetector(
             onTap: () async {
-              // TestDownload testDownload = TestDownload();
-              // NetworkHelper networkHelper = NetworkHelper(myTesturl);
-              // await networkHelper.uploadFile();
-              // await testDownload.getCOnvertedFile();
-              TestUpCon testUpCon = TestUpCon();
-              await testUpCon.downloadFile(myTesturl,
-                  filename: filePickerHelper.selectedfile);
-              flag = true;
+              _fileConvertHelper.uploadDocument(
+                  filePath: _filePickerHelper.selectedfile,
+                  fileName: _filePickerHelper.fileName,
+                  url: mylocalUrl);
             },
             child: Container(
               margin: EdgeInsets.all(10),
