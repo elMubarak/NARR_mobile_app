@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 String myTesturl = 'https://shamskhalil.ngrok.io/convert/office';
 String localUrl = 'http://192.168.43.70:3000/convert';
+typedef void OnUploadProgressCallback(int sentBytes, int totalBytes);
 
 class FileConvertHelper {
   uploadDocument({String filePath, String fileName, String url}) async {
@@ -17,12 +18,11 @@ class FileConvertHelper {
       if (res.contentLength == 0) {
         return;
       }
-      Directory newDir = await getDownloadsDirectory();
       Directory dir = await getExternalStorageDirectory();
       String path = dir.path;
-      String newPath = newDir.path;
-      File file = File(
-          '$newPath/${fileName.split('.')[0]}.pdf'); //.pdf to emulate convert
+      File file =
+          File('$path/${fileName.split('.')[0]}.pdf'); //.pdf to emulate convert
+
       print(file.path);
       var sink = file.openWrite();
       await res.stream.pipe(sink);
