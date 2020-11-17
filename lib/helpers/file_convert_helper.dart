@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:ext_storage/ext_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,19 +14,22 @@ class FileConvertHelper {
         return;
       }
       String getDir = await ExtStorage.getExternalStorageDirectory();
-      String folderName = 'Narr/converted';
-      String savedFile = fileName;
-      Directory fullPathToSave = Directory('$getDir/$folderName');
-      Directory fileDir = fullPathToSave;
-      if (await fullPathToSave.exists()) {
-        File file = File('${fileDir.path}/$savedFile');
+      String folderToSave = 'Narr/Converted';
+      String fileToSave = fileName;
+      Directory fullFolderDirToSave = Directory('$getDir/$folderToSave');
+      if (await fullFolderDirToSave.exists()) {
+        File file = File('${fullFolderDirToSave.path}/$fileToSave');
         var sink = file.openWrite();
         await res.stream.pipe(sink);
         sink.close();
         print('file path => ${file.path}');
       } else {
-        await fileDir.create(recursive: true);
+        await fullFolderDirToSave.create(recursive: true);
       }
+      print(res.contentLength);
+      // int fileSize = res.contentLength;
+      // List<int> progress = [await res.stream.length];
+      // String downlodProgress = '$progress of $fileSize';
     } catch (e) {
       print(e);
     }
