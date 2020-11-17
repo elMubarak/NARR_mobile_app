@@ -17,7 +17,7 @@ class FileConvertHelper {
       }
       Directory dir = await getExternalStorageDirectory();
       String path = dir.path;
-      File file = File('$path/$fileName.pdf'); //.pdf to emulate convert
+      File file = File('$path/$fileName'); //.pdf to emulate convert
       print(file.path);
       var sink = file.openWrite();
       await res.stream.pipe(sink);
