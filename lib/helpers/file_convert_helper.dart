@@ -26,10 +26,12 @@ class FileConvertHelper {
         sink.close();
 
         print('file path => ${file.path}');
+        print(res.contentLength);
+        print(
+            'status code ::==> ${res.statusCode} and reason phrase ::==> ${res.reasonPhrase}');
       } else {
         await fullFolderDirToSave.create(recursive: true);
       }
-      print(res.contentLength);
       // int fileSize = res.contentLength;
       // List<int> progress = [await res.stream.length];
       // String downlodProgress = '$progress of $fileSize';
