@@ -163,6 +163,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                 uploadMeta: uploadMeta,
                                 onSendProgress: onSendProgress,
                                 trancitionedScreen: SingleFileUpload(),
+                                alertMessage: 'file uploaded successfully!',
                                 context: context);
                           },
                           child: Container(

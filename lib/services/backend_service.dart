@@ -166,6 +166,7 @@ class NetworkHelper {
     Map uploadMeta,
     Function onSendProgress,
     Widget trancitionedScreen,
+    String alertMessage,
     BuildContext context,
   }) async {
     String uploadurl = url;
@@ -197,8 +198,8 @@ class NetworkHelper {
             },
           ),
         );
-        displayDialog(context, "Success",
-            "${basename(selectedfile)} file uploaded successfully");
+        displayDialog(
+            context, "Success", "${basename(selectedfile)} $alertMessage");
         //print response from server
       } else {
         print("Error during connection to server.");
