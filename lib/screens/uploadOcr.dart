@@ -28,7 +28,7 @@ class UploadOcr extends StatefulWidget {
 
 class _UploadOcrState extends State<UploadOcr> {
   bool flag = false;
-  String baseUrl = 'https://shamskhalil.ngrok.io/tika/form';
+  String baseUrl = 'https://image2text.narr.ng/tika/form';
 
   double progress;
   int bytesSent;

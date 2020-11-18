@@ -138,12 +138,17 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return OcrResult(
-            response: response,
-          );
-        }));
+        print(response.data);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return OcrResult(
+                response: response,
+              );
+            },
+          ),
+        );
         displayDialog(context, "Success",
             "${basename(selectedfile)} file uploaded successfully");
         //print response from server
@@ -152,7 +157,7 @@ class NetworkHelper {
       }
     } catch (err) {
       displayDialog(context, "An Error Occurred", "$err");
-      Navigator.pushNamed(context, OcrResult.id);
+      print(err);
     }
   }
 
