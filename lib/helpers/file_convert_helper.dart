@@ -29,8 +29,10 @@ class FileConvertHelper {
       }
       String getDir = await ExtStorage.getExternalStorageDirectory();
       String folderToSave = 'Narr/Converted';
+      String folderToSaveWatermark = 'Narr/Watermark';
       String fileToSave = fileName;
-      Directory fullFolderDirToSave = Directory('$getDir/$folderToSave');
+      Directory fullFolderDirToSave =
+          Directory('$getDir/$folderToSaveWatermark');
 
       if (await fullFolderDirToSave.exists()) {
         File file =

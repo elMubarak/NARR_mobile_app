@@ -13,6 +13,7 @@ class ConvertToPDF extends StatefulWidget {
 
 class _ConvertToPDFState extends State<ConvertToPDF> {
   String convertUrl = 'https://doc2pdf.narr.ng/convert/office';
+  String waterMarkUrl = 'https://shamskhalil.ngrok.io/watermark';
   String mylocalUrl = 'http://192.168.43.70:3000/convert';
 
   String filePicked;
@@ -20,6 +21,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   Response response;
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   FileConvertHelper _fileConvertHelper = FileConvertHelper();
+  List<String> watermarkList = ['pdf'];
   List<String> convertionExtensions = [
     'doc',
     'docx',
@@ -105,7 +107,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                                 filePath: _filePickerHelper.selectedfile,
                                 fileName: _filePickerHelper.fileName,
                                 context: context,
-                                url: convertUrl,
+                                url: waterMarkUrl,
                               );
                             },
                             child: Container(
@@ -143,7 +145,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                   GestureDetector(
                     onTap: () async {
                       await _filePickerHelper.selectDoc(
-                          allowedExtensions: convertionExtensions);
+                          allowedExtensions: watermarkList);
                       setState(() {
                         flag = true;
                       });
