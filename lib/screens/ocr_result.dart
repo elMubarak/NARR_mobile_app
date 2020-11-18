@@ -57,7 +57,9 @@ class _OcrResultState extends State<OcrResult> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('${widget.response.data}'),
+                      Text((widget.response.data != null)
+                          ? '${widget.response.data}'
+                          : 'No Data!'),
                     ],
                   ),
                 ),

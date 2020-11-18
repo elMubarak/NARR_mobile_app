@@ -12,7 +12,7 @@ class ConvertToPDF extends StatefulWidget {
 }
 
 class _ConvertToPDFState extends State<ConvertToPDF> {
-  String convertUrl = 'https://shamskhalil.ngrok.io/convert/office';
+  String convertUrl = 'https://doc2pdf.narr.ng/convert/office';
   String mylocalUrl = 'http://192.168.43.70:3000/convert';
 
   String filePicked;
@@ -104,7 +104,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                               _fileConvertHelper.uploadDocument(
                                 filePath: _filePickerHelper.selectedfile,
                                 fileName: _filePickerHelper.fileName,
-                                url: mylocalUrl,
+                                url: convertUrl,
                               );
                             },
                             child: Container(

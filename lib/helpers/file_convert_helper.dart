@@ -17,11 +17,14 @@ class FileConvertHelper {
       String folderToSave = 'Narr/Converted';
       String fileToSave = fileName;
       Directory fullFolderDirToSave = Directory('$getDir/$folderToSave');
+
       if (await fullFolderDirToSave.exists()) {
-        File file = File('${fullFolderDirToSave.path}/$fileToSave');
+        File file =
+            File('${fullFolderDirToSave.path}/${fileToSave.split('.')[0]}.pdf');
         var sink = file.openWrite();
         await res.stream.pipe(sink);
         sink.close();
+
         print('file path => ${file.path}');
       } else {
         await fullFolderDirToSave.create(recursive: true);
