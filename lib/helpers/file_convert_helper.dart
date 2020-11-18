@@ -1,9 +1,23 @@
 import 'dart:io';
 import 'package:ext_storage/ext_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+Future displayDialog(BuildContext context, String title, String text) =>
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(text),
+      ),
+    );
+
 class FileConvertHelper {
-  uploadDocument({String filePath, String fileName, String url}) async {
+  uploadDocument(
+      {String filePath,
+      String fileName,
+      String url,
+      BuildContext context}) async {
     try {
       final request = http.MultipartRequest('POST', Uri.parse(url));
       request.files.add(
@@ -24,7 +38,8 @@ class FileConvertHelper {
         var sink = file.openWrite();
         await res.stream.pipe(sink);
         sink.close();
-
+        displayDialog(
+            context, "Success", "$fileName file converted successfully");
         print('file path => ${file.path}');
         print(res.contentLength);
         print(

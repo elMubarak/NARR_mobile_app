@@ -135,17 +135,22 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return OcrResult(
-            response: response,
-          );
-        }));
+        print(response.data);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return OcrResult(
+                response: response,
+              );
+            },
+          ),
+        );
         displayDialog(context, "Success",
-            "${basename(selectedfile)} file uploaded successfully");
+            "${basename(selectedfile)} file converted successfully");
         //print response from server
       } else {
-        print("Error during connection to server.");
+        print("Error Converting to text");
       }
     } catch (err) {
       displayDialog(context, "An Error Occurred", "$err");
@@ -161,6 +166,7 @@ class NetworkHelper {
     Map uploadMeta,
     Function onSendProgress,
     Widget trancitionedScreen,
+    String alertMessage,
     BuildContext context,
   }) async {
     String uploadurl = url;
@@ -192,8 +198,8 @@ class NetworkHelper {
             },
           ),
         );
-        displayDialog(context, "Success",
-            "${basename(selectedfile)} file uploaded successfully");
+        displayDialog(
+            context, "Success", "${basename(selectedfile)} $alertMessage");
         //print response from server
       } else {
         print("Error during connection to server.");

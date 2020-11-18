@@ -104,6 +104,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                               _fileConvertHelper.uploadDocument(
                                 filePath: _filePickerHelper.selectedfile,
                                 fileName: _filePickerHelper.fileName,
+                                context: context,
                                 url: convertUrl,
                               );
                             },

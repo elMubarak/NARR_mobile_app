@@ -21,52 +21,60 @@ class _OcrResultState extends State<OcrResult> {
   void initState() {
     super.initState();
 
-    // print('result>>> ${widget.response.data}');
+    print('result>>> ${widget.response.data}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ContainerWithShadow(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Result',
-                  style: TextStyle(
-                    color: Color(0xff00a368),
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Result',
+                style: TextStyle(
+                  color: Color(0xff00a368),
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  width: double.infinity,
-                  padding:
-                      EdgeInsets.only(top: 35, bottom: 35, left: 10, right: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey[600].withOpacity(0.5),
-                      width: 1.0,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              ContainerWithShadow(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(
+                          top: 35, bottom: 35, left: 10, right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.grey[600].withOpacity(0.5),
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('${widget.response.data}'),
+                        ],
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text((widget.response.data != null)
-                          ? '${widget.response.data}'
-                          : 'No Data!'),
-                    ],
-                  ),
+                  ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 15),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomBotton(
@@ -79,8 +87,11 @@ class _OcrResultState extends State<OcrResult> {
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
           ),
         ),
       ),
