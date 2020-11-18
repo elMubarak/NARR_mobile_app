@@ -13,7 +13,7 @@ class ConvertToPDF extends StatefulWidget {
 
 class _ConvertToPDFState extends State<ConvertToPDF> {
   String convertUrl = 'https://doc2pdf.narr.ng/convert/office';
-  String mylocalUrl = 'http://192.168.88.39:3000/convert';
+  String mylocalUrl = 'http://192.168.43.70:3000/convert';
 
   String filePicked;
   String selectedFile;

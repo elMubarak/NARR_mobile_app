@@ -12,6 +12,12 @@ class SingleFileUpload extends StatefulWidget {
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
   String baseUrl = 'http://192.168.43.219:3000/upload';
+  List<String> uploadDocExtensions = [
+    'doc',
+    'docx',
+    'pdf',
+    'odt',
+  ];
 
   static DateTime dateTime = DateTime.now();
   static TextEditingController topicController = TextEditingController();
@@ -62,17 +68,18 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          iconTheme: IconThemeData(
+        iconTheme: IconThemeData(
+          color: Colors.grey[600],
+        ),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          'Upload',
+          style: TextStyle(
             color: Colors.grey[600],
           ),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Text(
-            'Upload',
-            style: TextStyle(
-              color: Colors.grey[600],
-            ),
-          )),
+        ),
+      ),
       body: filePicker.selectedfile != null
           ? SingleChildScrollView(
               child: Column(
@@ -190,7 +197,9 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    await filePicker.selectDoc();
+                    await filePicker.selectDoc(
+                      allowedExtensions: uploadDocExtensions,
+                    );
                     setState(() {
                       flag = true;
                     });

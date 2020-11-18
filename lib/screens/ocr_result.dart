@@ -28,23 +28,23 @@ class _OcrResultState extends State<OcrResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              'Result',
-              style: TextStyle(
-                color: Color(0xff00a368),
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            ContainerWithShadow(
-              child: SingleChildScrollView(
+              Text(
+                'Result',
+                style: TextStyle(
+                  color: Color(0xff00a368),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              ContainerWithShadow(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -69,24 +69,30 @@ class _OcrResultState extends State<OcrResult> {
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomBotton(
-                  buttonTitle: 'Copy Text',
-                  onTap: () {
-                    FlutterClipboard.copy(widget.response.data).then(
-                      (value) => print('Copied'),
-                    );
-                  },
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomBotton(
+                      buttonTitle: 'Copy Text',
+                      onTap: () {
+                        FlutterClipboard.copy(widget.response.data).then(
+                          (value) => print('Copied'),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
       ),
     );

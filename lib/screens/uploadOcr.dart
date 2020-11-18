@@ -28,7 +28,7 @@ class UploadOcr extends StatefulWidget {
 
 class _UploadOcrState extends State<UploadOcr> {
   bool flag = false;
-  String baseUrl = 'https://image2text.narr.ng/tika/form';
+  String imageToText = 'https://image2text.narr.ng/tika/form';
 
   double progress;
   int bytesSent;
@@ -208,7 +208,7 @@ class _UploadOcrState extends State<UploadOcr> {
                             flag = false;
                           });
 
-                    await NetworkHelper(url: baseUrl).uploadPhoto(
+                    await NetworkHelper(url: imageToText).uploadPhoto(
                       response: widget.response,
                       selectedfile: widget.selectedFile,
                       onSendProgress: onSendProgress,
