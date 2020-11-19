@@ -22,17 +22,32 @@ class _CrowdFundingState extends State<CrowdFunding> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 15,
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0, left: 15),
               child: Text(
                 'Fund a Research',
-                style: TextStyle(fontSize: 20, color: Colors.grey),
+                style: TextStyle(fontSize: 22, color: Colors.grey),
               ),
             ),
             CrowdFundingCouresCard(
               researchTitle: 'Support SVM & Regression Research',
               researchContent:
-                  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt molestias nostrum ab dolorem saepe alias voluptatum recusandae nemo ratione esse!',
+                  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt molestias nostrum ab dolorem saepe daple funto!',
+              onTap: () {},
+            ),
+            CrowdFundingCouresCard(
+              researchTitle: 'Support SVM & Regression Research',
+              researchContent:
+                  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt molestias nostrum ab dolorem saepe daple funto!',
+              onTap: () {},
+            ),
+            CrowdFundingCouresCard(
+              researchTitle: 'Support SVM & Regression Research',
+              researchContent:
+                  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt molestias nostrum ab dolorem saepe daple funto!',
               onTap: () {},
             ),
           ],
@@ -111,30 +126,74 @@ class CrowdFundingCouresCard extends StatelessWidget {
                       Text(
                         '$researchContent',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
+                          color: Colors.grey,
+                          wordSpacing: 3,
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 4,
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color(0xff00a368),
-                              ),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Text(
-                              'START COURSE',
+                      Divider(),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        'Funding',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w300),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      LinearProgressIndicator(
+                        value: 0.4,
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: 'N3000',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' raised of ',
                               style: TextStyle(
-                                color: Color(0xff00a368),
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300,
                               ),
                             ),
-                          )
-                        ],
+                            TextSpan(
+                              text: 'N10,000',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color(0xff00a368),
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          'FUND RESEARCH',
+                          style: TextStyle(
+                            color: Color(0xff00a368),
+                          ),
+                        ),
                       ),
                     ],
                   ),
