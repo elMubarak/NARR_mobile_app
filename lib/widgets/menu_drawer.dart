@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/screens/chat.dart';
+import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/document_convert.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/profile.dart';
-import 'package:narr/screens/research_grants.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/screens/video_conf.dart';
+import 'package:narr/widgets/custom_expansion_tile.dart';
 
 class DrawerItems extends StatelessWidget {
   @override
@@ -18,15 +20,13 @@ class DrawerItems extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
+            padding: EdgeInsets.only(top: 15),
             height: 100,
             color: Color(0xff00a368),
             child: Center(
-              child: Text(
-                'NARR',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                ),
+              child: Image.asset(
+                'images/narr.png',
+                width: 200,
               ),
             ),
           ),
@@ -62,30 +62,27 @@ class DrawerItems extends StatelessWidget {
                       // ...
                     },
                   ),
-                  ListTile(
-                    leading: Icon(Icons.monetization_on),
-                    title: Text('Research Grant'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(ResearchGrants.id);
-                      // Update the state of the app.
-                      // ...
-                    },
+                  CustomExpansionTile(
+                    title: Text('Grants & Funding'),
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.import_contacts),
+                        title: Text('Grants'),
+                        onTap: () {
+                          // ...
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(FontAwesomeIcons.handHoldingUsd),
+                        title: Text('Crowd Funding'),
+                        onTap: () {
+                          // ...
+                          Navigator.of(context)
+                              .popAndPushNamed(CrowdFunding.id);
+                        },
+                      ),
+                    ],
                   ),
-                  Divider(),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Text(
-                      'SERVICES',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Divider(),
                   ListTile(
                     leading: Icon(Icons.chat),
                     title: Text('Chat'),
@@ -96,7 +93,7 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.settings_overscan),
+                    leading: Icon(FontAwesomeIcons.textWidth),
                     title: Text('Image to Text'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(OCRScreen.id);
@@ -105,7 +102,7 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.info),
+                    leading: Icon(Icons.insert_drive_file),
                     title: Text('Document Conversion'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(DocumentConvert.id);

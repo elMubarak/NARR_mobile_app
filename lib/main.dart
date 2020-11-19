@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         cursorColor: Color(0xff00a368),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      debugShowCheckedModeBanner: false,
       initialRoute: Login.id,
       routes: myRoute,
     );

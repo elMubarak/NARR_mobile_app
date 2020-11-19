@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/services/socket_service.dart';
 

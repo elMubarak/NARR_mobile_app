@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: Icons.insert_drive_file,
                       ),
                       HeaderCard(
-                        title: 'Recomendations',
+                        title: 'Recommendations',
                         count: '15',
                         color: Colors.blue,
                         icon: Icons.book,

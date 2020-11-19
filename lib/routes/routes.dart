@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
+import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/ocr_result.dart';
 
 import '../screens/about.dart';
@@ -35,5 +36,6 @@ Map<String, WidgetBuilder> myRoute = {
   Users.id: (context) => Users(),
   VerifyAccount.id: (context) => VerifyAccount(),
   OcrResult.id: (context) => OcrResult(),
-  ConvertToPDF.id: (context) => ConvertToPDF()
+  ConvertToPDF.id: (context) => ConvertToPDF(),
+  CrowdFunding.id: (context) => CrowdFunding()
 };

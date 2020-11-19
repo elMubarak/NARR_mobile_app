@@ -29,8 +29,10 @@ class FileConvertHelper {
       }
       String getDir = await ExtStorage.getExternalStorageDirectory();
       String folderToSave = 'Narr/Converted';
+      String folderToSaveWatermark = 'Narr/Watermark';
       String fileToSave = fileName;
-      Directory fullFolderDirToSave = Directory('$getDir/$folderToSave');
+      Directory fullFolderDirToSave =
+          Directory('$getDir/$folderToSaveWatermark');
 
       if (await fullFolderDirToSave.exists()) {
         File file =
@@ -41,10 +43,12 @@ class FileConvertHelper {
         displayDialog(
             context, "Success", "$fileName file converted successfully");
         print('file path => ${file.path}');
+        print(res.contentLength);
+        print(
+            'status code ::==> ${res.statusCode} and reason phrase ::==> ${res.reasonPhrase}');
       } else {
         await fullFolderDirToSave.create(recursive: true);
       }
-      print(res.contentLength);
       // int fileSize = res.contentLength;
       // List<int> progress = [await res.stream.length];
       // String downlodProgress = '$progress of $fileSize';

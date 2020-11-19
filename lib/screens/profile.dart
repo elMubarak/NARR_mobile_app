@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/widgets/container_with_shadow.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';
@@ -10,144 +11,213 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-        backgroundColor: Color(0xff00a368),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Profile'),
+      //   backgroundColor: Color(0xff00a368),
+      // ),
       body: SafeArea(
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 12.0, right: 12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 12.0,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        backgroundImage: AssetImage('images/musa.jpg'),
-                        radius: 50.0,
-                      ),
-                      Icon(Icons.edit),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.person,
-                            size: 20.0,
-                          ),
-                          Text(
-                            'Musa Jibril',
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.email,
-                            size: 20.0,
-                          ),
-                          Text(
-                            'musjib999@gmail.com',
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.school,
-                            size: 20.0,
-                          ),
-                          SizedBox(
-                            width: 4.0,
-                          ),
-                          Text(
-                            'Bayero University Kano',
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            width: 6.0,
-                          ),
-                          Text(
-                            'Software Enginnering',
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  ReuseableCard(
-                    child: Column(
+                  IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundImage: AssetImage('images/musa.jpg'),
+                      radius: 45.0,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'My Researches',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                      children: [
+                        Text(
+                          'Musa Jibril',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(
-                          height: 15,
-                        ),
-                        Text('6 researches'),
-                        Projects(
-                          title: 'Urban Planning',
-                          percentage: '23',
-                        ),
-                        Projects(
-                          title: 'Conflict',
-                          percentage: '13',
-                        ),
-                        Projects(
-                          title: 'Covid-19',
-                          percentage: '19',
-                        ),
-                        SizedBox(
-                          height: 30,
+                          width: 4.0,
                         ),
                         Text(
-                          'See more+',
-                          style: TextStyle(color: Colors.blue),
+                          'Researcher',
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.email,
+                          size: 20.0,
+                        ),
+                        SizedBox(
+                          width: 4.0,
+                        ),
+                        Text(
+                          'musjib999@gmail.com',
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.domain,
+                          size: 20.0,
+                        ),
+                        SizedBox(
+                          width: 4.0,
+                        ),
+                        Text(
+                          'Bayero University Kano',
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.school,
+                          size: 20.0,
+                        ),
+                        SizedBox(
+                          width: 4.0,
+                        ),
+                        Text(
+                          'Software Enginnering',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              ContainerWithShadow(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          'All research',
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Text(
+                          '12',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff00a368),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 50,
+                      child: VerticalDivider(color: Colors.black),
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          'Online Users',
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              '536428',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff00a368),
+                              ),
+                            ),
+                            Icon(
+                              Icons.person,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              ContainerWithShadow(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'My Researches',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Projects(
+                      title: 'Urban Planning',
+                    ),
+                    Projects(
+                      title: 'Conflict',
+                    ),
+                    Projects(
+                      title: 'Covid-19',
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      'See more+',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -163,10 +233,10 @@ class Projects extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(top: 10.0),
-      padding: EdgeInsets.symmetric(horizontal: 6),
+      padding: EdgeInsets.symmetric(horizontal: 8),
       height: 60,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[200],
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -191,10 +261,7 @@ class Projects extends StatelessWidget {
             ],
           ),
           CircleAvatar(
-            child: Text(
-              percentage,
-              style: TextStyle(color: Colors.white),
-            ),
+            child: Icon(Icons.insert_drive_file),
             backgroundColor: Color(0xff00a368),
           ),
         ],
