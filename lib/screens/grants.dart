@@ -8,6 +8,7 @@ class Grants extends StatefulWidget {
 }
 
 class _GrantsState extends State<Grants> {
+  bool buttonPressed = false;
   String loremIpsum =
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reiciendis, dolores? Mollitia animi numquam, repellendus deserunt ab quasi cum dicta! Nesciunt laudantium beatae saepe, reprehenderit fugit similique, veritatis quisquam illum aut officia nihil dolores';
   Widget build(BuildContext context) {
@@ -42,19 +43,55 @@ class _GrantsState extends State<Grants> {
                 margin: EdgeInsets.all(15),
                 child: Column(
                   children: [
-                    ResearchGrantsContent(loremIpsum: loremIpsum),
+                    ResearchGrantsContent(
+                      loremIpsum: loremIpsum,
+                      iconButtonOnPressed: () {
+                        setState(() {
+                          buttonPressed = !buttonPressed;
+                        });
+                      },
+                      iconButtonIcon: buttonPressed == false
+                          ? FontAwesomeIcons.heart
+                          : FontAwesomeIcons.solidHeart,
+                      iconButtonIconColor:
+                          buttonPressed == false ? Colors.green : Colors.red,
+                    ),
                     SizedBox(height: 12),
                     Divider(
                       thickness: 1.0,
                     ),
                     SizedBox(height: 12),
-                    ResearchGrantsContent(loremIpsum: loremIpsum),
+                    ResearchGrantsContent(
+                      loremIpsum: loremIpsum,
+                      iconButtonOnPressed: () {
+                        setState(() {
+                          buttonPressed = !buttonPressed;
+                        });
+                      },
+                      iconButtonIcon: buttonPressed == false
+                          ? FontAwesomeIcons.heart
+                          : FontAwesomeIcons.solidHeart,
+                      iconButtonIconColor:
+                          buttonPressed == false ? Colors.green : Colors.red,
+                    ),
                     SizedBox(height: 12),
                     Divider(
                       thickness: 1.0,
                     ),
                     SizedBox(height: 12),
-                    ResearchGrantsContent(loremIpsum: loremIpsum),
+                    ResearchGrantsContent(
+                      loremIpsum: loremIpsum,
+                      iconButtonOnPressed: () {
+                        setState(() {
+                          buttonPressed = !buttonPressed;
+                        });
+                      },
+                      iconButtonIcon: buttonPressed == false
+                          ? FontAwesomeIcons.heart
+                          : FontAwesomeIcons.solidHeart,
+                      iconButtonIconColor:
+                          buttonPressed == false ? Colors.green : Colors.red,
+                    ),
                   ],
                 ),
               ),
@@ -71,12 +108,18 @@ class _GrantsState extends State<Grants> {
 }
 
 class ResearchGrantsContent extends StatelessWidget {
-  const ResearchGrantsContent({
-    Key key,
-    @required this.loremIpsum,
-  }) : super(key: key);
+  const ResearchGrantsContent(
+      {Key key,
+      @required this.loremIpsum,
+      this.iconButtonOnPressed,
+      this.iconButtonIcon,
+      this.iconButtonIconColor})
+      : super(key: key);
 
   final String loremIpsum;
+  final Function iconButtonOnPressed;
+  final IconData iconButtonIcon;
+  final Color iconButtonIconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +135,13 @@ class ResearchGrantsContent extends StatelessWidget {
               ),
             ),
             RoundedSocialButton(
-              icon: FontAwesomeIcons.heart,
-              onPressed: () {},
+              icon: iconButtonIcon,
+              onPressed: iconButtonOnPressed,
+              iconColor: iconButtonIconColor,
             ),
             RoundedSocialButton(
               icon: Icons.thumb_down_outlined,
+              iconColor: Colors.green,
             ),
           ],
         ),
@@ -247,7 +292,8 @@ class Tag extends StatelessWidget {
 class RoundedSocialButton extends StatelessWidget {
   final IconData icon;
   final Function onPressed;
-  const RoundedSocialButton({this.icon, this.onPressed});
+  final Color iconColor;
+  const RoundedSocialButton({this.icon, this.onPressed, this.iconColor});
 
   @override
   Widget build(BuildContext context) {
@@ -260,7 +306,7 @@ class RoundedSocialButton extends StatelessWidget {
       child: Icon(
         icon,
         size: 18,
-        color: Colors.green,
+        color: iconColor,
       ),
       onPressed: onPressed,
     );
