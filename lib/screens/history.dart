@@ -28,8 +28,7 @@ class _HistoryState extends State<History> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 LinearProgressIndicator(
-                  backgroundColor: Color(0xff00a368),
-                  value: 2,
+                  value: 0.6,
                 ),
                 SizedBox(height: 5),
                 Text('12/08/2020')

@@ -9,9 +9,6 @@ class DocToPDFConvert extends StatefulWidget {
 }
 
 class _DocToPDFConvertState extends State<DocToPDFConvert> {
-  final testFile =
-      "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
-
   Dio dio = Dio();
   @override
   void initState() {

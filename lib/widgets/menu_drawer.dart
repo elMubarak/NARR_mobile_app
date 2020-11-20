@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/document_convert.dart';
+import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
@@ -70,6 +71,7 @@ class DrawerItems extends StatelessWidget {
                         title: Text('Grants'),
                         onTap: () {
                           // ...
+                          Navigator.of(context).popAndPushNamed(Grants.id);
                         },
                       ),
                       ListTile(
