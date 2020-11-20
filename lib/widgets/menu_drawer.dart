@@ -86,7 +86,7 @@ class DrawerItems extends StatelessWidget {
                     ],
                   ),
                   ListTile(
-                    leading: Icon(Icons.chat),
+                    leading: Icon(FontAwesomeIcons.solidComment),
                     title: Text('Chat'),
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(ChatScreen.id);
