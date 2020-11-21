@@ -3,6 +3,7 @@ import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/ocr_result.dart';
+import 'package:narr/screens/research_grants_proposal.dart';
 
 import '../screens/about.dart';
 import '../screens/bulk_file_upload.dart';
@@ -39,5 +40,6 @@ Map<String, WidgetBuilder> myRoute = {
   OcrResult.id: (context) => OcrResult(),
   ConvertToPDF.id: (context) => ConvertToPDF(),
   CrowdFunding.id: (context) => CrowdFunding(),
-  Grants.id: (context) => Grants()
+  Grants.id: (context) => Grants(),
+  ResearchGrantsProposal.id: (context) => ResearchGrantsProposal()
 };
