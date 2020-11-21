@@ -12,7 +12,7 @@ Future displayDialog(BuildContext context, String title, String text) =>
       ),
     );
 
-class FileConvertHelper {
+class FileWaterMarkHelper {
   uploadDocument(
       {String filePath,
       String fileName,
@@ -28,9 +28,10 @@ class FileConvertHelper {
         return;
       }
       String getDir = await ExtStorage.getExternalStorageDirectory();
-      String folderToSaveConver = 'Narr/Converted';
+      String folderToSaveWatermark = 'Narr/Watermark';
       String fileToSave = fileName;
-      Directory fullFolderDirToSave = Directory('$getDir/$folderToSaveConver');
+      Directory fullFolderDirToSave =
+          Directory('$getDir/$folderToSaveWatermark');
 
       if (await fullFolderDirToSave.exists()) {
         File file =
