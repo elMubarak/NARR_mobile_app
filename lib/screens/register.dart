@@ -226,9 +226,6 @@ class _RegisterState extends State<Register> {
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
                           DropdownContainer(
                             child: DropdownButtonFormField(
                               decoration: InputDecoration(
@@ -259,7 +256,7 @@ class _RegisterState extends State<Register> {
                               if (value.isEmpty) {
                                 return 'Password is required';
                               } else if (value.length < 6) {
-                                return 'Password less than 6 characters';
+                                return 'Password can\t be less than 6 characters';
                               }
                               return null;
                             },

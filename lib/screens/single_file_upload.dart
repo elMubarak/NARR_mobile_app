@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
+import 'package:narr/helpers/file_water_mark_helper.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 
 class SingleFileUpload extends StatefulWidget {
@@ -15,7 +15,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   String waterMarkUrl = 'https://water.narr.ng/upload';
 
   FilePickerHelper _filePickerHelper = FilePickerHelper();
-  FileConvertHelper _fileConvertHelper = FileConvertHelper();
+  FileWaterMarkHelper _fileWaterMarkHelper = FileWaterMarkHelper();
 
   List<String> watermarkExtension = ['pdf'];
   List<String> uploadDocExtensions = [
@@ -167,7 +167,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               flag = true;
                             });
                             // await _uploadFile();
-                            _fileConvertHelper.uploadDocument(
+                            _fileWaterMarkHelper.uploadDocument(
                               filePath: _filePickerHelper.selectedfile,
                               fileName: _filePickerHelper.fileName,
                               context: context,
