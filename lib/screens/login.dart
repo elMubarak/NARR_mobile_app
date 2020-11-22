@@ -133,11 +133,10 @@ class _LoginState extends State<Login> {
                               setState(() {
                                 showSpiner = true;
                               });
-                              // NetworkHelper()
-                              //     .loginUser(email, password);
+
                               NetworkHelper(
                                       url:
-                                          'http://b32c293c7e73.ngrok.io/api/v1/auth/login')
+                                          'http://192.168.88.41:3000/api/v1/auth/login')
                                   .loginUser(email, password, context);
 
                               setState(() {

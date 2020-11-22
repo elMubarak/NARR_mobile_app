@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: Login.id,
+      // initialRoute: VerifyAccount.id,
       routes: myRoute,
     );
   }

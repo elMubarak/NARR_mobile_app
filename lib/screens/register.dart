@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/screens/login.dart';
 // import 'package:narr/screens/verify_email.dart';
 import 'package:narr/services/backend_service.dart';
@@ -13,9 +14,6 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  String dob = '${selectedDate.toLocal()}'.split(' ')[0];
-  static String selectedInstitutionType = 'Institution Type';
-  static String selectedInstitutionName = 'Institution Name';
   String fname;
   String lname;
   String email;
@@ -44,44 +42,12 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  List<String> institutionType = [
-    'Institution Type',
-    'University',
-    'Polytechnic',
-    'Collage of Education',
-  ];
-  List<String> institutionName = [
-    'Institution Name',
-    'Ahmadu Bello University',
-    'Bayero University Kano',
-    'Kaduna State University'
-  ];
-
-  List<DropdownMenuItem> getInstitutionTypeDropdownItems() {
-    List<DropdownMenuItem<String>> dropdowmItems = [];
-
-    for (String type in institutionType) {
-      var newItem = DropdownMenuItem(
-        child: Text(type),
-        value: type,
-      );
-      dropdowmItems.add(newItem);
-    }
-    return dropdowmItems;
-  }
-
-  List<DropdownMenuItem> getInstitutionNameDropdownItems() {
-    List<DropdownMenuItem<String>> dropdowmItems = [];
-
-    for (String name in institutionName) {
-      var newItem = DropdownMenuItem(child: Text(name), value: name);
-      dropdowmItems.add(newItem);
-    }
-    return dropdowmItems;
-  }
+  DropdownHelper _dropdownHelper = DropdownHelper();
 
   @override
   Widget build(BuildContext context) {
+    String dob = '${selectedDate.toLocal()}'.split(' ')[0];
+
     return Scaffold(
       backgroundColor: Color(0xff00a368),
       body: ModalProgressHUD(
@@ -244,13 +210,18 @@ class _RegisterState extends State<Register> {
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide.none,
                                 ),
+                                prefixIcon: Icon(Icons.school),
                               ),
-                              hint: Text('Institution Type'),
-                              value: selectedInstitutionType,
-                              items: getInstitutionTypeDropdownItems(),
+                              hint: Text(
+                                'Institution Type',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
+                              items: _dropdownHelper
+                                  .getInstitutionTypeDropdownItems(),
                               onChanged: (value) {
                                 setState(() {
-                                  selectedInstitutionType = value;
+                                  _dropdownHelper.selectedInstitutionType =
+                                      value;
                                 });
                               },
                             ),
@@ -264,13 +235,18 @@ class _RegisterState extends State<Register> {
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide.none,
                                 ),
+                                prefixIcon: Icon(Icons.school),
                               ),
-                              hint: Text('Institution Name'),
-                              value: selectedInstitutionName,
-                              items: getInstitutionNameDropdownItems(),
+                              hint: Text(
+                                'Institution Name',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
+                              items: _dropdownHelper
+                                  .getInstitutionNameDropdownItems(),
                               onChanged: (value) {
                                 setState(() {
-                                  selectedInstitutionName = value;
+                                  _dropdownHelper.selectedInstitutionName =
+                                      value;
                                 });
                               },
                             ),
@@ -350,7 +326,7 @@ class _RegisterState extends State<Register> {
 
                                 NetworkHelper(
                                   url:
-                                      'http://b32c293c7e73.ngrok.io/api/v1/auth/register',
+                                      'http://192.168.88.41:3000/api/v1/auth/register',
                                 ).userRegistration(
                                   email,
                                   password,
@@ -359,8 +335,8 @@ class _RegisterState extends State<Register> {
                                   dob,
                                   phone,
                                   address,
-                                  selectedInstitutionType,
-                                  selectedInstitutionName,
+                                  _dropdownHelper.selectedInstitutionType,
+                                  _dropdownHelper.selectedInstitutionName,
                                   context,
                                 );
                                 // Navigator.pushNamed(context, VerifyAccount.id);
@@ -423,9 +399,6 @@ class DropdownContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-        left: 12.0,
-      ),
       decoration: BoxDecoration(
         color: Colors.grey[200],
       ),

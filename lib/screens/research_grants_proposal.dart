@@ -40,6 +40,43 @@ class _ResearchGrantsProposalState extends State<ResearchGrantsProposal> {
               ),
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Submit a Proposal',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      'Fill out the form field below with the required information following these guidelines: ',
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      '1. Why are you the perfect candidate for the job?\n2. Have you worked on a similar research/project?\n3. How long will it take to complete? (estimate)',
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Write your Proposal in this form field',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                      ),
+                      keyboardType: TextInputType.text,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

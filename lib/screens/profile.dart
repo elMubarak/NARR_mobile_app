@@ -41,7 +41,7 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     CircleAvatar(
-                      backgroundImage: AssetImage('images/musa.jpg'),
+                      backgroundImage: AssetImage('images/profile.jpg'),
                       radius: 45.0,
                     ),
                     SizedBox(
@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Musa Jibril',
+                          'Mubarak Na Mairo',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -85,7 +85,7 @@ class _ProfileState extends State<Profile> {
                           width: 4.0,
                         ),
                         Text(
-                          'musjib999@gmail.com',
+                          'namairo@gmail.com',
                         ),
                       ],
                     ),
@@ -102,7 +102,7 @@ class _ProfileState extends State<Profile> {
                           width: 4.0,
                         ),
                         Text(
-                          'Bayero University Kano',
+                          'Ahmadu Bello Univeristy',
                         ),
                       ],
                     ),
@@ -117,7 +117,7 @@ class _ProfileState extends State<Profile> {
                           width: 4.0,
                         ),
                         Text(
-                          'Software Enginnering',
+                          'Geography',
                         ),
                       ],
                     ),
