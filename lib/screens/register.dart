@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:narr/db/repository.dart';
 import 'package:narr/screens/login.dart';
 // import 'package:narr/screens/verify_email.dart';
@@ -96,328 +95,325 @@ class _RegisterState extends State<Register> {
 
     return Scaffold(
       backgroundColor: Color(0xff00a368),
-      body: ModalProgressHUD(
-        inAsyncCall: showSpiner,
-        child: SingleChildScrollView(
-          child: SafeArea(
-            child: Container(
-              margin: EdgeInsets.only(top: 15),
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    'Hello! Researcher ',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      // fontWeight: FontWeight.bold,
-                    ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+            margin: EdgeInsets.only(top: 15),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Hello! Researcher ',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    // fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(height: 15),
-                  FormCard(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(height: 15),
-                          Text(
-                            'CREATE ACCOUNT',
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              color: Color(0xff00a368),
+                ),
+                SizedBox(height: 15),
+                FormCard(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: 15),
+                        Text(
+                          'CREATE ACCOUNT',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                            color: Color(0xff00a368),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'First Name is required';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'First Name',
+                            filled: true,
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                          onChanged: (value) {
+                            fname = value;
+                          },
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Last Name is required';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Last Name',
+                            filled: true,
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                          onChanged: (value) {
+                            lname = value;
+                          },
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Email is required';
+                            } else if (!value.contains('@')) {
+                              return 'Invalid email';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Email',
+                            filled: true,
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                          onChanged: (value) {
+                            email = value;
+                          },
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
                             ),
-                          ),
-                          SizedBox(height: 15),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'First Name is required';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'First Name',
-                              filled: true,
-                              prefixIcon: Icon(Icons.person),
-                            ),
-                            onChanged: (value) {
-                              fname = value;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Last Name is required';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Last Name',
-                              filled: true,
-                              prefixIcon: Icon(Icons.person),
-                            ),
-                            onChanged: (value) {
-                              lname = value;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Email is required';
-                              } else if (!value.contains('@')) {
-                                return 'Invalid email';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Email',
-                              filled: true,
-                              prefixIcon: Icon(Icons.email),
-                            ),
-                            onChanged: (value) {
-                              email = value;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              _selectDate(context);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.grey[600],
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 15),
-                                  Text(
-                                    isPicked ? dob : 'Date of Birth',
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Phone Number',
-                              filled: true,
-                              prefixIcon: Icon(Icons.phone),
-                            ),
-                            onChanged: (value) {
-                              phone = value;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Address',
-                              filled: true,
-                              prefixIcon: Icon(Icons.home),
-                            ),
-                            onChanged: (value) {
-                              address = value;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            hint: Text('Institution Type'),
-                            items: _institutionType
-                                .map((String dropDownStringItem) {
-                              return DropdownMenuItem<String>(
-                                child: Text(dropDownStringItem),
-                              );
-                            }).toList(),
-                            onChanged: (value) => _onSelectedType(value),
-                            value: selectedInstitutionType,
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            hint: Text('Institution Name'),
-                            items: _institutionName
-                                .map((String dropDownStringItem) {
-                              return DropdownMenuItem<String>(
-                                value: dropDownStringItem,
-                                child: Text(dropDownStringItem),
-                              );
-                            }).toList(),
-                            onChanged: (value) => _onSelectedName(value),
-                            value: selectedInstitutionName,
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Password is required';
-                              } else if (value.length < 6) {
-                                return 'Password can\t be less than 6 characters';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Password',
-                              filled: true,
-                              prefixIcon: Icon(Icons.lock),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _obscureText = !_obscureText;
-                                  });
-                                },
-                                icon: Icon(Icons.visibility),
-                              ),
-                            ),
-                            obscureText: _obscureText,
-                            onChanged: (value) {
-                              password = value;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Password is required';
-                              } else if (password != cPassword) {
-                                return 'Passwords not matched';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Confirm Password',
-                              filled: true,
-                              prefixIcon: Icon(Icons.lock),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    _obscureText = !_obscureText;
-                                  });
-                                },
-                              ),
-                            ),
-                            obscureText: _obscureText,
-                            onChanged: (value) {
-                              cPassword = value;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
-                                setState(() {
-                                  showSpiner = true;
-                                });
-
-                                NetworkHelper(
-                                  url:
-                                      'http://b32c293c7e73.ngrok.io/api/v1/auth/register',
-                                ).userRegistration(
-                                  email,
-                                  password,
-                                  fname,
-                                  lname,
-                                  dob,
-                                  phone,
-                                  address,
-                                  selectedInstitutionType,
-                                  selectedInstitutionName,
-                                  context,
-                                );
-                                // Navigator.pushNamed(context, VerifyAccount.id);
-
-                                setState(() {
-                                  showSpiner = false;
-                                });
-                              }
-                            },
-                            child: CustomBotton(
-                              buttonTitle: 'Register',
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(Login.id);
-                            },
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Text('Already have an account?'),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      'Login',
-                                      style: TextStyle(
-                                        color: Color(0xff00a368),
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                  color: Colors.grey[600],
+                                  size: 20,
+                                ),
+                                SizedBox(width: 15),
+                                Text(
+                                  isPicked ? dob : 'Date of Birth',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Phone Number',
+                            filled: true,
+                            prefixIcon: Icon(Icons.phone),
+                          ),
+                          onChanged: (value) {
+                            phone = value;
+                          },
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Address',
+                            filled: true,
+                            prefixIcon: Icon(Icons.home),
+                          ),
+                          onChanged: (value) {
+                            address = value;
+                          },
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        DropdownButtonFormField(
+                          decoration: InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          hint: Text('Institution Type'),
+                          items:
+                              _institutionType.map((String dropDownStringItem) {
+                            return DropdownMenuItem<String>(
+                              child: Text(dropDownStringItem),
+                            );
+                          }).toList(),
+                          onChanged: (value) => _onSelectedType(value),
+                          value: selectedInstitutionType,
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        DropdownButtonFormField(
+                          decoration: InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          hint: Text('Institution Name'),
+                          items:
+                              _institutionName.map((String dropDownStringItem) {
+                            return DropdownMenuItem<String>(
+                              value: dropDownStringItem,
+                              child: Text(dropDownStringItem),
+                            );
+                          }).toList(),
+                          onChanged: (value) => _onSelectedName(value),
+                          value: selectedInstitutionName,
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Password is required';
+                            } else if (value.length < 6) {
+                              return 'Password can\t be less than 6 characters';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Password',
+                            filled: true,
+                            prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                              icon: Icon(Icons.visibility),
+                            ),
+                          ),
+                          obscureText: _obscureText,
+                          onChanged: (value) {
+                            password = value;
+                          },
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Password is required';
+                            } else if (password != cPassword) {
+                              return 'Passwords not matched';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Confirm Password',
+                            filled: true,
+                            prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                            ),
+                          ),
+                          obscureText: _obscureText,
+                          onChanged: (value) {
+                            cPassword = value;
+                          },
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              setState(() {
+                                showSpiner = true;
+                              });
+
+                              NetworkHelper(
+                                url:
+                                    'http://b32c293c7e73.ngrok.io/api/v1/auth/register',
+                              ).userRegistration(
+                                email,
+                                password,
+                                fname,
+                                lname,
+                                dob,
+                                phone,
+                                address,
+                                selectedInstitutionType,
+                                selectedInstitutionName,
+                                context,
+                              );
+                              // Navigator.pushNamed(context, VerifyAccount.id);
+
+                              setState(() {
+                                showSpiner = false;
+                              });
+                            }
+                          },
+                          child: CustomBotton(
+                            buttonTitle: 'Register',
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(Login.id);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Text('Already have an account?'),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      color: Color(0xff00a368),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
