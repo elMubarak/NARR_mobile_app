@@ -74,7 +74,7 @@ class NetworkHelper {
       }
     } catch (err) {
       // displayDialog(context, "An Error Occurred", "Server not available");
-      print(err.runtimeType);
+      print(err);
     }
   }
 
@@ -112,7 +112,7 @@ class NetworkHelper {
     } catch (err) {
       displayDialog(context, "An Error Occurred",
           "${err.osError.message} server not available");
-      print(err.osError);
+      print(err);
     }
   }
 
@@ -215,6 +215,29 @@ class NetworkHelper {
     } catch (err) {
       displayDialog(context, "An Error Occurred", "$err");
     }
+  }
+
+  Future getAllResearch() async {
+    http.Response response = await http.get(url);
+    String data = response.body;
+    var payload = jsonDecode(data)['payload'];
+
+    return payload;
+  }
+
+  //get one contact
+  Future getSingleResearch(int id) async {
+    http.Response response = await http.get(
+      '$url/$id',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    var data = response.body;
+    var payload = jsonDecode(data);
+
+    print(id);
+    return payload;
   }
 }
 

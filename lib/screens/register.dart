@@ -226,6 +226,9 @@ class _RegisterState extends State<Register> {
                               },
                             ),
                           ),
+                          SizedBox(
+                            height: 15.0,
+                          ),
                           DropdownContainer(
                             child: DropdownButtonFormField(
                               decoration: InputDecoration(
