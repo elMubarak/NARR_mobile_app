@@ -10,10 +10,10 @@ class VideoConferenceScreen extends StatefulWidget {
 }
 
 class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
-  InAppWebViewController _webViewController;
+  InAppWebViewController webViewController;
   String url = "https://meetings.lvs.ng";
   double progress = 0;
-
+  bool isWebLoaded = false;
   Future getPermissions() async {
     PermissionService().requestPermission(onPermissionDenied: () {
       print('Permission has been denied');
@@ -24,6 +24,7 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
   void initState() {
     super.initState();
     getPermissions();
+    isWebLoaded = false;
     if (Platform.isAndroid) {}
   }
 
@@ -35,38 +36,55 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        child: InAppWebView(
-            initialUrl: url,
-            initialOptions: InAppWebViewGroupOptions(
-              crossPlatform: InAppWebViewOptions(debuggingEnabled: true),
-            ),
-            onWebViewCreated: (InAppWebViewController controller) {
-              _webViewController = controller;
-            },
-            onLoadStart: (InAppWebViewController controller, String url) {
-              setState(() {
-                this.url = url;
-              });
-            },
-            onLoadStop: (InAppWebViewController controller, String url) async {
-              setState(() {
-                this.url = url;
-              });
-            },
-            onProgressChanged:
-                (InAppWebViewController controller, int progress) {
-              setState(() {
-                this.progress = progress / 100;
-              });
-            },
-            androidOnPermissionRequest: (InAppWebViewController controller,
-                String origin, List<String> resources) async {
-              return PermissionRequestResponse(
-                  resources: resources,
-                  action: PermissionRequestResponseAction.GRANT);
-            }),
+      appBar: AppBar(
+        title: Text('Video Confrence'),
+      ),
+      body: Stack(
+        children: [
+          Container(
+            child: InAppWebView(
+                initialUrl: url,
+                initialOptions: InAppWebViewGroupOptions(
+                  crossPlatform: InAppWebViewOptions(debuggingEnabled: true),
+                ),
+                onWebViewCreated: (InAppWebViewController controller) {
+                  webViewController = controller;
+                },
+                onLoadStart: (InAppWebViewController controller, String url) {
+                  setState(() {
+                    this.url = url;
+                    print('loaded!');
+                  });
+                },
+                onLoadStop:
+                    (InAppWebViewController controller, String url) async {
+                  setState(() {
+                    this.url = url;
+                    print('Stoped!');
+                    isWebLoaded = true;
+                  });
+                },
+                onProgressChanged:
+                    (InAppWebViewController controller, int progress) {
+                  setState(() {
+                    this.progress = progress / 100;
+                  });
+                },
+                androidOnPermissionRequest: (InAppWebViewController controller,
+                    String origin, List<String> resources) async {
+                  return PermissionRequestResponse(
+                      resources: resources,
+                      action: PermissionRequestResponseAction.GRANT);
+                }),
+          ),
+          (isWebLoaded == false)
+              ? Center(
+                  child: Container(
+                    child: CircularProgressIndicator(strokeWidth: 7),
+                  ),
+                )
+              : Container(),
+        ],
       ),
     );
   }
