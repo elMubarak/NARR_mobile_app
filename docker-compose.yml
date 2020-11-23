@@ -13,11 +13,12 @@ services:
         
     
     authapi:
-        image: galadima/lexdocker:v1.3
+        image: uzlash/narr-gateway:v1.0
         restart: always
         ports: 
-            - "80:80"
+            - "3000:3000"
         environment:
+            MONGOHOST: "mongo"
             MONGOUSER: "musjib"
             MONGOPASS: "123456"
             MONGODB: "narrdb"

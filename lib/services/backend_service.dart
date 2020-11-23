@@ -46,10 +46,10 @@ class NetworkHelper {
         },
         body: jsonEncode(
           <String, dynamic>{
-            "username": username,
+            "email": username,
             "password": password,
-            "fname": fname,
-            "lname": lname,
+            "fName": fname,
+            "lName": lname,
             "dob": dob,
             "phone": phone,
             "address": address,
@@ -67,14 +67,14 @@ class NetworkHelper {
 
         Navigator.pushReplacementNamed(context, VerifyAccount.id);
         return UserRegistrationModel.fromJson(jsonDecode(response.body));
-      } else {
+      } else if (response.statusCode == 500) {
         displayDialog(context, "An Error Occurred",
             "${response.statusCode} Failed to create a user");
+        print(response.body);
       }
     } catch (err) {
-      if (err.osError.errorCode == 111) {
-        displayDialog(context, "An Error Occurred", "Server not available");
-      }
+      // displayDialog(context, "An Error Occurred", "Server not available");
+      print(err.runtimeType);
     }
   }
 
@@ -95,17 +95,24 @@ class NetworkHelper {
       );
 
       if (response.statusCode == 200) {
-        print(response.body);
+        String data = response.body;
+        print(data);
         Navigator.pushReplacementNamed(context, HomeScreen.id);
         return UserLoginModel.fromJson(jsonDecode(response.body));
+      } else if (response.statusCode == 403) {
+        String errMessage = response.body;
+        var message = jsonDecode(errMessage)['message'];
+        print(errMessage);
+        displayDialog(
+            context, "An Error Occurred", "${response.statusCode} $message");
       } else {
         displayDialog(context, "An Error Occurred",
             "${response.statusCode} No account was found matching that username and password");
       }
     } catch (err) {
-      if (err.osError.errorCode == 111) {
-        displayDialog(context, "An Error Occurred", "Server not available");
-      }
+      displayDialog(context, "An Error Occurred",
+          "${err.osError.message} server not available");
+      print(err.osError);
     }
   }
 

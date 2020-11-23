@@ -6,14 +6,14 @@ class Repository {
   // List<String> getStates() => null;
   List<Map> getAll() => _institution;
 
-  getNameByType(String schoolType) => _institution
+  getLocalByState(String schoolType) => _institution
       .map((map) => InstitutionModel.fromJson(map))
       .where((item) => item.schoolType == schoolType)
       .map((item) => item.schoolName)
       .expand((i) => i)
       .toList();
 
-  List<String> getSchools() => _institution
+  List<String> getStates() => _institution
       .map((map) => InstitutionModel.fromJson(map))
       .map((item) => item.schoolType)
       .toList();

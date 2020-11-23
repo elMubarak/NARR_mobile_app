@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:narr/db/repository.dart';
+import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/screens/login.dart';
 // import 'package:narr/screens/verify_email.dart';
 import 'package:narr/services/backend_service.dart';
@@ -41,53 +42,7 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  // List<String> institutionType = [
-  //   'Institution Type',
-  //   'University',
-  //   'Polytechnic',
-  //   'Collage of Education',
-  // ];
-  // List<String> institutionName = [
-  //   'Institution Name',
-  //   'Ahmadu Bello University',
-  //   'Bayero University Kano',
-  //   'Kaduna State University'
-  // ];
-  Repository _repo = Repository();
-  List<String> _institutionType = [];
-  List<String> _institutionName = [];
-  static String selectedInstitutionType = "";
-  static String selectedInstitutionName = "";
-
-  @override
-  void initState() {
-    _institutionType = List.from(_institutionType)..addAll(_repo.getSchools());
-    super.initState();
-  }
-
-  // List<DropdownMenuItem> getInstitutionTypeDropdownItems() {
-  //   List<DropdownMenuItem<String>> dropdowmItems = [];
-
-  //   for (String type in institutionType) {
-  //     var newItem = DropdownMenuItem(
-  //       child: Text(type),
-  //       value: type,
-  //     );
-  //     dropdowmItems.add(newItem);
-  //   }
-  //   return dropdowmItems;
-  // }
-
-  // List<DropdownMenuItem> getInstitutionNameDropdownItems() {
-  //   List<DropdownMenuItem<String>> dropdowmItems = [];
-
-  //   for (String name in institutionName) {
-  //     var newItem = DropdownMenuItem(child: Text(name), value: name);
-  //     dropdowmItems.add(newItem);
-  //   }
-  //   return dropdowmItems;
-  // }
-  // }
+  DropdownHelper _dropdownHelper = DropdownHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -247,42 +202,42 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 15.0,
                         ),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          hint: Text('Institution Type'),
-                          items:
-                              _institutionType.map((String dropDownStringItem) {
-                            return DropdownMenuItem<String>(
-                              child: Text(dropDownStringItem),
-                            );
-                          }).toList(),
-                          onChanged: (value) => _onSelectedType(value),
-                          value: selectedInstitutionType,
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          hint: Text('Institution Name'),
-                          items:
-                              _institutionName.map((String dropDownStringItem) {
-                            return DropdownMenuItem<String>(
-                              value: dropDownStringItem,
-                              child: Text(dropDownStringItem),
-                            );
-                          }).toList(),
-                          onChanged: (value) => _onSelectedName(value),
-                          value: selectedInstitutionName,
-                        ),
+                        // DropdownButtonFormField(
+                        //   decoration: InputDecoration(
+                        //     border: UnderlineInputBorder(
+                        //       borderSide: BorderSide.none,
+                        //     ),
+                        //   ),
+                        //   hint: Text('Institution Type'),
+                        //   items:
+                        //       _institutionType.map((String dropDownStringItem) {
+                        //     return DropdownMenuItem<String>(
+                        //       child: Text(dropDownStringItem),
+                        //     );
+                        //   }).toList(),
+                        //   onChanged: (value) => _onSelectedType(value),
+                        //   value: selectedInstitutionType,
+                        // ),
+                        // SizedBox(
+                        //   height: 15.0,
+                        // ),
+                        // DropdownButtonFormField(
+                        //   decoration: InputDecoration(
+                        //     border: UnderlineInputBorder(
+                        //       borderSide: BorderSide.none,
+                        //     ),
+                        //   ),
+                        //   hint: Text('Institution Name'),
+                        //   items:
+                        //       _institutionName.map((String dropDownStringItem) {
+                        //     return DropdownMenuItem<String>(
+                        //       value: dropDownStringItem,
+                        //       child: Text(dropDownStringItem),
+                        //     );
+                        //   }).toList(),
+                        //   onChanged: (value) => _onSelectedName(value),
+                        //   value: selectedInstitutionName,
+                        // ),
                         SizedBox(
                           height: 15.0,
                         ),
@@ -367,8 +322,8 @@ class _RegisterState extends State<Register> {
                                 dob,
                                 phone,
                                 address,
-                                selectedInstitutionType,
-                                selectedInstitutionName,
+                                'selectedInstitutionType',
+                                'selectedInstitutionName',
                                 context,
                               );
                               // Navigator.pushNamed(context, VerifyAccount.id);
@@ -420,20 +375,6 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
-
-  void _onSelectedType(String value) {
-    setState(() {
-      selectedInstitutionName = "";
-      _institutionName = [""];
-      selectedInstitutionType = value;
-      _institutionName = List.from(_institutionName)
-        ..addAll(_repo.getNameByType(value));
-    });
-  }
-
-  void _onSelectedName(String value) {
-    setState(() => selectedInstitutionName = value);
-  }
 }
 
 class DropdownContainer extends StatelessWidget {
@@ -444,9 +385,6 @@ class DropdownContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-        left: 12.0,
-      ),
       decoration: BoxDecoration(
         color: Colors.grey[200],
       ),

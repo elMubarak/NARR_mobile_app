@@ -13,20 +13,20 @@ class UserLoginModel {
 }
 
 class UserRegistrationModel {
-  String username;
+  String email;
   String password;
   String fname;
   String lname;
   Institution institution;
   UserRegistrationModel(
-      {this.username, this.password, this.fname, this.lname, this.institution});
+      {this.email, this.password, this.fname, this.lname, this.institution});
 
   factory UserRegistrationModel.fromJson(Map<String, dynamic> data) {
     return UserRegistrationModel(
-      username: data['email'],
+      email: data['email'],
       password: data['password'],
-      fname: data['fname'],
-      lname: data['lname'],
+      fname: data['fName'],
+      lname: data['lName'],
       institution: Institution.fromJson(data['institution']),
     );
   }
