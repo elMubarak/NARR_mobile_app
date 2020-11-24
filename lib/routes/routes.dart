@@ -6,6 +6,10 @@ import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/reader.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/research_grants_proposal.dart';
+<<<<<<< HEAD
+
+=======
+>>>>>>> 12db3021362b23ccf38138e2590626275f029a46
 import '../screens/about.dart';
 import '../screens/bulk_file_upload.dart';
 import '../screens/chat.dart';

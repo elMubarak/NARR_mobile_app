@@ -66,14 +66,14 @@ class NetworkHelper {
         print(data);
 
         Navigator.pushReplacementNamed(context, VerifyAccount.id);
-        return UserRegistrationModel.fromJson(jsonDecode(response.body));
-      } else if (response.statusCode == 500) {
+        return UserRegistrationModel.fromData(jsonDecode(response.body));
+      } else {
         displayDialog(context, "An Error Occurred",
             "${response.statusCode} Failed to create a user");
         print(response.body);
       }
     } catch (err) {
-      // displayDialog(context, "An Error Occurred", "Server not available");
+      displayDialog(context, "An Error Occurred", "$err");
       print(err);
     }
   }
