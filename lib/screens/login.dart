@@ -27,24 +27,27 @@ class _LoginState extends State<Login> {
         child: SingleChildScrollView(
           child: SafeArea(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Welcome Back \n Researcher',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    // fontWeight: FontWeight.bold,
-                  ),
+                // Text(
+                //   'Welcome Back \n Researcher',
+                //   textAlign: TextAlign.center,
+                //   style: TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 25,
+                //     // fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                Container(
+                  child: Image.asset('images/narr_logo.png'),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 90),
                 FormCard(
                   child: Form(
                     key: _formKey,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(height: 15),
                         Text(
