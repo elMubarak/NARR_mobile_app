@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/single_research_repository.dart';
+import 'package:narr/services/backend_service.dart';
 
 class RepositoryList extends StatefulWidget {
   static String id = '/repository list';
@@ -7,16 +9,32 @@ class RepositoryList extends StatefulWidget {
 }
 
 class _RepositoryListState extends State<RepositoryList> {
+  String myUrl = 'http://192.168.88.41:4000/repository';
+  String publicUrl = 'http://192.168.43.219:4000/repository';
+  void initState() {
+    super.initState();
+    setState(() {
+      NetworkHelper(url: 'http://192.168.88.41:4000/repository')
+          .getAllResearch();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Repository'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: FutureBuilder(
+        future: NetworkHelper(url: myUrl).getAllResearch(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          final payload = snapshot.data;
+          List<Widget> contactTitleWidgets = [
             Container(
               margin: EdgeInsets.all(15),
               child: Material(
@@ -37,9 +55,6 @@ class _RepositoryListState extends State<RepositoryList> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0, left: 15),
               child: Text(
@@ -47,26 +62,37 @@ class _RepositoryListState extends State<RepositoryList> {
                 style: TextStyle(fontSize: 20, color: Colors.grey),
               ),
             ),
-            ResearchRepositoryCard(
-              researchTitle: 'Data Science For beginners',
-              researchAuthor: 'Mubarak na Mairo',
-              researchDate: '11-02-2020',
-              onTap: () {},
-            ),
-            ResearchRepositoryCard(
-              researchTitle: 'Data Science For beginners',
-              researchAuthor: 'Mubarak na Mairo',
-              researchDate: '11-02-2020',
-              onTap: () {},
-            ),
-            ResearchRepositoryCard(
-              researchTitle: 'Data Science For beginners',
-              researchAuthor: 'Mubarak na Mairo',
-              researchDate: '11-02-2020',
-              onTap: () {},
-            ),
-          ],
-        ),
+          ];
+          for (var document in payload) {
+            var title = document['title'];
+            var author = document['author'];
+            var date = document['date'];
+            var image = document['image'];
+            var id = document['id'];
+            final courseTitleWidget = ResearchRepositoryCard(
+              imageUrl: image,
+              researchTitle: title,
+              researchAuthor: author,
+              researchDate: date,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ResearchWork(
+                        researchId: id,
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+            contactTitleWidgets.add(courseTitleWidget);
+          }
+          return ListView(
+            children: contactTitleWidgets,
+          );
+        },
       ),
     );
   }
@@ -75,13 +101,13 @@ class _RepositoryListState extends State<RepositoryList> {
 class ResearchRepositoryCard extends StatelessWidget {
   const ResearchRepositoryCard({
     Key key,
+    this.imageUrl,
     this.researchTitle,
-    this.researchCategory,
     this.researchDate,
     this.researchAuthor,
     this.onTap,
   }) : super(key: key);
-  final String researchTitle, researchCategory, researchDate, researchAuthor;
+  final String researchTitle, researchDate, researchAuthor, imageUrl;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
@@ -115,7 +141,7 @@ class ResearchRepositoryCard extends StatelessWidget {
                       topLeft: Radius.circular(6),
                     ),
                     child: Image.network(
-                      'https://i1.wp.com/thedatascientist.com/wp-content/uploads/2019/06/what-is-data-science.jpg?resize=1024%2C576&ssl=1',
+                      imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
