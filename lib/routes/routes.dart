@@ -3,10 +3,9 @@ import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/ocr_result.dart';
+import 'package:narr/screens/reader.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/research_grants_proposal.dart';
-import 'package:path/path.dart';
-
 import '../screens/about.dart';
 import '../screens/bulk_file_upload.dart';
 import '../screens/chat.dart';
@@ -44,5 +43,6 @@ Map<String, WidgetBuilder> myRoute = {
   CrowdFunding.id: (context) => CrowdFunding(),
   Grants.id: (context) => Grants(),
   ResearchGrantsProposal.id: (context) => ResearchGrantsProposal(),
-  RepositoryList.id: (context) => RepositoryList()
+  RepositoryList.id: (context) => RepositoryList(),
+  Reader.id: (context) => Reader(),
 };

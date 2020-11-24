@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
 
 class Reader extends StatefulWidget {
+  static const String id = 'Reader';
   @override
   _ReaderState createState() => _ReaderState();
 }
@@ -86,16 +87,17 @@ class _SliderState extends State<Slider> {
           CarouselSlider(
             carouselController: buttonCarouselController,
             options: CarouselOptions(
-                height: 400,
-                viewportFraction: 0.8,
-                initialPage: 0,
-                enableInfiniteScroll: false,
-                reverse: false,
-                autoPlay: false,
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enlargeCenterPage: false,
-                scrollDirection: Axis.horizontal,
-                pageSnapping: false),
+              height: 600,
+              viewportFraction: 1.0,
+              initialPage: 0,
+              enableInfiniteScroll: false,
+              reverse: false,
+              autoPlay: false,
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: false,
+              scrollDirection: Axis.horizontal,
+              pageSnapping: true,
+            ),
             items: imgList.map((url) {
               return Builder(
                 builder: (BuildContext context) {
@@ -170,7 +172,7 @@ class _SliderState extends State<Slider> {
                     child: IconButton(
                       icon: Icon(Icons.first_page),
                       onPressed: () {
-                        buttonCarouselController.jumpToPage(0);
+                        buttonCarouselController.jumpToPage(imgList.first);
                       },
                     ),
                   ),
@@ -202,7 +204,7 @@ class _SliderState extends State<Slider> {
                     child: IconButton(
                       icon: Icon(Icons.last_page),
                       onPressed: () {
-                        buttonCarouselController.jumpToPage(imgList.length);
+                        buttonCarouselController.jumpToPage(imgList.last);
                       },
                     ),
                   ),
