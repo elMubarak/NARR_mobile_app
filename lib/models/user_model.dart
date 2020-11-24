@@ -17,31 +17,40 @@ class UserRegistrationModel {
   String password;
   String fname;
   String lname;
-  Institution institution;
-  UserRegistrationModel(
-      {this.email, this.password, this.fname, this.lname, this.institution});
 
-  factory UserRegistrationModel.fromJson(Map<String, dynamic> data) {
-    return UserRegistrationModel(
-      email: data['email'],
-      password: data['password'],
-      fname: data['fName'],
-      lname: data['lName'],
-      institution: Institution.fromJson(data['institution']),
-    );
+  UserRegistrationModel({this.email, this.password, this.fname, this.lname});
+
+  UserRegistrationModel.fromData(Map<String, dynamic> values)
+      : email = values['email'],
+        password = values['password'],
+        fname = values['fName'],
+        lname = values['lName'];
+  // institution = Institution.fromData(values['institution']);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'password': password,
+      'fName': fname,
+      'lName': lname,
+    };
   }
 }
 
-class Institution {
-  String name;
-  String type;
+// class Institution {
+//   String name;
+//   String type;
 
-  Institution({this.name, this.type});
+//   Institution({this.name, this.type});
 
-  factory Institution.fromJson(Map<String, dynamic> data) {
-    return Institution(
-      name: data['name'],
-      type: data['type'],
-    );
-  }
-}
+//   Institution.fromData(Map<String, dynamic> data)
+//       : name = data['name'],
+//         type = data['type'];
+
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'name': name,
+//       'type': type,
+//     };
+// //   }
+// }

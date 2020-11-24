@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:narr/db/repository.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/screens/login.dart';
 // import 'package:narr/screens/verify_email.dart';
@@ -238,6 +237,54 @@ class _RegisterState extends State<Register> {
                         //   onChanged: (value) => _onSelectedName(value),
                         //   value: selectedInstitutionName,
                         // ),
+                        DropdownContainer(
+                          child: DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              prefixIcon: Icon(Icons.school),
+                            ),
+                            hint: Text(
+                              'Institution Type',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            items: _dropdownHelper
+                                .getInstitutionTypeDropdownItems(),
+                            onChanged: (value) {
+                              setState(() {
+                                _dropdownHelper.selectedInstitutionType = value;
+                              });
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        DropdownContainer(
+                          child: DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              prefixIcon: Icon(Icons.school),
+                            ),
+                            hint: Text(
+                              'Institution Name',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            items: _dropdownHelper.selectedInstitutionType ==
+                                    _dropdownHelper.institutionType[0]
+                                ? _dropdownHelper.getUniversityName()
+                                : _dropdownHelper.getPolyName(),
+                            onChanged: (value) {
+                              setState(() {
+                                _dropdownHelper.selectedInstitutionName = value;
+                              });
+                            },
+                          ),
+                        ),
+
                         SizedBox(
                           height: 15.0,
                         ),
@@ -313,7 +360,7 @@ class _RegisterState extends State<Register> {
 
                               NetworkHelper(
                                 url:
-                                    'http://b32c293c7e73.ngrok.io/api/v1/auth/register',
+                                    'http://192.168.43.219:3000/api/v1/auth/register',
                               ).userRegistration(
                                 email,
                                 password,
@@ -322,8 +369,8 @@ class _RegisterState extends State<Register> {
                                 dob,
                                 phone,
                                 address,
-                                'selectedInstitutionType',
-                                'selectedInstitutionName',
+                                _dropdownHelper.selectedInstitutionType,
+                                _dropdownHelper.selectedInstitutionName,
                                 context,
                               );
                               // Navigator.pushNamed(context, VerifyAccount.id);

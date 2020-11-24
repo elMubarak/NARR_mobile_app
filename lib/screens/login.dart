@@ -136,7 +136,7 @@ class _LoginState extends State<Login> {
 
                               NetworkHelper(
                                       url:
-                                          'http://192.168.88.41:3000/api/v1/auth/login')
+                                          'http://192.168.43.219:3000/api/v1/auth/login')
                                   .loginUser(email, password, context);
 
                               setState(() {

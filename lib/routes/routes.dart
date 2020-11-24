@@ -5,7 +5,6 @@ import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/research_grants_proposal.dart';
-import 'package:path/path.dart';
 
 import '../screens/about.dart';
 import '../screens/bulk_file_upload.dart';

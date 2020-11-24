@@ -68,12 +68,14 @@ class _RepositoryListState extends State<RepositoryList> {
             var author = document['author'];
             var date = document['date'];
             var image = document['image'];
+            var pages = document['pages'];
             var id = document['id'];
             final courseTitleWidget = ResearchRepositoryCard(
               imageUrl: image,
               researchTitle: title,
               researchAuthor: author,
               researchDate: date,
+              pages: pages,
               onTap: () {
                 Navigator.push(
                   context,
@@ -105,9 +107,10 @@ class ResearchRepositoryCard extends StatelessWidget {
     this.researchTitle,
     this.researchDate,
     this.researchAuthor,
+    this.pages,
     this.onTap,
   }) : super(key: key);
-  final String researchTitle, researchDate, researchAuthor, imageUrl;
+  final String researchTitle, researchDate, researchAuthor, imageUrl, pages;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
@@ -157,7 +160,10 @@ class ResearchRepositoryCard extends StatelessWidget {
                     '$researchTitle',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff1b5e20),
+                    ),
                   ),
                   SizedBox(
                     height: 5,
@@ -178,6 +184,10 @@ class ResearchRepositoryCard extends StatelessWidget {
                       ),
                       SizedBox(
                         height: 5,
+                      ),
+                      Text(
+                        'Pages: $pages',
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
