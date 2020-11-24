@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class DropdownHelper {
   String selectedInstitutionType = '';
   String selectedInstitutionName = '';
+  String selectedFilter = '';
 
   List<String> institutionType = [
     'University',
@@ -18,6 +19,15 @@ class DropdownHelper {
   List<String> poly = [
     'Kaduna Polytechnic',
     'Nuhu Bamali Polytechnic',
+  ];
+
+  List<String> filters = [
+    'Science',
+    'Art',
+    'Law',
+    'Engineering',
+    'Social Science',
+    'Technology'
   ];
 
   List<DropdownMenuItem> getInstitutionTypeDropdownItems() {
@@ -48,6 +58,19 @@ class DropdownHelper {
 
     for (String name in poly) {
       var newItem = DropdownMenuItem(child: Text(name), value: name);
+      dropdowmItems.add(newItem);
+    }
+    return dropdowmItems;
+  }
+
+  List<DropdownMenuItem> getFilterDropdownItems() {
+    List<DropdownMenuItem<String>> dropdowmItems = [];
+
+    for (String filter in filters) {
+      var newItem = DropdownMenuItem(
+        child: Text(filter),
+        value: filter,
+      );
       dropdowmItems.add(newItem);
     }
     return dropdowmItems;

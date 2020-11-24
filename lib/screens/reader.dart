@@ -87,7 +87,7 @@ class _SliderState extends State<Slider> {
           CarouselSlider(
             carouselController: buttonCarouselController,
             options: CarouselOptions(
-              height: 600,
+              height: 410,
               viewportFraction: 1.0,
               initialPage: 0,
               enableInfiniteScroll: false,
@@ -102,7 +102,7 @@ class _SliderState extends State<Slider> {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
-                    margin: EdgeInsets.all(8),
+                    margin: EdgeInsets.all(15),
                     child: InteractiveViewer(
                       child: Image.network(
                         url,

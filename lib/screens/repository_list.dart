@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/screens/single_research_repository.dart';
 import 'package:narr/services/backend_service.dart';
 
@@ -18,6 +19,8 @@ class _RepositoryListState extends State<RepositoryList> {
           .getAllResearch();
     });
   }
+
+  DropdownHelper _dropdownHelper = DropdownHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +57,45 @@ class _RepositoryListState extends State<RepositoryList> {
                   ),
                 ),
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0, right: 160),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      offset: Offset(0, 2.5),
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: DropdownButtonFormField(
+                  decoration: InputDecoration(
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  hint: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'By Category',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                  ),
+                  items: _dropdownHelper.getFilterDropdownItems(),
+                  onChanged: (value) {
+                    setState(() {
+                      _dropdownHelper.selectedFilter = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 11,
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0, left: 15),
@@ -158,7 +200,7 @@ class ResearchRepositoryCard extends StatelessWidget {
                 children: [
                   Text(
                     '$researchTitle',
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -166,28 +208,65 @@ class ResearchRepositoryCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 12,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Date Published: $researchDate',
-                        overflow: TextOverflow.ellipsis,
+                      Row(
+                        children: [
+                          Text(
+                            'Date Published: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff1b5e20),
+                            ),
+                          ),
+                          Text(
+                            '$researchDate',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        'Author: $researchAuthor',
-                        overflow: TextOverflow.ellipsis,
+                      Row(
+                        children: [
+                          Text(
+                            'Author: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff1b5e20),
+                            ),
+                          ),
+                          Flexible(
+                            child: Text(
+                              '$researchAuthor',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        'Pages: $pages',
-                        overflow: TextOverflow.ellipsis,
+                      Row(
+                        children: [
+                          Text(
+                            'Pages: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff1b5e20),
+                            ),
+                          ),
+                          Text(
+                            '$pages',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                     ],
                   ),

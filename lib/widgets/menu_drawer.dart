@@ -51,7 +51,7 @@ class DrawerItems extends StatelessWidget {
                     leading: Icon(FontAwesomeIcons.database),
                     title: Text('Repository'),
                     onTap: () {
-                      Navigator.of(context).popAndPushNamed(Reader.id);
+                      Navigator.of(context).popAndPushNamed(RepositoryList.id);
                       // Update the state of the app.
                       // ...
                     },
