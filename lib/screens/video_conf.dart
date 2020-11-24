@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:narr/helpers/permission_helper.dart';
 
@@ -25,7 +24,6 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
     super.initState();
     getPermissions();
     isWebLoaded = false;
-    if (Platform.isAndroid) {}
   }
 
   @override
