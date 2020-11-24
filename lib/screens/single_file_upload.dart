@@ -102,10 +102,10 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                 ),
                                 subtitle: Text(progress != null
                                     ? '$bytesSent of $bytesTotal'
-                                    : ''),
+                                    : 'w'),
                                 trailing: Text(progress != null
                                     ? '${progress.toInt()} %'
-                                    : ''),
+                                    : 't'),
                               )
                             : Container(),
 
