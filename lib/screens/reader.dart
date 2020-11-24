@@ -172,7 +172,7 @@ class _SliderState extends State<Slider> {
                     child: IconButton(
                       icon: Icon(Icons.first_page),
                       onPressed: () {
-                        buttonCarouselController.jumpToPage(imgList.first);
+                        buttonCarouselController.jumpToPage(0);
                       },
                     ),
                   ),
@@ -204,7 +204,7 @@ class _SliderState extends State<Slider> {
                     child: IconButton(
                       icon: Icon(Icons.last_page),
                       onPressed: () {
-                        buttonCarouselController.jumpToPage(imgList.last);
+                        buttonCarouselController.jumpToPage(imgList.length);
                       },
                     ),
                   ),
