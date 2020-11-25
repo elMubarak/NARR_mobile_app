@@ -104,11 +104,13 @@ class _SliderState extends State<Slider> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           (isDark == true)
-              ? Darkify(
-                  child: PageSlider(
-                    buttonCarouselController: buttonCarouselController,
-                    imgList: imgList,
-                    isDark: true,
+              ? Expanded(
+                  child: DarkNight(
+                    child: PageSlider(
+                      buttonCarouselController: buttonCarouselController,
+                      imgList: imgList,
+                      isDark: true,
+                    ),
                   ),
                 )
               : PageSlider(
@@ -116,53 +118,6 @@ class _SliderState extends State<Slider> {
                   imgList: imgList,
                   isDark: false,
                 ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     GestureDetector(
-          //       onTap: () => buttonCarouselController.jumpToPage(0),
-          //       child: Text(
-          //         '<<',
-          //         style: TextStyle(fontSize: 25),
-          //       ),
-          //     ),
-          //     SizedBox(
-          //       width: 20,
-          //     ),
-          //     GestureDetector(
-          //       onTap: () => buttonCarouselController.previousPage(
-          //           duration: Duration(milliseconds: 300),
-          //           curve: Curves.linear),
-          //       child: Text(
-          //         '<',
-          //         style: TextStyle(fontSize: 25),
-          //       ),
-          //     ),
-          //     SizedBox(
-          //       width: 20,
-          //     ),
-          //     GestureDetector(
-          //       onTap: () => buttonCarouselController.nextPage(
-          //           duration: Duration(milliseconds: 300),
-          //           curve: Curves.linear),
-          //       child: Text(
-          //         '>',
-          //         style: TextStyle(fontSize: 25),
-          //       ),
-          //     ),
-          //     SizedBox(
-          //       width: 20,
-          //     ),
-          //     GestureDetector(
-          //       onTap: () =>
-          //           buttonCarouselController.jumpToPage(imgList.length),
-          //       child: Text(
-          //         '>>',
-          //         style: TextStyle(fontSize: 25),
-          //       ),
-          //     ),
-          //   ],
-          // )
           Container(
             margin: EdgeInsets.only(left: 15),
             child: Row(
@@ -179,7 +134,6 @@ class _SliderState extends State<Slider> {
               ],
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
             child: BottomAppBar(
@@ -249,39 +203,42 @@ class PageSlider extends StatelessWidget {
   final bool isDark;
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      carouselController: buttonCarouselController,
-      options: CarouselOptions(
-        height: 600,
-        viewportFraction: 1.0,
-        initialPage: 0,
-        enableInfiniteScroll: false,
-        reverse: false,
-        autoPlay: false,
-        autoPlayCurve: Curves.fastOutSlowIn,
-        enlargeCenterPage: false,
-        scrollDirection: Axis.horizontal,
-        pageSnapping: true,
+    return Expanded(
+      child: CarouselSlider(
+        carouselController: buttonCarouselController,
+        options: CarouselOptions(
+          height: 370,
+          viewportFraction: 1.0,
+          initialPage: 0,
+          enableInfiniteScroll: false,
+          reverse: false,
+          autoPlay: false,
+          autoPlayCurve: Curves.fastOutSlowIn,
+          enlargeCenterPage: false,
+          scrollDirection: Axis.horizontal,
+          pageSnapping: true,
+        ),
+        items: imgList.map((url) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Expanded(
+                child: Container(
+                  margin: EdgeInsets.all(8),
+                  child: PhotoView(
+                    backgroundDecoration: BoxDecoration(
+                        color: (isDark) ? Colors.black : Colors.white),
+                    loadFailedChild: CircularProgressIndicator(),
+                    imageProvider: NetworkImage(url),
+                    minScale: PhotoViewComputedScale.contained * 1.0,
+                    maxScale: PhotoViewComputedScale.contained * 2.5,
+                    initialScale: PhotoViewComputedScale.contained * 1.0,
+                  ),
+                ),
+              );
+            },
+          );
+        }).toList(),
       ),
-      items: imgList.map((url) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: double.infinity,
-              margin: EdgeInsets.all(8),
-              child: PhotoView(
-                backgroundDecoration: BoxDecoration(
-                    color: (isDark) ? Colors.black : Colors.white),
-                loadFailedChild: CircularProgressIndicator(),
-                imageProvider: NetworkImage(url),
-                minScale: PhotoViewComputedScale.contained * 1.0,
-                maxScale: PhotoViewComputedScale.contained * 2.5,
-                initialScale: PhotoViewComputedScale.contained * 1.0,
-              ),
-            );
-          },
-        );
-      }).toList(),
     );
   }
 }

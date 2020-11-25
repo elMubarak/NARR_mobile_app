@@ -9,16 +9,28 @@ class DropdownHelper {
     'University',
     'Polytechnic',
     'Collage of Education',
+    'Monotechnic',
+    'Independent Researcher'
   ];
   List<String> universites = [
     'Ahmadu Bello University',
     'Bayero University Kano',
-    'Kaduna State University'
+    'Kaduna State University',
   ];
 
   List<String> poly = [
     'Kaduna Polytechnic',
     'Nuhu Bamali Polytechnic',
+  ];
+
+  List<String> collegeOfEducation = [
+    'FCE Zaria',
+    'FCE Katsina',
+  ];
+
+  List<String> monotechnic = [
+    'Dialogue Institute of Tech',
+    'Khemsafe Computers',
   ];
 
   List<String> filters = [
@@ -58,6 +70,34 @@ class DropdownHelper {
 
     for (String name in poly) {
       var newItem = DropdownMenuItem(child: Text(name), value: name);
+      dropdowmItems.add(newItem);
+    }
+    return dropdowmItems;
+  }
+
+  List<DropdownMenuItem> getCollegeOfEducationName() {
+    List<DropdownMenuItem<String>> dropdowmItems = [];
+
+    for (String name in collegeOfEducation) {
+      var newItem = DropdownMenuItem(
+          child: Text(
+            name,
+          ),
+          value: name);
+      dropdowmItems.add(newItem);
+    }
+    return dropdowmItems;
+  }
+
+  List<DropdownMenuItem> getMonotechnicName() {
+    List<DropdownMenuItem<String>> dropdowmItems = [];
+
+    for (String name in monotechnic) {
+      var newItem = DropdownMenuItem(
+          child: Text(
+            name,
+          ),
+          value: name);
       dropdowmItems.add(newItem);
     }
     return dropdowmItems;

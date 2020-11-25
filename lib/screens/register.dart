@@ -42,10 +42,24 @@ class _RegisterState extends State<Register> {
   }
 
   DropdownHelper _dropdownHelper = DropdownHelper();
+  List<DropdownMenuItem> item;
 
   @override
   Widget build(BuildContext context) {
     String dob = '${selectedDate.toLocal()}'.split(' ')[0];
+    if (_dropdownHelper.selectedInstitutionType ==
+        _dropdownHelper.institutionType[0]) {
+      item = _dropdownHelper.getUniversityName();
+    } else if (_dropdownHelper.selectedInstitutionType ==
+        _dropdownHelper.institutionType[1]) {
+      item = _dropdownHelper.getPolyName();
+    } else if (_dropdownHelper.selectedInstitutionType ==
+        _dropdownHelper.institutionType[2]) {
+      item = _dropdownHelper.getCollegeOfEducationName();
+    } else if (_dropdownHelper.selectedInstitutionType ==
+        _dropdownHelper.institutionType[3]) {
+      item = _dropdownHelper.getMonotechnicName();
+    }
 
     return Scaffold(
       backgroundColor: Color(0xff00a368),
@@ -201,44 +215,14 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 15.0,
                         ),
-                        // DropdownButtonFormField(
-                        //   decoration: InputDecoration(
-                        //     border: UnderlineInputBorder(
-                        //       borderSide: BorderSide.none,
-                        //     ),
-                        //   ),
-                        //   hint: Text('Institution Type'),
-                        //   items:
-                        //       _institutionType.map((String dropDownStringItem) {
-                        //     return DropdownMenuItem<String>(
-                        //       child: Text(dropDownStringItem),
-                        //     );
-                        //   }).toList(),
-                        //   onChanged: (value) => _onSelectedType(value),
-                        //   value: selectedInstitutionType,
-                        // ),
-                        // SizedBox(
-                        //   height: 15.0,
-                        // ),
-                        // DropdownButtonFormField(
-                        //   decoration: InputDecoration(
-                        //     border: UnderlineInputBorder(
-                        //       borderSide: BorderSide.none,
-                        //     ),
-                        //   ),
-                        //   hint: Text('Institution Name'),
-                        //   items:
-                        //       _institutionName.map((String dropDownStringItem) {
-                        //     return DropdownMenuItem<String>(
-                        //       value: dropDownStringItem,
-                        //       child: Text(dropDownStringItem),
-                        //     );
-                        //   }).toList(),
-                        //   onChanged: (value) => _onSelectedName(value),
-                        //   value: selectedInstitutionName,
-                        // ),
                         DropdownContainer(
                           child: DropdownButtonFormField(
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select an institution type';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -263,6 +247,12 @@ class _RegisterState extends State<Register> {
                         ),
                         DropdownContainer(
                           child: DropdownButtonFormField(
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select an institution name';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -273,10 +263,7 @@ class _RegisterState extends State<Register> {
                               'Institution Name',
                               style: TextStyle(color: Colors.grey[700]),
                             ),
-                            items: _dropdownHelper.selectedInstitutionType ==
-                                    _dropdownHelper.institutionType[0]
-                                ? _dropdownHelper.getUniversityName()
-                                : _dropdownHelper.getPolyName(),
+                            items: item,
                             onChanged: (value) {
                               setState(() {
                                 _dropdownHelper.selectedInstitutionName = value;
@@ -284,7 +271,6 @@ class _RegisterState extends State<Register> {
                             },
                           ),
                         ),
-
                         SizedBox(
                           height: 15.0,
                         ),

@@ -2,10 +2,10 @@ library invert_colors;
 
 import 'package:flutter/widgets.dart';
 
-class Darkify extends StatelessWidget {
+class DarkNight extends StatelessWidget {
   final Widget child;
 
-  const Darkify({@required this.child});
+  const DarkNight({@required this.child});
 
   @override
   Widget build(BuildContext context) {
