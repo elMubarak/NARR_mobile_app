@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
+import 'package:narr/widgets/dark_mode_reader.dart';
+import 'package:photo_view/photo_view.dart';
 
 class Reader extends StatefulWidget {
   static const String id = 'Reader';
@@ -59,6 +61,7 @@ class Slider extends StatefulWidget {
 }
 
 class _SliderState extends State<Slider> {
+  bool isDark = false;
   CarouselSlider carouselSlider;
   CarouselController buttonCarouselController = CarouselController();
   // int _current = 0;
@@ -84,36 +87,19 @@ class _SliderState extends State<Slider> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CarouselSlider(
-            carouselController: buttonCarouselController,
-            options: CarouselOptions(
-              height: 600,
-              viewportFraction: 1.0,
-              initialPage: 0,
-              enableInfiniteScroll: false,
-              reverse: false,
-              autoPlay: false,
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enlargeCenterPage: false,
-              scrollDirection: Axis.horizontal,
-              pageSnapping: true,
-            ),
-            items: imgList.map((url) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    margin: EdgeInsets.all(8),
-                    child: InteractiveViewer(
-                      child: Image.network(
-                        url,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  );
-                },
-              );
-            }).toList(),
-          ),
+          (isDark == true)
+              ? Darkify(
+                  child: PageSlider(
+                    buttonCarouselController: buttonCarouselController,
+                    imgList: imgList,
+                    isDark: true,
+                  ),
+                )
+              : PageSlider(
+                  buttonCarouselController: buttonCarouselController,
+                  imgList: imgList,
+                  isDark: false,
+                ),
           // Row(
           //   mainAxisAlignment: MainAxisAlignment.center,
           //   children: [
@@ -161,6 +147,22 @@ class _SliderState extends State<Slider> {
           //     ),
           //   ],
           // )
+          Container(
+            margin: EdgeInsets.only(left: 15),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: isDark,
+                  onChanged: (val) {
+                    setState(() {
+                      isDark = val;
+                    });
+                  },
+                ),
+                Text('Night Mode'),
+              ],
+            ),
+          ),
 
           Container(
             margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
@@ -214,6 +216,56 @@ class _SliderState extends State<Slider> {
           )
         ],
       ),
+    );
+  }
+}
+
+class PageSlider extends StatelessWidget {
+  const PageSlider({
+    Key key,
+    @required this.buttonCarouselController,
+    @required this.imgList,
+    this.isDark,
+  }) : super(key: key);
+
+  final CarouselController buttonCarouselController;
+  final List imgList;
+  final bool isDark;
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider(
+      carouselController: buttonCarouselController,
+      options: CarouselOptions(
+        height: 600,
+        viewportFraction: 1.0,
+        initialPage: 0,
+        enableInfiniteScroll: false,
+        reverse: false,
+        autoPlay: false,
+        autoPlayCurve: Curves.fastOutSlowIn,
+        enlargeCenterPage: false,
+        scrollDirection: Axis.horizontal,
+        pageSnapping: true,
+      ),
+      items: imgList.map((url) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+              width: double.infinity,
+              margin: EdgeInsets.all(8),
+              child: PhotoView(
+                backgroundDecoration: BoxDecoration(
+                    color: (isDark) ? Colors.black : Colors.white),
+                loadFailedChild: CircularProgressIndicator(),
+                imageProvider: NetworkImage(url),
+                minScale: PhotoViewComputedScale.contained * 1.0,
+                maxScale: PhotoViewComputedScale.contained * 2.5,
+                initialScale: PhotoViewComputedScale.contained * 1.0,
+              ),
+            );
+          },
+        );
+      }).toList(),
     );
   }
 }
