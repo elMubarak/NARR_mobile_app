@@ -8,8 +8,8 @@ class ResearchWork extends StatelessWidget {
   ResearchWork({this.researchId});
   @override
   Widget build(BuildContext context) {
-    String myUrl = 'http://192.168.88.41:4000/repository';
-    String publicUrl = 'http://192.168.43.219:4000/repository';
+    String publicUrl = 'http://192.168.88.41:4000/repository';
+    String myUrl = 'http://192.168.43.219:4000/repository';
     return Scaffold(
       body: FutureBuilder(
         future: NetworkHelper(url: myUrl).getSingleResearch(researchId),

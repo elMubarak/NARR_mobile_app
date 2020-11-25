@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
 import 'package:narr/widgets/dark_mode_reader.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:photo_view/photo_view.dart';
 
 class Reader extends StatefulWidget {
@@ -79,6 +80,21 @@ class _SliderState extends State<Slider> {
       result.add(handler(i, list[i]));
     }
     return result;
+  }
+
+  int _currentPage = 1;
+
+  void _showDialog() {
+    showDialog<int>(
+        context: context,
+        builder: (BuildContext context) {
+          return new NumberPickerDialog.integer(
+            initialIntegerValue: _currentPage,
+            minValue: 1,
+            maxValue: imgList.length,
+            title: Text('Select Page'),
+          );
+        });
   }
 
   @override
@@ -190,7 +206,7 @@ class _SliderState extends State<Slider> {
                   ),
                   FloatingActionButton(
                     child: Icon(Icons.view_carousel),
-                    onPressed: null,
+                    onPressed: _showDialog,
                   ),
                   Expanded(
                     child: IconButton(
