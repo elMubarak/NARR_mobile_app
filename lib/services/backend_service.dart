@@ -221,7 +221,7 @@ class NetworkHelper {
     http.Response response = await http.get(url);
     String data = response.body;
     var payload = jsonDecode(data)['payload'];
-    print(payload);
+
     return payload;
   }
 

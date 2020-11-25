@@ -318,7 +318,7 @@ packages:
     source: hosted
     version: "0.9.7"
   numberpicker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: numberpicker
       url: "https://pub.dartlang.org"

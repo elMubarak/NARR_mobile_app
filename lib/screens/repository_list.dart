@@ -10,8 +10,8 @@ class RepositoryList extends StatefulWidget {
 }
 
 class _RepositoryListState extends State<RepositoryList> {
-  String myUrl = 'http://192.168.88.41:4000/repository';
-  String publicUrl = 'http://192.168.43.219:4000/repository';
+  String publicUrl = 'http://192.168.88.41:4000/repository';
+  String myUrl = 'http://192.168.43.219:4000/repository';
   void initState() {
     super.initState();
     setState(() {
