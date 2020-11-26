@@ -110,6 +110,7 @@ class _RegisterState extends State<Register> {
                           onChanged: (value) {
                             fname = value;
                           },
+                          keyboardType: TextInputType.name,
                         ),
                         SizedBox(
                           height: 15.0,
@@ -130,6 +131,7 @@ class _RegisterState extends State<Register> {
                           onChanged: (value) {
                             lname = value;
                           },
+                          keyboardType: TextInputType.name,
                         ),
                         SizedBox(
                           height: 15.0,
@@ -152,6 +154,7 @@ class _RegisterState extends State<Register> {
                           onChanged: (value) {
                             email = value;
                           },
+                          keyboardType: TextInputType.emailAddress,
                         ),
                         SizedBox(
                           height: 15.0,
@@ -345,8 +348,7 @@ class _RegisterState extends State<Register> {
                               });
 
                               NetworkHelper(
-                                url:
-                                    'http://192.168.43.219:3000/api/v1/auth/register',
+                                url: 'https://narr.ng/api/v1/auth/register',
                               ).userRegistration(
                                 email,
                                 password,
@@ -359,6 +361,7 @@ class _RegisterState extends State<Register> {
                                 _dropdownHelper.selectedInstitutionName,
                                 context,
                               );
+
                               // Navigator.pushNamed(context, VerifyAccount.id);
 
                               setState(() {

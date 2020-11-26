@@ -39,16 +39,21 @@ class _LoginState extends State<Login> {
                 //     // fontWeight: FontWeight.bold,
                 //   ),
                 // ),
-                Container(
-                  child: Image.asset('images/narr_logo.png'),
-                ),
-                SizedBox(height: 90),
+                // Container(
+                //   child: Image.asset('images/narr_logo.png'),
+                // ),
+
                 FormCard(
                   child: Form(
                     key: _formKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        SizedBox(height: 15),
+                        Image.asset(
+                          'images/logo-narr.png',
+                          width: 200,
+                        ),
                         SizedBox(height: 15),
                         Text(
                           'LOGIN',
@@ -138,8 +143,7 @@ class _LoginState extends State<Login> {
                               });
 
                               NetworkHelper(
-                                      url:
-                                          'http://192.168.43.219:3000/api/v1/auth/login')
+                                      url: 'https://narr.ng/api/v1/auth/login')
                                   .loginUser(email, password, context);
 
                               setState(() {

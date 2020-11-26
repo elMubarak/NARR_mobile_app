@@ -63,7 +63,7 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         String data = response.body;
-        print(data);
+        print(jsonDecode(data)['status']);
 
         Navigator.pushReplacementNamed(context, VerifyAccount.id);
         return UserRegistrationModel.fromData(jsonDecode(response.body));
@@ -96,9 +96,9 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         String data = response.body;
-        print(data);
+        print(jsonDecode(data)['status']);
         Navigator.pushReplacementNamed(context, HomeScreen.id);
-        return UserLoginModel.fromJson(jsonDecode(response.body));
+        return UserLoginModel.fromJson(jsonDecode(data));
       } else if (response.statusCode == 403) {
         String errMessage = response.body;
         var message = jsonDecode(errMessage)['message'];
@@ -160,7 +160,8 @@ class NetworkHelper {
         print("Error Converting to text");
       }
     } catch (err) {
-      displayDialog(context, "An Error Occurred", "$err");
+      displayDialog(
+          context, "An Error Occurred", "Error while converting to text");
     }
   }
 
