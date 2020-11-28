@@ -74,13 +74,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 SizedBox(
                   height: 20.0,
                 ),
-                GestureDetector(
+                CustomBotton(
+                  isLoading: false,
+                  buttonTitle: 'Reset Password',
                   onTap: () {
                     Navigator.of(context).pushNamed(HomeScreen.id);
                   },
-                  child: CustomBotton(
-                    buttonTitle: 'Reset Password',
-                  ),
                 ),
               ],
             ),
