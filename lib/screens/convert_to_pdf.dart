@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
+import 'package:narr/helpers/permission_helper.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/widgets/custom_button.dart';
 
@@ -20,8 +21,10 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   bool isClickable = false;
   String selectedFile;
   Response response;
+
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   FileConvertHelper _fileConvertHelper = FileConvertHelper();
+  PermissionService _permissionService = PermissionService();
   List<String> docConvertionExtensions = [
     'doc',
     'docx',
@@ -33,7 +36,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   int bytesSent;
   int bytesTotal;
 
-  void onSendProgress(int sent, int total) {
+  void onSendProgress({int sent, int total}) {
     double percentage = (sent / total * 100);
     setState(() {
       bytesSent = sent;
@@ -52,6 +55,15 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
     });
   }
 
+  @override
+  void initState() {
+    //
+    _permissionService.requestPermission(onPermissionDenied: () {
+      _permissionService.requestPermission();
+    });
+    super.initState();
+  }
+
   bool flag = false;
   @override
   Widget build(BuildContext context) {
@@ -66,19 +78,27 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                       child: Column(
                         children: [
                           flag
-                              ? ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  title: LinearProgressIndicator(
-                                    backgroundColor: Colors.grey,
-                                    value: progress != null ? progress : 0,
+                              ? Container(
+                                  child: Column(
+                                    children: [
+                                      Text('${_fileConvertHelper.recieved}'),
+                                      Text('${_fileConvertHelper.total}'),
+                                    ],
                                   ),
-                                  subtitle: Text(progress != null
-                                      ? '$bytesSent of $bytesTotal'
-                                      : ''),
-                                  trailing: Text(progress != null
-                                      ? '${progress.toInt()} %'
-                                      : ''),
                                 )
+                              // ListTile(
+                              //     contentPadding: EdgeInsets.zero,
+                              //     title: LinearProgressIndicator(
+                              //       backgroundColor: Colors.grey,
+                              //       value: progress != null ? progress : 0,
+                              //     ),
+                              //     subtitle: Text(progress != null
+                              //         ? '$bytesSent of $bytesTotal'
+                              //         : ''),
+                              //     trailing: Text(progress != null
+                              //         ? '${progress.toInt()} %'
+                              //         : ''),
+                              //   )
                               : Container(),
                           SizedBox(height: 10),
                           Row(
@@ -123,6 +143,11 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                                       isClickable = false;
                                     }),
                                   );
+                              //
+
+                              onSendProgress(
+                                  sent: _fileConvertHelper.total,
+                                  total: _fileConvertHelper.recieved);
                             },
                           ),
                         ],

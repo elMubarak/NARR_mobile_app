@@ -125,6 +125,7 @@ class _LoginState extends State<Login> {
                           isLoading: isClickable,
                           buttonTitle: 'Login',
                           onTap: () async {
+                            setState(() {});
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
 

@@ -245,6 +245,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                           isLoading: isClickable,
                           buttonTitle: 'Upload',
                           onTap: () async {
+                            // onSendProgress();
                             setState(() {
                               flag = true;
                               isClickable = true;

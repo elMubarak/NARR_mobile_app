@@ -116,6 +116,7 @@ class NetworkHelper {
           "${err.osError.message} server not available");
       print(err);
     }
+    // isLoading = false;
   }
 
   //upload image
