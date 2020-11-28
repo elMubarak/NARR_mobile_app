@@ -2,7 +2,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class PermissionService {
   final PermissionHandler _permissionHandler = PermissionHandler();
-
+//
   Future<bool> _requestPermission() async {
     var result = await _permissionHandler.requestPermissions([
       PermissionGroup.camera,

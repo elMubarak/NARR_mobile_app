@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
+import 'package:narr/helpers/permission_helper.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
+import 'package:narr/widgets/custom_button.dart';
 
 class ConvertToPDF extends StatefulWidget {
   static String id = 'convertToPdf';
@@ -16,10 +18,13 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   String mylocalUrl = 'http://192.168.43.70:3000/convert';
 
   String filePicked;
+  bool isClickable = false;
   String selectedFile;
   Response response;
+
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   FileConvertHelper _fileConvertHelper = FileConvertHelper();
+  PermissionService _permissionService = PermissionService();
   List<String> docConvertionExtensions = [
     'doc',
     'docx',
@@ -31,7 +36,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   int bytesSent;
   int bytesTotal;
 
-  void onSendProgress(int sent, int total) {
+  void onSendProgress({int sent, int total}) {
     double percentage = (sent / total * 100);
     setState(() {
       bytesSent = sent;
@@ -48,6 +53,15 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
     setState(() {
       flag = false;
     });
+  }
+
+  @override
+  void initState() {
+    //
+    _permissionService.requestPermission(onPermissionDenied: () {
+      _permissionService.requestPermission();
+    });
+    super.initState();
   }
 
   bool flag = false;
@@ -98,36 +112,35 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                             ],
                           ),
                           SizedBox(height: 20),
-                          GestureDetector(
+                          CustomBotton(
+                            isLoading: isClickable,
+                            buttonTitle: 'Convert',
                             onTap: () async {
-                              flag = true;
-                              _fileConvertHelper.uploadDocument(
-                                filePath: _filePickerHelper.selectedfile,
-                                fileName: _filePickerHelper.fileName,
-                                context: context,
-                                url: docConvertUrl,
-                              );
+                              setState(() {
+                                flag = true;
+                              });
+                              setState(() {
+                                isClickable = true;
+                              });
+
+                              _fileConvertHelper
+                                  .uploadDocument(
+                                    filePath: _filePickerHelper.selectedfile,
+                                    fileName: _filePickerHelper.fileName,
+                                    context: context,
+                                    url: docConvertUrl,
+                                  )
+                                  .whenComplete(
+                                    () => setState(() {
+                                      isClickable = false;
+                                    }),
+                                  );
+                              //
+
+                              onSendProgress(
+                                  sent: _fileConvertHelper.startFileSize,
+                                  total: 100);
                             },
-                            child: Container(
-                              margin: EdgeInsets.all(10),
-                              padding: EdgeInsets.only(
-                                top: 10,
-                                bottom: 10,
-                                left: 18,
-                                right: 18,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color(0xff00a368),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                'Convert',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
                           ),
                         ],
                       ),

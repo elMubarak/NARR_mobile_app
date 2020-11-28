@@ -78,6 +78,7 @@ class _OcrResultState extends State<OcrResult> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomBotton(
+                      isLoading: false,
                       buttonTitle: 'Copy Text',
                       onTap: () {
                         FlutterClipboard.copy(widget.response.data).then(

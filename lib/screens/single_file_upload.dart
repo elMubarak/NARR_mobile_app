@@ -163,6 +163,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                         SizedBox(height: 20),
                         GestureDetector(
                           onTap: () async {
+                            // onSendProgress();
                             setState(() {
                               flag = true;
                             });

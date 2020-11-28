@@ -13,7 +13,10 @@ Future displayDialog(BuildContext context, String title, String text) =>
     );
 
 class FileConvertHelper {
-  uploadDocument(
+  List<int> bytes = [];
+  int totalSize = 0;
+  int startFileSize = 0;
+  Future uploadDocument(
       {String filePath,
       String fileName,
       String url,
@@ -24,32 +27,39 @@ class FileConvertHelper {
         await http.MultipartFile.fromPath('file', filePath),
       );
       var res = await request.send();
+      totalSize = res.contentLength;
+      print('start size $totalSize');
       if (res.contentLength == 0) {
-        return;
-      }
-      String getDir = await ExtStorage.getExternalStorageDirectory();
-      String folderToSaveConver = 'Narr/Converted';
-      String fileToSave = fileName;
-      Directory fullFolderDirToSave = Directory('$getDir/$folderToSaveConver');
-
-      if (await fullFolderDirToSave.exists()) {
-        File file =
-            File('${fullFolderDirToSave.path}/${fileToSave.split('.')[0]}.pdf');
-        var sink = file.openWrite();
-        await res.stream.pipe(sink);
-        sink.close();
-        displayDialog(
-            context, "Success", "$fileName file converted successfully");
-        print('file path => ${file.path}');
-        print(res.contentLength);
-        print(
-            'status code ::==> ${res.statusCode} and reason phrase ::==> ${res.reasonPhrase}');
+        return res.contentLength;
       } else {
-        await fullFolderDirToSave.create(recursive: true);
+        String getDir = await ExtStorage.getExternalStorageDirectory();
+        String folderToSaveConver = 'Narr/Converted';
+        String fileToSave = fileName;
+        Directory fullFolderDirToSave =
+            Directory('$getDir/$folderToSaveConver');
+
+        if (await fullFolderDirToSave.exists()) {
+          File file = File(
+              '${fullFolderDirToSave.path}/${fileToSave.split('.')[0]}.pdf');
+          var sink = file.openWrite();
+          await res.stream.pipe(sink);
+          sink.close();
+
+          res.stream.listen((value) async {
+            bytes.addAll(value);
+            startFileSize += value.length;
+          });
+          displayDialog(
+              context, "Success", "$fileName file converted successfully");
+          print('file path => ${file.path}');
+          print('file size is $startFileSize');
+          print(
+              'status code ::==> ${res.statusCode} and reason phrase ::==> ${res.reasonPhrase}');
+        } else {
+          await fullFolderDirToSave.create(recursive: true);
+        }
+        return res.contentLength;
       }
-      // int fileSize = res.contentLength;
-      // List<int> progress = [await res.stream.length];
-      // String downlodProgress = '$progress of $fileSize';
     } catch (e) {
       print(e);
     }

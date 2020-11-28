@@ -23,6 +23,7 @@ class _RegisterState extends State<Register> {
 
   bool _obscureText = true;
   bool showSpiner = false;
+  bool isClickable = false;
   final _formKey = GlobalKey<FormState>();
 
   static DateTime selectedDate = DateTime.now();
@@ -337,40 +338,41 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 15.0,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
-                              setState(() {
-                                showSpiner = true;
-                              });
-
-                              NetworkHelper(
-                                url: 'https://narr.ng/api/v1/auth/register',
-                              ).userRegistration(
-                                email,
-                                password,
-                                fname,
-                                lname,
-                                dob,
-                                phone,
-                                address,
-                                _dropdownHelper.selectedInstitutionType,
-                                _dropdownHelper.selectedInstitutionName,
-                                context,
-                              );
-
-                              // Navigator.pushNamed(context, VerifyAccount.id);
-
-                              setState(() {
-                                showSpiner = false;
-                              });
-                            }
-                          },
-                          child: CustomBotton(
+                        CustomBotton(
+                            isLoading: isClickable,
                             buttonTitle: 'Register',
-                          ),
-                        ),
+                            onTap: () {
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                setState(() {
+                                  isClickable = true;
+                                });
+
+                                NetworkHelper(
+                                  url: 'https://narr.ng/api/v1/auth/register',
+                                )
+                                    .userRegistration(
+                                      email,
+                                      password,
+                                      fname,
+                                      lname,
+                                      dob,
+                                      phone,
+                                      address,
+                                      _dropdownHelper.selectedInstitutionType,
+                                      _dropdownHelper.selectedInstitutionName,
+                                      context,
+                                    )
+                                    .whenComplete(
+                                      () => setState(() {
+                                        isClickable = false;
+                                      }),
+                                    );
+
+                                // Navigator.pushNamed(context, VerifyAccount.id);
+
+                              }
+                            }),
                         SizedBox(
                           height: 15.0,
                         ),

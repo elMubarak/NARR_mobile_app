@@ -31,19 +31,6 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                // Text(
-                //   'Welcome Back \n Researcher',
-                //   textAlign: TextAlign.center,
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //     fontSize: 25,
-                //     // fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                // Container(
-                //   child: Image.asset('images/narr_logo.png'),
-                // ),
-
                 FormCard(
                   child: Form(
                     key: _formKey,
@@ -135,7 +122,7 @@ class _LoginState extends State<Login> {
                         ),
                         SizedBox(height: 15.0),
                         CustomBotton(
-                          isLoading: NetworkHelper().isLoading,
+                          isLoading: isClickable,
                           buttonTitle: 'Login',
                           onTap: () async {
                             setState(() {});
@@ -143,18 +130,16 @@ class _LoginState extends State<Login> {
                               _formKey.currentState.save();
 
                               setState(() {
-                                // isClickable = true;
-                                print(NetworkHelper().isLoading);
+                                isClickable = true;
                                 showSpiner = true;
                               });
 
                               NetworkHelper(
                                       url: 'https://narr.ng/api/v1/auth/login')
-                                  .loginUser(email, password, context);
-
-                              setState(() {
-                                showSpiner = false;
-                              });
+                                  .loginUser(email, password, context)
+                                  .whenComplete(() => setState(() {
+                                        isClickable = false;
+                                      }));
 
                               // loginUser();
                             }
