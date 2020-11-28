@@ -40,17 +40,6 @@ class _ReaderState extends State<Reader> {
       appBar: AppBar(
         title: Text('Reader'),
       ),
-      // body: Container(
-      //   padding: EdgeInsets.all(8),
-      //   width: double.infinity,
-      //   child: isLoading
-      //       ? Center(
-      //           child: CircularProgressIndicator(),
-      //         )
-      //       : PDFViewer(
-      //           document: doc,
-      //         ),
-      // ),
       body: Slider(),
     );
   }
@@ -95,6 +84,7 @@ class _SliderState extends State<Slider> {
             title: Text('Select Page'),
           );
         });
+    print(_currentPage);
   }
 
   @override
@@ -160,7 +150,10 @@ class _SliderState extends State<Slider> {
                   ),
                   FloatingActionButton(
                     child: Icon(Icons.view_carousel),
-                    onPressed: _showDialog,
+                    onPressed: () {
+                      _showDialog.call();
+                      print(_currentPage);
+                    },
                   ),
                   Expanded(
                     child: IconButton(

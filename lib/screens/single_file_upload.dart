@@ -1,8 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
-import 'package:narr/helpers/file_water_mark_helper.dart';
+// import 'package:narr/helpers/file_water_mark_helper.dart';
+import 'package:narr/screens/home.dart';
+import 'package:narr/screens/register.dart';
+import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
+import 'package:narr/widgets/custom_button.dart';
 
 class SingleFileUpload extends StatefulWidget {
   static const String id = 'SingleFileUpload';
@@ -12,10 +17,10 @@ class SingleFileUpload extends StatefulWidget {
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
   String baseUrl = 'http://192.168.43.219:3000/upload';
-  String waterMarkUrl = 'https://water.narr.ng/upload';
+  String uploadUrl = 'https://narr.ng/api/v1/research/upload';
 
   FilePickerHelper _filePickerHelper = FilePickerHelper();
-  FileWaterMarkHelper _fileWaterMarkHelper = FileWaterMarkHelper();
+  // FileWaterMarkHelper _fileWaterMarkHelper = FileWaterMarkHelper();
 
   List<String> watermarkExtension = ['pdf'];
   List<String> uploadDocExtensions = [
@@ -26,10 +31,12 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   ];
 
   static DateTime dateTime = DateTime.now();
+  DropdownHelper _dropdownHelper = DropdownHelper();
   static TextEditingController topicController = TextEditingController();
   static TextEditingController authorController = TextEditingController();
   static TextEditingController categoryController = TextEditingController();
-
+  static TextEditingController yearController = TextEditingController();
+  bool isClickable = false;
   //
   Dio dio = Dio();
   bool flag = false;
@@ -39,13 +46,14 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   int bytesTotal;
 
   Map uploadMeta = {
-    "Author": {
-      "authorId": "298",
-      "authorName": '${authorController.text}',
-      "createDate": "${dateTime.toIso8601String()}" //hrs
-    },
-    "Topic": "${topicController.text}",
-    "Category": "${categoryController.text}"
+    "researchTitle": "${topicController.text}",
+    "authors": "${authorController.text}",
+    "category": "${DropdownHelper().selectedCategory}",
+    'genre': "${DropdownHelper().selectedGenre}",
+    'accessType': "",
+    'monthlyFee': '',
+    'year': '',
+    'ownerEmail': '',
   };
   void onSendProgress(int sent, int total) {
     double percentage = (sent / total * 100);
@@ -152,48 +160,113 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                           ),
                         ),
                         SizedBox(height: 14),
-                        TextField(
-                          controller: categoryController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Category',
-                            filled: true,
+                        DropdownContainer(
+                          child: DropdownButtonFormField(
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select category';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            hint: Text(
+                              'Category',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            items: _dropdownHelper.getCategoryDropdownItems(),
+                            onChanged: (value) {
+                              setState(() {
+                                _dropdownHelper.selectedCategory = value;
+                              });
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        SizedBox(height: 14),
+                        DropdownContainer(
+                          child: DropdownButtonFormField(
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select a genre';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            hint: Text(
+                              'Genres',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            items: _dropdownHelper.getGenreDropdownItems(),
+                            onChanged: (value) {
+                              setState(() {
+                                _dropdownHelper.selectedGenre = value;
+                              });
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 14),
+                        DropdownContainer(
+                          child: DropdownButtonFormField(
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select category';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            hint: Text(
+                              'Access Type',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            items: _dropdownHelper.getaccessTypeDropdownItems(),
+                            onChanged: (value) {
+                              setState(() {
+                                _dropdownHelper.selectedAccessType = value;
+                              });
+                            },
                           ),
                         ),
                         SizedBox(height: 20),
-                        GestureDetector(
+                        CustomBotton(
+                          isLoading: isClickable,
+                          buttonTitle: 'Upload',
                           onTap: () async {
                             setState(() {
                               flag = true;
+                              isClickable = true;
                             });
+
                             // await _uploadFile();
-                            _fileWaterMarkHelper.uploadDocument(
-                              filePath: _filePickerHelper.selectedfile,
-                              fileName: _filePickerHelper.fileName,
-                              context: context,
-                              url: waterMarkUrl,
-                            );
+                            NetworkHelper(url: uploadUrl)
+                                .uploadFile(
+                                  response: response,
+                                  selectedfile: _filePickerHelper.selectedfile,
+                                  uploadMeta: uploadMeta,
+                                  onSendProgress: onSendProgress,
+                                  trancitionedScreen: HomeScreen(),
+                                  alertMessage: 'File Uploaded successfully',
+                                  context: context,
+                                )
+                                .whenComplete(
+                                  () => setState(() {
+                                    isClickable = false;
+                                  }),
+                                );
                           },
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.only(
-                              top: 10,
-                              bottom: 10,
-                              left: 18,
-                              right: 18,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color(0xff00a368),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              'Upload',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),

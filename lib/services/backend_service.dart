@@ -21,7 +21,7 @@ Dio dio = new Dio();
 
 class NetworkHelper {
   final String url;
-
+  String tok;
   NetworkHelper({this.url});
 
   //registration
@@ -81,7 +81,7 @@ class NetworkHelper {
 //xbjn
 
 // ignore: missing_return
-  Future<UserLoginModel> loginUser(
+  Future<String> loginUser(
       String email, String password, BuildContext context) async {
     try {
       final http.Response response = await http.post(
@@ -96,13 +96,14 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         String data = response.body;
-        print(jsonDecode(data)['status']);
+        NetworkHelper().tok = jsonDecode(data)['payload']['token'];
+        print('the token returned ${NetworkHelper().tok}');
+
         Navigator.pushReplacementNamed(context, HomeScreen.id);
-        return UserLoginModel.fromJson(jsonDecode(data));
       } else if (response.statusCode == 403) {
-        String errMessage = response.body;
-        var message = jsonDecode(errMessage)['message'];
-        print(errMessage);
+        String data = response.body;
+        var message = jsonDecode(data)['message'];
+        print(data);
         displayDialog(
             context, "An Error Occurred", "${response.statusCode} $message");
       } else {
@@ -188,14 +189,18 @@ class NetworkHelper {
     });
     try {
       // var responsez = httpClient.send(request);
+      print('the token for upload $tok');
       response = await dio.post(
         uploadurl,
         data: formdata,
         onSendProgress: onSendProgress,
+        options: Options(headers: {
+          'x-token': '$tok',
+        }),
       );
 
       if (response.statusCode == 200) {
-        print(response.runtimeType);
+        print(response);
         // docToPDF.readFile();
         //save path
 
@@ -216,6 +221,7 @@ class NetworkHelper {
       }
     } catch (err) {
       displayDialog(context, "An Error Occurred", "Error ");
+      print(err);
     }
   }
 
