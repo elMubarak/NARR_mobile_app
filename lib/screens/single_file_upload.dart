@@ -34,9 +34,25 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   DropdownHelper _dropdownHelper = DropdownHelper();
   static TextEditingController topicController = TextEditingController();
   static TextEditingController authorController = TextEditingController();
-  static TextEditingController categoryController = TextEditingController();
+  static TextEditingController monthlyController = TextEditingController();
   static TextEditingController yearController = TextEditingController();
   bool isClickable = false;
+  static DateTime selectedDate = DateTime.now();
+  bool isPicked = false;
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1990, 1),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        isPicked = true;
+      }); //get
+    }
+  }
+
   //
   Dio dio = Dio();
   bool flag = false;
@@ -50,9 +66,9 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
     "authors": "${authorController.text}",
     "category": "${DropdownHelper().selectedCategory}",
     'genre': "${DropdownHelper().selectedGenre}",
-    'accessType': "",
-    'monthlyFee': '',
-    'year': '',
+    'accessType': "${DropdownHelper().selectedAccessType}",
+    'monthlyFee': "${monthlyController.text}",
+    'year': '$selectedDate',
     'ownerEmail': '',
   };
   void onSendProgress(int sent, int total) {
@@ -79,6 +95,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
 
   @override
   Widget build(BuildContext context) {
+    String dob = '${selectedDate.toLocal()}'.split(' ')[0];
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -173,9 +190,12 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                 borderSide: BorderSide.none,
                               ),
                             ),
-                            hint: Text(
-                              'Category',
-                              style: TextStyle(color: Colors.grey[700]),
+                            hint: Padding(
+                              padding: const EdgeInsets.only(left: 13.0),
+                              child: Text(
+                                'Category',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
                             ),
                             items: _dropdownHelper.getCategoryDropdownItems(),
                             onChanged: (value) {
@@ -184,9 +204,6 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               });
                             },
                           ),
-                        ),
-                        SizedBox(
-                          height: 14,
                         ),
                         SizedBox(height: 14),
                         DropdownContainer(
@@ -202,9 +219,12 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                 borderSide: BorderSide.none,
                               ),
                             ),
-                            hint: Text(
-                              'Genres',
-                              style: TextStyle(color: Colors.grey[700]),
+                            hint: Padding(
+                              padding: const EdgeInsets.only(left: 13.0),
+                              child: Text(
+                                'Genres',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
                             ),
                             items: _dropdownHelper.getGenreDropdownItems(),
                             onChanged: (value) {
@@ -228,9 +248,12 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                 borderSide: BorderSide.none,
                               ),
                             ),
-                            hint: Text(
-                              'Access Type',
-                              style: TextStyle(color: Colors.grey[700]),
+                            hint: Padding(
+                              padding: const EdgeInsets.only(left: 13.0),
+                              child: Text(
+                                'Access Type',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
                             ),
                             items: _dropdownHelper.getaccessTypeDropdownItems(),
                             onChanged: (value) {
@@ -238,6 +261,51 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                 _dropdownHelper.selectedAccessType = value;
                               });
                             },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        _dropdownHelper.selectedAccessType ==
+                                _dropdownHelper.accessType[1]
+                            ? TextField(
+                                controller: monthlyController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Monthly Fess',
+                                  filled: true,
+                                ),
+                              )
+                            : Container(),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                  color: Colors.grey[600],
+                                  size: 20,
+                                ),
+                                SizedBox(width: 15),
+                                Text(
+                                  isPicked ? dob : 'Date of Birth',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),
