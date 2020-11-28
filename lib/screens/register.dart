@@ -215,9 +215,7 @@ class _RegisterState extends State<Register> {
                             address = value;
                           },
                         ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
+                        SizedBox(height: 15.0),
                         DropdownContainer(
                           child: DropdownButtonFormField(
                             validator: (value) {
