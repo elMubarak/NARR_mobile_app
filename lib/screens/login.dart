@@ -31,19 +31,6 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                // Text(
-                //   'Welcome Back \n Researcher',
-                //   textAlign: TextAlign.center,
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //     fontSize: 25,
-                //     // fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                // Container(
-                //   child: Image.asset('images/narr_logo.png'),
-                // ),
-
                 FormCard(
                   child: Form(
                     key: _formKey,
@@ -143,18 +130,15 @@ class _LoginState extends State<Login> {
 
                               setState(() {
                                 isClickable = true;
-                                print(isClickable);
                                 showSpiner = true;
                               });
 
                               NetworkHelper(
                                       url: 'https://narr.ng/api/v1/auth/login')
-                                  .loginUser(
-                                      email, password, context, isClickable);
-
-                              setState(() {
-                                showSpiner = false;
-                              });
+                                  .loginUser(email, password, context)
+                                  .whenComplete(() => setState(() {
+                                        isClickable = false;
+                                      }));
 
                               // loginUser();
                             }

@@ -28,6 +28,7 @@ class UploadOcr extends StatefulWidget {
 
 class _UploadOcrState extends State<UploadOcr> {
   bool flag = false;
+  bool isClickable = false;
   String imageToText = 'https://image2text.narr.ng/tika/form';
 
   double progress;
@@ -118,20 +119,6 @@ class _UploadOcrState extends State<UploadOcr> {
                     ),
                     InkWell(
                       onTap: () {
-                        // showDialog(
-                        //   context: context,
-                        //   barrierDismissible: false,
-                        //   builder: (context) {
-                        //     return Container(
-                        //       color: Colors.white,
-                        //       child: Column(
-                        //         children: [
-                        //           Text('Are you Sure you wan\'t to close?')
-                        //         ],
-                        //       ),
-                        //     );
-                        //   },
-                        // );
                         Navigator.of(context).pop();
                       },
                       child: Container(
@@ -198,6 +185,7 @@ class _UploadOcrState extends State<UploadOcr> {
                   height: 25,
                 ),
                 CustomBotton(
+                  isLoading: isClickable,
                   buttonTitle: 'Convert',
                   onTap: () async {
                     widget.imagePicked != null
@@ -207,14 +195,23 @@ class _UploadOcrState extends State<UploadOcr> {
                         : setState(() {
                             flag = false;
                           });
+                    setState(() {
+                      isClickable = true;
+                    });
 
-                    await NetworkHelper(url: imageToText).uploadPhoto(
-                      response: widget.response,
-                      selectedfile: widget.selectedFile,
-                      onSendProgress: onSendProgress,
-                      headers: headers,
-                      context: context,
-                    );
+                    await NetworkHelper(url: imageToText)
+                        .uploadPhoto(
+                          response: widget.response,
+                          selectedfile: widget.selectedFile,
+                          onSendProgress: onSendProgress,
+                          headers: headers,
+                          context: context,
+                        )
+                        .whenComplete(
+                          () => setState(() {
+                            isClickable = false;
+                          }),
+                        );
                   },
                 ),
               ],
