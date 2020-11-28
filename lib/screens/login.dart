@@ -135,22 +135,22 @@ class _LoginState extends State<Login> {
                         ),
                         SizedBox(height: 15.0),
                         CustomBotton(
-                          isLoading: isClickable,
+                          isLoading: NetworkHelper().isLoading,
                           buttonTitle: 'Login',
                           onTap: () async {
+                            setState(() {});
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
 
                               setState(() {
-                                isClickable = true;
-                                print(isClickable);
+                                // isClickable = true;
+                                print(NetworkHelper().isLoading);
                                 showSpiner = true;
                               });
 
                               NetworkHelper(
                                       url: 'https://narr.ng/api/v1/auth/login')
-                                  .loginUser(
-                                      email, password, context, isClickable);
+                                  .loginUser(email, password, context);
 
                               setState(() {
                                 showSpiner = false;

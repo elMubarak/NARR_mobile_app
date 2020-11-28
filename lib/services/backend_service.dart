@@ -81,8 +81,11 @@ class NetworkHelper {
 //xbjn
 
 // ignore: missing_return
-  Future<UserLoginModel> loginUser(String email, String password,
-      BuildContext context, bool isLoading) async {
+  bool isLoading = false;
+  Future<UserLoginModel> loginUser(
+      String email, String password, BuildContext context) async {
+    isLoading = true;
+
     try {
       final http.Response response = await http.post(
         url,
@@ -109,13 +112,12 @@ class NetworkHelper {
         displayDialog(context, "An Error Occurred",
             "${response.statusCode} No account was found matching that username and password");
       }
-      //loading to false
-      isLoading = false;
     } catch (err) {
       displayDialog(context, "An Error Occurred",
           "${err.osError.message} server not available");
       print(err);
     }
+    // isLoading = false;
   }
 
   //upload image
