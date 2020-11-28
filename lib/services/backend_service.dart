@@ -20,8 +20,9 @@ Future displayDialog(BuildContext context, String title, String text) =>
 Dio dio = new Dio();
 
 class NetworkHelper {
+  static String tok;
+
   final String url;
-  String tok;
   NetworkHelper({this.url});
 
   //registration
@@ -96,8 +97,9 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         String data = response.body;
-        NetworkHelper().tok = jsonDecode(data)['payload']['token'];
-        print('the token returned ${NetworkHelper().tok}');
+        tok = jsonDecode(data)['payload']['token'];
+        String logInToken = tok;
+        print('the token for login returned $logInToken');
 
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else if (response.statusCode == 403) {
@@ -190,13 +192,15 @@ class NetworkHelper {
     });
     try {
       // var responsez = httpClient.send(request);
-      print('the token for upload $tok');
+      String uploadToken = tok;
+
+      print('the token for upload $uploadToken');
       response = await dio.post(
         uploadurl,
         data: formdata,
         onSendProgress: onSendProgress,
         options: Options(headers: {
-          'x-token': '$tok',
+          'x-token': '$uploadToken',
         }),
       );
 

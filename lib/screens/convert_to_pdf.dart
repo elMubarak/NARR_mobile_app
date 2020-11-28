@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
 import 'package:narr/helpers/permission_helper.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/widgets/custom_button.dart';
+import 'package:http/http.dart' as http;
 
 class ConvertToPDF extends StatefulWidget {
   static String id = 'convertToPdf';
@@ -16,6 +20,7 @@ class ConvertToPDF extends StatefulWidget {
 class _ConvertToPDFState extends State<ConvertToPDF> {
   String docConvertUrl = 'https://doc2pdf.narr.ng/convert/office';
   String mylocalUrl = 'http://192.168.43.70:3000/convert';
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   String filePicked;
   bool isClickable = false;
@@ -23,7 +28,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   Response response;
 
   FilePickerHelper _filePickerHelper = FilePickerHelper();
-  FileConvertHelper _fileConvertHelper = FileConvertHelper();
+  // FileConvertHelper _fileConvertHelper = FileConvertHelper();
   PermissionService _permissionService = PermissionService();
   List<String> docConvertionExtensions = [
     'doc',
@@ -32,24 +37,17 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
     'odt',
     'rft',
   ];
-  double progress;
-  int bytesSent;
-  int bytesTotal;
-
-  void onSendProgress({int sent, int total}) {
-    double percentage = (sent / total * 100);
-    setState(() {
-      bytesSent = sent;
-      bytesTotal = total;
-      progress = percentage;
-      //update the progress
-    });
-  }
 
   void dropFile() {
-    _filePickerHelper.fileName = null;
-    _filePickerHelper.fileExtension = null;
-    _filePickerHelper.selectedfile = null;
+    setState(() {
+      _filePickerHelper.fileName = null;
+      _filePickerHelper.fileExtension = null;
+      _filePickerHelper.selectedfile = null;
+      recieved = 0;
+      total = 0;
+      bytes = [];
+    });
+
     setState(() {
       flag = false;
     });
@@ -57,7 +55,6 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
 
   @override
   void initState() {
-    //
     _permissionService.requestPermission(onPermissionDenied: () {
       _permissionService.requestPermission();
     });
@@ -65,9 +62,96 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   }
 
   bool flag = false;
+
+  File pickedFile;
+  List<int> bytes = [];
+  int recieved = 0;
+  int total = 0;
+  double percent;
+
+  Future uploadDocument(
+      {String filePath,
+      String fileName,
+      String url,
+      BuildContext context}) async {
+    try {
+      final request = http.MultipartRequest('POST', Uri.parse(url));
+      request.files.add(
+        await http.MultipartFile.fromPath('file', filePath),
+      );
+      var res = await request.send();
+      //works at once
+      setState(() {
+        total = res.contentLength;
+      });
+      print('start size before write $recieved');
+      if (res.contentLength == 0) {
+        return res.contentLength;
+      }
+
+      String getDir = await ExtStorage.getExternalStorageDirectory();
+      String folderToSaveConver = 'Narr/Converted';
+      String fileToSave = fileName;
+      Directory fullFolderDirToSave = Directory('$getDir/$folderToSaveConver');
+
+      if (await fullFolderDirToSave.exists()) {
+        res.stream.listen(
+          (value) async {
+            bytes.addAll(value);
+            setState(() {
+              recieved += value.length;
+            });
+            bytes.clear();
+            recieved = 0;
+          },
+        ).onDone(() async {
+          final fileToWrite = File(
+            '${fullFolderDirToSave.path}/${fileToSave.split('.')[0]}.pdf',
+          );
+          await fileToWrite.writeAsBytes(bytes);
+          print('start size after write  $recieved');
+          print('total size $total');
+          pickedFile = fileToWrite;
+          if (recieved == total) {
+            print('ok');
+            setState(() {
+              percent = (recieved / total * 100);
+              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                content: Text('File Converted got to Narr folder'),
+                duration: Duration(seconds: 3),
+              ));
+            });
+            bytes.clear();
+
+            // Navigator.pop(context);
+            dropFile();
+          } else if (recieved < total) {
+            print('less bytes');
+            dropFile();
+          } else {
+            print('too much');
+            dropFile();
+          }
+        });
+
+        displayDialog(
+            context, "Success", "$fileName file converted successfully");
+        print('file path => ${pickedFile.path}');
+        print(
+            'status code ::==> ${res.statusCode} and reason phrase ::==> ${res.reasonPhrase}');
+      } else {
+        await fullFolderDirToSave.create(recursive: true);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // checkPercent();
     return Scaffold(
+      key: _scaffoldKey,
       body: flag
           ? SafeArea(
               child: SingleChildScrollView(
@@ -78,27 +162,19 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                       child: Column(
                         children: [
                           flag
-                              ? Container(
-                                  child: Column(
-                                    children: [
-                                      Text('${_fileConvertHelper.recieved}'),
-                                      Text('${_fileConvertHelper.total}'),
-                                    ],
+                              ? ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  title: LinearProgressIndicator(
+                                    backgroundColor: Colors.grey,
+                                    value: percent != null ? percent : 0,
                                   ),
+                                  subtitle: Text(percent != null
+                                      ? '$recieved of $total'
+                                      : ''),
+                                  trailing: Text(percent != null
+                                      ? '${percent.toInt()} %'
+                                      : ''),
                                 )
-                              // ListTile(
-                              //     contentPadding: EdgeInsets.zero,
-                              //     title: LinearProgressIndicator(
-                              //       backgroundColor: Colors.grey,
-                              //       value: progress != null ? progress : 0,
-                              //     ),
-                              //     subtitle: Text(progress != null
-                              //         ? '$bytesSent of $bytesTotal'
-                              //         : ''),
-                              //     trailing: Text(progress != null
-                              //         ? '${progress.toInt()} %'
-                              //         : ''),
-                              //   )
                               : Container(),
                           SizedBox(height: 10),
                           Row(
@@ -127,27 +203,29 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                               setState(() {
                                 flag = true;
                               });
+
                               setState(() {
                                 isClickable = true;
+
+                                print(
+                                    'ui recieved $recieved and ui total $total');
                               });
 
-                              _fileConvertHelper
-                                  .uploadDocument(
-                                    filePath: _filePickerHelper.selectedfile,
-                                    fileName: _filePickerHelper.fileName,
-                                    context: context,
-                                    url: docConvertUrl,
-                                  )
-                                  .whenComplete(
-                                    () => setState(() {
-                                      isClickable = false;
-                                    }),
-                                  );
+                              // _fileConvertHelper
+                              uploadDocument(
+                                filePath: _filePickerHelper.selectedfile,
+                                fileName: _filePickerHelper.fileName,
+                                context: context,
+                                url: docConvertUrl,
+                              ).whenComplete(
+                                () => setState(
+                                  () {
+                                    isClickable = false;
+                                  },
+                                ),
+                              );
+                              setState(() {});
                               //
-
-                              onSendProgress(
-                                  sent: _fileConvertHelper.total,
-                                  total: _fileConvertHelper.recieved);
                             },
                           ),
                         ],
