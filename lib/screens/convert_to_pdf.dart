@@ -38,17 +38,14 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
     'rft',
   ];
 
-  // progress() {
-  //   bytesRecieved = recieved;
-  //   bytesTotal = total;
-  //   percent = (bytesRecieved / bytesTotal * 100);
-  // }
-
   void dropFile() {
     setState(() {
       _filePickerHelper.fileName = null;
       _filePickerHelper.fileExtension = null;
       _filePickerHelper.selectedfile = null;
+      recieved = 0;
+      total = 0;
+      bytes = [];
     });
 
     setState(() {
