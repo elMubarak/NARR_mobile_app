@@ -102,7 +102,6 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
               recieved += value.length;
             });
             bytes.clear();
-            recieved = 0;
           },
         ).onDone(() async {
           final fileToWrite = File(
@@ -124,7 +123,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
             bytes.clear();
 
             // Navigator.pop(context);
-            dropFile();
+            // dropFile();
           } else if (recieved < total) {
             print('less bytes');
             dropFile();
