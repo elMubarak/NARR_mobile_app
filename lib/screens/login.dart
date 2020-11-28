@@ -17,6 +17,7 @@ class _LoginState extends State<Login> {
   String password;
   bool _obscureText = true;
   bool showSpiner = false;
+  bool isClickable = false;
 
   final _formKey = GlobalKey<FormState>();
   @override
@@ -133,28 +134,32 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         SizedBox(height: 15.0),
-                        GestureDetector(
+                        CustomBotton(
+                          isLoading: isClickable,
+                          buttonTitle: 'Login',
                           onTap: () async {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
 
                               setState(() {
+                                isClickable = true;
+                                print(isClickable);
                                 showSpiner = true;
                               });
 
                               NetworkHelper(
                                       url: 'https://narr.ng/api/v1/auth/login')
-                                  .loginUser(email, password, context);
+                                  .loginUser(
+                                      email, password, context, isClickable);
 
                               setState(() {
                                 showSpiner = false;
                               });
+
                               // loginUser();
                             }
+                            setState(() {});
                           },
-                          child: CustomBotton(
-                            buttonTitle: 'Login',
-                          ),
                         ),
                         SizedBox(height: 30.0),
                         GestureDetector(
