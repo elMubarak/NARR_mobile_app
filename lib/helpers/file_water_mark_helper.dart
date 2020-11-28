@@ -13,7 +13,7 @@ Future displayDialog(BuildContext context, String title, String text) =>
     );
 
 class FileWaterMarkHelper {
-  uploadDocument(
+  Future uploadDocument(
       {String filePath,
       String fileName,
       String url,

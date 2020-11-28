@@ -10,6 +10,7 @@ import 'package:narr/screens/login.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:narr/screens/reader.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/video_conf.dart';
 import 'package:narr/widgets/custom_expansion_tile.dart';
@@ -50,7 +51,7 @@ class DrawerItems extends StatelessWidget {
                     leading: Icon(FontAwesomeIcons.database),
                     title: Text('Repository'),
                     onTap: () {
-                      Navigator.of(context).popAndPushNamed(RepositoryList.id);
+                      Navigator.of(context).popAndPushNamed(Reader.id);
                       // Update the state of the app.
                       // ...
                     },

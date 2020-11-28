@@ -131,7 +131,6 @@ class _LoginState extends State<Login> {
 
                               setState(() {
                                 isClickable = true;
-                                showSpiner = true;
                               });
 
                               NetworkHelper(
