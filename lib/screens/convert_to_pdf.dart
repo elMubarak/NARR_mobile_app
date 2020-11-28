@@ -78,19 +78,27 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                       child: Column(
                         children: [
                           flag
-                              ? ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  title: LinearProgressIndicator(
-                                    backgroundColor: Colors.grey,
-                                    value: progress != null ? progress : 0,
+                              ? Container(
+                                  child: Column(
+                                    children: [
+                                      Text('${_fileConvertHelper.recieved}'),
+                                      Text('${_fileConvertHelper.total}'),
+                                    ],
                                   ),
-                                  subtitle: Text(progress != null
-                                      ? '$bytesSent of $bytesTotal'
-                                      : ''),
-                                  trailing: Text(progress != null
-                                      ? '${progress.toInt()} %'
-                                      : ''),
                                 )
+                              // ListTile(
+                              //     contentPadding: EdgeInsets.zero,
+                              //     title: LinearProgressIndicator(
+                              //       backgroundColor: Colors.grey,
+                              //       value: progress != null ? progress : 0,
+                              //     ),
+                              //     subtitle: Text(progress != null
+                              //         ? '$bytesSent of $bytesTotal'
+                              //         : ''),
+                              //     trailing: Text(progress != null
+                              //         ? '${progress.toInt()} %'
+                              //         : ''),
+                              //   )
                               : Container(),
                           SizedBox(height: 10),
                           Row(
@@ -138,8 +146,8 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                               //
 
                               onSendProgress(
-                                  sent: _fileConvertHelper.startFileSize,
-                                  total: 100);
+                                  sent: _fileConvertHelper.total,
+                                  total: _fileConvertHelper.recieved);
                             },
                           ),
                         ],

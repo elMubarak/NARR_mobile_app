@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,9 @@ Future displayDialog(BuildContext context, String title, String text) =>
 
 class FileConvertHelper {
   List<int> bytes = [];
-  int totalSize = 0;
-  int startFileSize = 0;
+  int recieved = 0;
+  int total = 0;
+
   Future uploadDocument(
       {String filePath,
       String fileName,
@@ -27,8 +29,8 @@ class FileConvertHelper {
         await http.MultipartFile.fromPath('file', filePath),
       );
       var res = await request.send();
-      totalSize = res.contentLength;
-      print('start size $totalSize');
+      total = res.contentLength;
+      print('start size before sink $recieved');
       if (res.contentLength == 0) {
         return res.contentLength;
       } else {
@@ -41,18 +43,27 @@ class FileConvertHelper {
         if (await fullFolderDirToSave.exists()) {
           File file = File(
               '${fullFolderDirToSave.path}/${fileToSave.split('.')[0]}.pdf');
-          var sink = file.openWrite();
-          await res.stream.pipe(sink);
-          sink.close();
 
-          res.stream.listen((value) async {
-            bytes.addAll(value);
-            startFileSize += value.length;
+          // var sink = file.openWrite();
+          // await fileStream.pipe(sink);
+          // sink.close();
+          res.stream.listen(
+            (value) {
+              bytes.addAll(value);
+              recieved += value.length;
+            },
+          ).onDone(() async {
+            final file = File(
+              '${fullFolderDirToSave.path}/${fileToSave.split('.')[0]}.pdf',
+            );
+            await file.writeAsBytes(bytes);
+            print('start size during sink  $recieved');
           });
           displayDialog(
               context, "Success", "$fileName file converted successfully");
           print('file path => ${file.path}');
-          print('file size is $startFileSize');
+          print('start size after sink $recieved');
+
           print(
               'status code ::==> ${res.statusCode} and reason phrase ::==> ${res.reasonPhrase}');
         } else {
