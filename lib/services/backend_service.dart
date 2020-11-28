@@ -214,7 +214,7 @@ class NetworkHelper {
         print(response.statusMessage);
       }
     } catch (err) {
-      displayDialog(context, "An Error Occurred", "$err");
+      displayDialog(context, "An Error Occurred", "Error ");
     }
   }
 
