@@ -205,7 +205,7 @@ class NetworkHelper {
         'monthlyFee': "$fee",
         'year': '$year',
         'ownerEmail': 'musjib999@gmail.com',
-      },
+      }.toString(),
       "file": await MultipartFile.fromFile(
         selectedfile,
         filename: basename(selectedfile),
@@ -240,7 +240,6 @@ class NetworkHelper {
             context, "Success", "${basename(selectedfile)} $alertMessage");
         //print response from server
       } else {
-        print("Error during connection to server.");
         print(response.statusMessage);
       }
     } catch (err) {
@@ -250,25 +249,33 @@ class NetworkHelper {
   }
 
   Future getAllResearch() async {
-    http.Response response = await http.get(url);
-    String data = response.body;
-    var payload = jsonDecode(data)['payload'];
+    try {
+      http.Response response = await http.get(url, headers: {
+        'x-token': '$uploadToken',
+      });
+      String data = response.body;
+      var payload = jsonDecode(data)['payload'];
+      print(payload);
 
-    return payload;
+      return payload;
+    } catch (error) {
+      print(error);
+    }
   }
 
   //get one contact
-  Future getSingleResearch(int id) async {
+  Future getSingleResearch(String id) async {
     http.Response response = await http.get(
       '$url/$id',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'x-token': '$uploadToken',
       },
     );
     var data = response.body;
     var payload = jsonDecode(data);
 
-    print(id);
+    print(payload);
     return payload;
   }
 }

@@ -10,13 +10,11 @@ class RepositoryList extends StatefulWidget {
 }
 
 class _RepositoryListState extends State<RepositoryList> {
-  String publicUrl = 'http://192.168.88.41:4000/repository';
-  String myUrl = 'http://192.168.43.219:4000/repository';
+  String researchRepoUrl = 'https://narr.ng/api/v1/research';
   void initState() {
     super.initState();
     setState(() {
-      NetworkHelper(url: 'http://192.168.88.41:4000/repository')
-          .getAllResearch();
+      NetworkHelper(url: 'https://narr.ng/api/v1/research').getAllResearch();
     });
   }
 
@@ -29,7 +27,7 @@ class _RepositoryListState extends State<RepositoryList> {
         title: Text('Repository'),
       ),
       body: FutureBuilder(
-        future: NetworkHelper(url: myUrl).getAllResearch(),
+        future: NetworkHelper(url: researchRepoUrl).getAllResearch(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -106,17 +104,17 @@ class _RepositoryListState extends State<RepositoryList> {
             ),
           ];
           for (var document in payload) {
-            var title = document['title'];
-            var author = document['author'];
-            var date = document['date'];
-            var image = document['image'];
-            var pages = document['pages'];
-            var id = document['id'];
+            var title = document['researchTitle'];
+            var author = document['authors'];
+            var year = document['year'];
+            var image = document['thumbnail'];
+            var pages = document['nPages'];
+            String id = document['_id'];
             final courseTitleWidget = ResearchRepositoryCard(
-              imageUrl: image,
+              imageUrl: 'https://narr.ng$image',
               researchTitle: title,
               researchAuthor: author,
-              researchDate: date,
+              researchDate: year,
               pages: pages,
               onTap: () {
                 Navigator.push(
@@ -152,7 +150,9 @@ class ResearchRepositoryCard extends StatelessWidget {
     this.pages,
     this.onTap,
   }) : super(key: key);
-  final String researchTitle, researchDate, researchAuthor, imageUrl, pages;
+  final String researchTitle, researchDate, imageUrl;
+  final int pages;
+  final List researchAuthor;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
@@ -203,6 +203,7 @@ class ResearchRepositoryCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
+                      fontSize: 17,
                       fontWeight: FontWeight.bold,
                       color: Color(0xff1b5e20),
                     ),

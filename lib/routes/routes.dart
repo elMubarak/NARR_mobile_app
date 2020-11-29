@@ -44,5 +44,4 @@ Map<String, WidgetBuilder> myRoute = {
   Grants.id: (context) => Grants(),
   ResearchGrantsProposal.id: (context) => ResearchGrantsProposal(),
   RepositoryList.id: (context) => RepositoryList(),
-  Reader.id: (context) => Reader(),
 };

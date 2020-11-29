@@ -22,7 +22,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   // FileWaterMarkHelper _fileWaterMarkHelper = FileWaterMarkHelper();
 
-  List<String> watermarkExtension = ['pdf'];
+  List<String> watermarkExtension = ['pdf', 'doc', 'docx'];
   List<String> uploadDocExtensions = [
     'doc',
     'docx',
