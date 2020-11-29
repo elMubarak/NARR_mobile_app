@@ -53,13 +53,7 @@ class DropdownHelper {
     'Sciences'
   ];
 
-  List<String> genres = [
-    'Project',
-    'Thesis-Dissertation',
-    'Engineering',
-    'Journel',
-    'eBook'
-  ];
+  List<String> genres = ['Project', 'Thesis-Dissertation', 'Journel', 'eBook'];
 
   List<String> accessType = [
     'Free',

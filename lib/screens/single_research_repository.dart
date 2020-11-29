@@ -8,6 +8,7 @@ class ResearchWork extends StatelessWidget {
   ResearchWork({this.researchId});
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     String publicUrl = 'http://192.168.88.41:4000/repository';
     String myUrl = 'http://192.168.43.219:4000/repository';
     return Scaffold(

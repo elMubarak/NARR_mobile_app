@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 Future displayDialog(BuildContext context, String title, String text) =>
     showDialog(
