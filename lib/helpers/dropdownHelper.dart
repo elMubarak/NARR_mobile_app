@@ -49,7 +49,7 @@ class DropdownHelper {
     'Arts',
     'Education',
     'Engineering',
-    'Social Science',
+    'Social Sciences',
     'Sciences'
   ];
 
@@ -57,7 +57,7 @@ class DropdownHelper {
 
   List<String> accessType = [
     'Free',
-    'Payed',
+    'Paid',
   ];
 
   List<DropdownMenuItem> getInstitutionTypeDropdownItems() {

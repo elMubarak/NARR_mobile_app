@@ -11,6 +11,7 @@ class PermissionService {
       PermissionGroup.mediaLibrary,
       PermissionGroup.storage,
     ]);
+    // ignore: unrelated_type_equality_checks
     if (result == PermissionStatus.granted) {
       return true;
     }

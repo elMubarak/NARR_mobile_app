@@ -47,6 +47,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   static String authors;
   static String fee;
   static String year;
+  static String description;
 
   void onSendProgress(int sent, int total) {
     double percentage = (sent / total * 100);
@@ -302,6 +303,26 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                   year = value;
                                 },
                               ),
+                              SizedBox(
+                                height: 14,
+                              ),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Description of publication is required';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Description',
+                                  filled: true,
+                                  fillColor: Colors.grey[200],
+                                ),
+                                onChanged: (value) {
+                                  description = value;
+                                },
+                              ),
                             ],
                           ),
                         ),
@@ -313,36 +334,37 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                             // onSendProgress();
 
                             // await _uploadFile();
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
-                              setState(() {
-                                flag = true;
-                                isClickable = true;
-                              });
-                              NetworkHelper(url: uploadUrl)
-                                  .uploadFile(
-                                    response: response,
-                                    selectedfile:
-                                        _filePickerHelper.selectedfile,
-                                    onSendProgress: onSendProgress,
-                                    trancitionedScreen: HomeScreen(),
-                                    researchTitle: researchTitle,
-                                    authors: authors,
-                                    category: _dropdownHelper.selectedCategory,
-                                    genre: _dropdownHelper.selectedGenre,
-                                    accessType:
-                                        _dropdownHelper.selectedAccessType,
-                                    fee: fee,
-                                    year: year,
-                                    alertMessage: 'File Uploaded successfully',
-                                    context: context,
-                                  )
-                                  .whenComplete(
-                                    () => setState(() {
-                                      isClickable = false;
-                                    }),
-                                  );
-                            }
+                            // if (_formKey.currentState.validate()) {
+                            //   _formKey.currentState.save();
+                            setState(() {
+                              flag = true;
+                              isClickable = true;
+                            });
+                            NetworkHelper(url: uploadUrl)
+                                .uploadFile(
+                                  response: response,
+                                  selectedfile: _filePickerHelper.selectedfile,
+                                  onSendProgress: onSendProgress,
+                                  trancitionedScreen: HomeScreen(),
+                                  researchTitle: researchTitle,
+                                  authors: authors,
+                                  category: _dropdownHelper.selectedCategory,
+                                  genre: _dropdownHelper.selectedGenre,
+                                  accessType:
+                                      _dropdownHelper.selectedAccessType,
+                                  fee: fee,
+                                  year: year,
+                                  description: description,
+                                  alertMessage:
+                                      'Thank you for uploading your research work on NARR your document is been proccessed',
+                                  context: context,
+                                )
+                                .whenComplete(
+                                  () => setState(() {
+                                    isClickable = false;
+                                  }),
+                                );
+                            // }
                           },
                         ),
                       ],

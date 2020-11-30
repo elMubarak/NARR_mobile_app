@@ -105,7 +105,7 @@ class _RepositoryListState extends State<RepositoryList> {
           ];
           for (var document in payload) {
             var title = document['researchTitle'];
-            var author = document['authors'];
+            List author = document['authors'];
             var year = document['year'];
             var image = document['thumbnail'];
             var pages = document['nPages'];
@@ -236,7 +236,7 @@ class ResearchRepositoryCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Author: ',
+                            'Authors: ',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Color(0xff1b5e20),

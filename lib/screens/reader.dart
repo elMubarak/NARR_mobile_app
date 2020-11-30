@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/dark_mode_reader.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -16,29 +15,6 @@ class Reader extends StatefulWidget {
 }
 
 class _ReaderState extends State<Reader> {
-  bool isLoading;
-  PDFDocument doc;
-
-  void initState() {
-    super.initState();
-    getQuestionPdf();
-    print(widget.id);
-    // _delayTime();
-  }
-
-  void getQuestionPdf() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    doc = await PDFDocument.fromURL(
-        'https://eloquentjavascript.net/Eloquent_JavaScript.pdf');
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,20 +48,6 @@ class _SliderState extends State<Slider> {
   }
 
   int _currentPage = 1;
-
-  void _showDialog() {
-    showDialog<int>(
-        context: context,
-        builder: (BuildContext context) {
-          return new NumberPickerDialog.integer(
-            initialIntegerValue: _currentPage,
-            minValue: 1,
-            maxValue: 2,
-            title: Text('Select Page'),
-          );
-        });
-    print(_currentPage);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +108,11 @@ class _SliderState extends State<Slider> {
                       Expanded(
                         child: IconButton(
                           icon: Icon(Icons.first_page),
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              _currentPage = 1;
+                            });
+                          },
                         ),
                       ),
                       Expanded(
@@ -167,8 +133,27 @@ class _SliderState extends State<Slider> {
                       FloatingActionButton(
                         child: Icon(Icons.view_carousel),
                         onPressed: () {
+                          void _showDialog() {
+                            showDialog<int>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return new NumberPickerDialog.integer(
+                                  initialIntegerValue: _currentPage,
+                                  minValue: 1,
+                                  maxValue: research.data['payload']['nPages'],
+                                  // onChanged: (value) {
+
+                                  // },
+                                );
+                              },
+                            ).then(
+                              (value) => setState(() {
+                                _currentPage = value;
+                              }),
+                            );
+                          }
+
                           _showDialog.call();
-                          print(_currentPage);
                         },
                       ),
                       Expanded(
@@ -176,7 +161,13 @@ class _SliderState extends State<Slider> {
                           icon: Icon(Icons.chevron_right),
                           onPressed: () {
                             setState(() {
-                              _currentPage++;
+                              if (_currentPage ==
+                                  research.data['payload']['nPages']) {
+                                _currentPage =
+                                    research.data['payload']['nPages'];
+                              } else {
+                                _currentPage++;
+                              }
                             });
                           },
                         ),
@@ -184,7 +175,11 @@ class _SliderState extends State<Slider> {
                       Expanded(
                         child: IconButton(
                           icon: Icon(Icons.last_page),
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              _currentPage = research.data['payload']['nPages'];
+                            });
+                          },
                         ),
                       ),
                     ],

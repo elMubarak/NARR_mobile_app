@@ -151,7 +151,7 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
-        print(response.data);
+        print(response.statusMessage);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -190,13 +190,14 @@ class NetworkHelper {
     String accessType,
     String fee,
     String year,
+    String description,
     Widget trancitionedScreen,
     String alertMessage,
     BuildContext context,
   }) async {
     String uploadurl = url;
     FormData formdata = FormData.fromMap({
-      "meta": {
+      "meta": jsonEncode(<String, String>{
         "researchTitle": "$researchTitle",
         "authors": "$authors",
         "category": "$category",
@@ -204,8 +205,9 @@ class NetworkHelper {
         'accessType': "$accessType",
         'monthlyFee': "$fee",
         'year': '$year',
+        'description': "$description",
         'ownerEmail': 'musjib999@gmail.com',
-      }.toString(),
+      }),
       "file": await MultipartFile.fromFile(
         selectedfile,
         filename: basename(selectedfile),
@@ -225,8 +227,7 @@ class NetworkHelper {
       );
 
       if (response.statusCode == 200) {
-        print(response);
-        print(formdata.fields);
+        print(response.statusMessage);
 
         Navigator.pushReplacement(
           context,
@@ -255,7 +256,6 @@ class NetworkHelper {
       });
       String data = response.body;
       var payload = jsonDecode(data)['payload'];
-      print(payload);
 
       return payload;
     } catch (error) {
@@ -275,7 +275,6 @@ class NetworkHelper {
     var data = response.body;
     var payload = jsonDecode(data);
 
-    print(payload);
     return payload;
   }
 }
