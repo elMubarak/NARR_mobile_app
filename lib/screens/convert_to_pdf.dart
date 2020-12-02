@@ -45,6 +45,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
       _filePickerHelper.selectedfile = null;
       recieved = 0;
       total = 0;
+      percent = 0;
       bytes = [];
     });
 
@@ -116,14 +117,17 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
             setState(() {
               percent = (recieved / total * 100);
               _scaffoldKey.currentState.showSnackBar(SnackBar(
-                content: Text('File Converted got to Narr folder'),
-                duration: Duration(seconds: 3),
+                content: Text(
+                    'File Converted got to file manager $folderToSaveConver'),
+                duration: Duration(seconds: 5),
               ));
+              dropFile();
+
+              Navigator.pop(context);
             });
             bytes.clear();
 
             // Navigator.pop(context);
-            // dropFile();
           } else if (recieved < total) {
             print('less bytes');
             dropFile();
@@ -205,9 +209,6 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
 
                               setState(() {
                                 isClickable = true;
-
-                                print(
-                                    'ui recieved $recieved and ui total $total');
                               });
 
                               // _fileConvertHelper
