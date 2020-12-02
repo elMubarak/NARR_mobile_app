@@ -205,8 +205,8 @@ class NetworkHelper {
         'accessType': "$accessType",
         'monthlyFee': "$fee",
         'year': '$year',
-        'description': "$description",
         'ownerEmail': 'musjib999@gmail.com',
+        'description': "$description",
       }),
       "file": await MultipartFile.fromFile(
         selectedfile,
@@ -244,7 +244,7 @@ class NetworkHelper {
         print(response.statusMessage);
       }
     } catch (err) {
-      displayDialog(context, "An Error Occurred", "Error ");
+      displayDialog(context, "An Error Occurred", "Error Uploading Research");
       print(err);
     }
   }

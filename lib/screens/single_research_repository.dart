@@ -231,7 +231,7 @@ class ResearchWork extends StatelessWidget {
                                       ),
                                       Flexible(
                                         child: Text(
-                                          '',
+                                          '${research.data['payload']['description']}',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 8,
                                           style: TextStyle(color: Colors.grey),
