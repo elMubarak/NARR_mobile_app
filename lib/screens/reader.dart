@@ -1,51 +1,34 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
+import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/dark_mode_reader.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:photo_view/photo_view.dart';
 
+String singleResearchUrl = 'https://narr.ng/api/v1/research';
+
 class Reader extends StatefulWidget {
-  static const String id = 'Reader';
+  final String id;
+  Reader(this.id);
   @override
   _ReaderState createState() => _ReaderState();
 }
 
 class _ReaderState extends State<Reader> {
-  bool isLoading;
-  PDFDocument doc;
-
-  void initState() {
-    super.initState();
-    getQuestionPdf();
-    // _delayTime();
-  }
-
-  void getQuestionPdf() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    doc = await PDFDocument.fromURL(
-        'https://eloquentjavascript.net/Eloquent_JavaScript.pdf');
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Reader'),
       ),
-      body: Slider(),
+      body: Slider(widget.id),
     );
   }
 }
 
 class Slider extends StatefulWidget {
+  final String id;
+  Slider(this.id);
   @override
   _SliderState createState() => _SliderState();
 }
@@ -55,13 +38,6 @@ class _SliderState extends State<Slider> {
   CarouselSlider carouselSlider;
   CarouselController buttonCarouselController = CarouselController();
   // int _current = 0;
-  List imgList = [
-    'https://4ww1y37tl91gmoej12r01u1c-wpengine.netdna-ssl.com/wp-content/uploads/2019/08/TextDocument.png',
-    'https://www.myperfectresume.com/wp-content/uploads/resume-templates/document-controller.png',
-    'https://image.slidesharecdn.com/c9db7854-ebae-44f6-9de8-079b35c2e5d4-150502032517-conversion-gate01/95/professional-document-review-and-editing-services-1-638.jpg?cb=1430537895',
-    // 'https://images.unsplash.com/photo-1543922596-b3bbaba80649?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    // 'https://images.unsplash.com/photo-1502943693086-33b5b1cfdf2f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80'
-  ];
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -73,112 +49,148 @@ class _SliderState extends State<Slider> {
 
   int _currentPage = 1;
 
-  void _showDialog() {
-    showDialog<int>(
-        context: context,
-        builder: (BuildContext context) {
-          return new NumberPickerDialog.integer(
-            initialIntegerValue: _currentPage,
-            minValue: 1,
-            maxValue: imgList.length,
-            title: Text('Select Page'),
-          );
-        });
-    print(_currentPage);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          (isDark == true)
-              ? Expanded(
-                  child: DarkNight(
-                    child: PageSlider(
+    return FutureBuilder(
+      future:
+          NetworkHelper(url: singleResearchUrl).getSingleResearch(widget.id),
+      builder: (context, research) {
+        if (!research.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              (isDark == true)
+                  ? Expanded(
+                      child: DarkNight(
+                        child: PageSlider(
+                          buttonCarouselController: buttonCarouselController,
+                          imgList: [
+                            'https://narr.ng${research.data['payload']['readPath']}$_currentPage.jpg'
+                          ],
+                          isDark: true,
+                        ),
+                      ),
+                    )
+                  : PageSlider(
                       buttonCarouselController: buttonCarouselController,
-                      imgList: imgList,
-                      isDark: true,
+                      imgList: [
+                        'https://narr.ng${research.data['payload']['readPath']}$_currentPage.jpg'
+                      ],
+                      isDark: false,
                     ),
-                  ),
-                )
-              : PageSlider(
-                  buttonCarouselController: buttonCarouselController,
-                  imgList: imgList,
-                  isDark: false,
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: isDark,
+                      onChanged: (val) {
+                        setState(() {
+                          isDark = val;
+                        });
+                      },
+                    ),
+                    Text('Night Mode'),
+                  ],
                 ),
-          Container(
-            margin: EdgeInsets.only(left: 15),
-            child: Row(
-              children: [
-                Checkbox(
-                  value: isDark,
-                  onChanged: (val) {
-                    setState(() {
-                      isDark = val;
-                    });
-                  },
-                ),
-                Text('Night Mode'),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-            child: BottomAppBar(
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: IconButton(
-                      icon: Icon(Icons.first_page),
-                      onPressed: () {
-                        buttonCarouselController.jumpToPage(0);
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: IconButton(
-                      icon: Icon(Icons.chevron_left),
-                      onPressed: () {
-                        buttonCarouselController.previousPage(
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.linear);
-                      },
-                    ),
-                  ),
-                  FloatingActionButton(
-                    child: Icon(Icons.view_carousel),
-                    onPressed: () {
-                      _showDialog.call();
-                      print(_currentPage);
-                    },
-                  ),
-                  Expanded(
-                    child: IconButton(
-                      icon: Icon(Icons.chevron_right),
-                      onPressed: () {
-                        buttonCarouselController.nextPage(
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.linear);
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: IconButton(
-                      icon: Icon(Icons.last_page),
-                      onPressed: () {
-                        buttonCarouselController.jumpToPage(imgList.length);
-                      },
-                    ),
-                  ),
-                ],
               ),
-            ),
-          )
-        ],
-      ),
+              Container(
+                margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                child: BottomAppBar(
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: IconButton(
+                          icon: Icon(Icons.first_page),
+                          onPressed: () {
+                            setState(() {
+                              _currentPage = 1;
+                            });
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          icon: Icon(Icons.chevron_left),
+                          onPressed: () {
+                            setState(() {
+                              if (_currentPage < 2) {
+                                _currentPage = 1;
+                              } else {
+                                _currentPage--;
+                              }
+                            });
+                            print(_currentPage);
+                          },
+                        ),
+                      ),
+                      FloatingActionButton(
+                        child: Icon(Icons.view_carousel),
+                        onPressed: () {
+                          void _showDialog() {
+                            showDialog<int>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return NumberPickerDialog.integer(
+                                  initialIntegerValue:
+                                      (_currentPage != null) ? _currentPage : 1,
+                                  minValue: 1,
+                                  maxValue: research.data['payload']['nPages'],
+                                  // onChanged: (value) {
+
+                                  // },
+                                );
+                              },
+                            ).then(
+                              (value) => setState(() {
+                                _currentPage = value;
+                              }),
+                            );
+                          }
+
+                          _showDialog.call();
+                        },
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          icon: Icon(Icons.chevron_right),
+                          onPressed: () {
+                            setState(() {
+                              if (_currentPage ==
+                                  research.data['payload']['nPages']) {
+                                _currentPage =
+                                    research.data['payload']['nPages'];
+                              } else {
+                                _currentPage++;
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          icon: Icon(Icons.last_page),
+                          onPressed: () {
+                            setState(() {
+                              _currentPage = research.data['payload']['nPages'];
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -220,7 +232,24 @@ class PageSlider extends StatelessWidget {
                   child: PhotoView(
                     backgroundDecoration: BoxDecoration(
                         color: (isDark) ? Colors.black : Colors.white),
-                    loadFailedChild: CircularProgressIndicator(),
+                    loadingBuilder: (context, loadingProgress) {
+                      if (loadingProgress == null)
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+
+                      return Center(child: CircularProgressIndicator());
+                      // You can use LinearProgressIndicator or CircularProgressIndicator instead
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      print(error);
+                      return Text('Some errors occurred!');
+                    },
+                    loadFailedChild: Container(
+                      height: 100,
+                      width: 100,
+                      child: CircularProgressIndicator(),
+                    ),
                     imageProvider: NetworkImage(url),
                     minScale: PhotoViewComputedScale.contained * 1.0,
                     maxScale: PhotoViewComputedScale.contained * 2.5,

@@ -21,6 +21,7 @@ Dio dio = new Dio();
 
 class NetworkHelper {
   static String tok;
+  static String email;
 
   final String url;
   NetworkHelper({this.url});
@@ -97,9 +98,12 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         String data = response.body;
+        email = jsonDecode(data)['payload']['user']['email'];
         tok = jsonDecode(data)['payload']['token'];
+        String loginEmail = email;
         String logInToken = tok;
-        print('the token for login returned $logInToken');
+
+        print('the login token >> $logInToken and email >> $loginEmail');
 
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else if (response.statusCode == 403) {
@@ -147,7 +151,7 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print('response ${response.toString()}');
-        print(response.data);
+        print(response.statusMessage);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -172,19 +176,38 @@ class NetworkHelper {
 
   //upload file
   var httpClient = http.Client();
+  String uploadToken = tok;
+  String uploadEmail = email;
 
   Future uploadFile({
     Response response,
     String selectedfile,
-    Map uploadMeta,
     Function onSendProgress,
+    String researchTitle,
+    String authors,
+    String category,
+    String genre,
+    String accessType,
+    String fee,
+    String year,
+    String description,
     Widget trancitionedScreen,
     String alertMessage,
     BuildContext context,
   }) async {
     String uploadurl = url;
     FormData formdata = FormData.fromMap({
-      "meta": uploadMeta,
+      "meta": jsonEncode(<String, String>{
+        "researchTitle": "$researchTitle",
+        "authors": "$authors",
+        "category": "$category",
+        'genre': "$genre",
+        'accessType': "$accessType",
+        'monthlyFee': "$fee",
+        'year': '$year',
+        'ownerEmail': 'musjib999@gmail.com',
+        'description': "$description",
+      }),
       "file": await MultipartFile.fromFile(
         selectedfile,
         filename: basename(selectedfile),
@@ -192,9 +215,8 @@ class NetworkHelper {
     });
     try {
       // var responsez = httpClient.send(request);
-      String uploadToken = tok;
 
-      print('the token for upload $uploadToken');
+      print('the upload token >> $uploadToken and email >> $uploadEmail');
       response = await dio.post(
         uploadurl,
         data: formdata,
@@ -205,9 +227,7 @@ class NetworkHelper {
       );
 
       if (response.statusCode == 200) {
-        print(response);
-        // docToPDF.readFile();
-        //save path
+        print(response.statusMessage);
 
         Navigator.pushReplacement(
           context,
@@ -221,35 +241,40 @@ class NetworkHelper {
             context, "Success", "${basename(selectedfile)} $alertMessage");
         //print response from server
       } else {
-        print("Error during connection to server.");
         print(response.statusMessage);
       }
     } catch (err) {
-      displayDialog(context, "An Error Occurred", "Error ");
+      displayDialog(context, "An Error Occurred", "Error Uploading Research");
       print(err);
     }
   }
 
   Future getAllResearch() async {
-    http.Response response = await http.get(url);
-    String data = response.body;
-    var payload = jsonDecode(data)['payload'];
+    try {
+      http.Response response = await http.get(url, headers: {
+        'x-token': '$uploadToken',
+      });
+      String data = response.body;
+      var payload = jsonDecode(data)['payload'];
 
-    return payload;
+      return payload;
+    } catch (error) {
+      print(error);
+    }
   }
 
   //get one contact
-  Future getSingleResearch(int id) async {
+  Future getSingleResearch(String id) async {
     http.Response response = await http.get(
       '$url/$id',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'x-token': '$uploadToken',
       },
     );
     var data = response.body;
     var payload = jsonDecode(data);
 
-    print(id);
     return payload;
   }
 }

@@ -22,7 +22,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   // FileWaterMarkHelper _fileWaterMarkHelper = FileWaterMarkHelper();
 
-  List<String> watermarkExtension = ['pdf'];
+  List<String> watermarkExtension = ['pdf', 'doc', 'docx'];
   List<String> uploadDocExtensions = [
     'doc',
     'docx',
@@ -30,28 +30,10 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
     'odt',
   ];
 
-  static DateTime dateTime = DateTime.now();
   DropdownHelper _dropdownHelper = DropdownHelper();
-  static TextEditingController topicController = TextEditingController();
-  static TextEditingController authorController = TextEditingController();
-  static TextEditingController monthlyController = TextEditingController();
-  static TextEditingController yearController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   bool isClickable = false;
-  static DateTime selectedDate = DateTime.now();
-  bool isPicked = false;
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1990, 1),
-        lastDate: DateTime.now());
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        isPicked = true;
-      }); //get
-    }
-  }
 
   //
   Dio dio = Dio();
@@ -61,16 +43,12 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   int bytesSent;
   int bytesTotal;
 
-  Map uploadMeta = {
-    "researchTitle": "${topicController.text}",
-    "authors": "${authorController.text}",
-    "category": "${DropdownHelper().selectedCategory}",
-    'genre': "${DropdownHelper().selectedGenre}",
-    'accessType': "${DropdownHelper().selectedAccessType}",
-    'monthlyFee': "${monthlyController.text}",
-    'year': '$selectedDate',
-    'ownerEmail': '',
-  };
+  static String researchTitle;
+  static String authors;
+  static String fee;
+  static String year;
+  static String description;
+
   void onSendProgress(int sent, int total) {
     double percentage = (sent / total * 100);
     setState(() {
@@ -95,7 +73,6 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
 
   @override
   Widget build(BuildContext context) {
-    String dob = '${selectedDate.toLocal()}'.split(' ')[0];
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -159,153 +136,194 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                         ),
                         SizedBox(height: 20),
                         //
-                        TextField(
-                          controller: topicController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Research Topic',
-                            filled: true,
-                          ),
-                        ),
-                        SizedBox(height: 14),
-                        TextField(
-                          controller: authorController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Author',
-                            filled: true,
-                          ),
-                        ),
-                        SizedBox(height: 14),
-                        DropdownContainer(
-                          child: DropdownButtonFormField(
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Please select category';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            hint: Padding(
-                              padding: const EdgeInsets.only(left: 13.0),
-                              child: Text(
-                                'Category',
-                                style: TextStyle(color: Colors.grey[700]),
-                              ),
-                            ),
-                            items: _dropdownHelper.getCategoryDropdownItems(),
-                            onChanged: (value) {
-                              setState(() {
-                                _dropdownHelper.selectedCategory = value;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 14),
-                        DropdownContainer(
-                          child: DropdownButtonFormField(
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Please select a genre';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            hint: Padding(
-                              padding: const EdgeInsets.only(left: 13.0),
-                              child: Text(
-                                'Genres',
-                                style: TextStyle(color: Colors.grey[700]),
-                              ),
-                            ),
-                            items: _dropdownHelper.getGenreDropdownItems(),
-                            onChanged: (value) {
-                              setState(() {
-                                _dropdownHelper.selectedGenre = value;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 14),
-                        DropdownContainer(
-                          child: DropdownButtonFormField(
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Please select category';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            hint: Padding(
-                              padding: const EdgeInsets.only(left: 13.0),
-                              child: Text(
-                                'Access Type',
-                                style: TextStyle(color: Colors.grey[700]),
-                              ),
-                            ),
-                            items: _dropdownHelper.getaccessTypeDropdownItems(),
-                            onChanged: (value) {
-                              setState(() {
-                                _dropdownHelper.selectedAccessType = value;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        _dropdownHelper.selectedAccessType ==
-                                _dropdownHelper.accessType[1]
-                            ? TextField(
-                                controller: monthlyController,
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Research topic is required';
+                                  }
+                                  return null;
+                                },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Monthly Fess',
+                                  hintText: 'Research Topic',
                                   filled: true,
+                                  fillColor: Colors.grey[200],
                                 ),
-                              )
-                            : Container(),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            _selectDate(context);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.grey[600],
-                                  size: 20,
+                                onChanged: (value) {
+                                  researchTitle = value;
+                                },
+                              ),
+                              SizedBox(height: 14),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Research topic is required';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Author',
+                                  filled: true,
+                                  fillColor: Colors.grey[200],
                                 ),
-                                SizedBox(width: 15),
-                                Text(
-                                  isPicked ? dob : 'Date of Birth',
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontWeight: FontWeight.w500,
+                                onChanged: (value) {
+                                  authors = value;
+                                },
+                              ),
+                              SizedBox(height: 14),
+                              DropdownContainer(
+                                child: DropdownButtonFormField(
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Please select category';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
                                   ),
+                                  hint: Padding(
+                                    padding: const EdgeInsets.only(left: 13.0),
+                                    child: Text(
+                                      'Category',
+                                      style: TextStyle(color: Colors.grey[700]),
+                                    ),
+                                  ),
+                                  items: _dropdownHelper
+                                      .getCategoryDropdownItems(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dropdownHelper.selectedCategory = value;
+                                    });
+                                  },
                                 ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(height: 14),
+                              DropdownContainer(
+                                child: DropdownButtonFormField(
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Please select a genre';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
+                                  ),
+                                  hint: Padding(
+                                    padding: const EdgeInsets.only(left: 13.0),
+                                    child: Text(
+                                      'Genres',
+                                      style: TextStyle(color: Colors.grey[700]),
+                                    ),
+                                  ),
+                                  items:
+                                      _dropdownHelper.getGenreDropdownItems(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dropdownHelper.selectedGenre = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 14),
+                              DropdownContainer(
+                                child: DropdownButtonFormField(
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Please select category';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
+                                  ),
+                                  hint: Padding(
+                                    padding: const EdgeInsets.only(left: 13.0),
+                                    child: Text(
+                                      'Access Type',
+                                      style: TextStyle(color: Colors.grey[700]),
+                                    ),
+                                  ),
+                                  items: _dropdownHelper
+                                      .getaccessTypeDropdownItems(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dropdownHelper.selectedAccessType =
+                                          value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                height: 14,
+                              ),
+                              _dropdownHelper.selectedAccessType ==
+                                      _dropdownHelper.accessType[1]
+                                  ? TextField(
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Monthly Fess',
+                                        filled: true,
+                                        fillColor: Colors.grey[200],
+                                      ),
+                                      onChanged: (value) {
+                                        fee = value;
+                                      },
+                                    )
+                                  : Container(),
+                              SizedBox(
+                                height: 14,
+                              ),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Year of publication is required';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Year of Publication',
+                                  filled: true,
+                                  fillColor: Colors.grey[200],
+                                ),
+                                onChanged: (value) {
+                                  year = value;
+                                },
+                              ),
+                              SizedBox(
+                                height: 14,
+                              ),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Description of publication is required';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Description',
+                                  filled: true,
+                                  fillColor: Colors.grey[200],
+                                ),
+                                onChanged: (value) {
+                                  description = value;
+                                },
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(height: 20),
@@ -314,20 +332,31 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                           buttonTitle: 'Upload',
                           onTap: () async {
                             // onSendProgress();
+
+                            // await _uploadFile();
+                            // if (_formKey.currentState.validate()) {
+                            //   _formKey.currentState.save();
                             setState(() {
                               flag = true;
                               isClickable = true;
                             });
-
-                            // await _uploadFile();
                             NetworkHelper(url: uploadUrl)
                                 .uploadFile(
                                   response: response,
                                   selectedfile: _filePickerHelper.selectedfile,
-                                  uploadMeta: uploadMeta,
                                   onSendProgress: onSendProgress,
                                   trancitionedScreen: HomeScreen(),
-                                  alertMessage: 'File Uploaded successfully',
+                                  researchTitle: researchTitle,
+                                  authors: authors,
+                                  category: _dropdownHelper.selectedCategory,
+                                  genre: _dropdownHelper.selectedGenre,
+                                  accessType:
+                                      _dropdownHelper.selectedAccessType,
+                                  fee: fee,
+                                  year: year,
+                                  description: description,
+                                  alertMessage:
+                                      'Thank you for uploading your research work on NARR your document is been proccessed',
                                   context: context,
                                 )
                                 .whenComplete(
@@ -335,6 +364,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                     isClickable = false;
                                   }),
                                 );
+                            // }
                           },
                         ),
                       ],

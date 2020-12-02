@@ -49,21 +49,15 @@ class DropdownHelper {
     'Arts',
     'Education',
     'Engineering',
-    'Social Science',
+    'Social Sciences',
     'Sciences'
   ];
 
-  List<String> genres = [
-    'Project',
-    'Thesis-Dissertation',
-    'Engineering',
-    'Journel',
-    'eBook'
-  ];
+  List<String> genres = ['Project', 'Thesis-Dissertation', 'Journel', 'eBook'];
 
   List<String> accessType = [
     'Free',
-    'Payed',
+    'Paid',
   ];
 
   List<DropdownMenuItem> getInstitutionTypeDropdownItems() {
