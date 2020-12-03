@@ -103,6 +103,7 @@ class _RepositoryListState extends State<RepositoryList> {
               ),
             ),
           ];
+
           for (var document in payload) {
             var title = document['researchTitle'];
             List author = document['authors'];

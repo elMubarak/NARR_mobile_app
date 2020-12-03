@@ -238,8 +238,9 @@ class PageSlider extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
 
-                      return Center(child: CircularProgressIndicator());
-                      // You can use LinearProgressIndicator or CircularProgressIndicator instead
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
                     },
                     errorBuilder: (context, error, stackTrace) {
                       print(error);
