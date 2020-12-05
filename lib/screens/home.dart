@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/profile.dart';
+import 'package:narr/services/socket_service.dart';
 // import 'package:narr/screens/upload_document.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
@@ -56,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SocketService socketService = SocketService();
     var data = [
       ClicksPerYear('22', 42, Colors.red),
       ClicksPerYear('52', 52, Colors.yellow),
@@ -171,6 +173,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         count: '22',
                         color: Color(0xff00a368),
                         icon: Icons.insert_drive_file,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          socketService.createSocketConnection();
+                        },
+                        child: Text('Test'),
                       ),
                       HeaderCard(
                         title: 'Recommendations',

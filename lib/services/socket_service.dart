@@ -1,20 +1,8 @@
-import 'dart:io';
+import 'package:web_socket_channel/io.dart';
 
-String indexRequest = 'GET / HTTP/1.1\nConnection: close\n\n';
-
-class SocketIO {
-  void socketCon() {
-    Socket.connect('google.com', 80).then((sock) {
-      print('Connected to => ${sock.remoteAddress}: ${sock.remotePort}');
-      sock.listen((data) {
-        print(String.fromCharCodes(data).trim());
-      }, onDone: () {
-        print('done');
-      }, onError: (e) {
-        print('error:: $e');
-        sock.destroy();
-      });
-      sock.write(indexRequest);
-    });
+class SocketService {
+  createSocketConnection() async {
+    final channel = await IOWebSocketChannel.connect('ws://echo.websocket.org');
+    print(channel);
   }
 }
