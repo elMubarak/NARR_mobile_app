@@ -57,7 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SocketService socketService = SocketService();
     var data = [
       ClicksPerYear('22', 42, Colors.red),
       ClicksPerYear('52', 52, Colors.yellow),
@@ -173,12 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         count: '22',
                         color: Color(0xff00a368),
                         icon: Icons.insert_drive_file,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          socketService.createSocketConnection();
-                        },
-                        child: Text('Test'),
                       ),
                       HeaderCard(
                         title: 'Recommendations',
