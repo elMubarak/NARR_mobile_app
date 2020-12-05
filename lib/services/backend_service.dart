@@ -6,6 +6,7 @@ import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/verify_email.dart';
+import 'package:narr/services/socket_service.dart';
 import 'package:path/path.dart';
 
 Future displayDialog(BuildContext context, String title, String text) =>
@@ -104,6 +105,10 @@ class NetworkHelper {
         String logInToken = tok;
 
         print('the login token >> $logInToken and email >> $loginEmail');
+
+        //socket authentication
+
+        //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
 
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else if (response.statusCode == 403) {

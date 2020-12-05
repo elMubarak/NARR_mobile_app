@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
-import 'package:narr/services/socket_service.dart';
 
 class DocumentConvert extends StatefulWidget {
   static const String id = 'DocumentConvert';
@@ -10,7 +9,6 @@ class DocumentConvert extends StatefulWidget {
 }
 
 class _DocumentConvertState extends State<DocumentConvert> {
-  SocketIO socketIO = SocketIO();
   final testFile =
       "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
 
