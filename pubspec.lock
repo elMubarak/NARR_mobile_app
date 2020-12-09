@@ -324,8 +324,6 @@ packages:
     version: "0.0.99"
   socket_io_client:
     dependency: "direct main"
-<<<<<<< HEAD
-=======
     description:
       name: socket_io_client
       url: "https://pub.dartlang.org"
@@ -340,7 +338,6 @@ packages:
     version: "0.9.2"
   source_span:
     dependency: transitive
->>>>>>> 1c0cb58ae091f52c600c864fb692a6cd6fdbac2e
     description:
       name: socket_io_client
       url: "https://pub.dartlang.org"

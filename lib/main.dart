@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_dependency_injection/injector.dart';
-import 'package:narr/helpers/app_initializer.dart';
-import 'package:narr/helpers/dependency_injector.dart';
 import 'package:narr/routes/routes.dart';
 import 'screens/login.dart';
 
 Injector injector;
 main() async {
-  DependencyInjection().initialise(Injector.getInjector());
-  injector = Injector.getInjector();
-  await AppInitializer().initialise(injector);
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }

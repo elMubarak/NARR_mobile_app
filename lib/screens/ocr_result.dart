@@ -17,7 +17,6 @@ class OcrResult extends StatefulWidget {
 }
 
 class _OcrResultState extends State<OcrResult> {
-  SocketService socketService = SocketService();
   @override
   void initState() {
     super.initState();
