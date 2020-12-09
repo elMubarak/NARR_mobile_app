@@ -17,6 +17,8 @@ dependencies:
 
   http: ^0.12.2
   dio: ^3.0.10
+  adhara_socket_io: ^0.4.2+1
+  flutter_simple_dependency_injection: ^1.0.1
   flutter_inappwebview: ^4.0.0+4
   connectivity: ^2.0.0
   permission_handler: ^4.2.0+hotfix.3

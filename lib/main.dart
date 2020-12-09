@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:narr/routes/routes.dart';
 import 'screens/login.dart';
 
-main() {
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
