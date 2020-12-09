@@ -23,7 +23,7 @@ class _LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormState>();
   void connectAndListen() {
-    Socket socket = io('wss://api.narr.ng',
+    Socket socket = io('wss://echo.websocket.org',
         OptionBuilder().setTransports(['websocket']).build());
 
     socket.onConnect((_) {
@@ -161,8 +161,7 @@ class _LoginState extends State<Login> {
                             //   // loginUser();
                             // }
                             // setState(() {});
-                            connectAndListen();
-                            // SocketConnection().socketAuth();
+                            SocketConnection().socketCon(email);
                           },
                         ),
                         SizedBox(height: 30.0),
