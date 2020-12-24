@@ -13,6 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/video_conf.dart';
 import 'package:narr/widgets/custom_expansion_tile.dart';
+import 'package:narr/services/socket_service.dart';
 
 class DrawerItems extends StatelessWidget {
   @override
@@ -150,6 +151,7 @@ class DrawerItems extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
+                    SocketService().handleLogoutEvent();
                     Navigator.pushReplacementNamed(context, Login.id);
                   },
                   child: Row(

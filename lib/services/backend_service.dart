@@ -22,7 +22,7 @@ Dio dio = new Dio();
 
 class NetworkHelper {
   static String tok;
-  static String email;
+  static dynamic email;
   static dynamic userObj;
 
   final String url;
@@ -100,10 +100,10 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         String data = response.body;
-        // email = jsonDecode(data)['payload']['user'];
+        userObj = jsonDecode(data)['payload']['user'];
         tok = jsonDecode(data)['payload']['token'];
 
-        String loginUser = email;
+        dynamic loginUser = userObj;
         String logInToken = tok;
 
         //socket authentication

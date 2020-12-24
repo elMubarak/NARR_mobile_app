@@ -25,7 +25,7 @@ class SocketService {
     }
   }
 
-  void handleLoginEvent(String token, String user) {
+  void handleLoginEvent(String token, user) {
     try {
       socket.emit(
         'LOGIN',
