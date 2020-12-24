@@ -1,13 +1,23 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:narr/routes/routes.dart';
+import 'package:path_provider/path_provider.dart';
 import 'screens/login.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  var appDir = await getApplicationDocumentsDirectory();
+  var path = appDir.path;
+
+  WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new MyHttpOverrides();
-  runApp(MyApp());
+  await Hive.init(path);
+
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyHttpOverrides extends HttpOverrides {
