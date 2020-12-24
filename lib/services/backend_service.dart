@@ -94,13 +94,13 @@ class NetworkHelper {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
-          <String, String>{"email": email, "password": password},
+          <String, dynamic>{"email": email, "password": password},
         ),
       );
 
       if (response.statusCode == 200) {
         String data = response.body;
-        email = jsonDecode(data)['payload']['user'];
+        // email = jsonDecode(data)['payload']['user'];
         tok = jsonDecode(data)['payload']['token'];
 
         String loginUser = email;
@@ -110,7 +110,8 @@ class NetworkHelper {
             'the login token >> $logInToken and email >> $loginUser user object ');
 
         //socket authentication
-        SocketService().connectToServer(logInToken, loginUser);
+        SocketService()
+            .connectToServer(logInToken, jsonDecode(data)['payload']['user']);
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
 
