@@ -106,16 +106,12 @@ class NetworkHelper {
         String loginUser = email;
         String logInToken = tok;
 
-        print(
-            'the login token >> $logInToken and email >> $loginUser user object ');
-
         //socket authentication
-        SocketService()
-            .connectToServer(logInToken, jsonDecode(data)['payload']['user']);
+        SocketService().handleLoginEvent(logInToken, loginUser);
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
 
-        // Navigator.pushReplacementNamed(context, HomeScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else if (response.statusCode == 403) {
         String data = response.body;
         var message = jsonDecode(data)['message'];
@@ -266,27 +262,29 @@ class NetworkHelper {
       });
       String data = response.body;
       var payload = jsonDecode(data)['payload'];
-      print(payload);
-
       return payload;
     } catch (error) {
-      print(error);
+      print("Error getting all researches $error");
     }
   }
 
   //get one contact
   Future getSingleResearch(String id) async {
-    http.Response response = await http.get(
-      '$url/$id',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'x-token': '$uploadToken',
-      },
-    );
-    var data = response.body;
-    var payload = jsonDecode(data);
+    try {
+      http.Response response = await http.get(
+        '$url/$id',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-token': '$uploadToken',
+        },
+      );
+      var data = response.body;
+      var payload = jsonDecode(data);
 
-    return payload;
+      return payload;
+    } catch (e) {
+      print("Error getting single research $e");
+    }
   }
 }
 
