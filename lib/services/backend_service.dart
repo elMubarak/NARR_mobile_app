@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/models/user_model.dart';
+import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
@@ -93,27 +94,24 @@ class NetworkHelper {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
-          <String, String>{"email": email, "password": password},
+          <String, dynamic>{"email": email, "password": password},
         ),
       );
 
       if (response.statusCode == 200) {
         String data = response.body;
-        email = jsonDecode(data)['payload']['user'];
+        // email = jsonDecode(data)['payload']['user'];
         tok = jsonDecode(data)['payload']['token'];
 
         String loginUser = email;
         String logInToken = tok;
 
-        print(
-            'the login token >> $logInToken and email >> $loginUser user object ');
-
         //socket authentication
-        SocketService().connectToServer(logInToken, loginUser);
+        SocketService().handleLoginEvent(logInToken, loginUser);
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
 
-        // Navigator.pushReplacementNamed(context, HomeScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else if (response.statusCode == 403) {
         String data = response.body;
         var message = jsonDecode(data)['message'];
@@ -264,27 +262,29 @@ class NetworkHelper {
       });
       String data = response.body;
       var payload = jsonDecode(data)['payload'];
-      print(payload);
-
       return payload;
     } catch (error) {
-      print(error);
+      print("Error getting all researches $error");
     }
   }
 
   //get one contact
   Future getSingleResearch(String id) async {
-    http.Response response = await http.get(
-      '$url/$id',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'x-token': '$uploadToken',
-      },
-    );
-    var data = response.body;
-    var payload = jsonDecode(data);
+    try {
+      http.Response response = await http.get(
+        '$url/$id',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-token': '$uploadToken',
+        },
+      );
+      var data = response.body;
+      var payload = jsonDecode(data);
 
-    return payload;
+      return payload;
+    } catch (e) {
+      print("Error getting single research $e");
+    }
   }
 }
 

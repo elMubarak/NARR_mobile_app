@@ -45,6 +45,7 @@ class _VerifyAccountState extends State<VerifyAccount> {
                       height: 15,
                     ),
                     CustomBotton(
+                      isLoading: false,
                       buttonTitle: 'Login',
                       onTap: () {
                         Navigator.pushReplacementNamed(context, Login.id);

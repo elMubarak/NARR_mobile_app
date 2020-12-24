@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/services/backend_service.dart';
+import 'package:narr/services/socket_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 
@@ -12,6 +13,13 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  SocketService _socketService = SocketService();
+  @override
+  void initState() {
+    super.initState();
+    _socketService.connectToServer();
+  }
+
   String email;
   String password;
   bool _obscureText = true;
