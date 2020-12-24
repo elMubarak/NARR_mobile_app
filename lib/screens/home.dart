@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/profile.dart';
-import 'package:narr/services/socket_service.dart';
 // import 'package:narr/screens/upload_document.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';

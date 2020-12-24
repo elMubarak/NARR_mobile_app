@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
+import 'package:narr/services/backend_service.dart';
+
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -17,84 +18,16 @@ class _LoginState extends State<Login> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
+  String loginUrl = 'https://api.narr.ng/api/v1/auth/login';
 
   final _formKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  void showSnackbar({String message}) {
-    final snackBar = SnackBar(
-      backgroundColor: Colors.white,
-      content: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 15, color: Colors.black),
-      ),
-      duration: Duration(seconds: 13),
-    );
-    _scaffoldKey.currentState.showSnackBar(snackBar);
-  }
-
-  Socket socket;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  killSocket() {
-    socket.close();
-    socket.disconnect();
-  }
-
-  void connectAndListen() {
-    socket = io('wss://api.narr.ng', <String, dynamic>{
-      "transports": ["websocket"],
-      "autoConnect": false,
-    });
-
-    socket.connect();
-    socket.onConnect((data) {
-      print('connectted with $data');
-      // socket.emit('msg', 'test');
-      socket.emitWithAck('', data, ack: () {
-        print(data);
-      });
-      socket.on("event", (data) {
-        print('event with $data');
-        showSnackbar(message: "Event socket $data");
-      });
-    });
-
-    socket.onError(
-      (data) {
-        print('Error connecting to socket $data');
-        showSnackbar(message: "Error connecting to socket $data");
-      },
-    );
-
-    //When an event recieved from server, data is added to the stream
-    // socket.on('event', (data) => streamSocket.addResponse);
-    socket.onDisconnect((data) {
-      print('disconnected from socket $data');
-      showSnackbar(message: "Disconnect  socket $data");
-    });
-  }
-
-  @override
-  void dispose() {
-    socket.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    connectAndListen();
     return Scaffold(
-      key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
         child: Text('Kill'),
-        onPressed: () {
-          killSocket();
-        },
+        onPressed: () {},
       ),
       backgroundColor: Color(0xff00a368),
       body: Center(
@@ -198,26 +131,23 @@ class _LoginState extends State<Login> {
                           isLoading: isClickable,
                           buttonTitle: 'Login',
                           onTap: () async {
-                            connectAndListen();
-                            // setState(() {});
-                            // if (_formKey.currentState.validate()) {
-                            //   _formKey.currentState.save();
+                            setState(() {});
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
 
-                            //   setState(() {
-                            //     isClickable = true;
-                            //   });
+                              setState(() {
+                                isClickable = true;
+                              });
 
-                            //   NetworkHelper(
-                            //           url: 'https://narr.ng/api/v1/auth/login')
-                            //       .loginUser(email, password, context)
-                            //       .whenComplete(() => setState(() {
-                            //             isClickable = false;
-                            //           }));
+                              NetworkHelper(url: loginUrl)
+                                  .loginUser(email, password, context)
+                                  .whenComplete(() => setState(() {
+                                        isClickable = false;
+                                      }));
 
-                            //   // loginUser();
-                            // }
-                            // setState(() {});
-                            // SocketConnection().socketAuth();
+                              // loginUser();
+                            }
+                            setState(() {});
                           },
                         ),
                         SizedBox(height: 30.0),

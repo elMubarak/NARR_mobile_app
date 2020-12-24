@@ -10,11 +10,12 @@ class RepositoryList extends StatefulWidget {
 }
 
 class _RepositoryListState extends State<RepositoryList> {
-  String researchRepoUrl = 'https://narr.ng/api/v1/research';
+  String researchRepoUrl = 'https://api.narr.ng/api/v1/research';
   void initState() {
     super.initState();
     setState(() {
-      NetworkHelper(url: 'https://narr.ng/api/v1/research').getAllResearch();
+      NetworkHelper(url: 'https://api.narr.ng/api/v1/research')
+          .getAllResearch();
     });
   }
 
@@ -112,7 +113,7 @@ class _RepositoryListState extends State<RepositoryList> {
             var pages = document['nPages'];
             String id = document['_id'];
             final courseTitleWidget = ResearchRepositoryCard(
-              imageUrl: 'https://narr.ng$image',
+              imageUrl: 'https://api.narr.ng$image',
               researchTitle: title,
               researchAuthor: author,
               researchDate: year,
