@@ -9,7 +9,7 @@ class ResearchWork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String singleResearchUrl = 'https://narr.ng/api/v1/research';
+    String singleResearchUrl = 'https://api.narr.ng/api/v1/research';
 
     return Scaffold(
       body: FutureBuilder(
@@ -50,7 +50,7 @@ class ResearchWork extends StatelessWidget {
                           ),
                         ),
                         background: Image.network(
-                          "https://narr.ng${research.data['payload']['thumbnail']}",
+                          "https://api.narr.ng${research.data['payload']['thumbnail']}",
                           fit: BoxFit.cover,
                           colorBlendMode: BlendMode.dstATop,
                           color: innerBoxIsScrolled

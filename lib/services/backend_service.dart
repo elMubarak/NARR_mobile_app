@@ -7,6 +7,7 @@ import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
+import 'package:narr/services/socket_service.dart';
 
 Future displayDialog(BuildContext context, String title, String text) =>
     showDialog(
@@ -22,6 +23,7 @@ Dio dio = new Dio();
 class NetworkHelper {
   static String tok;
   static String email;
+  static dynamic userObj;
 
   final String url;
   NetworkHelper({this.url});
@@ -98,18 +100,21 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         String data = response.body;
-        email = jsonDecode(data)['payload']['user']['email'];
+        email = jsonDecode(data)['payload']['user'];
         tok = jsonDecode(data)['payload']['token'];
-        String loginEmail = email;
+
+        String loginUser = email;
         String logInToken = tok;
 
-        print('the login token >> $logInToken and email >> $loginEmail');
+        print(
+            'the login token >> $logInToken and email >> $loginUser user object ');
 
         //socket authentication
+        SocketService().connectToServer(logInToken, loginUser);
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
 
-        Navigator.pushReplacementNamed(context, HomeScreen.id);
+        // Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else if (response.statusCode == 403) {
         String data = response.body;
         var message = jsonDecode(data)['message'];
@@ -260,6 +265,7 @@ class NetworkHelper {
       });
       String data = response.body;
       var payload = jsonDecode(data)['payload'];
+      print(payload);
 
       return payload;
     } catch (error) {

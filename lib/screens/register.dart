@@ -24,6 +24,7 @@ class _RegisterState extends State<Register> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
+  String myUrl = 'https://api.narr.ng/api/v1/auth/register';
   final _formKey = GlobalKey<FormState>();
 
   static DateTime selectedDate = DateTime.now();
@@ -349,7 +350,7 @@ class _RegisterState extends State<Register> {
                                 });
 
                                 NetworkHelper(
-                                  url: 'https://narr.ng/api/v1/auth/register',
+                                  url: myUrl,
                                 )
                                     .userRegistration(
                                       email,

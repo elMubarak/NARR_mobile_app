@@ -17,7 +17,7 @@ class SingleFileUpload extends StatefulWidget {
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
   String baseUrl = 'http://192.168.43.219:3000/upload';
-  String uploadUrl = 'https://narr.ng/api/v1/research/upload';
+  String uploadUrl = 'https://api.narr.ng/api/v1/research/upload';
 
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   // FileWaterMarkHelper _fileWaterMarkHelper = FileWaterMarkHelper();
@@ -334,37 +334,38 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                             // onSendProgress();
 
                             // await _uploadFile();
-                            // if (_formKey.currentState.validate()) {
-                            //   _formKey.currentState.save();
-                            setState(() {
-                              flag = true;
-                              isClickable = true;
-                            });
-                            NetworkHelper(url: uploadUrl)
-                                .uploadFile(
-                                  response: response,
-                                  selectedfile: _filePickerHelper.selectedfile,
-                                  onSendProgress: onSendProgress,
-                                  trancitionedScreen: HomeScreen(),
-                                  researchTitle: researchTitle,
-                                  authors: authors,
-                                  category: _dropdownHelper.selectedCategory,
-                                  genre: _dropdownHelper.selectedGenre,
-                                  accessType:
-                                      _dropdownHelper.selectedAccessType,
-                                  fee: fee,
-                                  year: year,
-                                  description: description,
-                                  alertMessage:
-                                      'Thank you for uploading your research work on NARR your document is been proccessed',
-                                  context: context,
-                                )
-                                .whenComplete(
-                                  () => setState(() {
-                                    isClickable = false;
-                                  }),
-                                );
-                            // }
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              setState(() {
+                                flag = true;
+                                isClickable = true;
+                              });
+                              NetworkHelper(url: uploadUrl)
+                                  .uploadFile(
+                                    response: response,
+                                    selectedfile:
+                                        _filePickerHelper.selectedfile,
+                                    onSendProgress: onSendProgress,
+                                    trancitionedScreen: HomeScreen(),
+                                    researchTitle: researchTitle,
+                                    authors: authors,
+                                    category: _dropdownHelper.selectedCategory,
+                                    genre: _dropdownHelper.selectedGenre,
+                                    accessType:
+                                        _dropdownHelper.selectedAccessType,
+                                    fee: fee,
+                                    year: year,
+                                    description: description,
+                                    alertMessage:
+                                        'Thank you for uploading your research work on NARR your document is been proccessed',
+                                    context: context,
+                                  )
+                                  .whenComplete(
+                                    () => setState(() {
+                                      isClickable = false;
+                                    }),
+                                  );
+                            }
                           },
                         ),
                       ],

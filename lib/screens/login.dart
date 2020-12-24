@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 // import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
+import 'package:narr/services/backend_service.dart';
+import 'package:narr/services/socket_service.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
-import 'package:narr/services/socket_service.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -19,23 +23,9 @@ class _LoginState extends State<Login> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
+  String loginUrl = 'https://api.narr.ng/api/v1/auth/login';
 
   final _formKey = GlobalKey<FormState>();
-  void connectAndListen() {
-    Socket socket = io('wss://echo.websocket.org',
-        OptionBuilder().setTransports(['websocket']).build());
-
-    socket.onConnect((_) {
-      print('connect');
-      // socket.emit('msg', 'test');
-    });
-
-    socket.onError((data) => print('Error connecting to socket $data'));
-
-    //When an event recieved from server, data is added to the stream
-    // socket.on('event', (data) => streamSocket.addResponse);
-    socket.onDisconnect((_) => print('disconnected from socket $_'));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,25 +132,23 @@ class _LoginState extends State<Login> {
                           isLoading: isClickable,
                           buttonTitle: 'Login',
                           onTap: () async {
-                            // setState(() {});
-                            // if (_formKey.currentState.validate()) {
-                            //   _formKey.currentState.save();
+                            setState(() {});
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
 
-                            //   setState(() {
-                            //     isClickable = true;
-                            //   });
+                              setState(() {
+                                isClickable = true;
+                              });
 
-                            //   NetworkHelper(
-                            //           url: 'https://narr.ng/api/v1/auth/login')
-                            //       .loginUser(email, password, context)
-                            //       .whenComplete(() => setState(() {
-                            //             isClickable = false;
-                            //           }));
+                              NetworkHelper(url: loginUrl)
+                                  .loginUser(email, password, context)
+                                  .whenComplete(() => setState(() {
+                                        isClickable = false;
+                                      }));
 
-                            //   // loginUser();
-                            // }
-                            // setState(() {});
-                            SocketConnection().socketCon(email);
+                              // loginUser();
+                            }
+                            setState(() {});
                           },
                         ),
                         SizedBox(height: 30.0),
