@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/services/backend_service.dart';
-
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 
@@ -25,10 +24,6 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Text('Kill'),
-        onPressed: () {},
-      ),
       backgroundColor: Color(0xff00a368),
       body: Center(
         child: SingleChildScrollView(
