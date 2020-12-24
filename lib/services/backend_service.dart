@@ -8,6 +8,7 @@ import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
 import 'package:narr/services/socket_service.dart';
+import 'package:narr/store/hive_store.dart';
 
 Future displayDialog(BuildContext context, String title, String text) =>
     showDialog(
@@ -102,12 +103,12 @@ class NetworkHelper {
         String data = response.body;
         userObj = jsonDecode(data)['payload']['user'];
         tok = jsonDecode(data)['payload']['token'];
-
-        dynamic loginUser = userObj;
-        String logInToken = tok;
-
-        //socket authentication
-        SocketService().handleLoginEvent(logInToken, loginUser);
+        var result = HiveBox().addToBox(token: tok, userObj: userObj);
+        result.then((value) {
+          //socket authentication
+          SocketService()
+              .handleLoginEvent(value['savedToken'], value['savedUser']);
+        });
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
 
@@ -124,8 +125,7 @@ class NetworkHelper {
       }
       //loading to false
     } catch (err) {
-      displayDialog(context, "An Error Occurred",
-          "${err.osError.message} server not available");
+      displayDialog(context, "An Error Occurred", "$err server not available");
       print(err);
     }
     // isLoading = false;

@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
 class HiveBox {
-  addToBox({String token, dynamic userObj}) async {
+  Future addToBox({String token, dynamic userObj}) async {
     var tokenStore = await Hive.openBox('token');
 
     tokenStore.put('token', '$token');
@@ -13,7 +13,7 @@ class HiveBox {
       "savedToken": savedToken,
       "savedUser": savedUser
     };
-    print('token: ${userInBox['savedToken']}, user: ${userInBox['savedUser']}');
+    // print('token: ${userInBox['savedToken']}, user: ${userInBox['savedUser']}');
     return userInBox;
   }
 }

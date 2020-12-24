@@ -9,8 +9,8 @@ import 'package:narr/widgets/container_card.dart';
 import 'package:narr/widgets/search_filter.dart';
 import 'dart:async';
 import 'package:narr/widgets/menu_drawer.dart';
-
 import 'single_file_upload.dart';
+import 'package:narr/services/socket_service.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'HomeScreen';
@@ -30,9 +30,9 @@ class ClicksPerYear {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 20;
+  SocketService _socketService = SocketService();
 
   void incrementCounter() {
-    print('Works');
     setState(() {
       _counter++;
     });
@@ -40,10 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // Timer(Duration(seconds: 2), () {
-    //   _incrementCounter();
-    // });
-
+    _socketService.handleLogoutEvent();
     runThis();
     super.initState();
   }

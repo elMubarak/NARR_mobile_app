@@ -151,7 +151,6 @@ class DrawerItems extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    SocketService().handleLogoutEvent();
                     Navigator.pushReplacementNamed(context, Login.id);
                   },
                   child: Row(
