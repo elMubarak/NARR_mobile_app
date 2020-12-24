@@ -1,5 +1,6 @@
 import 'package:socket_io_client/socket_io_client.dart';
 
+//EVENT:MICROSERVICES
 Socket socket;
 
 class SocketService {
@@ -48,6 +49,12 @@ class SocketService {
       });
     } catch (err) {
       //flush Bar
+    }
+  }
+
+  void handleUploadService() {
+    try {} catch (e) {
+      print('error ==> $e');
     }
   }
 }
