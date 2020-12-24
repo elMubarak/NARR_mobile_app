@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_dependency_injection/injector.dart';
 import 'package:narr/routes/routes.dart';
 import 'screens/login.dart';
 
-Injector injector;
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());

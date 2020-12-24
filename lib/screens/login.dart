@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/widgets/custom_button.dart';
@@ -20,25 +19,83 @@ class _LoginState extends State<Login> {
   bool isClickable = false;
 
   final _formKey = GlobalKey<FormState>();
-  void connectAndListen() {
-    Socket socket = io('wss://api.narr.ng',
-        OptionBuilder().setTransports(['websocket']).build());
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  void showSnackbar({String message}) {
+    final snackBar = SnackBar(
+      backgroundColor: Colors.white,
+      content: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 15, color: Colors.black),
+      ),
+      duration: Duration(seconds: 13),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
 
-    socket.onConnect((_) {
-      print('connect');
-      // socket.emit('msg', 'test');
+  Socket socket;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  killSocket() {
+    socket.close();
+    socket.disconnect();
+  }
+
+  void connectAndListen() {
+    socket = io('wss://api.narr.ng', <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
     });
 
-    socket.onError((data) => print('Error connecting to socket $data'));
+    socket.connect();
+    socket.onConnect((data) {
+      print('connectted with $data');
+      // socket.emit('msg', 'test');
+      socket.emitWithAck('', data, ack: () {
+        print(data);
+      });
+      socket.on("event", (data) {
+        print('event with $data');
+        showSnackbar(message: "Event socket $data");
+      });
+    });
+
+    socket.onError(
+      (data) {
+        print('Error connecting to socket $data');
+        showSnackbar(message: "Error connecting to socket $data");
+      },
+    );
 
     //When an event recieved from server, data is added to the stream
     // socket.on('event', (data) => streamSocket.addResponse);
-    socket.onDisconnect((_) => print('disconnected from socket $_'));
+    socket.onDisconnect((data) {
+      print('disconnected from socket $data');
+      showSnackbar(message: "Disconnect  socket $data");
+    });
+  }
+
+  @override
+  void dispose() {
+    socket.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    connectAndListen();
     return Scaffold(
+      key: _scaffoldKey,
+      floatingActionButton: FloatingActionButton(
+        child: Text('Kill'),
+        onPressed: () {
+          killSocket();
+        },
+      ),
       backgroundColor: Color(0xff00a368),
       body: Center(
         child: SingleChildScrollView(
@@ -141,6 +198,7 @@ class _LoginState extends State<Login> {
                           isLoading: isClickable,
                           buttonTitle: 'Login',
                           onTap: () async {
+                            connectAndListen();
                             // setState(() {});
                             // if (_formKey.currentState.validate()) {
                             //   _formKey.currentState.save();
@@ -159,7 +217,6 @@ class _LoginState extends State<Login> {
                             //   // loginUser();
                             // }
                             // setState(() {});
-                            connectAndListen();
                             // SocketConnection().socketAuth();
                           },
                         ),
