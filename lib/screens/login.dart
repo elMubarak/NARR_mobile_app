@@ -6,6 +6,9 @@ import 'package:narr/services/socket_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 
+String email;
+String password;
+
 class Login extends StatefulWidget {
   static String id = 'login';
   @override
@@ -20,8 +23,6 @@ class _LoginState extends State<Login> {
     _socketService.connectToServer();
   }
 
-  String email;
-  String password;
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;

@@ -38,6 +38,7 @@ class SocketService {
       });
     } catch (err) {
       //flush Bar
+      print('Error >>> $err');
     }
   }
 
@@ -49,12 +50,25 @@ class SocketService {
       });
     } catch (err) {
       //flush Bar
+      print('Error >>> $err');
+    }
+  }
+
+  void handleSignupEvent() {
+    try {
+      socket.on('EVENT:USER:SIGNUP', (data) {
+        print('Event user signup $data');
+        return data;
+      });
+    } catch (err) {
+      //flush Bar
+      print('Error >>> $err');
     }
   }
 
   void handleUploadService() {
     try {} catch (e) {
-      print('error ==> $e');
+      print('Error ==> $e');
     }
   }
 }

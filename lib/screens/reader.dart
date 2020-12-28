@@ -5,7 +5,7 @@ import 'package:narr/widgets/dark_mode_reader.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:photo_view/photo_view.dart';
 
-String singleResearchUrl = 'https://narr.ng/api/v1/research';
+String singleResearchUrl = 'https://api.narr.ng/api/v1/research';
 
 class Reader extends StatefulWidget {
   final String id;
@@ -70,7 +70,7 @@ class _SliderState extends State<Slider> {
                         child: PageSlider(
                           buttonCarouselController: buttonCarouselController,
                           imgList: [
-                            'https://narr.ng${research.data['payload']['readPath']}$_currentPage.jpg'
+                            'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg'
                           ],
                           isDark: true,
                         ),
@@ -79,7 +79,7 @@ class _SliderState extends State<Slider> {
                   : PageSlider(
                       buttonCarouselController: buttonCarouselController,
                       imgList: [
-                        'https://narr.ng${research.data['payload']['readPath']}$_currentPage.jpg'
+                        'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg'
                       ],
                       isDark: false,
                     ),

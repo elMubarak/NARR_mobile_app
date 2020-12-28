@@ -18,13 +18,14 @@ Future displayDialog(BuildContext context, String title, String text) =>
         content: Text(text),
       ),
     );
+SocketService _socketService = SocketService();
+dynamic userObj;
 
 Dio dio = new Dio();
 
 class NetworkHelper {
   static String tok;
   static dynamic email;
-  static dynamic userObj;
 
   final String url;
   NetworkHelper({this.url});
@@ -67,8 +68,7 @@ class NetworkHelper {
       );
 
       if (response.statusCode == 200) {
-        String data = response.body;
-        print(jsonDecode(data)['status']);
+        _socketService.handleSignupEvent();
 
         Navigator.pushReplacementNamed(context, VerifyAccount.id);
         return UserRegistrationModel.fromData(jsonDecode(response.body));
@@ -82,8 +82,6 @@ class NetworkHelper {
       print(err);
     }
   }
-
-//xbjn
 
 // ignore: missing_return
   Future<String> loginUser(
@@ -106,13 +104,14 @@ class NetworkHelper {
         var result = HiveBox().addToBox(token: tok, userObj: userObj);
         result.then((value) {
           //socket authentication
-          SocketService()
-              .handleLoginEvent(value['savedToken'], value['savedUser']);
+          _socketService.handleLoginEvent(
+              value['savedToken'], value['savedUser']);
         });
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
 
         Navigator.pushReplacementNamed(context, HomeScreen.id);
+        return data;
       } else if (response.statusCode == 403) {
         String data = response.body;
         var message = jsonDecode(data)['message'];
@@ -130,6 +129,8 @@ class NetworkHelper {
     }
     // isLoading = false;
   }
+
+  // get user profile
 
   //upload image
   Future uploadPhoto({
@@ -211,7 +212,7 @@ class NetworkHelper {
         'accessType': "$accessType",
         'monthlyFee': "$fee",
         'year': '$year',
-        'ownerEmail': 'musjib999@gmail.com',
+        'ownerEmail': userObj['email'],
         'description': "$description",
       }),
       "file": await MultipartFile.fromFile(
@@ -222,7 +223,8 @@ class NetworkHelper {
     try {
       // var responsez = httpClient.send(request);
 
-      print('the upload token >> $uploadToken and email >> $uploadEmail');
+      print(
+          'the upload token >> $uploadToken and email >> ${userObj['email']}');
       response = await dio.post(
         uploadurl,
         data: formdata,

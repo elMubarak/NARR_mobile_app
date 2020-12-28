@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:narr/screens/history.dart';
@@ -115,7 +116,18 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.notifications,
             ),
-            onPressed: () {},
+            onPressed: () async {
+              Flushbar(
+                title: "Online",
+                icon: Icon(
+                  Icons.done,
+                  color: Colors.white,
+                ),
+                backgroundColor: Colors.green,
+                message: "Musa Jibril is now online",
+                duration: Duration(seconds: 3),
+              )..show(context);
+            },
           ),
         ],
       ),

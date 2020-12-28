@@ -13,7 +13,7 @@ main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new MyHttpOverrides();
-  await Hive.init(path);
+  Hive.init(path);
 
   runApp(
     MyApp(),
