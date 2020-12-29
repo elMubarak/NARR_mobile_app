@@ -107,7 +107,7 @@ class NetworkHelper {
         String logInToken = tok;
 
         //socket authentication
-        SocketService().handleLoginEvent(logInToken, loginUser);
+        SocketService().handleLoginEvent(logInToken, loginUser, context);
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
 

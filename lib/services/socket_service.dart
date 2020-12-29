@@ -1,3 +1,5 @@
+import 'package:flushbar/flushbar.dart';
+import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 //EVENT:MICROSERVICES
@@ -26,7 +28,7 @@ class SocketService {
     }
   }
 
-  void handleLoginEvent(String token, user) {
+  void handleLoginEvent(String token, user, context) {
     try {
       socket.emit(
         'LOGIN',
@@ -34,6 +36,7 @@ class SocketService {
       );
       socket.on('EVENT:USER:LOGIN', (data) {
         print('Event user login $data');
+
         return data;
       });
     } catch (err) {
