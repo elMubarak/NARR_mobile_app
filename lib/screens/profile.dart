@@ -40,90 +40,149 @@ class _ProfileState extends State<Profile> {
               ),
               Container(
                 margin: EdgeInsets.only(left: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundImage: AssetImage('images/profile.jpg'),
-                      radius: 45.0,
+                child: Column(
+                  children: [
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: AssetImage('images/profile.jpg'),
+                            radius: 45.0,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                userObj['fullName'],
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4.0,
+                              ),
+                              Text(
+                                userObj['userRole'],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
-                      width: 15,
+                      height: 15,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          userObj['fullName'],
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.email,
+                                size: 20.0,
+                              ),
+                              SizedBox(
+                                width: 4.0,
+                              ),
+                              Text(
+                                userObj['email'],
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          width: 4.0,
-                        ),
-                        Text(
-                          userObj['userRole'],
-                        ),
-                      ],
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.domain,
+                                size: 20.0,
+                              ),
+                              SizedBox(
+                                width: 4.0,
+                              ),
+                              Text(
+                                userObj['institution']['name'],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10.0),
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.phone,
+                                size: 20.0,
+                              ),
+                              SizedBox(
+                                width: 4.0,
+                              ),
+                              Text(
+                                userObj['phone'],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.house,
+                                size: 20.0,
+                              ),
+                              SizedBox(
+                                width: 4.0,
+                              ),
+                              Text(
+                                userObj['address'],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.calendar_today,
+                                size: 20.0,
+                              ),
+                              SizedBox(
+                                width: 4.0,
+                              ),
+                              Text(
+                                userObj['dob'],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text('Last Login: '),
+                              SizedBox(
+                                width: 4.0,
+                              ),
+                              Text(
+                                '20 munites ago',
+                                style: TextStyle(color: Colors.orange),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
               SizedBox(
                 height: 10,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 15),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.email,
-                          size: 20.0,
-                        ),
-                        SizedBox(
-                          width: 4.0,
-                        ),
-                        Text(
-                          userObj['email'],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.domain,
-                          size: 20.0,
-                        ),
-                        SizedBox(
-                          width: 4.0,
-                        ),
-                        Text(
-                          userObj['institution']['name'],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      children: <Widget>[
-                        Text('Last Login: '),
-                        SizedBox(
-                          width: 4.0,
-                        ),
-                        Text(
-                          '20 munites ago',
-                          style: TextStyle(color: Colors.orange),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
               ),
               ContainerWithShadow(
                 child: Row(
