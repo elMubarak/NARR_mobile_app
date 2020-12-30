@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/edit_profile.dart';
+import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';
+  // final String email;
+  // final String password;
+  // Profile({this.email, this.password});
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -11,10 +16,6 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Profile'),
-      //   backgroundColor: Color(0xff00a368),
-      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -31,7 +32,9 @@ class _ProfileState extends State<Profile> {
                   ),
                   IconButton(
                     icon: Icon(Icons.edit),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, EditProfile.id);
+                    },
                   )
                 ],
               ),
@@ -51,7 +54,7 @@ class _ProfileState extends State<Profile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Mubarak Na Mairo',
+                          userObj['fullName'],
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -61,7 +64,7 @@ class _ProfileState extends State<Profile> {
                           width: 4.0,
                         ),
                         Text(
-                          'Researcher',
+                          userObj['userRole'],
                         ),
                       ],
                     ),
@@ -85,7 +88,7 @@ class _ProfileState extends State<Profile> {
                           width: 4.0,
                         ),
                         Text(
-                          'namairo@gmail.com',
+                          userObj['email'],
                         ),
                       ],
                     ),
@@ -102,22 +105,20 @@ class _ProfileState extends State<Profile> {
                           width: 4.0,
                         ),
                         Text(
-                          'Ahmadu Bello Univeristy',
+                          userObj['institution']['name'],
                         ),
                       ],
                     ),
                     SizedBox(height: 10.0),
                     Row(
                       children: <Widget>[
-                        Icon(
-                          Icons.school,
-                          size: 20.0,
-                        ),
+                        Text('Last Login: '),
                         SizedBox(
                           width: 4.0,
                         ),
                         Text(
-                          'Geography',
+                          '20 munites ago',
+                          style: TextStyle(color: Colors.orange),
                         ),
                       ],
                     ),

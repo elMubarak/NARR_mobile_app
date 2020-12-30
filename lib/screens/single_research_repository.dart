@@ -248,6 +248,8 @@ class ResearchWork extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) {
+                                            print(research.data['payload']
+                                                ['_id']);
                                             return Reader(research
                                                 .data['payload']['_id']);
                                           },

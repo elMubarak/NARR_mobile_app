@@ -3,9 +3,11 @@ import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/services/socket_service.dart';
-import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
+
+String email;
+String password;
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -21,8 +23,6 @@ class _LoginState extends State<Login> {
     _socketService.connectToServer();
   }
 
-  String email;
-  String password;
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
@@ -144,11 +144,13 @@ class _LoginState extends State<Login> {
                               });
 
                               NetworkHelper(url: loginUrl)
-                                  .loginUser(email, password, context)
+                                  .loginUser(
+                                      email: email,
+                                      password: password,
+                                      context: context)
                                   .whenComplete(() => setState(() {
                                         isClickable = false;
                                       }));
-
                               // loginUser();
                             }
                             setState(() {});

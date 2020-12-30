@@ -1,18 +1,25 @@
+import 'package:flushbar/flushbar.dart';
+import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:narr/provider/app_data.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/profile.dart';
 // import 'package:narr/screens/upload_document.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
+import 'package:narr/widgets/flush_snackbar.dart';
 import 'package:narr/widgets/search_filter.dart';
 import 'dart:async';
 import 'package:narr/widgets/menu_drawer.dart';
-
+import 'package:provider/provider.dart';
 import 'single_file_upload.dart';
+import 'package:narr/services/socket_service.dart';
 
 class HomeScreen extends StatefulWidget {
+  HomeScreen({this.message});
+  final dynamic message;
   static const String id = 'HomeScreen';
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -30,9 +37,9 @@ class ClicksPerYear {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 20;
+  SocketService _socketService = SocketService();
 
   void incrementCounter() {
-    print('Works');
     setState(() {
       _counter++;
     });
@@ -40,10 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // Timer(Duration(seconds: 2), () {
-    //   _incrementCounter();
-    // });
-
+    _socketService.handleLogoutEvent();
     runThis();
     super.initState();
   }
@@ -56,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //
+    // showSimpleFlushbar(context: context, message: message);
     var data = [
       ClicksPerYear('22', 42, Colors.red),
       ClicksPerYear('52', 52, Colors.yellow),
@@ -118,7 +124,9 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.notifications,
             ),
-            onPressed: () {},
+            onPressed: () async {
+              showSimpleFlushbar(context: context, message: "Musa Damu");
+            },
           ),
         ],
       ),

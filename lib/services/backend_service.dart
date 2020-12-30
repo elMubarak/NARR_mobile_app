@@ -6,8 +6,10 @@ import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/verify_email.dart';
+import 'package:narr/widgets/flush_snackbar.dart';
 import 'package:path/path.dart';
 import 'package:narr/services/socket_service.dart';
+import 'package:narr/store/hive_store.dart';
 
 Future displayDialog(BuildContext context, String title, String text) =>
     showDialog(
@@ -17,13 +19,14 @@ Future displayDialog(BuildContext context, String title, String text) =>
         content: Text(text),
       ),
     );
+SocketService _socketService = SocketService();
+dynamic userObj;
 
 Dio dio = new Dio();
 
 class NetworkHelper {
   static String tok;
   static dynamic email;
-  static dynamic userObj;
 
   final String url;
   NetworkHelper({this.url});
@@ -66,8 +69,7 @@ class NetworkHelper {
       );
 
       if (response.statusCode == 200) {
-        String data = response.body;
-        print(jsonDecode(data)['status']);
+        _socketService.handleSignupEvent(context);
 
         Navigator.pushReplacementNamed(context, VerifyAccount.id);
         return UserRegistrationModel.fromData(jsonDecode(response.body));
@@ -82,11 +84,9 @@ class NetworkHelper {
     }
   }
 
-//xbjn
-
 // ignore: missing_return
   Future<String> loginUser(
-      String email, String password, BuildContext context) async {
+      {String email, String password, BuildContext context}) async {
     try {
       final http.Response response = await http.post(
         url,
@@ -102,16 +102,20 @@ class NetworkHelper {
         String data = response.body;
         userObj = jsonDecode(data)['payload']['user'];
         tok = jsonDecode(data)['payload']['token'];
-
-        dynamic loginUser = userObj;
-        String logInToken = tok;
-
-        //socket authentication
-        SocketService().handleLoginEvent(logInToken, loginUser, context);
+        var result = HiveBox().addToBox(token: tok, userObj: userObj);
+        result.then((value) {
+          //socket authentication
+          _socketService.handleLoginEvent(
+            context: context,
+            token: value['savedToken'],
+            user: value['savedUser'],
+          );
+        });
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
+        Navigator.pushNamed(context, HomeScreen.id);
 
-        Navigator.pushReplacementNamed(context, HomeScreen.id);
+        return data;
       } else if (response.statusCode == 403) {
         String data = response.body;
         var message = jsonDecode(data)['message'];
@@ -124,12 +128,13 @@ class NetworkHelper {
       }
       //loading to false
     } catch (err) {
-      displayDialog(context, "An Error Occurred",
-          "${err.osError.message} server not available");
+      displayDialog(context, "An Error Occurred", "$err server not available");
       print(err);
     }
     // isLoading = false;
   }
+
+  // get user profile
 
   //upload image
   Future uploadPhoto({
@@ -211,7 +216,7 @@ class NetworkHelper {
         'accessType': "$accessType",
         'monthlyFee': "$fee",
         'year': '$year',
-        'ownerEmail': 'musjib999@gmail.com',
+        'ownerEmail': userObj['email'],
         'description': "$description",
       }),
       "file": await MultipartFile.fromFile(
@@ -222,7 +227,8 @@ class NetworkHelper {
     try {
       // var responsez = httpClient.send(request);
 
-      print('the upload token >> $uploadToken and email >> $uploadEmail');
+      print(
+          'the upload token >> $uploadToken and email >> ${userObj['email']}');
       response = await dio.post(
         uploadurl,
         data: formdata,

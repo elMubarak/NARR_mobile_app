@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
+import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/repository_list.dart';
@@ -43,4 +44,5 @@ Map<String, WidgetBuilder> myRoute = {
   Grants.id: (context) => Grants(),
   ResearchGrantsProposal.id: (context) => ResearchGrantsProposal(),
   RepositoryList.id: (context) => RepositoryList(),
+  EditProfile.id: (context) => EditProfile()
 };
