@@ -68,7 +68,8 @@ class NetworkHelper {
       );
 
       if (response.statusCode == 200) {
-        _socketService.handleSignupEvent();
+        String data = response.body;
+        _socketService.handleSignupEvent(jsonDecode(data)['payload']);
 
         Navigator.pushReplacementNamed(context, VerifyAccount.id);
         return UserRegistrationModel.fromData(jsonDecode(response.body));
@@ -104,8 +105,7 @@ class NetworkHelper {
         var result = HiveBox().addToBox(token: tok, userObj: userObj);
         result.then((value) {
           //socket authentication
-          _socketService.handleLoginEvent(
-              value['savedToken'], value['savedUser']);
+          _socketService.handleLoginEvent(value['savedToken'], userObj);
         });
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'

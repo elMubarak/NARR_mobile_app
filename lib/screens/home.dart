@@ -41,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _socketService.handleLogoutEvent();
     runThis();
     super.initState();
   }
@@ -117,16 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.notifications,
             ),
             onPressed: () async {
-              Flushbar(
-                title: "Online",
-                icon: Icon(
-                  Icons.done,
-                  color: Colors.white,
-                ),
-                backgroundColor: Colors.green,
-                message: "Musa Jibril is now online",
-                duration: Duration(seconds: 3),
-              )..show(context);
+              _socketService.handleUploadService();
             },
           ),
         ],

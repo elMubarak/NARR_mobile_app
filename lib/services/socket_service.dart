@@ -42,22 +42,14 @@ class SocketService {
     }
   }
 
-  void handleLogoutEvent() {
+  void handleSignupEvent(user) {
     try {
-      socket.on('EVENT:USER:LOGOUT', (data) {
-        print('Event user logout $data');
-        return data;
-      });
-    } catch (err) {
-      //flush Bar
-      print('Error >>> $err');
-    }
-  }
-
-  void handleSignupEvent() {
-    try {
-      socket.on('EVENT:USER:SIGNUP', (data) {
-        print('Event user signup $data');
+      socket.emit(
+        'LOGIN',
+        {"user": user},
+      );
+      socket.on('EVENT:USER:LOGIN', (data) {
+        print('Event user login $data');
         return data;
       });
     } catch (err) {
@@ -67,7 +59,12 @@ class SocketService {
   }
 
   void handleUploadService() {
-    try {} catch (e) {
+    try {
+      socket.on('EVENT:USER:SIGNUP', (data) {
+        print('Event user signup $data');
+        return data;
+      });
+    } catch (e) {
       print('Error ==> $e');
     }
   }
