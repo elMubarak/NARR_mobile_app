@@ -52,48 +52,29 @@ class SocketService {
     // print('GDATA is r=> $gData');
   }
 
-  void handleLogoutEvent() {
+  void handleSignupEvent(user) {
     try {
-      socket.on('EVENT:USER:LOGOUT', (data) {
-        print('Event user logout $data');
+      socket.emit(
+        'LOGIN',
+        {"user": user},
+      );
+      socket.on('EVENT:USER:LOGIN', (data) {
+        print('Event user login $data');
         return data;
       });
     } catch (err) {
       //flush Bar
       print('Error >>> $err');
     }
-  }
-
-  void _showToast(BuildContext context) {
-    print('toasty');
-    final scaffold = Scaffold.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: const Text('Updating..'),
-      ),
-    );
-
-    this._showToast(context);
-  }
-
-  void handleSignupEvent(context) {
-    dynamic gData;
-    try {
-      socket.on('EVENT:USER:SIGNUP', (data) {
-        // print('Event user signup $data');
-        gData = data;
-        return data;
-      });
-    } catch (err) {
-      //flush Bar
-      print('Error >>> $err');
-    }
-    print('Event user signup==> $gData');
-    return gData;
   }
 
   void handleUploadService() {
-    try {} catch (e) {
+    try {
+      socket.on('EVENT:USER:SIGNUP', (data) {
+        // print('Event user signup $data');
+        return data;
+      });
+    } catch (e) {
       print('Error ==> $e');
     }
   }

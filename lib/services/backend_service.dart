@@ -69,7 +69,8 @@ class NetworkHelper {
       );
 
       if (response.statusCode == 200) {
-        _socketService.handleSignupEvent(context);
+        String data = response.body;
+        _socketService.handleSignupEvent(jsonDecode(data)['payload']);
 
         Navigator.pushReplacementNamed(context, VerifyAccount.id);
         return UserRegistrationModel.fromData(jsonDecode(response.body));

@@ -47,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _socketService.handleLogoutEvent();
     runThis();
     super.initState();
   }
