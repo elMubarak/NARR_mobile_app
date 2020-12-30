@@ -1,6 +1,14 @@
+import 'dart:convert';
+
 import 'package:narr/provider/app_data.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+
+class User {
+  String fullName;
+  User({this.fullName});
+  User.fromJson(Map<String, dynamic> json) : fullName = json["fullName"];
+}
 
 //EVENT:MICROSERVICES
 Socket socket;
@@ -28,20 +36,19 @@ class SocketService {
     }
   }
 
-  handleLoginEvent({String token, user, context}) {
+  void handleLoginEvent({String token, dynamic user, context}) {
     try {
       socket.emit(
         'LOGIN',
         {"token": token, "user": user},
       );
-      socket.on('EVENT:USER:LOGIN', (data) {
-        // print('Event user login $data');
-        dynamic loggedInUser = data['fullName'];
+      socket.on('EVENT:USER:LOGIN', (data) async {
+        String fullName = json.decode(data)["fullName"];
+        print(data);
         Provider.of<AppData>(context, listen: false)
-            .updatedUserLogInEvent(usersEvent: loggedInUser, context: context);
+            .updatedUserLogInEvent(usersEvent: fullName, context: context);
       });
     } catch (err) {
-      //flush Bar
       print('Error >>> $err');
     }
   }
