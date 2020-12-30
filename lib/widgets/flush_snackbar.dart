@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 void showSimpleFlushbar({BuildContext context, String message}) {
   print('show');
   Flushbar(
-    title: "Online",
+    title: "$message",
     icon: Icon(
       Icons.check_circle,
       color: Color(0xff00a368),
     ),
-    leftBarIndicatorColor: Color(0xff00a368),
+    leftBarIndicatorColor: Colors.white,
     // showProgressIndicator: true,
     flushbarPosition: FlushbarPosition.TOP,
     dismissDirection: FlushbarDismissDirection.HORIZONTAL,
     // backgroundColor: Color(0xff00a368),
-    message: "$message is now online",
-    duration: Duration(seconds: 123),
+    message: "is now online",
+    duration: Duration(seconds: 5),
   )..show(context);
 }

@@ -1,9 +1,4 @@
-import 'package:flushbar/flushbar.dart';
-import 'package:flushbar/flushbar_helper.dart';
-import 'package:flutter/material.dart';
 import 'package:narr/provider/app_data.dart';
-import 'package:narr/screens/home.dart';
-import 'package:narr/widgets/flush_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
@@ -41,7 +36,7 @@ class SocketService {
       );
       socket.on('EVENT:USER:LOGIN', (data) {
         // print('Event user login $data');
-        String loggedInUser = data['fullName'];
+        dynamic loggedInUser = data['fullName'];
         Provider.of<AppData>(context, listen: false)
             .updatedUserLogInEvent(usersEvent: loggedInUser, context: context);
       });
@@ -49,7 +44,6 @@ class SocketService {
       //flush Bar
       print('Error >>> $err');
     }
-    // print('GDATA is r=> $gData');
   }
 
   void handleSignupEvent(user) {
