@@ -52,7 +52,6 @@ class SocketService {
       //flush Bar
       print('Error >>> $err');
     }
-    // print('GDATA is r=> $gData');
   }
 
   void handleSignupEvent(user) {
