@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:narr/provider/app_data.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -42,11 +41,18 @@ class SocketService {
         'LOGIN',
         {"token": token, "user": user},
       );
-      socket.on('EVENT:USER:LOGIN', (data) async {
-        String fullName = json.decode(data)["fullName"];
-        print(data);
+      socket.on('EVENT:USER:LOGIN', (data) {
+        String fullName = jsonDecode(data)['fullName'];
+        print('Event user login $fullName');
+        // String loggedInUser = data;
         Provider.of<AppData>(context, listen: false)
             .updatedUserLogInEvent(usersEvent: fullName, context: context);
+      });
+      socket.on('EVENT:USER:LOGOUT', (data) {
+        String fullName = jsonDecode(data)['fullName'];
+        print('User logged out $fullName');
+        Provider.of<AppData>(context, listen: false)
+            .updatedUserOutEvent(usersEvent: fullName, context: context);
       });
     } catch (err) {
       print('Error >>> $err');

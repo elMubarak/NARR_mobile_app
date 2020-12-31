@@ -5,7 +5,16 @@ class AppData extends ChangeNotifier {
   String usersLogInEvent = '';
   void updatedUserLogInEvent({String usersEvent, context}) {
     usersLogInEvent = usersEvent;
-    showSimpleFlushbar(context: context, message: usersEvent);
+    showLoginFlushbar(context: context, message: usersEvent);
+    print('here user data $usersEvent');
+
+    notifyListeners();
+  }
+
+  String usersLogOutEvent = '';
+  void updatedUserOutEvent({String usersEvent, context}) {
+    usersLogOutEvent = usersEvent;
+    showLogoutFlushbar(context: context, message: usersEvent);
     print('here user data $usersEvent');
 
     notifyListeners();
