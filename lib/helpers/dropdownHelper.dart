@@ -36,6 +36,8 @@ class DropdownHelper {
     'Khemsafe Computers',
   ];
 
+  List<String> independentResearcher = ['Researcher', 'Publisher'];
+
   List<String> filters = [
     'Science',
     'Art',
@@ -111,6 +113,20 @@ class DropdownHelper {
     List<DropdownMenuItem<String>> dropdowmItems = [];
 
     for (String name in monotechnic) {
+      var newItem = DropdownMenuItem(
+          child: Text(
+            name,
+          ),
+          value: name);
+      dropdowmItems.add(newItem);
+    }
+    return dropdowmItems;
+  }
+
+  List<DropdownMenuItem> getIndependentResearcherName() {
+    List<DropdownMenuItem<String>> dropdowmItems = [];
+
+    for (String name in independentResearcher) {
       var newItem = DropdownMenuItem(
           child: Text(
             name,

@@ -100,7 +100,6 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         String data = response.body;
-        print(data);
         userObj = jsonDecode(data)['payload']['user'];
         tok = jsonDecode(data)['payload']['token'];
         var result = HiveBox().addToBox(token: tok, userObj: userObj);

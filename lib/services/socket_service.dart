@@ -43,14 +43,18 @@ class SocketService {
       );
       socket.on('EVENT:USER:LOGIN', (data) {
         String fullName = jsonDecode(data)['fullName'];
-        print('Event user login $fullName');
-        // String loggedInUser = data;
-        Provider.of<AppData>(context, listen: false)
-            .updatedUserLogInEvent(usersEvent: fullName, context: context);
+        String emailSent = user['email'];
+        String emailRecieved = jsonDecode(data)['email'];
+
+        if (emailSent == emailRecieved) {
+          print('$emailSent is = $emailRecieved');
+        } else {
+          Provider.of<AppData>(context, listen: false)
+              .updatedUserLogInEvent(usersEvent: fullName, context: context);
+        }
       });
       socket.on('EVENT:USER:LOGOUT', (data) {
         String fullName = jsonDecode(data)['fullName'];
-        print('User logged out $fullName');
         Provider.of<AppData>(context, listen: false)
             .updatedUserOutEvent(usersEvent: fullName, context: context);
       });
