@@ -8,7 +8,7 @@ void showLoginFlushbar({BuildContext context, String message}) {
       Icons.check_circle,
       color: Color(0xff00a368),
     ),
-    leftBarIndicatorColor: Colors.white,
+    leftBarIndicatorColor: Color(0xff00a368),
     // showProgressIndicator: true,
     flushbarPosition: FlushbarPosition.TOP,
     dismissDirection: FlushbarDismissDirection.HORIZONTAL,

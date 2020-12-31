@@ -32,7 +32,7 @@ class SocketService {
     }
   }
 
-  handleLoginEvent({String token, user, context}) {
+  void handleLoginEvent({String token, dynamic user, context}) {
     try {
       socket.emit(
         'LOGIN',
@@ -56,7 +56,6 @@ class SocketService {
             .updatedUserOutEvent(usersEvent: fullName, context: context);
       });
     } catch (err) {
-      //flush Bar
       print('Error >>> $err');
     }
   }

@@ -108,7 +108,7 @@ class NetworkHelper {
           _socketService.handleLoginEvent(
             context: context,
             token: value['savedToken'],
-            user: userObj,
+            user: value['savedUser'],
           );
         });
 

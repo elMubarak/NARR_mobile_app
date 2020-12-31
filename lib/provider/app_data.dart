@@ -17,4 +17,6 @@ class AppData extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  //
 }

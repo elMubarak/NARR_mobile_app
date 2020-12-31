@@ -2,18 +2,18 @@ import 'package:hive/hive.dart';
 
 class HiveBox {
   Future addToBox({String token, dynamic userObj}) async {
-    var tokenStore = await Hive.openBox('token');
+    var userStore = await Hive.openBox('local-user');
 
-    tokenStore.put('token', '$token');
-    tokenStore.put('user', '$userObj');
+    userStore.put('token', '$token');
+    userStore.put('user', userObj);
 
-    var savedToken = tokenStore.get('token');
-    var savedUser = tokenStore.get('user');
-    Map<dynamic, dynamic> userInBox = {
+    String savedToken = userStore.get('token');
+    dynamic savedUser = userStore.get('user');
+    Map<String, dynamic> userInBox = {
       "savedToken": savedToken,
       "savedUser": savedUser
     };
-    // print('token: ${userInBox['savedToken']}, user: ${userInBox['savedUser']}');
+    // print('user: ${userInBox['savedUser'].runtimeType}');
     return userInBox;
   }
 }
