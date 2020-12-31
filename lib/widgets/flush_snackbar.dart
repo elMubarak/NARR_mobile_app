@@ -2,7 +2,6 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 void showLoginFlushbar({BuildContext context, String message}) {
-  print('show');
   Flushbar(
     title: "$message",
     icon: Icon(
@@ -20,11 +19,10 @@ void showLoginFlushbar({BuildContext context, String message}) {
 }
 
 void showLogoutFlushbar({BuildContext context, String message}) {
-  print('show');
   Flushbar(
     title: "$message",
     icon: Icon(
-      Icons.warning,
+      Icons.info,
       color: Color(0xfffcda44),
     ),
     leftBarIndicatorColor: Color(0xfffcda44),
