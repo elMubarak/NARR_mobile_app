@@ -108,7 +108,7 @@ class NetworkHelper {
           _socketService.handleLoginEvent(
             context: context,
             token: value['savedToken'],
-            user: userObj,
+            user: value['savedUser'],
           );
         });
 
@@ -128,7 +128,8 @@ class NetworkHelper {
       }
       //loading to false
     } catch (err) {
-      displayDialog(context, "An Error Occurred", "$err server not available");
+      displayDialog(context, "An Error Occurred",
+          "${err.osError.message} server not available");
       print(err);
     }
     // isLoading = false;

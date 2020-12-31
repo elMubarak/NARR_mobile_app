@@ -3,12 +3,6 @@ import 'package:narr/provider/app_data.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-class User {
-  String fullName;
-  User({this.fullName});
-  User.fromJson(Map<String, dynamic> json) : fullName = json["fullName"];
-}
-
 //EVENT:MICROSERVICES
 Socket socket;
 
