@@ -22,7 +22,10 @@ class SocketService {
       socket.on('connect', (data) {
         print('Connected to socket server');
       });
-      socket.on('disconnect', (reason) => print('disconnect $reason'));
+      socket.on('disconnect', (reason) {
+        print('disconnect $reason');
+        handleLoginEvent();
+      });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
       print(e.toString());

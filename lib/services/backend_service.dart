@@ -79,7 +79,7 @@ class NetworkHelper {
         print(response.body);
       }
     } catch (err) {
-      displayDialog(context, "An Error Occurred", "$err");
+      displayDialog(context, "An Error Occurred", "${err.osError.message}");
       print(err);
     }
   }
@@ -128,7 +128,8 @@ class NetworkHelper {
       }
       //loading to false
     } catch (err) {
-      displayDialog(context, "An Error Occurred", "$err server not available");
+      displayDialog(context, "An Error Occurred",
+          "${err.osError.message} server not available");
       print(err);
     }
     // isLoading = false;
@@ -270,7 +271,7 @@ class NetworkHelper {
       var payload = jsonDecode(data)['payload'];
       return payload;
     } catch (error) {
-      print("Error getting all researches $error");
+      print("Error getting all researches ${error.osError.message}");
     }
   }
 
