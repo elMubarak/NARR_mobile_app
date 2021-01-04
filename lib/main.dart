@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/routes/routes.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/screens/splash_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'screens/login.dart';
@@ -17,7 +18,6 @@ main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new MyHttpOverrides();
   Hive.init(path);
-
   runApp(
     MyApp(),
   );
@@ -32,18 +32,21 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   String token;
-  getUserToken() async {
-    var userStore = await Hive.openBox('local-user');
-    var hiveTok = userStore.get('token');
-    token = hiveTok;
+
+  @override
+  void initState() {
+    super.initState();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    getUserToken();
     return ChangeNotifierProvider(
       create: (context) => AppData(),
       child: MaterialApp(
@@ -56,7 +59,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             brightness: Brightness.light),
         debugShowCheckedModeBanner: false,
-        initialRoute: (token == null) ? Login.id : HomeScreen.id,
+        initialRoute: SplashScreen.id,
         // initialRoute: VerifyAccount.id,
         routes: myRoute,
       ),
