@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/screens/login.dart';
 // import 'package:narr/screens/verify_email.dart';
@@ -24,7 +25,7 @@ class _RegisterState extends State<Register> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
-  String myUrl = 'https://api.narr.ng/api/v1/auth/register';
+  String myUrl = '$serverUrl/auth/register';
   final _formKey = GlobalKey<FormState>();
 
   static DateTime selectedDate = DateTime.now();

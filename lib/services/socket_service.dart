@@ -1,16 +1,19 @@
 import 'dart:convert';
+import 'package:narr/configs.dart';
 import 'package:narr/provider/app_data.dart';
+import 'package:narr/store/hive_store.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 //EVENT:MICROSERVICES
 Socket socket;
+HiveBox _box = HiveBox();
 
 class SocketService {
   void connectToServer() {
     try {
       // Configure socket transports must be sepecified
-      socket = io('wss://api.narr.ng', <String, dynamic>{
+      socket = io(socketServerUrl, <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
       });
@@ -22,7 +25,13 @@ class SocketService {
       socket.on('connect', (data) {
         print('Connected to socket server');
       });
-      socket.on('disconnect', (reason) => print('disconnect $reason'));
+      socket.on('disconnect', (reason) {
+        print('disconnect $reason');
+        String savedToken = _box.getUserAndToken('token');
+        dynamic savedUser = _box.getUserAndToken('user');
+
+        handleLoginEvent(token: savedToken, user: savedUser);
+      });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
       print(e.toString());
@@ -59,12 +68,8 @@ class SocketService {
 
   void handleSignupEvent(user) {
     try {
-      socket.emit(
-        'LOGIN',
-        {"user": user},
-      );
-      socket.on('EVENT:USER:LOGIN', (data) {
-        print('Event user login $data');
+      socket.on('EVENT:USER:SIGNUP', (data) {
+        print('Event  $data');
         return data;
       });
     } catch (err) {
@@ -75,8 +80,8 @@ class SocketService {
 
   void handleUploadService() {
     try {
-      socket.on('EVENT:USER:SIGNUP', (data) {
-        // print('Event user signup $data');
+      socket.on('EVENT:RESEARCH:NEW', (data) {
+        print('Research upload event $data');
         return data;
       });
     } catch (e) {
