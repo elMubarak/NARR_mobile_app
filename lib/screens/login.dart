@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/services/backend_service.dart';
@@ -26,7 +27,7 @@ class _LoginState extends State<Login> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
-  String loginUrl = 'https://api.narr.ng/api/v1/auth/login';
+  String loginUrl = '$serverUrl/auth/login';
 
   final _formKey = GlobalKey<FormState>();
 

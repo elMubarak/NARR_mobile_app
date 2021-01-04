@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/profile.dart';
-// import 'package:narr/screens/upload_document.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
-import 'package:narr/widgets/flush_snackbar.dart';
 import 'package:narr/widgets/search_filter.dart';
 import 'dart:async';
 import 'package:narr/widgets/menu_drawer.dart';
 import 'single_file_upload.dart';
-import 'package:narr/services/socket_service.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({this.message});
@@ -33,7 +30,6 @@ class ClicksPerYear {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 20;
-  SocketService _socketService = SocketService();
 
   void incrementCounter() {
     setState(() {
@@ -119,9 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.notifications,
             ),
-            onPressed: () async {
-              showLogoutFlushbar(context: context, message: "Musa Damu");
-            },
+            onPressed: () async {},
           ),
         ],
       ),

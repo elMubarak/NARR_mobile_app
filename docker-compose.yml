@@ -8,6 +8,8 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: "musjib"
             MONGO_INITDB_ROOT_PASSWORD: "123456"
+        volumes: 
+            - /home/musjib/Documents/dev/node/projects/Narr-gateway/src/storage:/data/db
         networks:
             - narrnet
         
@@ -19,7 +21,7 @@ services:
             - narrnet
     
     narrapi:
-        image: shamskhalil/narr-api:v1.1.2
+        image: shamskhalil/narr-api:v1.1.5
         restart: always
         ports: 
             - "3000:3000"

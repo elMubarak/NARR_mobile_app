@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
 // import 'package:narr/helpers/file_water_mark_helper.dart';
@@ -17,7 +18,7 @@ class SingleFileUpload extends StatefulWidget {
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
   String baseUrl = 'http://192.168.43.219:3000/upload';
-  String uploadUrl = 'https://api.narr.ng/api/v1/research/upload';
+  String uploadUrl = '$serverUrl/research/upload';
 
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   // FileWaterMarkHelper _fileWaterMarkHelper = FileWaterMarkHelper();

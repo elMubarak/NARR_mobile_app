@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
-// import 'package:file_picker/file_picker.dart';
-// import 'package:narr/services/backend_service.dart';
 
 class UploadOcr extends StatefulWidget {
   final File pickedCameraImage;
@@ -45,35 +43,9 @@ class _UploadOcrState extends State<UploadOcr> {
     });
   }
 
-  // static String selectedAcceptType = 'text/plain';
-  // List<String> acceptType = [
-  //   'text/plain',
-  //   'text/html',
-  //   // 'application/xml',
-  // ];
-  List<String> dropDownValue = [
-    //
-    'text',
-    'html',
-    'xml',
-    'json'
-  ];
   Map<String, dynamic> headers = {
     'Accept': 'text/plain',
   };
-
-  // List<DropdownMenuItem> acceptTypeDropdownItems() {
-  //   List<DropdownMenuItem<String>> dropdowmItems = [];
-
-  //   for (String type in acceptType) {
-  //     var newItem = DropdownMenuItem(
-  //       child: Text(type),
-  //       value: type,
-  //     );
-  //     dropdowmItems.add(newItem);
-  //   }
-  //   return dropdowmItems;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -154,33 +126,10 @@ class _UploadOcrState extends State<UploadOcr> {
                             progress != null ? '${progress.toInt()} %' : ''),
                       )
                     : Container(),
-                // Container(
-                //   child: Text(widget.imagePicked),
-                // ),
                 Text('Select Convertion method'),
                 SizedBox(
                   height: 15,
                 ),
-                // DropdownButtonFormField(
-                //   decoration: InputDecoration(
-                //     hintText: 'Display format',
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(8),
-                //       borderSide: BorderSide(
-                //         color: Color(0xff00a368),
-                //       ),
-                //     ),
-                //   ),
-                //   hint: Text('convert Type'),
-                //   value: selectedAcceptType,
-                //   items: acceptTypeDropdownItems(),
-                //   onChanged: (value) {
-                //     setState(() {
-                //       selectedAcceptType = value;
-                //       print(selectedAcceptType);
-                //     });
-                //   },
-                // ),
                 SizedBox(
                   height: 25,
                 ),

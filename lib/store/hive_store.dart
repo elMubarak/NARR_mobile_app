@@ -13,7 +13,15 @@ class HiveBox {
       "savedToken": savedToken,
       "savedUser": savedUser
     };
-    // print('user: ${userInBox['savedUser'].runtimeType}');
     return userInBox;
+  }
+
+  getUserAndToken(String data) async {
+    var store = await Hive.openBox('local-user');
+
+    // String savedToken = store.get('token');
+    dynamic savedData = store.get(data);
+
+    return savedData;
   }
 }
