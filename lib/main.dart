@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/routes/routes.dart';
+import 'package:narr/screens/home.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'screens/login.dart';
@@ -32,9 +33,17 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 class MyApp extends StatelessWidget {
+  String token;
+  getUserToken() async {
+    var userStore = await Hive.openBox('local-user');
+    var hiveTok = userStore.get('token');
+    token = hiveTok;
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    getUserToken();
     return ChangeNotifierProvider(
       create: (context) => AppData(),
       child: MaterialApp(
@@ -47,7 +56,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             brightness: Brightness.light),
         debugShowCheckedModeBanner: false,
-        initialRoute: Login.id,
+        initialRoute: (token == null) ? Login.id : HomeScreen.id,
         // initialRoute: VerifyAccount.id,
         routes: myRoute,
       ),
