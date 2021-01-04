@@ -28,7 +28,6 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.of(context).pushNamed(Login.id);
       }
-      print(Provider.of<AppData>(context, listen: false).userToken);
     });
   }
 
