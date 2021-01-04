@@ -6,6 +6,7 @@ import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/research_grants_proposal.dart';
+import 'package:narr/screens/splash_screen.dart';
 import '../screens/about.dart';
 import '../screens/bulk_file_upload.dart';
 import '../screens/chat.dart';
@@ -44,5 +45,6 @@ Map<String, WidgetBuilder> myRoute = {
   Grants.id: (context) => Grants(),
   ResearchGrantsProposal.id: (context) => ResearchGrantsProposal(),
   RepositoryList.id: (context) => RepositoryList(),
-  EditProfile.id: (context) => EditProfile()
+  EditProfile.id: (context) => EditProfile(),
+  SplashScreen.id: (context) => SplashScreen()
 };

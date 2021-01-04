@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:narr/widgets/flush_snackbar.dart';
 
 class AppData extends ChangeNotifier {
@@ -15,6 +16,14 @@ class AppData extends ChangeNotifier {
     usersLogOutEvent = usersEvent;
     showLogoutFlushbar(context: context, message: usersEvent);
 
+    notifyListeners();
+  }
+
+  //
+  String userToken;
+  void getUserToken() async {
+    var userStore = await Hive.openBox('local-user');
+    userToken = userStore.get('token');
     notifyListeners();
   }
 
