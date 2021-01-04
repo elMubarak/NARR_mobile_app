@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
@@ -27,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.of(context).pushNamed(Login.id);
       }
+      print(Provider.of<AppData>(context, listen: false).userToken);
     });
   }
 

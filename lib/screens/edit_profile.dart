@@ -63,17 +63,8 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(
                   height: 15.0,
                 ),
-                SizedBox(
-                  height: 15,
-                ),
                 DropdownContainer(
                   child: DropdownButtonFormField(
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please select an institution type';
-                      }
-                      return null;
-                    },
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(
                         borderSide: BorderSide.none,
@@ -81,7 +72,7 @@ class _EditProfileState extends State<EditProfile> {
                       prefixIcon: Icon(Icons.school),
                     ),
                     hint: Text(
-                      'Institution Type',
+                      userObj['institution']['type'],
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     items: _dropdownHelper.getInstitutionTypeDropdownItems(),
@@ -91,6 +82,32 @@ class _EditProfileState extends State<EditProfile> {
                       });
                     },
                   ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                DropdownContainer(
+                  child: DropdownButtonFormField(
+                    decoration: InputDecoration(
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      prefixIcon: Icon(Icons.school),
+                    ),
+                    hint: Text(
+                      userObj['institution']['name'],
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                    items: _dropdownHelper.getUniversityName(),
+                    onChanged: (value) {
+                      setState(() {
+                        _dropdownHelper.selectedInstitutionName = value;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
                 ),
                 TextField(
                   decoration: InputDecoration(
