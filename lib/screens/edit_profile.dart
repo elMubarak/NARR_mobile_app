@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:narr/helpers/dropdownHelper.dart';
+import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
+import 'package:narr/widgets/dropdown_container.dart';
 
 class EditProfile extends StatefulWidget {
   static String id = '/editProfile';
@@ -8,6 +11,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  DropdownHelper _dropdownHelper = DropdownHelper();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +40,9 @@ class _EditProfileState extends State<EditProfile> {
                 TextField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'First Name',
+                    hintText: userObj['phone'],
                     filled: true,
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: Icon(Icons.phone),
                   ),
                   keyboardType: TextInputType.text,
                   onChanged: (value) {},
@@ -49,7 +53,7 @@ class _EditProfileState extends State<EditProfile> {
                 TextField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Last Name',
+                    hintText: userObj['address'],
                     filled: true,
                     prefixIcon: Icon(Icons.person),
                   ),
@@ -58,6 +62,35 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 SizedBox(
                   height: 15.0,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                DropdownContainer(
+                  child: DropdownButtonFormField(
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select an institution type';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      prefixIcon: Icon(Icons.school),
+                    ),
+                    hint: Text(
+                      'Institution Type',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                    items: _dropdownHelper.getInstitutionTypeDropdownItems(),
+                    onChanged: (value) {
+                      setState(() {
+                        _dropdownHelper.selectedInstitutionType = value;
+                      });
+                    },
+                  ),
                 ),
                 TextField(
                   decoration: InputDecoration(

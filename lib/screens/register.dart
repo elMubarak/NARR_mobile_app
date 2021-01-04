@@ -6,6 +6,7 @@ import 'package:narr/screens/login.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
+import 'package:narr/widgets/dropdown_container.dart';
 
 class Register extends StatefulWidget {
   static String id = 'register';
@@ -411,22 +412,6 @@ class _RegisterState extends State<Register> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class DropdownContainer extends StatelessWidget {
-  final Widget child;
-
-  DropdownContainer({this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-      ),
-      child: child,
     );
   }
 }

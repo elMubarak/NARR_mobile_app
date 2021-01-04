@@ -18,8 +18,6 @@ class HiveBox {
 
   getUserAndToken(String data) async {
     var store = await Hive.openBox('local-user');
-
-    // String savedToken = store.get('token');
     dynamic savedData = store.get(data);
 
     return savedData;
