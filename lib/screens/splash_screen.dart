@@ -16,12 +16,12 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    checkUserAuthState();
+    silentLogin();
 
     super.initState();
   }
 
-  checkUserAuthState() {
+  silentLogin() {
     Timer(Duration(seconds: 1), () {
       if (Provider.of<AppData>(context, listen: false).userToken != null) {
         Navigator.of(context).pushNamed(HomeScreen.id);
