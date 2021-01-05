@@ -1,9 +1,9 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
-void showLoginFlushbar({BuildContext context, String message}) {
+void showLoginFlushbar({BuildContext context, String message, String user}) {
   Flushbar(
-    title: "$message",
+    title: "$user",
     icon: Icon(
       Icons.check_circle,
       color: Color(0xff00a368),
@@ -13,7 +13,7 @@ void showLoginFlushbar({BuildContext context, String message}) {
     flushbarPosition: FlushbarPosition.TOP,
     dismissDirection: FlushbarDismissDirection.HORIZONTAL,
     // backgroundColor: Color(0xff00a368),
-    message: "is now online",
+    message: "$message",
     duration: Duration(seconds: 5),
   )..show(context);
 }

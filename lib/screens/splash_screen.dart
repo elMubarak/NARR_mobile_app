@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
+import 'package:narr/services/backend_service.dart';
 import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +18,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   SocketService _socketService = SocketService();
+  String loginUrl = '$serverUrl/auth/login';
+
   @override
   void initState() {
+    _socketService.connectToServer();
     silentLogin();
 
     super.initState();
@@ -27,15 +32,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   silentLogin() {
     Timer(Duration(seconds: 5), () async {
-      if (Provider.of<AppData>(context, listen: false).userToken != null) {
-        dynamic savedUser = await _box.getUserAndToken('user');
-        String savedToken = await _box.getUserAndToken('token');
+      String savedToken = await _box.getUser('token');
+      String savedPassword = await _box.getUser('password');
+      String savedEmail = await _box.getUser('email');
 
-        _socketService.connectToServer();
-        _socketService.handleLoginEvent(
-            user: savedUser, token: savedToken, context: context);
+      if (savedToken != null) {
+        print('token here $savedToken');
+        NetworkHelper(url: loginUrl)
+            .loginUser(
+                email: savedEmail, password: savedPassword, context: context)
+            .whenComplete(() => setState(() {
+                  Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                }));
         // print(Provider.of<AppData>(context, listen: false).userObject);
-        Navigator.of(context).pushReplacementNamed(HomeScreen.id);
       } else {
         Navigator.of(context).pushReplacementNamed(Login.id);
       }
@@ -44,8 +53,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<AppData>(context).getUserToken();
-
     return Scaffold(
       body: Center(
         child: CircularProgressIndicator(),

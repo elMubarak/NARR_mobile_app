@@ -16,7 +16,13 @@ class HiveBox {
     return userInBox;
   }
 
-  getUserAndToken(String data) async {
+  saveEmailPassword(String email, String password) async {
+    var userStore = await Hive.openBox('local-user');
+    userStore.put('email', email);
+    userStore.put('password', password);
+  }
+
+  getUser(String data) async {
     var store = await Hive.openBox('local-user');
     dynamic savedData = await store.get(data);
 

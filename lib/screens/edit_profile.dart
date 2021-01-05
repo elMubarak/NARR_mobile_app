@@ -15,7 +15,7 @@ class _EditProfileState extends State<EditProfile> {
   HiveBox _box = HiveBox();
 
   Future getStoredUserObject() async {
-    dynamic savedUser = await _box.getUserAndToken('user');
+    dynamic savedUser = await _box.getUser('user');
     return savedUser;
   }
 
