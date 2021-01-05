@@ -30,7 +30,7 @@ class SocketService {
         String savedToken = await _box.getUser('token');
         dynamic savedUser = await _box.getUser('user');
 
-        handleLoginEvent(token: savedToken, user: savedUser);
+        // handleLoginEvent(token: savedToken, user: savedUser);
       });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
@@ -74,6 +74,9 @@ class SocketService {
   void hnadleLogOutEvent() {
     try {
       socket.emit('LOGOUT');
+      socket.close();
+      socket.disconnect();
+      socket.destroy();
     } catch (e) {
       print(e);
     }
