@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   silentLogin() {
-    Timer(Duration(seconds: 1), () {
+    Timer(Duration(seconds: 5), () {
       if (Provider.of<AppData>(context, listen: false).userToken != null) {
         Navigator.of(context).pushNamed(HomeScreen.id);
       } else {
