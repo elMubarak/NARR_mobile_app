@@ -32,6 +32,14 @@ class SocketService {
 
         // handleLoginEvent(token: savedToken, user: savedUser);
       });
+
+      socket.on('reconnect', (reason) async {
+        print('disconnect $reason');
+        String savedToken = await _box.getUser('token');
+        dynamic savedUser = await _box.getUser('user');
+
+        handleLoginEvent(token: savedToken, user: savedUser);
+      });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
       print(e.toString());
@@ -60,6 +68,8 @@ class SocketService {
               user: fullName, context: context, msg: message);
         }
       });
+      socket.on('EVENT:USERS:CURRENTLY:ONLINE',
+          (data) => print("users currently online $data"));
       socket.on('EVENT:USER:LOGOUT', (data) {
         print(data);
         String fullName = jsonDecode(data)['fullName'];
