@@ -18,6 +18,23 @@ void showLoginFlushbar({BuildContext context, String message}) {
   )..show(context);
 }
 
+void showLogiFlushbar({BuildContext context, String message}) {
+  Flushbar(
+    title: "$message",
+    icon: Icon(
+      Icons.check_circle,
+      color: Color(0xff00a368),
+    ),
+    leftBarIndicatorColor: Color(0xff00a368),
+    // showProgressIndicator: true,
+    flushbarPosition: FlushbarPosition.TOP,
+    dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+    // backgroundColor: Color(0xff00a368),
+    message: "is now online",
+    duration: Duration(seconds: 5),
+  )..show(context);
+}
+
 void showLogoutFlushbar({BuildContext context, String message}) {
   Flushbar(
     title: "$message",
