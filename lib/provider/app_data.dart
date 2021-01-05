@@ -3,10 +3,12 @@ import 'package:hive/hive.dart';
 import 'package:narr/widgets/flush_snackbar.dart';
 
 class AppData extends ChangeNotifier {
-  String usersLogInEvent = '';
-  void updatedUserLogInEvent({String usersEvent, context}) {
-    usersLogInEvent = usersEvent;
-    showLoginFlushbar(context: context, message: usersEvent);
+  String userName = '';
+  String message = '';
+
+  void updatedUserLogInEvent({String user, context, String msg}) {
+    userName = user;
+    showLoginFlushbar(context: context, user: user, message: msg);
 
     notifyListeners();
   }

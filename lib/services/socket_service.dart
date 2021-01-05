@@ -48,12 +48,16 @@ class SocketService {
         String fullName = jsonDecode(data)['fullName'];
         String emailSent = user['email'];
         String emailRecieved = jsonDecode(data)['email'];
-
+        String message;
         if (emailSent == emailRecieved) {
+          message = "Welcome";
           print('$emailSent is = $emailRecieved');
+          Provider.of<AppData>(context, listen: false).updatedUserLogInEvent(
+              user: fullName, context: context, msg: message);
         } else {
-          Provider.of<AppData>(context, listen: false)
-              .updatedUserLogInEvent(usersEvent: fullName, context: context);
+          message = "is Online";
+          Provider.of<AppData>(context, listen: false).updatedUserLogInEvent(
+              user: fullName, context: context, msg: message);
         }
       });
       socket.on('EVENT:USER:LOGOUT', (data) {

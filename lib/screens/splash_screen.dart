@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
   HiveBox _box = HiveBox();
 
   silentLogin() {
-    Timer(Duration(seconds: 3), () async {
+    Timer(Duration(seconds: 5), () async {
       String savedToken = await _box.getUser('token');
       String savedPassword = await _box.getUser('password');
       String savedEmail = await _box.getUser('email');
