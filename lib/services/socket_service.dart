@@ -62,6 +62,7 @@ class SocketService {
       });
       socket.on('EVENT:USER:LOGOUT', (data) {
         String fullName = jsonDecode(data)['fullName'];
+        print(data);
         Provider.of<AppData>(context, listen: false)
             .updatedUserOutEvent(usersEvent: fullName, context: context);
       });
