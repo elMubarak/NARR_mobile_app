@@ -36,8 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
       String savedPassword = await _box.getUser('password');
       String savedEmail = await _box.getUser('email');
       print('token here $savedToken');
-
-      if (savedToken.length != null) {
+      if (savedToken != null) {
         NetworkHelper(url: loginUrl)
             .loginUser(
                 email: savedEmail, password: savedPassword, context: context)
