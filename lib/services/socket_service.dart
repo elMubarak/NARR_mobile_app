@@ -70,6 +70,14 @@ class SocketService {
     }
   }
 
+  void hnadleLogOutEvent() {
+    try {
+      socket.emit('LOGOUT');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void handleSignupEvent(user) {
     try {
       socket.on('EVENT:USER:SIGNUP', (data) {
