@@ -23,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     _socketService.connectToServer();
-    silentLogin();
 
     super.initState();
   }
@@ -42,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
             .loginUser(
                 email: savedEmail, password: savedPassword, context: context)
             .whenComplete(() => setState(() {
+                  Navigator.pop(context);
                   Navigator.of(context).pushReplacementNamed(HomeScreen.id);
                 }));
         // print(Provider.of<AppData>(context, listen: false).userObject);
@@ -53,6 +53,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    silentLogin();
+
     return Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
