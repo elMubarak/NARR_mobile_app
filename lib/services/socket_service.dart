@@ -27,9 +27,6 @@ class SocketService {
       });
       socket.on('disconnect', (reason) async {
         print('disconnect $reason');
-        String savedToken = await _box.getUser('token');
-        dynamic savedUser = await _box.getUser('user');
-
         // handleLoginEvent(token: savedToken, user: savedUser);
       });
 
@@ -68,8 +65,13 @@ class SocketService {
               user: fullName, context: context, msg: message);
         }
       });
-      socket.on('EVENT:USERS:CURRENTLY:ONLINE',
-          (data) => print("users currently online $data"));
+      socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
+        final users = jsonDecode(data);
+        print(users);
+        print(users.length);
+        Provider.of<AppData>(context, listen: false)
+            .updatedUsersOnline(usersOnline: users);
+      });
       socket.on('EVENT:USER:LOGOUT', (data) {
         String fullName = jsonDecode(data)['fullName'];
         Provider.of<AppData>(context, listen: false)

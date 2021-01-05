@@ -21,7 +21,6 @@ class AppData extends ChangeNotifier {
     notifyListeners();
   }
 
-  //
   String userToken;
   dynamic userObject;
   void getUserToken() async {
@@ -31,5 +30,9 @@ class AppData extends ChangeNotifier {
     notifyListeners();
   }
 
-  //
+  List users;
+  void updatedUsersOnline({List usersOnline, context}) {
+    usersOnline = users;
+    notifyListeners();
+  }
 }
