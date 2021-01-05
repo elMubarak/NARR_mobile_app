@@ -28,4 +28,10 @@ class HiveBox {
 
     return savedData;
   }
+
+  clearToken() async {
+    var store = await Hive.openBox('local-user');
+    store.put('token', null);
+    store.put('user', null);
+  }
 }
