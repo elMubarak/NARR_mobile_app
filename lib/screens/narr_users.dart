@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Users extends StatefulWidget {
-  static String id = 'users';
+class NarrUsers extends StatefulWidget {
+  static String id = 'NarrUsers';
   @override
-  _UsersState createState() => _UsersState();
+  _NarrUsersState createState() => _NarrUsersState();
 }
 
-class _UsersState extends State<Users> {
+class _NarrUsersState extends State<NarrUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

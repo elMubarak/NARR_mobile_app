@@ -27,8 +27,8 @@ class SocketService {
       });
       socket.on('disconnect', (reason) async {
         print('disconnect $reason');
-        String savedToken = await _box.getUser('token');
-        dynamic savedUser = await _box.getUser('user');
+        // String savedToken = await _box.getUser('token');
+        // dynamic savedUser = await _box.getUser('user');
 
         // handleLoginEvent(token: savedToken, user: savedUser);
       });
@@ -61,6 +61,7 @@ class SocketService {
         }
       });
       socket.on('EVENT:USER:LOGOUT', (data) {
+        print(data);
         String fullName = jsonDecode(data)['fullName'];
         Provider.of<AppData>(context, listen: false)
             .updatedUserOutEvent(usersEvent: fullName, context: context);
@@ -73,11 +74,8 @@ class SocketService {
   void hnadleLogOutEvent() {
     try {
       socket.emit('LOGOUT');
-      socket.close();
-      socket.disconnect();
-      socket.destroy();
     } catch (e) {
-      print(e);
+      print('log out error ::==> $e');
     }
   }
 

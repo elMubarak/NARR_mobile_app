@@ -19,7 +19,7 @@ import '../screens/ocr.dart';
 import '../screens/profile.dart';
 import '../screens/register.dart';
 import '../screens/single_file_upload.dart';
-import '../screens/users.dart';
+import '../screens/narr_users.dart';
 import '../screens/verify_email.dart';
 import '../screens/video_conf.dart';
 
@@ -37,7 +37,7 @@ Map<String, WidgetBuilder> myRoute = {
   Login.id: (context) => Login(),
   Register.id: (context) => Register(),
   ForgotPassword.id: (context) => ForgotPassword(),
-  Users.id: (context) => Users(),
+  NarrUsers.id: (context) => NarrUsers(),
   VerifyAccount.id: (context) => VerifyAccount(),
   OcrResult.id: (context) => OcrResult(),
   ConvertToPDF.id: (context) => ConvertToPDF(),
