@@ -67,15 +67,23 @@ class SocketService {
       });
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
         final users = jsonDecode(data);
-        print(users);
-        print(users.length);
         Provider.of<AppData>(context, listen: false)
             .updatedUsersOnline(usersOnline: users);
       });
+
       socket.on('EVENT:USER:LOGOUT', (data) {
         String fullName = jsonDecode(data)['fullName'];
+        String logoutEmail = jsonDecode(data)['email'];
         Provider.of<AppData>(context, listen: false)
             .updatedUserOutEvent(usersEvent: fullName, context: context);
+        var onlineUsers =
+            Provider.of<AppData>(context, listen: false).usersOnlineList;
+        for (var i = 0; i < onlineUsers.length; i++) {
+          var obj = onlineUsers[i];
+          if (obj['email'] == logoutEmail) {
+            onlineUsers.removeAt(i);
+          }
+        }
       });
     } catch (err) {
       print('Error >>> $err');
@@ -86,7 +94,7 @@ class SocketService {
     try {
       socket.emit('LOGOUT');
     } catch (e) {
-      print(e);
+      print('log out error ::==> $e');
     }
   }
 

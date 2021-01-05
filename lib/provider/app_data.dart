@@ -30,9 +30,9 @@ class AppData extends ChangeNotifier {
     notifyListeners();
   }
 
-  List users;
+  List usersOnlineList;
   void updatedUsersOnline({List usersOnline, context}) {
-    usersOnline = users;
+    usersOnlineList = usersOnline;
     notifyListeners();
   }
 }

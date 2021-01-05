@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:narr/provider/app_data.dart';
 import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
+import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';
@@ -21,7 +23,29 @@ class _ProfileState extends State<Profile> {
   }
 
   @override
+  initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
+    int numberOfUsersOnline =
+        Provider.of<AppData>(context, listen: false).usersOnlineList.length;
+    final onlineUsersArray =
+        Provider.of<AppData>(context, listen: false).usersOnlineList;
+    List<Widget> usersOnlineWidgets = [];
+
+    for (var user in onlineUsersArray) {
+      var fullName = user['fullName'];
+      var email = user['email'];
+      final onlineUserInfoWidget = Users(
+        name: fullName,
+        email: email,
+        userImage:
+            'https://avatars3.githubusercontent.com/u/40618838?s=460&v=4',
+      );
+      usersOnlineWidgets.add(onlineUserInfoWidget);
+    }
+
     return Scaffold(
       body: FutureBuilder(
         future: getStoredUserObject(),
@@ -74,6 +98,8 @@ class _ProfileState extends State<Profile> {
                                 children: [
                                   Text(
                                     snapshot.data['fullName'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -107,6 +133,8 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   Text(
                                     snapshot.data['email'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -124,6 +152,8 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   Text(
                                     snapshot.data['institution']['name'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -156,6 +186,8 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   Text(
                                     snapshot.data['address'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -200,60 +232,7 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 10,
                   ),
-                  ContainerWithShadow(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              'All research',
-                            ),
-                            SizedBox(
-                              height: 8.0,
-                            ),
-                            Text(
-                              '12',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff00a368),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          height: 50,
-                          child: VerticalDivider(color: Colors.black),
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              'Online Users',
-                            ),
-                            SizedBox(
-                              height: 8.0,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '536428',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xff00a368),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.person,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+
                   ContainerWithShadow(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,10 +241,17 @@ class _ProfileState extends State<Profile> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              'My Researches',
+                              'Users Online',
                               style: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '$numberOfUsersOnline Online',
+                              style: TextStyle(
+                                color: Color(0xff00a368),
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -273,25 +259,57 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 15,
                         ),
-                        Projects(
-                          title: 'Urban Planning',
-                        ),
-                        Projects(
-                          title: 'Conflict',
-                        ),
-                        Projects(
-                          title: 'Covid-19',
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: ListView(
+                            children: usersOnlineWidgets,
+                          ),
                         ),
                         SizedBox(
                           height: 30,
                         ),
-                        Text(
-                          'See more+',
-                          style: TextStyle(color: Colors.blue),
-                        ),
                       ],
                     ),
                   ),
+                  //
+                  // ContainerWithShadow(
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Row(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //         children: <Widget>[
+                  //           Text(
+                  //             'My Researches',
+                  //             style: TextStyle(
+                  //               fontSize: 18.0,
+                  //               fontWeight: FontWeight.bold,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       SizedBox(
+                  //         height: 15,
+                  //       ),
+                  //       Projects(
+                  //         title: 'Urban Planning',
+                  //       ),
+                  //       Projects(
+                  //         title: 'Conflict',
+                  //       ),
+                  //       Projects(
+                  //         title: 'Covid-19',
+                  //       ),
+                  //       SizedBox(
+                  //         height: 30,
+                  //       ),
+                  //       Text(
+                  //         'See more+',
+                  //         style: TextStyle(color: Colors.blue),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -302,44 +320,62 @@ class _ProfileState extends State<Profile> {
   }
 }
 
-class Projects extends StatelessWidget {
-  final String title;
-  final String percentage;
-  Projects({@required this.title, this.percentage});
+class Users extends StatelessWidget {
+  final String name;
+  final String institution;
+  final String email;
+  final String userImage;
+  Users({@required this.name, this.institution, this.email, this.userImage});
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(top: 10.0),
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      height: 60,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: EdgeInsets.only(bottom: 15),
+      // height: 65,
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16.0,
+              Container(
+                width: 120,
+                child: Text(
+                  (name != null) ? name : '',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.0,
+                  ),
                 ),
               ),
-              Text(
-                'Aug 12, 2020',
-                style: TextStyle(
-                  fontSize: 10.0,
+              Container(
+                width: 130,
+                child: Text(
+                  (email != null) ? email : '',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 10.0,
+                  ),
                 ),
               ),
             ],
           ),
           CircleAvatar(
-            child: Icon(Icons.insert_drive_file),
+            child: (userImage != null)
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.network((userImage != null) ? userImage : ''))
+                : Icon(Icons.person),
             backgroundColor: Color(0xff00a368),
           ),
         ],
