@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/routes/routes.dart';
-import 'package:narr/screens/home.dart';
+import 'package:narr/screens/login.dart';
 import 'package:narr/screens/splash_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'screens/login.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();

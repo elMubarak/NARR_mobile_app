@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:narr/screens/edit_profile.dart';
-import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
+import 'package:narr/store/hive_store.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';
@@ -13,272 +13,290 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  HiveBox _box = HiveBox();
+
+  Future getStoredUserObject() async {
+    dynamic savedUser = await _box.getUser('user');
+    return savedUser;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+      body: FutureBuilder(
+        future: getStoredUserObject(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.pushNamed(context, EditProfile.id);
+                        },
+                      )
+                    ],
                   ),
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      Navigator.pushNamed(context, EditProfile.id);
-                    },
-                  )
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 15),
-                child: Column(
-                  children: [
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          CircleAvatar(
-                            backgroundImage: AssetImage('images/profile.jpg'),
-                            radius: 45.0,
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                userObj['fullName'],
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 4.0,
-                              ),
-                              Text(
-                                userObj['userRole'],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.email,
-                                size: 20.0,
-                              ),
-                              SizedBox(
-                                width: 4.0,
-                              ),
-                              Text(
-                                userObj['email'],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.domain,
-                                size: 20.0,
-                              ),
-                              SizedBox(
-                                width: 4.0,
-                              ),
-                              Text(
-                                userObj['institution']['name'],
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10.0),
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.phone,
-                                size: 20.0,
-                              ),
-                              SizedBox(
-                                width: 4.0,
-                              ),
-                              Text(
-                                userObj['phone'],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.house,
-                                size: 20.0,
-                              ),
-                              SizedBox(
-                                width: 4.0,
-                              ),
-                              Text(
-                                userObj['address'],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.calendar_today,
-                                size: 20.0,
-                              ),
-                              SizedBox(
-                                width: 4.0,
-                              ),
-                              Text(
-                                userObj['dob'],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Text('Last Login: '),
-                              SizedBox(
-                                width: 4.0,
-                              ),
-                              Text(
-                                '20 munites ago',
-                                style: TextStyle(color: Colors.orange),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              ContainerWithShadow(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
+                  Container(
+                    margin: EdgeInsets.only(left: 15),
+                    child: Column(
                       children: [
-                        Text(
-                          'All research',
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('images/profile.jpg'),
+                                radius: 45.0,
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot.data['fullName'],
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(
+                                    snapshot.data['userRole'],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
-                          height: 8.0,
+                          height: 15,
                         ),
-                        Text(
-                          '12',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff00a368),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.email,
+                                    size: 20.0,
+                                  ),
+                                  SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(
+                                    snapshot.data['email'],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.domain,
+                                    size: 20.0,
+                                  ),
+                                  SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(
+                                    snapshot.data['institution']['name'],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10.0),
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.phone,
+                                    size: 20.0,
+                                  ),
+                                  SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(
+                                    snapshot.data['phone'],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.house,
+                                    size: 20.0,
+                                  ),
+                                  SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(
+                                    snapshot.data['address'],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.calendar_today,
+                                    size: 20.0,
+                                  ),
+                                  SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(
+                                    snapshot.data['dob'],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text('Last Login: '),
+                                  SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(
+                                    '20 munites ago',
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    Container(
-                      height: 50,
-                      child: VerticalDivider(color: Colors.black),
-                    ),
-                    Column(
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ContainerWithShadow(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Online Users',
-                        ),
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        Row(
+                        Column(
                           children: [
                             Text(
-                              '536428',
+                              'All research',
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            Text(
+                              '12',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xff00a368),
                               ),
                             ),
-                            Icon(
-                              Icons.person,
+                          ],
+                        ),
+                        Container(
+                          height: 50,
+                          child: VerticalDivider(color: Colors.black),
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              'Online Users',
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '536428',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xff00a368),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.person,
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              ContainerWithShadow(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+                  ContainerWithShadow(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'My Researches',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Projects(
+                          title: 'Urban Planning',
+                        ),
+                        Projects(
+                          title: 'Conflict',
+                        ),
+                        Projects(
+                          title: 'Covid-19',
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
                         Text(
-                          'My Researches',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          'See more+',
+                          style: TextStyle(color: Colors.blue),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Projects(
-                      title: 'Urban Planning',
-                    ),
-                    Projects(
-                      title: 'Conflict',
-                    ),
-                    Projects(
-                      title: 'Covid-19',
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      'See more+',
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

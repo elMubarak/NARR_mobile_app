@@ -97,6 +97,7 @@ class NetworkHelper {
           <String, dynamic>{"email": email, "password": password},
         ),
       );
+      HiveBox().saveEmailPassword(email, password);
 
       if (response.statusCode == 200) {
         String data = response.body;

@@ -25,10 +25,10 @@ class SocketService {
       socket.on('connect', (data) {
         print('Connected to socket server');
       });
-      socket.on('disconnect', (reason) {
+      socket.on('disconnect', (reason) async {
         print('disconnect $reason');
-        String savedToken = _box.getUserAndToken('token');
-        dynamic savedUser = _box.getUserAndToken('user');
+        String savedToken = await _box.getUser('token');
+        dynamic savedUser = await _box.getUser('user');
 
         handleLoginEvent(token: savedToken, user: savedUser);
       });
