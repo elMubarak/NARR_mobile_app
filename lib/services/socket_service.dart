@@ -55,7 +55,11 @@ class SocketService {
         String emailRecieved = jsonDecode(data)['email'];
         var onlineUsers =
             Provider.of<AppData>(context, listen: false).usersOnlineList;
-        onlineUsers.add(jsonDecode(data));
+        if (!onlineUsers.contains(jsonDecode(data))) {
+          onlineUsers.add(jsonDecode(data));
+        } else {
+          print('Already exist');
+        }
 
         String message;
         if (emailSent == emailRecieved) {

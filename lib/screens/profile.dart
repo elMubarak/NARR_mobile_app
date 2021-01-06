@@ -40,10 +40,11 @@ class _ProfileState extends State<Profile> {
       final onlineUserInfoWidget = Users(
         name: fullName,
         email: email,
-        userImage:
-            'https://avatars3.githubusercontent.com/u/40618838?s=460&v=4',
+        userImage: 'images/profile.jpg',
       );
-      usersOnlineWidgets.add(onlineUserInfoWidget);
+      setState(() {
+        usersOnlineWidgets.add(onlineUserInfoWidget);
+      });
     }
 
     return Scaffold(
@@ -374,7 +375,7 @@ class Users extends StatelessWidget {
             child: (userImage != null)
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image.network((userImage != null) ? userImage : ''))
+                    child: Image.asset((userImage != null) ? userImage : ''))
                 : Icon(Icons.person),
             backgroundColor: Color(0xff00a368),
           ),
