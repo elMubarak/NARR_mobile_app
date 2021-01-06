@@ -113,7 +113,7 @@ class _RepositoryListState extends State<RepositoryList> {
             var pages = document['nPages'];
             String id = document['_id'];
             final courseTitleWidget = ResearchRepositoryCard(
-              imageUrl: 'https://api.narr.ng$image',
+              imageUrl: 'https://api.narr.ng$image?action=thumbnail',
               researchTitle: title,
               researchAuthor: author,
               researchDate: year,
