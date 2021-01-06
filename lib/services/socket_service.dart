@@ -53,6 +53,10 @@ class SocketService {
         String fullName = jsonDecode(data)['fullName'];
         String emailSent = user['email'];
         String emailRecieved = jsonDecode(data)['email'];
+        var onlineUsers =
+            Provider.of<AppData>(context, listen: false).usersOnlineList;
+        onlineUsers.add(jsonDecode(data));
+
         String message;
         if (emailSent == emailRecieved) {
           message = "Welcome";
