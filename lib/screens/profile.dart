@@ -234,8 +234,7 @@ class _ProfileState extends State<Profile> {
                               Users(
                                 name: 'Musa Damu',
                                 email: 'musadams@gmail.com',
-                                userImage:
-                                    'https://avatars3.githubusercontent.com/u/40618838?s=460&v=4',
+                                userImage: '',
                               ),
                               Users(
                                 name: 'Musa Damu',
