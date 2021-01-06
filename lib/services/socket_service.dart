@@ -27,9 +27,6 @@ class SocketService {
       });
       socket.on('disconnect', (reason) async {
         print('disconnect $reason');
-        // String savedToken = await _box.getUser('token');
-        // dynamic savedUser = await _box.getUser('user');
-
         // handleLoginEvent(token: savedToken, user: savedUser);
       });
 
@@ -56,6 +53,14 @@ class SocketService {
         String fullName = jsonDecode(data)['fullName'];
         String emailSent = user['email'];
         String emailRecieved = jsonDecode(data)['email'];
+        var onlineUsers =
+            Provider.of<AppData>(context, listen: false).usersOnlineList;
+        if (!onlineUsers.contains(jsonDecode(data))) {
+          onlineUsers.add(jsonDecode(data));
+        } else {
+          print('Already exist');
+        }
+
         String message;
         if (emailSent == emailRecieved) {
           message = "Welcome";
@@ -68,13 +73,25 @@ class SocketService {
               user: fullName, context: context, msg: message);
         }
       });
-      socket.on('EVENT:USERS:CURRENTLY:ONLINE',
-          (data) => print("users currently online $data"));
+      socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
+        final users = jsonDecode(data);
+        Provider.of<AppData>(context, listen: false)
+            .updatedUsersOnline(usersOnline: users);
+      });
+
       socket.on('EVENT:USER:LOGOUT', (data) {
-        print(data);
         String fullName = jsonDecode(data)['fullName'];
+        String logoutEmail = jsonDecode(data)['email'];
         Provider.of<AppData>(context, listen: false)
             .updatedUserOutEvent(usersEvent: fullName, context: context);
+        var onlineUsers =
+            Provider.of<AppData>(context, listen: false).usersOnlineList;
+        for (var i = 0; i < onlineUsers.length; i++) {
+          var obj = onlineUsers[i];
+          if (obj['email'] == logoutEmail) {
+            onlineUsers.removeAt(i);
+          }
+        }
       });
     } catch (err) {
       print('Error >>> $err');

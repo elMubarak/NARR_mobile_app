@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:narr/provider/app_data.dart';
 import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
+import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';
@@ -21,7 +23,27 @@ class _ProfileState extends State<Profile> {
   }
 
   @override
+  initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
+    final onlineUsersArray =
+        Provider.of<AppData>(context, listen: false).usersOnlineList;
+    List<Widget> usersOnlineWidgets = [];
+    for (var user in onlineUsersArray) {
+      var fullName = user['fullName'];
+      var email = user['email'];
+      final onlineUserInfoWidget = Users(
+        name: fullName,
+        email: email,
+        userImage: 'images/profile.jpg',
+      );
+      setState(() {
+        usersOnlineWidgets.add(onlineUserInfoWidget);
+      });
+    }
+
     return Scaffold(
       body: FutureBuilder(
         future: getStoredUserObject(),
@@ -74,6 +96,8 @@ class _ProfileState extends State<Profile> {
                                 children: [
                                   Text(
                                     snapshot.data['fullName'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -107,6 +131,8 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   Text(
                                     snapshot.data['email'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -124,6 +150,8 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   Text(
                                     snapshot.data['institution']['name'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -156,6 +184,8 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   Text(
                                     snapshot.data['address'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -216,7 +246,7 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                             Text(
-                              '300 Online',
+                              '${onlineUsersArray.length} Online',
                               style: TextStyle(
                                 color: Color(0xff00a368),
                                 fontWeight: FontWeight.w600,
@@ -230,28 +260,12 @@ class _ProfileState extends State<Profile> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
                           child: ListView(
-                            children: [
-                              Users(
-                                name: 'Musa Damu',
-                                email: 'musadams@gmail.com',
-                                userImage: '',
-                              ),
-                              Users(
-                                name: 'Musa Damu',
-                                email: 'musadams@gmail.com',
-                                userImage:
-                                    'https://avatars3.githubusercontent.com/u/40618838?s=460&v=4',
-                              ),
-                            ],
+                            children: usersOnlineWidgets,
                           ),
                         ),
                         SizedBox(
                           height: 30,
                         ),
-                        // Text(
-                        //   'See more+',
-                        //   style: TextStyle(color: Colors.blue),
-                        // ),
                       ],
                     ),
                   ),
@@ -330,7 +344,7 @@ class Users extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                width: 120,
+                width: 180,
                 child: Text(
                   (name != null) ? name : '',
                   overflow: TextOverflow.ellipsis,
@@ -358,7 +372,7 @@ class Users extends StatelessWidget {
             child: (userImage != null)
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image.network((userImage != null) ? userImage : ''))
+                    child: Image.asset((userImage != null) ? userImage : ''))
                 : Icon(Icons.person),
             backgroundColor: Color(0xff00a368),
           ),
