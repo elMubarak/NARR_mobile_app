@@ -50,7 +50,7 @@ class ResearchWork extends StatelessWidget {
                           ),
                         ),
                         background: Image.network(
-                          "https://api.narr.ng${research.data['payload']['thumbnail']}",
+                          "https://api.narr.ng${research.data['payload']['thumbnail']}?action=thumbnail",
                           fit: BoxFit.cover,
                           colorBlendMode: BlendMode.dstATop,
                           color: innerBoxIsScrolled

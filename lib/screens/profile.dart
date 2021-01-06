@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:narr/provider/app_data.dart';
+import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
@@ -34,10 +35,15 @@ class _ProfileState extends State<Profile> {
     for (var user in onlineUsersArray) {
       var fullName = user['fullName'];
       var email = user['email'];
-      final onlineUserInfoWidget = Users(
-        name: fullName,
-        email: email,
-        userImage: 'images/profile.jpg',
+      final onlineUserInfoWidget = GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, ChatScreen.id);
+        },
+        child: Users(
+          name: fullName,
+          email: email,
+          userImage: 'images/profile.jpg',
+        ),
       );
       setState(() {
         usersOnlineWidgets.add(onlineUserInfoWidget);
