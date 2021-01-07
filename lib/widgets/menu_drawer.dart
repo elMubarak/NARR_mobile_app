@@ -154,6 +154,7 @@ class DrawerItems extends StatelessWidget {
                   onTap: () {
                     SocketService().hnadleLogOutEvent();
                     HiveBox().clearToken();
+                    socket.destroy();
                     Navigator.pushReplacementNamed(context, Login.id);
                   },
                   child: Row(

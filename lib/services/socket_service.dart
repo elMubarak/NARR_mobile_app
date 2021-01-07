@@ -11,6 +11,26 @@ Socket socket;
 HiveBox _box = HiveBox();
 
 class SocketService {
+  void connectToSocketServer() {
+    try {
+      // Configure socket transports must be sepecified
+      socket = io(socketServerUrl, <String, dynamic>{
+        'transports': ['websocket'],
+        'autoConnect': false,
+      });
+
+      // Connect to websocket
+      socket.connect();
+
+      // Handle socket events
+      socket.on('connect', (data) {
+        print('Connected to socket server');
+      });
+    } catch (e) {
+      print("Error connecting to socket server $e");
+    }
+  }
+
   void connectToServer(BuildContext context) async {
     String savedToken = await _box.getUser('token');
     dynamic savedUser = await _box.getUser('user');
@@ -48,7 +68,7 @@ class SocketService {
   }
 
   void handleLoginEvent({String token, dynamic user, context}) async {
-    // dynamic savedUser = await _box.getUser('user');
+    dynamic savedUser = await _box.getUser('user');
     try {
       socket.emit(
         'LOGIN',
@@ -66,7 +86,7 @@ class SocketService {
         //   print('Already Exist');
         // } else {
         onlineUsers.add(jsonDecode(data));
-        onlineUsers.toSet().toList();
+        // onlineUsers.toSet().toList();
         // }
         // }
 

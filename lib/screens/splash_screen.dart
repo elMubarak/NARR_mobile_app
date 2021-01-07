@@ -28,14 +28,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   HiveBox _box = HiveBox();
 
-  silentLogin() {
-    _socketService.connectToServer(context);
-    Timer(Duration(seconds: 5), () async {
-      String savedToken = await _box.getUser('token');
+  silentLogin() async {
+    String savedToken = await _box.getUser('token');
+    if (savedToken != null) {
+      _socketService.connectToServer(context);
+    } else {
+      _socketService.connectToSocketServer();
+    }
+
+    Timer(Duration(seconds: 5), () {
       if (savedToken != null) {
-        Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else {
-        Navigator.of(context).pushReplacementNamed(Login.id);
+        Navigator.pushReplacementNamed(context, Login.id);
       }
     });
   }
