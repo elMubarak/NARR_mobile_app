@@ -37,14 +37,13 @@ class _ProfileState extends State<Profile> {
 
     for (var user in onlineUsersArray) {
       var fullName = user['fullName'];
-      var email = user['email'];
+      // var email = user['email'];
       final onlineUserInfoWidget = GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, ChatScreen.id);
         },
         child: Users(
           name: fullName,
-          email: email,
           userImage: 'images/profile.jpg',
         ),
       );
@@ -330,9 +329,9 @@ class _ProfileState extends State<Profile> {
 class Users extends StatelessWidget {
   final String name;
   final String institution;
-  final String email;
+
   final String userImage;
-  Users({@required this.name, this.institution, this.email, this.userImage});
+  Users({@required this.name, this.institution, this.userImage});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -367,11 +366,12 @@ class Users extends StatelessWidget {
               Container(
                 width: 130,
                 child: Text(
-                  (email != null) ? email : '',
+                  'Online',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 10.0,
+                    fontSize: 12.0,
+                    color: Color(0xff00a368),
                   ),
                 ),
               ),

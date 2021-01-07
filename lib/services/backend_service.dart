@@ -220,7 +220,7 @@ class NetworkHelper {
         "category": "$category",
         'genre': "$genre",
         'accessType': "$accessType",
-        'monthlyFee': "$fee",
+        'monthlyFee': fee == null ? "0" : fee,
         'year': '$year',
         'ownerEmail': "${savedUser['email']}",
         'description': "$description",

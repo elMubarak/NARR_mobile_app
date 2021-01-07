@@ -36,18 +36,19 @@ class SocketService {
         handleLoginEvent(token: savedToken, user: savedUser, context: context);
       } else {}
 
-      socket.on('reconnect', (reason) {
-        print('disconnect $reason');
+      // socket.on('reconnect', (reason) {
+      //   print('disconnect $reason');
 
-        handleLoginEvent(token: savedToken, user: savedUser, context: context);
-      });
+      //   handleLoginEvent(token: savedToken, user: savedUser, context: context);
+      // });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
       print(e.toString());
     }
   }
 
-  void handleLoginEvent({String token, dynamic user, context}) {
+  void handleLoginEvent({String token, dynamic user, context}) async {
+    // dynamic savedUser = await _box.getUser('user');
     try {
       socket.emit(
         'LOGIN',
@@ -59,14 +60,15 @@ class SocketService {
         String emailRecieved = jsonDecode(data)['email'];
         var onlineUsers =
             Provider.of<AppData>(context, listen: false).usersOnlineList;
-        for (var i = 0; i < onlineUsers.length; i++) {
-          var obj = onlineUsers[i];
-          if (obj['email'] != emailRecieved) {
-            onlineUsers.add(jsonDecode(data));
-          } else {
-            print('Already Exist');
-          }
-        }
+        // for (var i = 0; i < onlineUsers.length; i++) {
+        //   var obj = onlineUsers[i];
+        // if (onlineUsers.contains(jsonDecode(data)) == true) {
+        //   print('Already Exist');
+        // } else {
+        onlineUsers.add(jsonDecode(data));
+        onlineUsers.toSet().toList();
+        // }
+        // }
 
         String message;
         if (emailSent == emailRecieved) {

@@ -152,9 +152,9 @@ class DrawerItems extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, Login.id);
                     SocketService().hnadleLogOutEvent();
                     HiveBox().clearToken();
+                    Navigator.pushReplacementNamed(context, Login.id);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

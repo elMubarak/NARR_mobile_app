@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
-import 'package:narr/services/backend_service.dart';
+// import 'package:narr/services/backend_service.dart';
 import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
 
@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    _socketService.connectToServer(context);
+    // _socketService.connectToServer(context);
     silentLogin();
 
     super.initState();
@@ -29,19 +29,11 @@ class _SplashScreenState extends State<SplashScreen> {
   HiveBox _box = HiveBox();
 
   silentLogin() {
+    _socketService.connectToServer(context);
     Timer(Duration(seconds: 5), () async {
       String savedToken = await _box.getUser('token');
-      String savedPassword = await _box.getUser('password');
-      String savedEmail = await _box.getUser('email');
       if (savedToken != null) {
-        NetworkHelper(url: loginUrl)
-            .loginUser(
-                email: savedEmail, password: savedPassword, context: context)
-            .whenComplete(() => setState(() {
-                  Navigator.pop(context);
-                  Navigator.of(context).pushReplacementNamed(HomeScreen.id);
-                }));
-        // print(Provider.of<AppData>(context, listen: false).userObject);
+        Navigator.of(context).pushReplacementNamed(HomeScreen.id);
       } else {
         Navigator.of(context).pushReplacementNamed(Login.id);
       }
