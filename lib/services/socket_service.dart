@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/store/hive_store.dart';
@@ -10,7 +11,9 @@ Socket socket;
 HiveBox _box = HiveBox();
 
 class SocketService {
-  void connectToServer() {
+  void connectToServer(BuildContext context) async {
+    String savedToken = await _box.getUser('token');
+    dynamic savedUser = await _box.getUser('user');
     try {
       // Configure socket transports must be sepecified
       socket = io(socketServerUrl, <String, dynamic>{
@@ -29,13 +32,14 @@ class SocketService {
         print('disconnect $reason');
         // handleLoginEvent(token: savedToken, user: savedUser);
       });
+      if (savedToken != null) {
+        handleLoginEvent(token: savedToken, user: savedUser, context: context);
+      } else {}
 
-      socket.on('reconnect', (reason) async {
+      socket.on('reconnect', (reason) {
         print('disconnect $reason');
-        String savedToken = await _box.getUser('token');
-        dynamic savedUser = await _box.getUser('user');
 
-        handleLoginEvent(token: savedToken, user: savedUser);
+        handleLoginEvent(token: savedToken, user: savedUser, context: context);
       });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
@@ -55,8 +59,14 @@ class SocketService {
         String emailRecieved = jsonDecode(data)['email'];
         var onlineUsers =
             Provider.of<AppData>(context, listen: false).usersOnlineList;
-
-        onlineUsers.add(jsonDecode(data));
+        for (var i = 0; i < onlineUsers.length; i++) {
+          var obj = onlineUsers[i];
+          if (obj['email'] != emailRecieved) {
+            onlineUsers.add(jsonDecode(data));
+          } else {
+            print('Already Exist');
+          }
+        }
 
         String message;
         if (emailSent == emailRecieved) {

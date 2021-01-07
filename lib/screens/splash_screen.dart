@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    _socketService.connectToServer();
+    _socketService.connectToServer(context);
     silentLogin();
 
     super.initState();

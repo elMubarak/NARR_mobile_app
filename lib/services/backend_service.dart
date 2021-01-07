@@ -137,6 +137,7 @@ class NetworkHelper {
   }
 
   // get user profile
+  HiveBox _box = HiveBox();
 
   //upload image
   Future uploadPhoto({
@@ -209,6 +210,9 @@ class NetworkHelper {
     BuildContext context,
   }) async {
     String uploadurl = url;
+    dynamic savedUser = await _box.getUser('user');
+    String savedToken = await _box.getUser('token');
+
     FormData formdata = FormData.fromMap({
       "meta": jsonEncode(<String, String>{
         "researchTitle": "$researchTitle",
@@ -218,7 +222,7 @@ class NetworkHelper {
         'accessType': "$accessType",
         'monthlyFee': "$fee",
         'year': '$year',
-        'ownerEmail': userObj['email'],
+        'ownerEmail': "${savedUser['email']}",
         'description': "$description",
       }),
       "file": await MultipartFile.fromFile(
@@ -229,14 +233,14 @@ class NetworkHelper {
     try {
       // var responsez = httpClient.send(request);
 
-      print(
-          'the upload token >> $uploadToken and email >> ${userObj['email']}');
+      // print('the upload token >> $uploadToken and email >> ${userObj}');
+      print('Saved user email ${savedUser['email']}');
       response = await dio.post(
         uploadurl,
         data: formdata,
         onSendProgress: onSendProgress,
         options: Options(headers: {
-          'x-token': '$uploadToken',
+          'x-token': '$savedToken',
         }),
       );
 

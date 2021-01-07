@@ -358,7 +358,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                     year: year,
                                     description: description,
                                     alertMessage:
-                                        'Thank you for uploading your research work on NARR your document is been proccessed',
+                                        'Thank you for uploading your research work on NARR your document is being proccessed',
                                     context: context,
                                   )
                                   .whenComplete(
