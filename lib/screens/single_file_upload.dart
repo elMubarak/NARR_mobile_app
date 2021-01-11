@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
@@ -273,6 +274,10 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               _dropdownHelper.selectedAccessType ==
                                       _dropdownHelper.accessType[1]
                                   ? TextField(
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'Monthly Fess',
@@ -358,7 +363,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                     year: year,
                                     description: description,
                                     alertMessage:
-                                        'Thank you for uploading your research work on NARR your document is been proccessed',
+                                        'Thank you for uploading your research work on NARR your document is being proccessed',
                                     context: context,
                                   )
                                   .whenComplete(

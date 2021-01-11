@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/store/hive_store.dart';
@@ -10,7 +11,29 @@ Socket socket;
 HiveBox _box = HiveBox();
 
 class SocketService {
-  void connectToServer() {
+  void connectToSocketServer() {
+    try {
+      // Configure socket transports must be sepecified
+      socket = io(socketServerUrl, <String, dynamic>{
+        'transports': ['websocket'],
+        'autoConnect': false,
+      });
+
+      // Connect to websocket
+      socket.connect();
+
+      // Handle socket events
+      socket.on('connect', (data) {
+        print('Connected to socket server');
+      });
+    } catch (e) {
+      print("Error connecting to socket server $e");
+    }
+  }
+
+  void connectToServer(BuildContext context) async {
+    String savedToken = await _box.getUser('token');
+    dynamic savedUser = await _box.getUser('user');
     try {
       // Configure socket transports must be sepecified
       socket = io(socketServerUrl, <String, dynamic>{
@@ -29,21 +52,23 @@ class SocketService {
         print('disconnect $reason');
         // handleLoginEvent(token: savedToken, user: savedUser);
       });
+      if (savedToken != null) {
+        handleLoginEvent(token: savedToken, user: savedUser, context: context);
+      } else {}
 
-      socket.on('reconnect', (reason) async {
-        print('disconnect $reason');
-        String savedToken = await _box.getUser('token');
-        dynamic savedUser = await _box.getUser('user');
+      // socket.on('reconnect', (reason) {
+      //   print('disconnect $reason');
 
-        handleLoginEvent(token: savedToken, user: savedUser);
-      });
+      //   handleLoginEvent(token: savedToken, user: savedUser, context: context);
+      // });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
       print(e.toString());
     }
   }
 
-  void handleLoginEvent({String token, dynamic user, context}) {
+  void handleLoginEvent({String token, dynamic user, context}) async {
+    dynamic savedUser = await _box.getUser('user');
     try {
       socket.emit(
         'LOGIN',
@@ -55,8 +80,15 @@ class SocketService {
         String emailRecieved = jsonDecode(data)['email'];
         var onlineUsers =
             Provider.of<AppData>(context, listen: false).usersOnlineList;
-
+        // for (var i = 0; i < onlineUsers.length; i++) {
+        //   var obj = onlineUsers[i];
+        // if (onlineUsers.contains(jsonDecode(data)) == true) {
+        //   print('Already Exist');
+        // } else {
         onlineUsers.add(jsonDecode(data));
+        // onlineUsers.toSet().toList();
+        // }
+        // }
 
         String message;
         if (emailSent == emailRecieved) {

@@ -249,7 +249,7 @@ class PageSlider extends StatelessWidget {
                     loadFailedChild: Container(
                       height: 100,
                       width: 100,
-                      child: CircularProgressIndicator(),
+                      child: Center(child: CircularProgressIndicator()),
                     ),
                     imageProvider: NetworkImage(url),
                     minScale: PhotoViewComputedScale.contained * 1.0,

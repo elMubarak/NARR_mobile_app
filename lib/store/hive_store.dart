@@ -31,7 +31,8 @@ class HiveBox {
 
   clearToken() async {
     var store = await Hive.openBox('local-user');
-    store.put('token', null);
-    store.put('user', null);
+    // store.put('token', null);
+    // store.put('user', null);
+    Hive.box('local-user').clear();
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:narr/provider/app_data.dart';
+import 'package:narr/screens/chat.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:provider/provider.dart';
@@ -35,16 +36,20 @@ class _ProfileState extends State<Profile> {
         Provider.of<AppData>(context, listen: false).usersOnlineList;
     // print(onlineUsersArray);
     for (var user in onlineUsersArray) {
-      var fullName = 'user["fullName"];';
-
-      if (!newUserList.contains(fullName)) {
-        // print(newUserList);
-        setState(() {
-          // newUserList.add(fullName);
-        });
-      } else {
-        print('Already Exist');
-      }
+      var fullName = user['fullName'];
+      // var email = user['email'];
+      final onlineUserInfoWidget = GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, ChatScreen.id);
+        },
+        child: Users(
+          name: fullName,
+          userImage: 'images/profile.jpg',
+        ),
+      );
+      setState(() {
+        // usersOnlineWidgets.add(onlineUserInfoWidget);
+      });
     }
   }
 
@@ -272,7 +277,6 @@ class _ProfileState extends State<Profile> {
                             itemBuilder: (context, index) {
                               return Users(
                                 name: newUserList[index],
-                                email: 'Online',
                               );
                             },
                             itemCount: newUserList.length,
@@ -336,9 +340,9 @@ class _ProfileState extends State<Profile> {
 class Users extends StatelessWidget {
   final String name;
   final String institution;
-  final String email;
+
   final String userImage;
-  Users({@required this.name, this.institution, this.email, this.userImage});
+  Users({@required this.name, this.institution, this.userImage});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -377,7 +381,8 @@ class Users extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 10.0,
+                    fontSize: 12.0,
+                    color: Color(0xff00a368),
                   ),
                 ),
               ),
