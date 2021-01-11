@@ -71,9 +71,12 @@ class SocketService {
         }
       });
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
-        final users = jsonDecode(data);
-        Provider.of<AppData>(context, listen: false)
-            .updatedUsersOnline(usersOnline: users);
+        // final usersList = json.decode(data);
+
+        print('users==> ${data[0]["fullName"]}');
+
+        // Provider.of<AppData>(context, listen: false)
+        //     .updatedUsersOnline(usersOnline: data);
       });
 
       socket.on('EVENT:USER:LOGOUT', (data) {

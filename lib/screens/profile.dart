@@ -1,7 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:narr/provider/app_data.dart';
-import 'package:narr/screens/chat.dart';
-import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:provider/provider.dart';
@@ -28,28 +28,28 @@ class _ProfileState extends State<Profile> {
     super.initState();
   }
 
-  Widget build(BuildContext context) {
-    final onlineUsersArray =
-        Provider.of<AppData>(context, listen: false).usersOnlineList;
-    List<Widget> usersOnlineWidgets = [];
-    for (var user in onlineUsersArray) {
-      var fullName = user['fullName'];
-      var email = user['email'];
-      final onlineUserInfoWidget = GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, ChatScreen.id);
-        },
-        child: Users(
-          name: fullName,
-          email: email,
-          userImage: 'images/profile.jpg',
-        ),
-      );
-      setState(() {
-        usersOnlineWidgets.add(onlineUserInfoWidget);
-      });
-    }
+  List newUserList = [];
 
+  fetchUsers() async {
+    List onlineUsersArray =
+        Provider.of<AppData>(context, listen: false).usersOnlineList;
+    // print(onlineUsersArray);
+    for (var user in onlineUsersArray) {
+      var fullName = 'user["fullName"];';
+
+      if (!newUserList.contains(fullName)) {
+        // print(newUserList);
+        setState(() {
+          // newUserList.add(fullName);
+        });
+      } else {
+        print('Already Exist');
+      }
+    }
+  }
+
+  Widget build(BuildContext context) {
+    fetchUsers();
     return Scaffold(
       body: FutureBuilder(
         future: getStoredUserObject(),
@@ -76,7 +76,10 @@ class _ProfileState extends State<Profile> {
                       IconButton(
                         icon: Icon(Icons.edit),
                         onPressed: () {
-                          Navigator.pushNamed(context, EditProfile.id);
+                          // Navigator.pushNamed(context, EditProfile.id);
+                          setState(() {
+                            newUserList.clear();
+                          });
                         },
                       )
                     ],
@@ -222,7 +225,7 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    '20 munites ago',
+                                    snapshot.data['updatedAt'], //for now
                                     style: TextStyle(color: Colors.orange),
                                   ),
                                 ],
@@ -252,7 +255,7 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                             Text(
-                              '${onlineUsersArray.length} Online',
+                              '${newUserList.length} Online',
                               style: TextStyle(
                                 color: Color(0xff00a368),
                                 fontWeight: FontWeight.w600,
@@ -265,8 +268,14 @@ class _ProfileState extends State<Profile> {
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
-                          child: ListView(
-                            children: usersOnlineWidgets,
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return Users(
+                                name: newUserList[index],
+                                email: 'Online',
+                              );
+                            },
+                            itemCount: newUserList.length,
                           ),
                         ),
                         SizedBox(
@@ -364,7 +373,7 @@ class Users extends StatelessWidget {
               Container(
                 width: 130,
                 child: Text(
-                  (email != null) ? email : '',
+                  'Online',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
