@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
@@ -27,7 +28,7 @@ class UploadOcr extends StatefulWidget {
 class _UploadOcrState extends State<UploadOcr> {
   bool flag = false;
   bool isClickable = false;
-  String imageToText = 'https://image2text.narr.ng/tika/form';
+  String imageToText = '$baseUrl/ocr';
 
   double progress;
   int bytesSent;
@@ -42,10 +43,6 @@ class _UploadOcrState extends State<UploadOcr> {
       //update the progress
     });
   }
-
-  Map<String, dynamic> headers = {
-    'Accept': 'text/plain',
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +150,6 @@ class _UploadOcrState extends State<UploadOcr> {
                           response: widget.response,
                           selectedfile: widget.selectedFile,
                           onSendProgress: onSendProgress,
-                          headers: headers,
                           context: context,
                         )
                         .whenComplete(

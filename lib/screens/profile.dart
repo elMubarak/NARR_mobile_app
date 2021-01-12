@@ -31,26 +31,27 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     int numberOfUsersOnline =
         Provider.of<AppData>(context, listen: false).usersOnlineList.length;
-    final onlineUsersArray =
+    List onlineUsersArray =
         Provider.of<AppData>(context, listen: false).usersOnlineList;
-    List<Widget> usersOnlineWidgets = [];
+    // List<Widget> usersOnlineWidgets = [];
 
-    for (var user in onlineUsersArray) {
-      var fullName = user['fullName'];
-      // var email = user['email'];
-      final onlineUserInfoWidget = GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, ChatScreen.id);
-        },
-        child: Users(
-          name: fullName,
-          userImage: 'images/profile.jpg',
-        ),
-      );
-      setState(() {
-        usersOnlineWidgets.add(onlineUserInfoWidget);
-      });
-    }
+    // for (var user in onlineUsersArray) {
+    //   var fullName = user['fullName'];
+    //   print(fullName);
+    //   // var email = user['email'];
+    //   final onlineUserInfoWidget = GestureDetector(
+    //     onTap: () {
+    //       Navigator.pushNamed(context, ChatScreen.id);
+    //     },
+    //     child: Users(
+    //       name: fullName,
+    //       userImage: 'images/profile.jpg',
+    //     ),
+    //   );
+    //   setState(() {
+    //     usersOnlineWidgets.add(onlineUserInfoWidget);
+    //   });
+    // }
 
     return Scaffold(
       body: FutureBuilder(
@@ -267,8 +268,22 @@ class _ProfileState extends State<Profile> {
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
-                          child: ListView(
-                            children: usersOnlineWidgets,
+                          child: ListView.builder(
+                            itemCount: onlineUsersArray.length,
+                            itemBuilder: (context, index) {
+                              // print(onlineUsersArray[index]['fullName']);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, ChatScreen.id);
+                                },
+                                child: Users(
+                                  name: onlineUsersArray[index]['fullName'],
+                                  userImage: 'images/profile.jpg',
+                                ),
+                              );
+                            },
+
+                            // children: usersOnlineWidgets,
                           ),
                         ),
                         SizedBox(

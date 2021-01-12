@@ -9,6 +9,7 @@ import 'package:socket_io_client/socket_io_client.dart';
 //EVENT:MICROSERVICES
 Socket socket;
 HiveBox _box = HiveBox();
+List tempArray;
 
 class SocketService {
   void connectToSocketServer() {
@@ -56,11 +57,11 @@ class SocketService {
         handleLoginEvent(token: savedToken, user: savedUser, context: context);
       } else {}
 
-      // socket.on('reconnect', (reason) {
-      //   print('disconnect $reason');
+      socket.on('reconnect', (reason) {
+        print('disconnect $reason');
 
-      //   handleLoginEvent(token: savedToken, user: savedUser, context: context);
-      // });
+        handleLoginEvent(token: savedToken, user: savedUser, context: context);
+      });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
       print(e.toString());
@@ -68,7 +69,6 @@ class SocketService {
   }
 
   void handleLoginEvent({String token, dynamic user, context}) async {
-    dynamic savedUser = await _box.getUser('user');
     try {
       socket.emit(
         'LOGIN',
@@ -78,22 +78,22 @@ class SocketService {
         String fullName = jsonDecode(data)['fullName'];
         String emailSent = user['email'];
         String emailRecieved = jsonDecode(data)['email'];
-        var onlineUsers =
-            Provider.of<AppData>(context, listen: false).usersOnlineList;
-        // for (var i = 0; i < onlineUsers.length; i++) {
-        //   var obj = onlineUsers[i];
-        // if (onlineUsers.contains(jsonDecode(data)) == true) {
-        //   print('Already Exist');
-        // } else {
-        onlineUsers.add(jsonDecode(data));
-        // onlineUsers.toSet().toList();
-        // }
-        // }
+        tempArray.add(jsonDecode(data));
+        var onlineUsers = tempArray;
+        final jsonList = onlineUsers.map((item) => jsonEncode(item)).toList();
+
+        // using toSet - toList strategy
+        final uniqueJsonList = jsonList.toSet().toList();
+
+        // convert each item back to the original form using JSON decoding
+        final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+        Provider.of<AppData>(context, listen: false)
+            .updatedUsersOnline(usersOnline: result);
 
         String message;
         if (emailSent == emailRecieved) {
           message = "Welcome";
-          print('$emailSent is = $emailRecieved');
+          // print('$emailSent is = $emailRecieved');
           Provider.of<AppData>(context, listen: false).updatedUserLogInEvent(
               user: fullName, context: context, msg: message);
         } else {
@@ -104,8 +104,9 @@ class SocketService {
       });
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
         final users = jsonDecode(data);
-        Provider.of<AppData>(context, listen: false)
-            .updatedUsersOnline(usersOnline: users);
+        // Provider.of<AppData>(context, listen: false)
+        //     .updatedUsersOnline(usersOnline: users);
+        tempArray = users;
       });
 
       socket.on('EVENT:USER:LOGOUT', (data) {
@@ -119,6 +120,7 @@ class SocketService {
           var obj = onlineUsers[i];
           if (obj['email'] == logoutEmail) {
             onlineUsers.removeAt(i);
+            // print("${obj['email']} and $logoutEmail");
           }
         }
       });

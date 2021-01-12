@@ -4,6 +4,7 @@ import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/screens/document_convert.dart';
+import 'package:narr/store/hive_store.dart';
 
 Future displayDialog(BuildContext context, String title, String text) =>
     showDialog(
@@ -25,8 +26,12 @@ class FileConvertHelper {
       String fileName,
       String url,
       BuildContext context}) async {
+    HiveBox _box = HiveBox();
+    String savedToken = await _box.getUser('token');
     try {
+      Map<String, String> headers = {"x-token": "$savedToken"};
       final request = http.MultipartRequest('POST', Uri.parse(url));
+      request.headers.addAll(headers);
       request.files.add(
         await http.MultipartFile.fromPath('file', filePath),
       );

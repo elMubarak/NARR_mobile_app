@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
 import 'package:narr/helpers/permission_helper.dart';
@@ -14,7 +15,7 @@ class ConvertToPDF extends StatefulWidget {
 }
 
 class _ConvertToPDFState extends State<ConvertToPDF> {
-  String docConvertUrl = 'https://doc2pdf.narr.ng/convert/office';
+  String docConvertUrl = '$baseUrl/doc';
   String mylocalUrl = 'http://192.168.43.70:3000/convert';
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 

@@ -106,6 +106,7 @@ class NetworkHelper {
         var result = HiveBox().addToBox(token: tok, userObj: userObj);
         result.then((value) {
           //socket authentication
+          _socketService.connectToSocketServer();
           _socketService.handleLoginEvent(
             context: context,
             token: value['savedToken'],
@@ -144,12 +145,12 @@ class NetworkHelper {
     Response response,
     String selectedfile,
     Function onSendProgress,
-    Map headers,
     BuildContext context,
   }) async {
     String uploadurl = url;
+    String savedToken = await _box.getUser('token');
     FormData formdata = FormData.fromMap({
-      "file": await MultipartFile.fromFile(
+      "image": await MultipartFile.fromFile(
         selectedfile,
         filename: basename(selectedfile),
         // contentType: MediaType.parse('text/plain'),
@@ -160,7 +161,8 @@ class NetworkHelper {
         uploadurl,
         data: formdata,
         onSendProgress: onSendProgress,
-        options: Options(headers: headers),
+        options: Options(
+            headers: {'Accept': 'text/plain', 'x-token': '$savedToken'}),
       );
 
       if (response.statusCode == 200) {
@@ -183,6 +185,7 @@ class NetworkHelper {
         print("Error Converting to text");
       }
     } catch (err) {
+      print(err);
       displayDialog(
           context, "An Error Occurred", "Error while converting to text");
     }
@@ -268,9 +271,10 @@ class NetworkHelper {
   }
 
   Future getAllResearch() async {
+    String savedToken = await _box.getUser('token');
     try {
       http.Response response = await http.get(url, headers: {
-        'x-token': '$uploadToken',
+        'x-token': '$savedToken',
       });
       String data = response.body;
       var payload = jsonDecode(data)['payload'];
@@ -282,12 +286,13 @@ class NetworkHelper {
 
   //get one contact
   Future getSingleResearch(String id) async {
+    String savedToken = await _box.getUser('token');
     try {
       http.Response response = await http.get(
         '$url/$id',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'x-token': '$uploadToken',
+          'x-token': '$savedToken',
         },
       );
       var data = response.body;

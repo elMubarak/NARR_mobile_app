@@ -31,7 +31,7 @@ class AppData extends ChangeNotifier {
   }
 
   List usersOnlineList = [];
-  void updatedUsersOnline({List usersOnline, context}) {
+  void updatedUsersOnline({dynamic usersOnline, context}) {
     usersOnlineList = usersOnline;
     notifyListeners();
   }

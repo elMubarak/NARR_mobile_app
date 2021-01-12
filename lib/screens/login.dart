@@ -5,6 +5,7 @@ import 'package:narr/screens/register.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
+import 'package:narr/services/socket_service.dart';
 
 String email;
 String password;
@@ -31,6 +32,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    SocketService().connectToSocketServer();
     return Scaffold(
       backgroundColor: Color(0xff00a368),
       body: Center(
