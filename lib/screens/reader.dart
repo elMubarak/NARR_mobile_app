@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/services/backend_service.dart';
+import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/dark_mode_reader.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:photo_view/photo_view.dart';
@@ -37,6 +38,15 @@ class _SliderState extends State<Slider> {
   bool isDark = false;
   CarouselSlider carouselSlider;
   CarouselController buttonCarouselController = CarouselController();
+  HiveBox _box = HiveBox();
+
+  var token;
+  getToken() async {
+    String savedToken = await _box.getUser('token');
+    print("token from store $savedToken");
+    token = savedToken;
+    print("token from store $token");
+  }
   // int _current = 0;
 
   List<T> map<T>(List list, Function handler) {
@@ -51,6 +61,7 @@ class _SliderState extends State<Slider> {
 
   @override
   Widget build(BuildContext context) {
+    getToken();
     return FutureBuilder(
       future:
           NetworkHelper(url: singleResearchUrl).getSingleResearch(widget.id),
@@ -70,7 +81,7 @@ class _SliderState extends State<Slider> {
                         child: PageSlider(
                           buttonCarouselController: buttonCarouselController,
                           imgList: [
-                            'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg'
+                            'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg?token=$token'
                           ],
                           isDark: true,
                         ),
@@ -79,7 +90,7 @@ class _SliderState extends State<Slider> {
                   : PageSlider(
                       buttonCarouselController: buttonCarouselController,
                       imgList: [
-                        'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg'
+                        'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg?token=$token'
                       ],
                       isDark: false,
                     ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/screens/reader.dart';
 import 'package:narr/services/backend_service.dart';
+import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 
 class ResearchWork extends StatelessWidget {
@@ -9,8 +11,17 @@ class ResearchWork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String singleResearchUrl = 'https://api.narr.ng/api/v1/research';
+    String singleResearchUrl = '$serverUrl/research';
+    HiveBox _box = HiveBox();
+    String savedToken;
 
+    var token;
+    getToken() async {
+      String savedToken = await _box.getUser('token');
+      token = savedToken;
+    }
+
+    getToken();
     return Scaffold(
       body: FutureBuilder(
         future:
@@ -50,7 +61,7 @@ class ResearchWork extends StatelessWidget {
                           ),
                         ),
                         background: Image.network(
-                          "https://api.narr.ng${research.data['payload']['thumbnail']}?action=thumbnail",
+                          "https://api.narr.ng${research.data['payload']['thumbnail']}?action=thumbnail&token=$token",
                           fit: BoxFit.cover,
                           colorBlendMode: BlendMode.dstATop,
                           color: innerBoxIsScrolled

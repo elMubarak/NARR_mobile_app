@@ -280,7 +280,7 @@ class NetworkHelper {
       var payload = jsonDecode(data)['payload'];
       return payload;
     } catch (error) {
-      print("Error getting all researches ${error.osError.message}");
+      print("Error getting all researches $error");
     }
   }
 

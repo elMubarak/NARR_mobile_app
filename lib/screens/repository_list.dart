@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/screens/single_research_repository.dart';
 import 'package:narr/services/backend_service.dart';
+import 'package:narr/store/hive_store.dart';
 
 class RepositoryList extends StatefulWidget {
   static String id = '/repository list';
@@ -10,19 +12,19 @@ class RepositoryList extends StatefulWidget {
 }
 
 class _RepositoryListState extends State<RepositoryList> {
-  String researchRepoUrl = 'https://api.narr.ng/api/v1/research';
-  void initState() {
-    super.initState();
-    setState(() {
-      NetworkHelper(url: 'https://api.narr.ng/api/v1/research')
-          .getAllResearch();
-    });
-  }
-
+  String researchRepoUrl = '$serverUrl/research';
   DropdownHelper _dropdownHelper = DropdownHelper();
+  HiveBox _box = HiveBox();
+  var token;
+  getToken() async {
+    String savedToken = await _box.getUser('token');
+    token = savedToken;
+  }
 
   @override
   Widget build(BuildContext context) {
+    getToken();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Repository'),
@@ -113,7 +115,8 @@ class _RepositoryListState extends State<RepositoryList> {
             var pages = document['nPages'];
             String id = document['_id'];
             final courseTitleWidget = ResearchRepositoryCard(
-              imageUrl: 'https://api.narr.ng$image?action=thumbnail',
+              imageUrl:
+                  'https://api.narr.ng$image?action=thumbnail&token=$token',
               researchTitle: title,
               researchAuthor: author,
               researchDate: year,

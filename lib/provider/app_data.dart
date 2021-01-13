@@ -23,9 +23,9 @@ class AppData extends ChangeNotifier {
 
   String userToken;
   dynamic userObject;
-  void getUserToken() async {
+  void getUserToken({String token}) async {
     var userStore = await Hive.openBox('local-user');
-    userToken = userStore.get('token');
+    userToken = token;
     userObject = userStore.get('user');
     notifyListeners();
   }
