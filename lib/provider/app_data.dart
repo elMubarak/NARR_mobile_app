@@ -35,4 +35,10 @@ class AppData extends ChangeNotifier {
     usersOnlineList = usersOnline;
     notifyListeners();
   }
+
+  List userReadingHistoryList = [];
+  void getUserReadingHistory({dynamic userReadingHistory, context}) {
+    userReadingHistoryList = userReadingHistory;
+    notifyListeners();
+  }
 }

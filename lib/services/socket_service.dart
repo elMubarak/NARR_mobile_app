@@ -12,6 +12,7 @@ HiveBox _box = HiveBox();
 List tempArray;
 
 class SocketService {
+  List readingHistory;
   void connectToSocketServer() {
     try {
       // Configure socket transports must be sepecified
@@ -78,17 +79,27 @@ class SocketService {
         String fullName = jsonDecode(data)['fullName'];
         String emailSent = user['email'];
         String emailRecieved = jsonDecode(data)['email'];
-        tempArray.add(jsonDecode(data));
-        var onlineUsers = tempArray;
-        final jsonList = onlineUsers.map((item) => jsonEncode(item)).toList();
+        // tempArray.add(jsonDecode(data));
+        // var onlineUsers = tempArray;
+        // final jsonList = onlineUsers.map((item) => jsonEncode(item)).toList();
 
-        // using toSet - toList strategy
-        final uniqueJsonList = jsonList.toSet().toList();
+        // // using toSet - toList strategy
+        // final uniqueJsonList = jsonList.toSet().toList();
 
-        // convert each item back to the original form using JSON decoding
-        final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
-        Provider.of<AppData>(context, listen: false)
-            .updatedUsersOnline(usersOnline: result);
+        // // convert each item back to the original form using JSON decoding
+        // final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+        // Provider.of<AppData>(context, listen: false)
+        //     .updatedUsersOnline(usersOnline: result);
+        var onlineUsers =
+            Provider.of<AppData>(context, listen: false).usersOnlineList;
+        for (var i = 0; i < onlineUsers.length; i++) {
+          var obj = onlineUsers[i];
+          if (obj == jsonDecode(data)) {
+            return onlineUsers;
+          } else {
+            onlineUsers.add(jsonDecode(data));
+          }
+        }
 
         String message;
         if (emailSent == emailRecieved) {
@@ -104,9 +115,12 @@ class SocketService {
       });
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
         final users = jsonDecode(data);
-        // Provider.of<AppData>(context, listen: false)
-        //     .updatedUsersOnline(usersOnline: users);
-        tempArray = users;
+        Provider.of<AppData>(context, listen: false)
+            .updatedUsersOnline(usersOnline: users['usersOnline']);
+        Provider.of<AppData>(context, listen: false)
+            .getUserReadingHistory(userReadingHistory: users['readingHistory']);
+
+        // tempArray = users;
       });
 
       socket.on('EVENT:USER:LOGOUT', (data) {

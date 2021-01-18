@@ -33,25 +33,6 @@ class _ProfileState extends State<Profile> {
         Provider.of<AppData>(context, listen: false).usersOnlineList.length;
     List onlineUsersArray =
         Provider.of<AppData>(context, listen: false).usersOnlineList;
-    // List<Widget> usersOnlineWidgets = [];
-
-    // for (var user in onlineUsersArray) {
-    //   var fullName = user['fullName'];
-    //   print(fullName);
-    //   // var email = user['email'];
-    //   final onlineUserInfoWidget = GestureDetector(
-    //     onTap: () {
-    //       Navigator.pushNamed(context, ChatScreen.id);
-    //     },
-    //     child: Users(
-    //       name: fullName,
-    //       userImage: 'images/profile.jpg',
-    //     ),
-    //   );
-    //   setState(() {
-    //     usersOnlineWidgets.add(onlineUserInfoWidget);
-    //   });
-    // }
 
     return Scaffold(
       body: FutureBuilder(
@@ -269,6 +250,8 @@ class _ProfileState extends State<Profile> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
                           child: ListView.builder(
+                            reverse: true,
+
                             itemCount: onlineUsersArray.length,
                             itemBuilder: (context, index) {
                               // print(onlineUsersArray[index]['fullName']);
@@ -282,7 +265,6 @@ class _ProfileState extends State<Profile> {
                                 ),
                               );
                             },
-
                             // children: usersOnlineWidgets,
                           ),
                         ),
