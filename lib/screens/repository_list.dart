@@ -109,7 +109,7 @@ class _RepositoryListState extends State<RepositoryList> {
 
           for (var document in payload) {
             var title = document['researchTitle'];
-            List author = document['authors'];
+            var author = document['authors'];
             var year = document['year'];
             var image = document['thumbnail'];
             var pages = document['nPages'];
@@ -118,7 +118,8 @@ class _RepositoryListState extends State<RepositoryList> {
               imageUrl:
                   'https://api.narr.ng$image?action=thumbnail&token=$token',
               researchTitle: title,
-              researchAuthor: author,
+              researchAuthor:
+                  author.toString().replaceAll('[', '').replaceAll(']', ''),
               researchDate: year,
               pages: pages,
               onTap: () {
@@ -157,7 +158,7 @@ class ResearchRepositoryCard extends StatelessWidget {
   }) : super(key: key);
   final String researchTitle, researchDate, imageUrl;
   final int pages;
-  final List researchAuthor;
+  final String researchAuthor;
   final Function onTap;
   @override
   Widget build(BuildContext context) {

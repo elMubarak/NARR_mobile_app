@@ -13,7 +13,6 @@ class ResearchWork extends StatelessWidget {
   Widget build(BuildContext context) {
     String singleResearchUrl = '$serverUrl/research';
     HiveBox _box = HiveBox();
-    String savedToken;
 
     var token;
     getToken() async {
@@ -103,7 +102,7 @@ class ResearchWork extends StatelessWidget {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      '${research.data['payload']['authors']}',
+                                      '${research.data['payload']['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 8,
                                       style: TextStyle(color: Colors.grey),

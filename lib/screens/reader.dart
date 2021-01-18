@@ -5,6 +5,9 @@ import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/dark_mode_reader.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:narr/provider/app_data.dart';
+import 'package:provider/provider.dart';
+import 'dart:math';
 
 String singleResearchUrl = 'https://api.narr.ng/api/v1/research';
 
@@ -16,6 +19,7 @@ class Reader extends StatefulWidget {
 }
 
 class _ReaderState extends State<Reader> {
+  Random r = Random();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +40,7 @@ class Slider extends StatefulWidget {
 
 class _SliderState extends State<Slider> {
   bool isDark = false;
+  Random _random = Random();
   CarouselSlider carouselSlider;
   CarouselController buttonCarouselController = CarouselController();
   HiveBox _box = HiveBox();
@@ -62,10 +67,42 @@ class _SliderState extends State<Slider> {
   @override
   Widget build(BuildContext context) {
     getToken();
+    addDocumentToResearchHistoryArr() async {
+      var research = await NetworkHelper(url: singleResearchUrl)
+          .getSingleResearch(widget.id);
+
+      Map<String, dynamic> researchObj = {
+        "researchTitle": research['payload']['researchTitle'],
+        "authors": research['payload']['authors'],
+        "accessType": research['payload']['accessType'],
+        "nPages": research['payload']['nPages']
+      };
+      var readingHistoryArr =
+          Provider.of<AppData>(context, listen: false).userReadingHistoryList;
+      if (_currentPage == 1) {
+        readingHistoryArr.add(researchObj);
+      }
+      if (_currentPage == research['payload']['nPages']) {
+        readingHistoryArr.remove(researchObj);
+      }
+      print(readingHistoryArr);
+
+      return researchObj;
+    }
+
+    addDocumentToResearchHistoryArr();
+
     return FutureBuilder(
       future:
           NetworkHelper(url: singleResearchUrl).getSingleResearch(widget.id),
       builder: (context, research) {
+        String requestUrl() {
+          int ranNum = _random.nextInt(8163907) * _random.nextInt(2765309);
+          String url =
+              'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg?token=$token${_currentPage == research.data['payload']['nPages'] ? '&end=true' : ''}';
+          return url;
+        }
+
         if (!research.hasData) {
           return Center(
             child: CircularProgressIndicator(),
@@ -80,18 +117,14 @@ class _SliderState extends State<Slider> {
                       child: DarkNight(
                         child: PageSlider(
                           buttonCarouselController: buttonCarouselController,
-                          imgList: [
-                            'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg?token=$token'
-                          ],
+                          imgList: [requestUrl()],
                           isDark: true,
                         ),
                       ),
                     )
                   : PageSlider(
                       buttonCarouselController: buttonCarouselController,
-                      imgList: [
-                        'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg?token=$token'
-                      ],
+                      imgList: [requestUrl()],
                       isDark: false,
                     ),
               Container(
@@ -205,6 +238,7 @@ class _SliderState extends State<Slider> {
     );
   }
 }
+//${_currentPage == research.data['payload']['nPages'] ? '&end=true' : ''}
 
 class PageSlider extends StatelessWidget {
   const PageSlider({
