@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
-// import 'package:narr/helpers/file_water_mark_helper.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/widgets/dropdown_container.dart';
 import 'package:narr/services/backend_service.dart';
@@ -435,88 +434,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                        ListTile(
-                          title: Text('SCM intergration'),
-                          subtitle: Text('12/12/2020'),
-                        ),
-                      ],
+                      children: [],
                     ),
                   ),
                 ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/screens/login.dart';
-// import 'package:narr/screens/verify_email.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
