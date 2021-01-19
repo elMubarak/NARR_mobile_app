@@ -50,7 +50,7 @@ class ResearchWork extends StatelessWidget {
                         title: Padding(
                           padding: const EdgeInsets.only(left: 45, right: 20.0),
                           child: Text(
-                            '${research.data['payload']['researchTitle']}',
+                            '${research.data['research']['researchTitle']}',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -60,7 +60,7 @@ class ResearchWork extends StatelessWidget {
                           ),
                         ),
                         background: Image.network(
-                          "https://api.narr.ng${research.data['payload']['thumbnail']}?action=thumbnail&token=$token",
+                          "https://api.narr.ng${research.data['research']['thumbnail']}?action=thumbnail&token=$token",
                           fit: BoxFit.cover,
                           colorBlendMode: BlendMode.dstATop,
                           color: innerBoxIsScrolled
@@ -102,7 +102,7 @@ class ResearchWork extends StatelessWidget {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      '${research.data['payload']['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
+                                      '${research.data['research']['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 8,
                                       style: TextStyle(color: Colors.grey),
@@ -127,7 +127,7 @@ class ResearchWork extends StatelessWidget {
                                       ),
                                       Flexible(
                                         child: Text(
-                                          '${research.data['payload']['year']}',
+                                          '${research.data['research']['year']}',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 8,
                                           style: TextStyle(color: Colors.grey),
@@ -149,7 +149,7 @@ class ResearchWork extends StatelessWidget {
                                       ),
                                       Flexible(
                                         child: Text(
-                                          '${research.data['payload']['category']}',
+                                          '${research.data['research']['category']}',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 8,
                                           style: TextStyle(color: Colors.grey),
@@ -171,7 +171,7 @@ class ResearchWork extends StatelessWidget {
                                       ),
                                       Flexible(
                                         child: Text(
-                                          '${research.data['payload']['nPages']}',
+                                          '${research.data['research']['nPages']}',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 8,
                                           style: TextStyle(color: Colors.grey),
@@ -193,7 +193,7 @@ class ResearchWork extends StatelessWidget {
                                       ),
                                       Flexible(
                                         child: Text(
-                                          '${research.data['payload']['accessType']}',
+                                          '${research.data['research']['accessType']}',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 8,
                                           style: TextStyle(color: Colors.grey),
@@ -204,8 +204,7 @@ class ResearchWork extends StatelessWidget {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  research.data['payload']['accessType'] ==
-                                          'Free'
+                                  research.data['accessType'] == 'Free'
                                       ? Container()
                                       : Row(
                                           crossAxisAlignment:
@@ -218,7 +217,7 @@ class ResearchWork extends StatelessWidget {
                                             ),
                                             Flexible(
                                               child: Text(
-                                                '${research.data['payload']['monthlyFee']}',
+                                                '${research.data['research']['monthlyFee']}',
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 8,
                                                 style: TextStyle(
@@ -241,7 +240,7 @@ class ResearchWork extends StatelessWidget {
                                       ),
                                       Flexible(
                                         child: Text(
-                                          '${research.data['payload']['description']}',
+                                          '${research.data['research']['description']}',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 8,
                                           style: TextStyle(color: Colors.grey),
@@ -258,10 +257,10 @@ class ResearchWork extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) {
-                                            print(research.data['payload']
+                                            print(research.data['research']
                                                 ['_id']);
                                             return Reader(research
-                                                .data['payload']['_id']);
+                                                .data['research']['_id']);
                                           },
                                         ),
                                       );

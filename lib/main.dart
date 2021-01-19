@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             brightness: Brightness.light),
         debugShowCheckedModeBanner: false,
-        initialRoute: HomeScreen.id,
+        initialRoute: SplashScreen.id,
         // initialRoute: VerifyAccount.id,
         routes: myRoute,
       ),

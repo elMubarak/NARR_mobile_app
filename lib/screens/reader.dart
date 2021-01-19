@@ -5,8 +5,6 @@ import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/dark_mode_reader.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:narr/provider/app_data.dart';
-import 'package:provider/provider.dart';
 import 'dart:math';
 
 String singleResearchUrl = 'https://api.narr.ng/api/v1/research';
@@ -72,17 +70,17 @@ class _SliderState extends State<Slider> {
           .getSingleResearch(widget.id);
 
       Map<String, dynamic> researchObj = {
-        "researchTitle": research['payload']['researchTitle'],
-        "authors": research['payload']['authors'],
-        "accessType": research['payload']['accessType'],
-        "nPages": research['payload']['nPages']
+        "researchTitle": research['research']['researchTitle'],
+        "authors": research['research']['authors'],
+        "accessType": research['research']['accessType'],
+        "nPages": research['research']['nPages']
       };
-      var readingHistoryArr =
-          Provider.of<AppData>(context, listen: false).userReadingHistoryList;
+      var readingHistoryArr = [];
+      // Provider.of<AppData>(context, listen: false).userReadingHistoryList;
       if (_currentPage == 1) {
         readingHistoryArr.add(researchObj);
       }
-      if (_currentPage == research['payload']['nPages']) {
+      if (_currentPage == research['research']['nPages']) {
         readingHistoryArr.remove(researchObj);
       }
       print(readingHistoryArr);
@@ -99,7 +97,7 @@ class _SliderState extends State<Slider> {
         String requestUrl() {
           int ranNum = _random.nextInt(8163907) * _random.nextInt(2765309);
           String url =
-              'https://api.narr.ng${research.data['payload']['readPath']}$_currentPage.jpg?token=$token${_currentPage == research.data['payload']['nPages'] ? '&end=true' : ''}';
+              'https://api.narr.ng${research.data['research']['readPath']}$_currentPage.jpg?token=$token${_currentPage == research.data['research']['nPages'] ? '&end=true' : ''}';
           return url;
         }
 
@@ -185,7 +183,7 @@ class _SliderState extends State<Slider> {
                                   initialIntegerValue:
                                       (_currentPage != null) ? _currentPage : 1,
                                   minValue: 1,
-                                  maxValue: research.data['payload']['nPages'],
+                                  maxValue: research.data['research']['nPages'],
                                   // onChanged: (value) {
 
                                   // },
@@ -207,9 +205,9 @@ class _SliderState extends State<Slider> {
                           onPressed: () {
                             setState(() {
                               if (_currentPage ==
-                                  research.data['payload']['nPages']) {
+                                  research.data['research']['nPages']) {
                                 _currentPage =
-                                    research.data['payload']['nPages'];
+                                    research.data['research']['nPages'];
                               } else {
                                 _currentPage++;
                               }
@@ -222,7 +220,8 @@ class _SliderState extends State<Slider> {
                           icon: Icon(Icons.last_page),
                           onPressed: () {
                             setState(() {
-                              _currentPage = research.data['payload']['nPages'];
+                              _currentPage =
+                                  research.data['research']['nPages'];
                             });
                           },
                         ),

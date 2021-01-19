@@ -296,7 +296,7 @@ class NetworkHelper {
         },
       );
       var data = response.body;
-      var payload = jsonDecode(data);
+      var payload = jsonDecode(data)['payload'];
 
       return payload;
     } catch (e) {

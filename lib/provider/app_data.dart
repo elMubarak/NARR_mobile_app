@@ -31,18 +31,9 @@ class AppData extends ChangeNotifier {
     notifyListeners();
   }
 
-  List usersOnlineList = [];
-  AnalyticsModel analyticsModel;
-  void updatedUsersOnline(
-      {dynamic usersOnline, AnalyticsModel model, context}) {
-    analyticsModel = model;
-    usersOnlineList = usersOnline;
-    notifyListeners();
-  }
-
-  List userReadingHistoryList = [];
-  void getUserReadingHistory({dynamic userReadingHistory, context}) {
-    userReadingHistoryList = userReadingHistory;
+  dynamic analyticObj;
+  void getAnalyticsStream({dynamic analytics, context}) {
+    analyticObj = analytics;
     notifyListeners();
   }
 }

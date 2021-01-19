@@ -11,15 +11,15 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
-    List readingHistoryArray =
-        Provider.of<AppData>(context, listen: false).userReadingHistoryList;
+    List readingHistory = Provider.of<AppData>(context, listen: false)
+        .analyticObj['readingHistory'];
     return Scaffold(
       appBar: AppBar(
         title: Text('NARR'),
         backgroundColor: Color(0xff00a368),
       ),
       body: ListView.separated(
-        itemCount: readingHistoryArray.length,
+        itemCount: readingHistory.length,
         separatorBuilder: (BuildContext context, int index) => Divider(),
         itemBuilder: (context, index) {
           return ListTile(
@@ -28,24 +28,24 @@ class _HistoryState extends State<History> {
               child: Icon(Icons.insert_drive_file),
             ),
             title: Text(
-              '${readingHistoryArray[index]['researchTitle']}',
+              '${readingHistory[index]['researchTitle']}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             subtitle: Text(
-              '${readingHistoryArray[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
+              '${readingHistory[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('${readingHistoryArray[index]['accessType']},'),
+                Text('${readingHistory[index]['accessType']},'),
                 SizedBox(
                   height: 8,
                 ),
                 Text(
-                  '${readingHistoryArray[index]['nPages']}',
+                  '${readingHistory[index]['nPages']}',
                   style: TextStyle(
                     color: Color(0xff00a368),
                   ),

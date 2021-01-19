@@ -3,6 +3,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/profile.dart';
+import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
@@ -44,18 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  @override
-  void initState() {
-    runThis();
-    super.initState();
-  }
-
-  runThis() {
-    Timer.periodic(Duration(seconds: 35), (timer) {
-      // _incrementCounter();
-    });
-  }
-
+  HiveBox _box = HiveBox();
   @override
   Widget build(BuildContext context) {
     //
@@ -81,10 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
       series,
       animate: true,
     );
-    // var chart2 = charts.PieChart(
-    //   series,
-    //   animate: true,
-    // );
     var chartWidget = Padding(
       padding: EdgeInsets.zero,
       child: SizedBox(
@@ -93,8 +79,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    List readingHistoryArray =
-        Provider.of<AppData>(context, listen: false).userReadingHistoryList;
+    Future getStoredUserObject() async {
+      dynamic savedUser = await _box.getUser('user');
+      return savedUser;
+    }
+
+    var onlineUsersArray =
+        Provider.of<AppData>(context, listen: false).analyticObj;
+
+    List readingHistoryArray = Provider.of<AppData>(context, listen: false)
+        .analyticObj['readingHistory'];
 
     return Scaffold(
       drawer: Drawer(
@@ -122,7 +116,9 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.notifications,
             ),
-            onPressed: () async {},
+            onPressed: () async {
+              print(onlineUsersArray['usersOnline'].length);
+            },
           ),
         ],
       ),
@@ -231,12 +227,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            UsersOnlineCard(
-              usersOnline: 12,
-              userName: 'Musa Damu',
-              userEmail: 'musadams@gmail.com',
-              onTap: () {
-                Navigator.of(context).pushNamed(Profile.id);
+            FutureBuilder(
+              future: getStoredUserObject(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return CircularProgressIndicator();
+                }
+                return UsersOnlineCard(
+                  usersOnline: onlineUsersArray['usersOnline'].length,
+                  userName: snapshot.data['fullName'],
+                  userEmail: snapshot.data['email'],
+                  onTap: () {
+                    Navigator.of(context).pushNamed(Profile.id);
+                  },
+                );
               },
             ),
             Container(
@@ -270,6 +274,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ListView.separated(
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
+                          if (index == null) {
+                            return Container(
+                              child: Text('Array is empty'),
+                            );
+                          }
                           return ListTile(
                             leading: CircleAvatar(),
                             title: Text(readingHistoryArray[index]),

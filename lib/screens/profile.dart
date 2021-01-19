@@ -29,10 +29,11 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget build(BuildContext context) {
-    int numberOfUsersOnline =
-        Provider.of<AppData>(context, listen: false).usersOnlineList.length;
+    int numberOfUsersOnline = Provider.of<AppData>(context, listen: false)
+        .analyticObj['usersOnline']
+        .length;
     List onlineUsersArray =
-        Provider.of<AppData>(context, listen: false).usersOnlineList;
+        Provider.of<AppData>(context, listen: false).analyticObj['usersOnline'];
 
     return Scaffold(
       body: FutureBuilder(
@@ -250,8 +251,6 @@ class _ProfileState extends State<Profile> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
                           child: ListView.builder(
-                            reverse: true,
-
                             itemCount: onlineUsersArray.length,
                             itemBuilder: (context, index) {
                               // print(onlineUsersArray[index]['fullName']);

@@ -89,16 +89,11 @@ class SocketService {
         // final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
         // Provider.of<AppData>(context, listen: false)
         //     .updatedUsersOnline(usersOnline: result);
-        var onlineUsers =
-            Provider.of<AppData>(context, listen: false).usersOnlineList;
-        for (var i = 0; i < onlineUsers.length; i++) {
-          var obj = onlineUsers[i];
-          if (obj == jsonDecode(data)) {
-            return onlineUsers;
-          } else {
-            onlineUsers.add(jsonDecode(data));
-          }
-        }
+
+        var onlineUsers = Provider.of<AppData>(context, listen: false)
+            .analyticObj['usersOnline'];
+
+        onlineUsers.add(jsonDecode(data));
 
         String message;
         if (emailSent == emailRecieved) {
@@ -114,10 +109,10 @@ class SocketService {
       });
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
         final decodedData = jsonDecode(data);
+        // Provider.of<AppData>(context, listen: false)
+        //     .updatedUsersOnline(model: decodedData);
         Provider.of<AppData>(context, listen: false)
-            .updatedUsersOnline(model: decodedData);
-        Provider.of<AppData>(context, listen: false).getUserReadingHistory(
-            userReadingHistory: decodedData['readingHistory']);
+            .getAnalyticsStream(analytics: decodedData);
 
         // tempArray = users;
       });
@@ -127,8 +122,8 @@ class SocketService {
         String logoutEmail = jsonDecode(data)['email'];
         Provider.of<AppData>(context, listen: false)
             .updatedUserOutEvent(usersEvent: fullName, context: context);
-        var onlineUsers =
-            Provider.of<AppData>(context, listen: false).usersOnlineList;
+        var onlineUsers = Provider.of<AppData>(context, listen: false)
+            .analyticObj['usersOnline'];
         for (var i = 0; i < onlineUsers.length; i++) {
           var obj = onlineUsers[i];
           if (obj['email'] == logoutEmail) {
