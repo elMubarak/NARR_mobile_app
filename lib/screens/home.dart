@@ -164,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: 'Search Research Work',
+                        hintText: 'Search NARR..',
                         border: InputBorder.none,
                         suffixIcon: Icon(Icons.search),
                       ),
@@ -172,13 +172,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   ), //search and ctgr
 
                   SizedBox(height: 25),
-                  SchoolDashCard(),
+                  SchoolDashCard(
+                    institutionLogo:
+                        'https://banner2.cleanpng.com/20180423/ohw/kisspng-ahmadu-bello-university-kano-higher-education-scho-university-logo-5addf5f3546bc3.9903414015244958593458.jpg',
+                    institutionName: 'Ahmadu Bello University,Zaria',
+                    institutionAcronym: 'ABU',
+                    studentNo: 1202,
+                    onTap: () {},
+                  ),
                   // SizedBox(height: 15),
                 ],
               ),
             ),
             SizedBox(height: 15),
-            UsersOnlineCard(),
+            UsersOnlineCard(
+              usersOnline: 12,
+              onTap: () {},
+            ),
             Container(
               margin: EdgeInsets.symmetric(
                 horizontal: 15,
@@ -186,11 +196,65 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Column(
                 children: [
-                  TrendinCard(),
+                  TrendinCard(
+                    child: ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: CircleAvatar(),
+                            title: Text('Linial Warhead'),
+                            subtitle: Text('Musa Damu'),
+                            trailing: Text('12-03-2020'),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider(
+                            thickness: 1.3,
+                          );
+                        },
+                        itemCount: 10),
+                    itemCount: 1,
+                  ),
                   SizedBox(height: 15.0),
-                  ReadingHistoryCard(),
+                  ReadingHistoryCard(
+                    child: ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: CircleAvatar(),
+                            title: Text('Axial Warhead'),
+                            subtitle: Text('somethig great!'),
+                            trailing: Text('12-03-2020'),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider(
+                            thickness: 1.3,
+                          );
+                        },
+                        itemCount: 10),
+                    itemCount: 10,
+                  ),
                   SizedBox(height: 15.0),
-                  SuggestionCard(),
+                  SuggestionCard(
+                    child: ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: CircleAvatar(),
+                            title: Text('Axial Warhead'),
+                            subtitle: Text('somethig great!'),
+                            trailing: Text('12-03-2020'),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider(
+                            thickness: 1.3,
+                          );
+                        },
+                        itemCount: 10),
+                    itemCount: 10,
+                  ),
                   Analytics(chartWidget: chartWidget),
                 ],
               ),
