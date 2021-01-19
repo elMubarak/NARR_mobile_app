@@ -166,20 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ), //search and ctgr
                   SizedBox(height: 25),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(15),
-                    margin: EdgeInsets.symmetric(horizontal: 15),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(),
-                        ]),
-                    child: Column(
-                      children: [],
-                    ),
-                  ),
+                  SchoolDashCard(),
                   SizedBox(height: 15),
                   Analytics(chartWidget: chartWidget),
                 ],
@@ -218,51 +205,51 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 15,
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          child: ListView.separated(
-                            reverse: true,
-                            itemCount: readingHistoryArray.length,
-                            separatorBuilder:
-                                (BuildContext context, int index) => Divider(),
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                leading: CircleAvatar(
-                                  child: Icon(Icons.insert_drive_file),
-                                ),
-                                title: Text(
-                                  '${readingHistoryArray[index]['researchTitle']}',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                  //getting the list of authors and removing the square brackets
-                                  '${readingHistoryArray[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                trailing: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '${readingHistoryArray[index]['accessType']}',
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      '${readingHistoryArray[index]['nPages']} Pages',
-                                      style: TextStyle(
-                                        color: Color(0xff00a368),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                        // Container(
+                        //   height: MediaQuery.of(context).size.height * 0.4,
+                        //   child: ListView.separated(
+                        //     reverse: true,
+                        //     itemCount: readingHistoryArray.length,
+                        //     separatorBuilder:
+                        //         (BuildContext context, int index) => Divider(),
+                        //     itemBuilder: (context, index) {
+                        //       return ListTile(
+                        //         contentPadding: EdgeInsets.zero,
+                        //         leading: CircleAvatar(
+                        //           child: Icon(Icons.insert_drive_file),
+                        //         ),
+                        //         title: Text(
+                        //           '${readingHistoryArray[index]['researchTitle']}',
+                        //           maxLines: 1,
+                        //           overflow: TextOverflow.ellipsis,
+                        //         ),
+                        //         subtitle: Text(
+                        //           //getting the list of authors and removing the square brackets
+                        //           '${readingHistoryArray[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
+                        //           maxLines: 1,
+                        //           overflow: TextOverflow.ellipsis,
+                        //         ),
+                        //         trailing: Column(
+                        //           mainAxisAlignment: MainAxisAlignment.end,
+                        //           children: [
+                        //             Text(
+                        //               '${readingHistoryArray[index]['accessType']}',
+                        //             ),
+                        //             SizedBox(
+                        //               height: 5,
+                        //             ),
+                        //             Text(
+                        //               '${readingHistoryArray[index]['nPages']} Pages',
+                        //               style: TextStyle(
+                        //                 color: Color(0xff00a368),
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -311,38 +298,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         label: Text('Upload File'),
         icon: Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class SugesstionCardContent extends StatelessWidget {
-  const SugesstionCardContent({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: CircleAvatar(
-        child: Icon(
-          Icons.insert_drive_file,
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.blueAccent,
-      ),
-      title: Text('A research on neurral network...'),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            'While i was researching on the case the criminals hair was...',
-          ),
-          SizedBox(height: 5),
-          Text('12/08/2020')
-        ],
       ),
     );
   }
