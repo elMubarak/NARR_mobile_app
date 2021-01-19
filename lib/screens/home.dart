@@ -6,9 +6,11 @@ import 'package:narr/screens/profile.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
+import 'package:narr/widgets/school_dash_card.dart';
 import 'package:narr/widgets/search_filter.dart';
 import 'dart:async';
 import 'package:narr/widgets/menu_drawer.dart';
+import 'package:narr/widgets/suggestion_card.dart';
 import 'package:provider/provider.dart';
 import 'single_file_upload.dart';
 
@@ -298,44 +300,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         label: Text('Upload File'),
         icon: Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class BottomSheet extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
-      ),
-      child: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(15),
-          child: Column(
-            children: [
-              Text(
-                'Categories',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 19,
-                  color: Colors.black.withOpacity(0.35),
-                ),
-              ),
-              SizedBox(height: 15),
-              Divider(),
-              CategoryItem(item: 'History'),
-              CategoryItem(item: 'Law'),
-              CategoryItem(item: 'Science'),
-            ],
-          ),
-        ),
       ),
     );
   }
