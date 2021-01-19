@@ -25,7 +25,28 @@ class SchoolDashCard extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            radius: 40,
+            radius: 45,
+            child: CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.white,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            'Ahmadu Bello University,Zaria',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+          Text(
+            '(ABU)',
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ],
       ),
