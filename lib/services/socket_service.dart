@@ -113,11 +113,11 @@ class SocketService {
         }
       });
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
-        final users = jsonDecode(data);
+        final decodedData = jsonDecode(data);
         Provider.of<AppData>(context, listen: false)
-            .updatedUsersOnline(usersOnline: users['usersOnline']);
-        Provider.of<AppData>(context, listen: false)
-            .getUserReadingHistory(userReadingHistory: users['readingHistory']);
+            .updatedUsersOnline(model: decodedData);
+        Provider.of<AppData>(context, listen: false).getUserReadingHistory(
+            userReadingHistory: decodedData['readingHistory']);
 
         // tempArray = users;
       });
