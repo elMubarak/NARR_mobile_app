@@ -92,10 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: chart,
       ),
     );
-    // var chartWidget2 = Container(
-    //   height: 35,
-    //   child: chart2,
-    // );
 
     List readingHistoryArray =
         Provider.of<AppData>(context, listen: false).userReadingHistoryList;
@@ -135,7 +131,6 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               padding: EdgeInsets.only(left: 15, right: 15),
-              // height: MediaQuery.of(context).size.height * 0.100,
               width: double.infinity,
               decoration: BoxDecoration(
                   color: Color(0xff00a368),
@@ -150,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    height: 38,
+                    // height: 50,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
@@ -164,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: 'Search NARR..',
+                        hintText: 'Search NARR',
                         border: InputBorder.none,
                         suffixIcon: Icon(Icons.search),
                       ),
@@ -185,9 +180,64 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 15),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              child: ContainerCard(
+                child: Column(
+                  children: [
+                    Text('Activities'),
+                    Divider(thickness: 1.2),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        HeaderCard(
+                          title: 'Documents Uploaded',
+                          info: 'Total Uploads',
+                          count: '22',
+                          color: Color(0xff00a368),
+                          icon: Icons.insert_drive_file,
+                        ),
+                        HeaderCard(
+                          title: 'Read Suggestions',
+                          info: 'Daily Suggestions',
+                          count: '22',
+                          color: Color(0xff00a368),
+                          icon: Icons.insert_drive_file,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        HeaderCard(
+                          title: 'Mentions',
+                          info: 'Mentions in the last 1 year',
+                          count: '22',
+                          color: Color(0xff00a368),
+                          icon: Icons.insert_drive_file,
+                        ),
+                        HeaderCard(
+                          title: 'Research Grants',
+                          info: 'Researches working on',
+                          count: '22',
+                          color: Color(0xff00a368),
+                          icon: Icons.insert_drive_file,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
             UsersOnlineCard(
               usersOnline: 12,
-              onTap: () {},
+              userName: 'Musa Damu',
+              userEmail: 'musadams@gmail.com',
+              onTap: () {
+                Navigator.of(context).pushNamed(Profile.id);
+              },
             ),
             Container(
               margin: EdgeInsets.symmetric(
@@ -222,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           return ListTile(
                             leading: CircleAvatar(),
-                            title: Text('Axial Warhead'),
+                            title: Text(readingHistoryArray[index]),
                             subtitle: Text('somethig great!'),
                             trailing: Text('12-03-2020'),
                           );
@@ -232,8 +282,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             thickness: 1.3,
                           );
                         },
-                        itemCount: 10),
-                    itemCount: 10,
+                        itemCount: readingHistoryArray.length),
+                    itemCount: readingHistoryArray.length,
                   ),
                   SizedBox(height: 15.0),
                   SuggestionCard(
@@ -243,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return ListTile(
                             leading: CircleAvatar(),
                             title: Text('Axial Warhead'),
-                            subtitle: Text('somethig great!'),
+                            subtitle: Text('Musa Damu'),
                             trailing: Text('12-03-2020'),
                           );
                         },
@@ -267,46 +317,9 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.of(context).pushNamed(SingleFileUpload.id);
         },
-        label: Text('Upload File'),
+        label: Text('Upload Research'),
         icon: Icon(Icons.add),
       ),
     );
   }
 }
-
-// Row(
-//   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//   children: [
-//     HeaderCard(
-//       title: 'Documents',
-//       count: '22',
-//       color: Color(0xff00a368),
-//       icon: Icons.insert_drive_file,
-//     ),
-//     HeaderCard(
-//       title: 'Recommendations',
-//       count: '15',
-//       color: Colors.blue,
-//       icon: Icons.book,
-//     ),
-//   ],
-// ),
-// SizedBox(height: 15),
-
-// Row(
-//   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//   children: [
-//     HeaderCard(
-//       title: 'Mentions',
-//       count: '30',
-//       color: Colors.orange,
-//       icon: Icons.person,
-//     ),
-//     HeaderCard(
-//       title: 'Research Work',
-//       color: Colors.pink,
-//       count: '29',
-//       icon: Icons.import_contacts,
-//     ),
-//   ],
-// ),

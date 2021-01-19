@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 
 class HeaderCard extends StatelessWidget {
   const HeaderCard(
-      {Key key, this.title, this.count, this.onTap, this.color, this.icon})
+      {Key key,
+      this.title,
+      this.count,
+      this.onTap,
+      this.color,
+      this.icon,
+      this.info})
       : super(key: key);
   final String title;
+  final String info;
   final String count;
   final Function onTap;
   final Color color;
@@ -15,23 +22,24 @@ class HeaderCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 130,
-        padding: EdgeInsets.only(top: 12, bottom: 12),
+        width: MediaQuery.of(context).size.width * 0.4,
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 9),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              offset: Offset(0, 2.5),
-              blurRadius: 8,
-              color: Colors.black.withOpacity(0.25),
-            ),
-          ],
-          color: Colors.white,
-        ),
+            borderRadius: BorderRadius.circular(1),
+            color: Colors.white,
+            border: Border.all(color: Colors.grey[200])),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              (title != null) ? title : '',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
             Row(
               children: [
                 SizedBox(width: 5),
@@ -55,17 +63,14 @@ class HeaderCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '$title',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            Container(
+              width: 120,
+              child: Text(
+                (info != null) ? '$info' : '',
+                style: TextStyle(fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),

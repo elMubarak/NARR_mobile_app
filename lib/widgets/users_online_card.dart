@@ -6,8 +6,12 @@ class UsersOnlineCard extends StatelessWidget {
     Key key,
     this.usersOnline,
     this.onTap,
+    this.userName,
+    this.userEmail,
   }) : super(key: key);
   final int usersOnline;
+  final String userName;
+  final String userEmail;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,25 @@ class UsersOnlineCard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 15),
-              Text('User'),
+              Text(
+                (userName != null) ? userName : '',
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                (userEmail != null) ? userEmail : '',
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
+              ),
             ],
           ),
         ),
