@@ -166,43 +166,56 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ), //search and ctgr
                   SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      HeaderCard(
-                        title: 'Documents',
-                        count: '22',
-                        color: Color(0xff00a368),
-                        icon: Icons.insert_drive_file,
-                      ),
-                      HeaderCard(
-                        title: 'Recommendations',
-                        count: '15',
-                        color: Colors.blue,
-                        icon: Icons.book,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     HeaderCard(
+                  //       title: 'Documents',
+                  //       count: '22',
+                  //       color: Color(0xff00a368),
+                  //       icon: Icons.insert_drive_file,
+                  //     ),
+                  //     HeaderCard(
+                  //       title: 'Recommendations',
+                  //       count: '15',
+                  //       color: Colors.blue,
+                  //       icon: Icons.book,
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(height: 15),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      HeaderCard(
-                        title: 'Mentions',
-                        count: '30',
-                        color: Colors.orange,
-                        icon: Icons.person,
-                      ),
-                      HeaderCard(
-                        title: 'Research Work',
-                        color: Colors.pink,
-                        count: '29',
-                        icon: Icons.import_contacts,
-                      ),
-                    ],
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     HeaderCard(
+                  //       title: 'Mentions',
+                  //       count: '30',
+                  //       color: Colors.orange,
+                  //       icon: Icons.person,
+                  //     ),
+                  //     HeaderCard(
+                  //       title: 'Research Work',
+                  //       color: Colors.pink,
+                  //       count: '29',
+                  //       icon: Icons.import_contacts,
+                  //     ),
+                  //   ],
+                  // ),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(15),
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(),
+                        ]),
+                    child: Column(
+                      children: [],
+                    ),
                   ),
-
                   SizedBox(height: 15),
                   Analytics(chartWidget: chartWidget),
                 ],
