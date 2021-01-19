@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:narr/models/analytics_model.dart';
 import 'package:narr/widgets/flush_snackbar.dart';
 
 class AppData extends ChangeNotifier {
@@ -31,7 +32,10 @@ class AppData extends ChangeNotifier {
   }
 
   List usersOnlineList = [];
-  void updatedUsersOnline({dynamic usersOnline, context}) {
+  AnalyticsModel analyticsModel;
+  void updatedUsersOnline(
+      {dynamic usersOnline, AnalyticsModel model, context}) {
+    analyticsModel = model;
     usersOnlineList = usersOnline;
     notifyListeners();
   }
