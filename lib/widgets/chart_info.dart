@@ -11,6 +11,7 @@ class Analytics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 15),
       padding: EdgeInsets.all(15),
       width: double.infinity,
       decoration: BoxDecoration(
@@ -45,6 +46,7 @@ class Analytics extends StatelessWidget {
                     ),
                   ],
                 ),
+                Divider(thickness: 1.2),
                 SizedBox(height: 10),
 
                 //charts

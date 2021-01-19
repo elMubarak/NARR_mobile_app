@@ -29,6 +29,8 @@ class SchoolDashCard extends StatelessWidget {
             child: CircleAvatar(
               radius: 40,
               backgroundColor: Colors.white,
+              backgroundImage: NetworkImage(
+                  'https://banner2.cleanpng.com/20180423/ohw/kisspng-ahmadu-bello-university-kano-higher-education-scho-university-logo-5addf5f3546bc3.9903414015244958593458.jpg'),
             ),
           ),
           SizedBox(height: 10),
@@ -47,6 +49,14 @@ class SchoolDashCard extends StatelessWidget {
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
+          ),
+          SizedBox(height: 10),
+          Text(
+            'Students: 2,500+',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
           ),
         ],
       ),

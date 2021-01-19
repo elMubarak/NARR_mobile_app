@@ -6,11 +6,14 @@ import 'package:narr/screens/profile.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
+import 'package:narr/widgets/reading_history_card.dart';
 import 'package:narr/widgets/school_dash_card.dart';
 import 'package:narr/widgets/search_filter.dart';
 import 'dart:async';
 import 'package:narr/widgets/menu_drawer.dart';
 import 'package:narr/widgets/suggestion_card.dart';
+import 'package:narr/widgets/trending_card.dart';
+import 'package:narr/widgets/users_online_card.dart';
 import 'package:provider/provider.dart';
 import 'single_file_upload.dart';
 
@@ -167,126 +170,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ), //search and ctgr
+
                   SizedBox(height: 25),
                   SchoolDashCard(),
-                  SizedBox(height: 15),
-                  Analytics(chartWidget: chartWidget),
+                  // SizedBox(height: 15),
                 ],
               ),
             ),
+            SizedBox(height: 15),
+            UsersOnlineCard(),
             Container(
-              margin: EdgeInsets.only(
-                left: 15,
-                right: 15,
-                top: 15,
-                bottom: 15,
+              margin: EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 15,
               ),
               child: Column(
                 children: [
-                  ContainerCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Reading History',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(History.id);
-                              },
-                              child: Text(
-                                'View More..',
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        // Container(
-                        //   height: MediaQuery.of(context).size.height * 0.4,
-                        //   child: ListView.separated(
-                        //     reverse: true,
-                        //     itemCount: readingHistoryArray.length,
-                        //     separatorBuilder:
-                        //         (BuildContext context, int index) => Divider(),
-                        //     itemBuilder: (context, index) {
-                        //       return ListTile(
-                        //         contentPadding: EdgeInsets.zero,
-                        //         leading: CircleAvatar(
-                        //           child: Icon(Icons.insert_drive_file),
-                        //         ),
-                        //         title: Text(
-                        //           '${readingHistoryArray[index]['researchTitle']}',
-                        //           maxLines: 1,
-                        //           overflow: TextOverflow.ellipsis,
-                        //         ),
-                        //         subtitle: Text(
-                        //           //getting the list of authors and removing the square brackets
-                        //           '${readingHistoryArray[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
-                        //           maxLines: 1,
-                        //           overflow: TextOverflow.ellipsis,
-                        //         ),
-                        //         trailing: Column(
-                        //           mainAxisAlignment: MainAxisAlignment.end,
-                        //           children: [
-                        //             Text(
-                        //               '${readingHistoryArray[index]['accessType']}',
-                        //             ),
-                        //             SizedBox(
-                        //               height: 5,
-                        //             ),
-                        //             Text(
-                        //               '${readingHistoryArray[index]['nPages']} Pages',
-                        //               style: TextStyle(
-                        //                 color: Color(0xff00a368),
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  ContainerCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Suggestions',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        SugesstionCardContent(),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        SugesstionCardContent(),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        SugesstionCardContent(),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        SugesstionCardContent(),
-                      ],
-                    ),
-                  ),
+                  TrendinCard(),
+                  SizedBox(height: 15.0),
+                  ReadingHistoryCard(),
+                  SizedBox(height: 15.0),
+                  SuggestionCard(),
+                  Analytics(chartWidget: chartWidget),
                 ],
               ),
             ),

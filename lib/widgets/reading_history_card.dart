@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/history.dart';
 import 'package:narr/widgets/container_card.dart';
 
-class SuggestionCard extends StatelessWidget {
-  const SuggestionCard({
+class ReadingHistoryCard extends StatelessWidget {
+  const ReadingHistoryCard({
     Key key,
   }) : super(key: key);
 
@@ -11,17 +12,26 @@ class SuggestionCard extends StatelessWidget {
     return ContainerCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Suggestions',
+                'Reading History',
                 style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(History.id);
+                },
+                child: Text(
+                  'View More..',
+                ),
               ),
             ],
           ),
           Divider(thickness: 1.2),
+          SizedBox(height: 15),
         ],
       ),
     );
