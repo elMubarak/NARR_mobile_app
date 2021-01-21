@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:narr/provider/app_data.dart';
-import 'package:narr/screens/history.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/cards.dart';
@@ -9,7 +8,6 @@ import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
 import 'package:narr/widgets/reading_history_card.dart';
 import 'package:narr/widgets/school_dash_card.dart';
-import 'package:narr/widgets/search_filter.dart';
 import 'dart:async';
 import 'package:narr/widgets/menu_drawer.dart';
 import 'package:narr/widgets/suggestion_card.dart';
@@ -38,6 +36,7 @@ class ClicksPerYear {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 20;
+  List readingHistoryArray = [];
 
   void incrementCounter() {
     setState(() {
@@ -47,6 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   HiveBox _box = HiveBox();
   @override
+  initState() {
+    super.initState();
+    readingHistoryArray = [];
+  }
+
   Widget build(BuildContext context) {
     //
     // showSimpleFlushbar(context: context, message: message);
@@ -87,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var onlineUsersArray =
         Provider.of<AppData>(context, listen: false).analyticObj;
 
-    List readingHistoryArray = Provider.of<AppData>(context, listen: false)
+    readingHistoryArray = Provider.of<AppData>(context, listen: false)
         .analyticObj['readingHistory'];
 
     return Scaffold(

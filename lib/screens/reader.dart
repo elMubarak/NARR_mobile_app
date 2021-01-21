@@ -38,7 +38,7 @@ class Slider extends StatefulWidget {
 
 class _SliderState extends State<Slider> {
   bool isDark = false;
-  Random _random = Random();
+  // Random _random = Random();
   CarouselSlider carouselSlider;
   CarouselController buttonCarouselController = CarouselController();
   HiveBox _box = HiveBox();
@@ -95,9 +95,9 @@ class _SliderState extends State<Slider> {
           NetworkHelper(url: singleResearchUrl).getSingleResearch(widget.id),
       builder: (context, research) {
         String requestUrl() {
-          int ranNum = _random.nextInt(8163907) * _random.nextInt(2765309);
+          // int ranNum = _random.nextInt(8163907) * _random.nextInt(2765309);
           String url =
-              'https://api.narr.ng${research.data['research']['readPath']}$_currentPage.jpg?token=$token${_currentPage == research.data['research']['nPages'] ? '&end=true' : ''}';
+              'https://api.narr.ng${research.data['research']['readPath']}$_currentPage.jpg?token=$token${_currentPage == research.data['research']['nPages'] ? '&end=true' : ''}&nPages=${research.data['research']['nPages']}';
           return url;
         }
 

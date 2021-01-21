@@ -30,6 +30,7 @@ class HiveBox {
   }
 
   clearToken() async {
+    // ignore: unused_local_variable
     var store = await Hive.openBox('local-user');
     // store.put('token', null);
     // store.put('user', null);
