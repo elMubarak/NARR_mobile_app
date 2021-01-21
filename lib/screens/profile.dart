@@ -268,11 +268,12 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 15,
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(height: 15),
                   //
                   // ContainerWithShadow(
                   //   child: Column(

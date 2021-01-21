@@ -37,6 +37,7 @@ class ClicksPerYear {
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 20;
   List readingHistoryArray = [];
+  // List onlineUsersArray = [];
 
   void incrementCounter() {
     setState(() {
@@ -93,8 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
           .analyticObj['readingHistory'];
     }
 
-    // var onlineUsersArray =
-    //     Provider.of<AppData>(context, listen: false).analyticObj;
+    var onlineUsersArray =
+        Provider.of<AppData>(context, listen: false).analyticObj;
 
     return Scaffold(
       drawer: Drawer(
@@ -240,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return CircularProgressIndicator();
                 }
                 return UsersOnlineCard(
-                  // usersOnline: onlineUsersArray['usersOnline'].length,
+                  usersOnline: onlineUsersArray['usersOnline'].length,
                   userName: snapshot.data['fullName'],
                   userEmail: snapshot.data['email'],
                   onTap: () {
@@ -283,6 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return ListView.separated(
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
+                                // print(readingHistoryArray[index]);
                                 return ListTile(
                                   leading: CircleAvatar(),
                                   title: Text(readingHistoryArray[index]),

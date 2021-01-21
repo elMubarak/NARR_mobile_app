@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/screens/reader.dart';
 import 'package:narr/services/backend_service.dart';
@@ -13,6 +14,8 @@ class ResearchWork extends StatelessWidget {
   Widget build(BuildContext context) {
     String singleResearchUrl = '$serverUrl/research';
     HiveBox _box = HiveBox();
+    bool _isVertical = false;
+    IconData _selectedIcon;
 
     var token;
     getToken() async {
@@ -21,312 +24,356 @@ class ResearchWork extends StatelessWidget {
     }
 
     getToken();
-    return Scaffold(
-      body: FutureBuilder(
-        future:
-            NetworkHelper(url: singleResearchUrl).getSingleResearch(researchId),
-        builder: (context, research) {
-          if (!research.hasData) {
-            return Center(
+    return FutureBuilder(
+      future:
+          NetworkHelper(url: singleResearchUrl).getSingleResearch(researchId),
+      builder: (context, research) {
+        if (!research.hasData) {
+          return Scaffold(
+            body: Center(
               child: CircularProgressIndicator(),
-            );
-          }
-          return SafeArea(
-            child: DefaultTabController(
-              length: 2,
-              child: NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      backgroundColor: Color(0xff00a368),
-                      automaticallyImplyLeading: true,
-                      elevation: 0,
-                      expandedHeight: 150.0,
-                      floating: true,
-                      pinned: true,
-                      flexibleSpace: FlexibleSpaceBar(
-                        centerTitle: true,
-                        title: Padding(
-                          padding: const EdgeInsets.only(left: 45, right: 20.0),
-                          child: Text(
-                            '${research.data['research']['researchTitle']}',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+            ),
+          );
+        }
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(research.data['research']['researchTitle']),
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: [
+                  ContainerWithShadow(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
+                            Container(
+                              height: 180,
+                              width: double.infinity,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(6),
+                                  topLeft: Radius.circular(6),
+                                ),
+                                child: Image.network(
+                                  'https://api.narr.ng${research.data['research']['thumbnail']}?action=thumbnail&token=$token',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Divider(
+                          color: Color(0xff00a368),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Authors: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Flexible(
+                              child: Text(
+                                '${research.data['research']['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 8,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Date Published: ',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    '${research.data['research']['year']}',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 8,
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Category: ',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    '${research.data['research']['category']}',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 8,
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Pages: ',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    '${research.data['research']['nPages']}',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 8,
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Access Type: ',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    '${research.data['research']['accessType']}',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 8,
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            research.data['accessType'] == 'Free'
+                                ? Container()
+                                : Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Monthly Fee: ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          '${research.data['research']['monthlyFee']}',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 8,
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Description: ',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    '${research.data['research']['description']}',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 8,
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      print(research.data['research']['_id']);
+                                      return Reader(
+                                          research.data['research']['_id']);
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: 18, right: 18, top: 10, bottom: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xff00a368),
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  'READ',
+                                  style: TextStyle(
+                                    color: Color(0xff00a368),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  ContainerWithShadow(
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Text(
+                            'Analytics',
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff00a368),
                             ),
                           ),
-                        ),
-                        background: Image.network(
-                          "https://api.narr.ng${research.data['research']['thumbnail']}?action=thumbnail&token=$token",
-                          fit: BoxFit.cover,
-                          colorBlendMode: BlendMode.dstATop,
-                          color: innerBoxIsScrolled
-                              ? Colors.red
-                              : Colors.black.withOpacity(0.6),
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent loading) {
-                            if (loading == null) return child;
-
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loading.expectedTotalBytes != null
-                                    ? loading.cumulativeBytesLoaded /
-                                        loading.expectedTotalBytes
-                                    : null,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ];
-                },
-                body: Container(
-                  child: Column(
-                    children: [
-                      ContainerWithShadow(
-                        child: Container(
-                          child: Column(
+                          SizedBox(height: 15),
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Authors: ',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      '${research.data['research']['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 8,
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                  ),
-                                ],
+                              Icon(
+                                Icons.import_contacts,
+                                size: 17,
+                                color: Color(0xff00a368),
                               ),
-                              SizedBox(
-                                height: 10,
+                              Text(
+                                'Currently Reading: ',
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Date Published: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          '${research.data['research']['year']}',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 8,
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Category: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          '${research.data['research']['category']}',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 8,
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Pages: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          '${research.data['research']['nPages']}',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 8,
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Access Type: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          '${research.data['research']['accessType']}',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 8,
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  research.data['accessType'] == 'Free'
-                                      ? Container()
-                                      : Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Monthly Fee: ',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Flexible(
-                                              child: Text(
-                                                '${research.data['research']['monthlyFee']}',
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 8,
-                                                style: TextStyle(
-                                                    color: Colors.grey),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Description: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          '${research.data['research']['description']}',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 8,
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            print(research.data['research']
-                                                ['_id']);
-                                            return Reader(research
-                                                .data['research']['_id']);
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                          left: 18,
-                                          right: 18,
-                                          top: 10,
-                                          bottom: 10),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Color(0xff00a368),
-                                        ),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Text(
-                                        'READ',
-                                        style: TextStyle(
-                                          color: Color(0xff00a368),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              Flexible(
+                                child: Text(
+                                  '300',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 8,
+                                ),
                               ),
                             ],
                           ),
-                        ),
+                          SizedBox(height: 10),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.book,
+                                size: 17,
+                                color: Color(0xff00a368),
+                              ),
+                              Text(
+                                'Read By: ',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Flexible(
+                                child: Text(
+                                  '350',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 8,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.thumb_up,
+                                size: 17,
+                                color: Color(0xff00a368),
+                              ),
+                              Text(
+                                'Liked By: ',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Flexible(
+                                child: Text(
+                                  '350',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 8,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.star,
+                                size: 17,
+                                color: Color(0xff00a368),
+                              ),
+                              Text(
+                                'Rating: ',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              // ignore: missing_required_param
+                              RatingBar.builder(
+                                initialRating: 4.5,
+                                minRating: 0,
+                                direction: _isVertical
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
+                                allowHalfRating: true,
+                                unratedColor: Colors.amber.withAlpha(50),
+                                itemCount: 5,
+                                itemSize: 20.0,
+                                itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 4.0),
+                                itemBuilder: (context, _) => Icon(
+                                  _selectedIcon ?? Icons.star,
+                                  color: Colors.amber,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  SizedBox(height: 15),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
-  }
-}
-
-// ignore: unused_element
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this.breadcrumnb);
-
-  final Widget breadcrumnb;
-
-  @override
-  double get minExtent => 40;
-  @override
-  double get maxExtent => 40;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new Container(
-      padding: EdgeInsets.only(top: 10),
-      color: Colors.white,
-      child: breadcrumnb,
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
   }
 }
 

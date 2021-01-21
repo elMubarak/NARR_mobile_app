@@ -7,7 +7,7 @@ class ContainerWithShadow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(15),
+      margin: EdgeInsets.only(left: 15, right: 15, top: 15),
       padding: EdgeInsets.all(15),
       width: double.infinity,
       decoration: BoxDecoration(
