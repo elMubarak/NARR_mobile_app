@@ -88,11 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
       return savedUser;
     }
 
-    var onlineUsersArray =
-        Provider.of<AppData>(context, listen: false).analyticObj;
+    Future getReadHistory() async {
+      readingHistoryArray = await Provider.of<AppData>(context, listen: false)
+          .analyticObj['readingHistory'];
+    }
 
-    readingHistoryArray = Provider.of<AppData>(context, listen: false)
-        .analyticObj['readingHistory'];
+    // var onlineUsersArray =
+    //     Provider.of<AppData>(context, listen: false).analyticObj;
 
     return Scaffold(
       drawer: Drawer(
@@ -121,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.notifications,
             ),
             onPressed: () async {
-              print(onlineUsersArray['usersOnline'].length);
+              // print(onlineUsersArray['usersOnline'].length);
             },
           ),
         ],
@@ -238,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return CircularProgressIndicator();
                 }
                 return UsersOnlineCard(
-                  usersOnline: onlineUsersArray['usersOnline'].length,
+                  // usersOnline: onlineUsersArray['usersOnline'].length,
                   userName: snapshot.data['fullName'],
                   userEmail: snapshot.data['email'],
                   onTap: () {
@@ -275,27 +277,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 15.0),
                   ReadingHistoryCard(
-                    child: ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          if (index == null) {
-                            return Container(
-                              child: Text('Array is empty'),
-                            );
-                          }
-                          return ListTile(
-                            leading: CircleAvatar(),
-                            title: Text(readingHistoryArray[index]),
-                            subtitle: Text('somethig great!'),
-                            trailing: Text('12-03-2020'),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider(
-                            thickness: 1.3,
-                          );
-                        },
-                        itemCount: readingHistoryArray.length),
+                    child: FutureBuilder(
+                        future: getReadHistory(),
+                        builder: (context, snapshot) {
+                          return ListView.separated(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  leading: CircleAvatar(),
+                                  title: Text(readingHistoryArray[index]),
+                                  subtitle: Text('somethig great!'),
+                                  trailing: Text('12-03-2020'),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return Divider(
+                                  thickness: 1.3,
+                                );
+                              },
+                              itemCount: readingHistoryArray.length);
+                        }),
                     itemCount: readingHistoryArray.length,
                   ),
                   SizedBox(height: 15.0),
