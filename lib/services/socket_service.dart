@@ -25,37 +25,22 @@ class SocketService {
 
       // Handle socket events
       socket.on('connect', (data) {
-        print('Connected to socket server');
+        print('Connected to socket server ');
       });
     } catch (e) {
       print("Error connecting to socket server $e");
     }
   }
 
-  void connectToServer(BuildContext context) async {
+  void connectToEvents(BuildContext context) async {
     String savedToken = await _box.getUser('token');
     dynamic savedUser = await _box.getUser('user');
     try {
-      // Configure socket transports must be sepecified
-      socket = io(socketServerUrl, <String, dynamic>{
-        'transports': ['websocket'],
-        'autoConnect': false,
-      });
-
-      // Connect to websocket
-      socket.connect();
-
-      // Handle socket events
-      socket.on('connect', (data) {
-        print('Connected to socket server');
-      });
-      socket.on('disconnect', (reason) async {
-        print('disconnect $reason');
-        // handleLoginEvent(token: savedToken, user: savedUser);
-      });
       if (savedToken != null) {
         handleLoginEvent(token: savedToken, user: savedUser, context: context);
-      } else {}
+      } else {
+        print('nulll token re route to login');
+      }
 
       socket.on('reconnect', (reason) {
         print('disconnect $reason');
@@ -166,5 +151,9 @@ class SocketService {
     } catch (e) {
       print('Error ==> $e');
     }
+  }
+
+  void disconnectFromServer() {
+    socket.close();
   }
 }

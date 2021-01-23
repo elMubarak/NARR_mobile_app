@@ -107,7 +107,6 @@ class NetworkHelper {
         var result = HiveBox().addToBox(token: tok, userObj: userObj);
         result.then((value) {
           //socket authentication
-          _socketService.connectToSocketServer();
           _socketService.handleLoginEvent(
             context: context,
             token: value['savedToken'],

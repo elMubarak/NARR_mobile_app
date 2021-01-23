@@ -92,6 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Future getReadHistory() async {
       readingHistoryArray = await Provider.of<AppData>(context, listen: false)
           .analyticObj['readingHistory'];
+      print(readingHistoryArray);
+      return readingHistoryArray;
     }
 
     Future getOnlineUsers() async {
@@ -198,14 +200,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         HeaderCard(
                           title: 'Documents Uploaded',
-                          info: 'Total Uploads',
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.insert_drive_file,
                         ),
                         HeaderCard(
                           title: 'Read Suggestions',
-                          info: 'Daily Suggestions',
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.import_contacts,
@@ -224,7 +224,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: Icons.person),
                         HeaderCard(
                           title: 'Research Grants',
-                          info: 'Researches working on',
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.insert_drive_file,
@@ -287,7 +286,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 15.0),
                   ReadingHistoryCard(
                     child: FutureBuilder(
-                        future: getReadHistory(),
+                        future: getReadHistory().then((value) {
+                          print(value);
+                        }),
                         builder: (context, snapshot) {
                           print(readingHistoryArray);
                           return ListView.separated(
