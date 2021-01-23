@@ -29,7 +29,7 @@ class HeaderCard extends StatelessWidget {
             color: Colors.white,
             border: Border.all(color: Colors.grey[200])),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
@@ -41,6 +41,7 @@ class HeaderCard extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(width: 5),
                 CircleAvatar(
@@ -63,15 +64,6 @@ class HeaderCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 5),
-            Container(
-              width: 120,
-              child: Text(
-                (info != null) ? '$info' : '',
-                style: TextStyle(fontSize: 12),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
           ],
         ),
       ),

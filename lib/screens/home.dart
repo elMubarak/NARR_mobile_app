@@ -92,6 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Future getReadHistory() async {
       readingHistoryArray = await Provider.of<AppData>(context, listen: false)
           .analyticObj['readingHistory'];
+      print(readingHistoryArray);
+      return readingHistoryArray;
     }
 
     var onlineUsersArray =
@@ -196,14 +198,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         HeaderCard(
                           title: 'Documents Uploaded',
-                          info: 'Total Uploads',
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.insert_drive_file,
                         ),
                         HeaderCard(
                           title: 'Read Suggestions',
-                          info: 'Daily Suggestions',
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.insert_drive_file,
@@ -216,14 +216,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         HeaderCard(
                           title: 'Mentions',
-                          info: 'Mentions in the last 1 year',
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.insert_drive_file,
                         ),
                         HeaderCard(
                           title: 'Research Grants',
-                          info: 'Researches working on',
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.insert_drive_file,
@@ -279,7 +277,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 15.0),
                   ReadingHistoryCard(
                     child: FutureBuilder(
-                        future: getReadHistory(),
+                        future: getReadHistory().then((value) {
+                          print(value);
+                        }),
                         builder: (context, snapshot) {
                           return ListView.separated(
                               physics: NeverScrollableScrollPhysics(),

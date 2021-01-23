@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
+import 'package:narr/services/backend_service.dart';
 // import 'package:narr/services/backend_service.dart';
 import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String id = 'SplashScreen';
@@ -20,29 +22,34 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // _socketService.connectToServer(context);
+    // _socketService.disconnectFromServer();
+
+    _socketService.connectToSocketServer();
     silentLogin();
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // _socketService.disconnectFromServer();
+    super.dispose();
   }
 
   HiveBox _box = HiveBox();
 
   silentLogin() async {
     String savedToken = await _box.getUser('token');
-    if (savedToken != null) {
-      _socketService.connectToServer(context);
-    } else {
-      _socketService.connectToSocketServer();
-    }
 
-    Timer(Duration(seconds: 4), () {
-      if (savedToken != null) {
+    if (savedToken != null) {
+      _socketService.connectToEvents(context);
+
+      Timer(Duration(seconds: 4), () {
         Navigator.pushReplacementNamed(context, HomeScreen.id);
-      } else {
-        Navigator.pushReplacementNamed(context, Login.id);
-      }
-    });
+      });
+    } else {
+      Navigator.pushReplacementNamed(context, Login.id);
+    }
   }
 
   @override
