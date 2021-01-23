@@ -21,7 +21,7 @@ services:
             - narrnet
     
     narrapi:
-        image: shamskhalil/narr-api:v1.2.2
+        image: shamskhalil/narr-api:v1.4.4
         restart: always
         ports: 
             - "3000:3000"

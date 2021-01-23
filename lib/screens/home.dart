@@ -37,7 +37,7 @@ class ClicksPerYear {
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 20;
   List readingHistoryArray = [];
-  // List onlineUsersArray = [];
+  List onlineUsersArray = [];
 
   void incrementCounter() {
     setState(() {
@@ -94,8 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
           .analyticObj['readingHistory'];
     }
 
-    var onlineUsersArray =
-        Provider.of<AppData>(context, listen: false).analyticObj;
+    Future getOnlineUsers() async {
+      onlineUsersArray = await Provider.of<AppData>(context, listen: false)
+          .analyticObj['usersOnline'];
+    }
 
     return Scaffold(
       drawer: Drawer(
@@ -124,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.notifications,
             ),
             onPressed: () async {
-              // print(onlineUsersArray['usersOnline'].length);
+              Navigator.pushNamed(context, HomeScreen.id);
             },
           ),
         ],
@@ -206,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           info: 'Daily Suggestions',
                           count: '22',
                           color: Color(0xff00a368),
-                          icon: Icons.insert_drive_file,
+                          icon: Icons.import_contacts,
                         ),
                       ],
                     ),
@@ -215,12 +217,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         HeaderCard(
-                          title: 'Mentions',
-                          info: 'Mentions in the last 1 year',
-                          count: '22',
-                          color: Color(0xff00a368),
-                          icon: Icons.insert_drive_file,
-                        ),
+                            title: 'Mentions',
+                            info: 'Mentions in the last 1 year',
+                            count: '22',
+                            color: Color(0xff00a368),
+                            icon: Icons.person),
                         HeaderCard(
                           title: 'Research Grants',
                           info: 'Researches working on',
@@ -240,14 +241,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (!snapshot.hasData) {
                   return CircularProgressIndicator();
                 }
-                return UsersOnlineCard(
-                  usersOnline: onlineUsersArray['usersOnline'].length,
-                  userName: snapshot.data['fullName'],
-                  userEmail: snapshot.data['email'],
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Profile.id);
-                  },
-                );
+                return FutureBuilder(
+                    future: getOnlineUsers(),
+                    builder: (context, userSnapshot) {
+                      if (!snapshot.hasData) {
+                        return CircularProgressIndicator();
+                      }
+                      return UsersOnlineCard(
+                        usersOnline: onlineUsersArray.length,
+                        userName: snapshot.data['fullName'],
+                        userEmail: snapshot.data['email'],
+                        onTap: () {
+                          Navigator.of(context).pushNamed(Profile.id);
+                        },
+                      );
+                    });
               },
             ),
             Container(
@@ -281,15 +289,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: FutureBuilder(
                         future: getReadHistory(),
                         builder: (context, snapshot) {
+                          print(readingHistoryArray);
                           return ListView.separated(
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                // print(readingHistoryArray[index]);
+                                if (readingHistoryArray == []) {
+                                  return ListTile(
+                                    title: Text('No reading History'),
+                                  );
+                                }
                                 return ListTile(
                                   leading: CircleAvatar(),
-                                  title: Text(readingHistoryArray[index]),
-                                  subtitle: Text('somethig great!'),
-                                  trailing: Text('12-03-2020'),
+                                  title: Text(
+                                      '${readingHistoryArray[index]['researchTitle']}'),
+                                  subtitle: Text(
+                                      '${readingHistoryArray[index]['authors']}'),
+                                  trailing: Text(
+                                      '${readingHistoryArray[index]['accessType']}'),
                                 );
                               },
                               separatorBuilder: (context, index) {

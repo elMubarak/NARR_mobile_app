@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
       _socketService.connectToSocketServer();
     }
 
-    Timer(Duration(seconds: 4), () {
+    Timer(Duration(seconds: 5), () {
       if (savedToken != null) {
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else {

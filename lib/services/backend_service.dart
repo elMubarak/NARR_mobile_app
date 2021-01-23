@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +116,6 @@ class NetworkHelper {
         });
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
-        Navigator.pushNamed(context, HomeScreen.id);
 
         return data;
       } else if (response.statusCode == 403) {

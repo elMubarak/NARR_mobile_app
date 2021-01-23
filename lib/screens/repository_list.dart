@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
+import 'package:narr/screens/single_file_upload.dart';
 import 'package:narr/screens/single_research_repository.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/store/hive_store.dart';
+import 'package:narr/widgets/menu_drawer.dart';
 
 class RepositoryList extends StatefulWidget {
   static String id = '/repository list';
@@ -28,6 +30,9 @@ class _RepositoryListState extends State<RepositoryList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Repository'),
+      ),
+      drawer: Drawer(
+        child: DrawerItems(),
       ),
       body: FutureBuilder(
         future: NetworkHelper(url: researchRepoUrl).getAllResearch(),
@@ -141,6 +146,14 @@ class _RepositoryListState extends State<RepositoryList> {
             children: contactTitleWidgets,
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Color(0xff00a368),
+        onPressed: () {
+          Navigator.of(context).pushNamed(SingleFileUpload.id);
+        },
+        label: Text('Upload Research'),
+        icon: Icon(Icons.add),
       ),
     );
   }
