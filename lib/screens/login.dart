@@ -30,8 +30,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    // SocketService().connectToSocketServer();
-
     return Scaffold(
       backgroundColor: Color(0xff00a368),
       body: Center(
