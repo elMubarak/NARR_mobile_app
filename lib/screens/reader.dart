@@ -1,11 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/provider/app_data.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/dark_mode_reader.dart';
+import 'package:narr/widgets/menu_drawer.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'dart:math';
+
+import 'package:provider/provider.dart';
 
 String singleResearchUrl = 'https://api.narr.ng/api/v1/research';
 
@@ -23,6 +27,9 @@ class _ReaderState extends State<Reader> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Reader'),
+      ),
+      drawer: Drawer(
+        child: DrawerItems(),
       ),
       body: Slider(widget.id),
     );
@@ -75,8 +82,8 @@ class _SliderState extends State<Slider> {
         "accessType": research['research']['accessType'],
         "nPages": research['research']['nPages']
       };
-      var readingHistoryArr = [];
-      // Provider.of<AppData>(context, listen: false).userReadingHistoryList;
+      var readingHistoryArr = Provider.of<AppData>(context, listen: false)
+          .analyticObj['readingHistory'];
       if (_currentPage == 1) {
         readingHistoryArr.add(researchObj);
       }

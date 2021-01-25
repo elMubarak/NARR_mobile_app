@@ -43,9 +43,11 @@ class DrawerItems extends StatelessWidget {
                     title: Text('Home'),
                     enabled: true,
                     onTap: () {
-                      Navigator.of(context).popAndPushNamed(HomeScreen.id);
+                      // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
                       // Update the state of the app.
                       // ...
+                      Navigator.popUntil(
+                          context, ModalRoute.withName(HomeScreen.id));
                     },
                   ),
                   ListTile(
