@@ -115,6 +115,7 @@ class NetworkHelper {
         });
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
 
         return data;
       } else if (response.statusCode == 403) {

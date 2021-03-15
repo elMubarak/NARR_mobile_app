@@ -12,5 +12,6 @@ to the current user only
 
 shamskhalil/narr-api:v1.2.1
 
+sudo kill $(sudo lsof -t -i:27017)
 
 
