@@ -110,7 +110,7 @@ class NetworkHelper {
         );
         //socket authentication
 
-        // Navigator.pushReplacementNamed(context, HomeScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
 
         //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
 
