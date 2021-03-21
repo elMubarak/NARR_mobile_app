@@ -199,15 +199,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         HeaderCard(
-                          title: 'Documents Uploaded',
+                          title: 'Documents \nUploaded',
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.insert_drive_file,
                         ),
                         HeaderCard(
-                          title: 'Read Suggestions',
+                          title: 'Read \nSuggestions',
                           count: '22',
-                          color: Color(0xff00a368),
+                          color: Colors.blue,
                           icon: Icons.import_contacts,
                         ),
                       ],
@@ -220,12 +220,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             title: 'Mentions',
                             info: 'Mentions in the last 1 year',
                             count: '22',
-                            color: Color(0xff00a368),
+                            color: Colors.orange,
                             icon: Icons.person),
                         HeaderCard(
                           title: 'Research Grants',
                           count: '22',
-                          color: Color(0xff00a368),
+                          color: Colors.red,
                           icon: Icons.insert_drive_file,
                         ),
                       ],
@@ -269,7 +269,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return ListTile(
-                            leading: CircleAvatar(),
+                            leading: CircleAvatar(
+                              child: Icon(
+                                Icons.insert_drive_file,
+                                color: Colors.white,
+                              ),
+                              backgroundColor: Colors.blue,
+                            ),
                             title: Text('Linial Warhead'),
                             subtitle: Text('Musa Damu'),
                             trailing: Text('12-03-2020'),
@@ -290,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           print(value);
                         }),
                         builder: (context, snapshot) {
-                          print(readingHistoryArray);
+                          // print(readingHistoryArray);
                           return ListView.separated(
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
@@ -300,13 +306,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 }
                                 return ListTile(
-                                  leading: CircleAvatar(),
+                                  leading: CircleAvatar(
+                                    child: Icon(Icons.insert_drive_file),
+                                  ),
                                   title: Text(
-                                      '${readingHistoryArray[index]['researchTitle']}'),
+                                    '${readingHistoryArray[index]['researchTitle']}',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                   subtitle: Text(
-                                      '${readingHistoryArray[index]['authors']}'),
-                                  trailing: Text(
-                                      '${readingHistoryArray[index]['accessType']}'),
+                                      '${readingHistoryArray[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
+                                  trailing: Column(
+                                    children: [
+                                      Text(
+                                        '${readingHistoryArray[index]['accessType']}',
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        '${readingHistoryArray[index]['nPages']}',
+                                      ),
+                                    ],
+                                  ),
                                 );
                               },
                               separatorBuilder: (context, index) {

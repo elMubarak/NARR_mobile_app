@@ -39,7 +39,7 @@ class SocketService {
       if (savedToken != null) {
         handleLoginEvent(token: savedToken, user: savedUser, context: context);
       } else {
-        print('nulll token re route to login');
+        print('null token re route to login');
       }
 
       socket.on('reconnect', (reason) {
@@ -53,7 +53,7 @@ class SocketService {
     }
   }
 
-  void handleLoginEvent({String token, dynamic user, context}) async {
+  Future<void> handleLoginEvent({String token, dynamic user, context}) async {
     try {
       socket.emit(
         'LOGIN',
@@ -79,6 +79,7 @@ class SocketService {
             .analyticObj['usersOnline'];
 
         onlineUsers.add(jsonDecode(data));
+        print(onlineUsers);
 
         String message;
         if (emailSent == emailRecieved) {

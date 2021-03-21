@@ -3,6 +3,7 @@ import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/screens/grants.dart';
+import 'package:narr/screens/ictWorks.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/research_grants_proposal.dart';
@@ -46,5 +47,6 @@ Map<String, WidgetBuilder> myRoute = {
   ResearchGrantsProposal.id: (context) => ResearchGrantsProposal(),
   RepositoryList.id: (context) => RepositoryList(),
   EditProfile.id: (context) => EditProfile(),
-  SplashScreen.id: (context) => SplashScreen()
+  SplashScreen.id: (context) => SplashScreen(),
+  IctWorks.id: (context) => IctWorks()
 };

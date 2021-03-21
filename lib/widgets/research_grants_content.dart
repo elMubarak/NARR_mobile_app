@@ -5,7 +5,7 @@ import 'package:narr/widgets/tags.dart';
 class ResearchGrantsContent extends StatelessWidget {
   const ResearchGrantsContent(
       {Key key,
-      @required this.loremIpsum,
+      this.loremIpsum,
       this.iconButtonOnPressed,
       this.iconButtonIcon,
       this.iconButtonIconColor})

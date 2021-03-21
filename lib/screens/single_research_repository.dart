@@ -222,7 +222,6 @@ class ResearchWork extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      print(research.data['research']['_id']);
                                       return Reader(
                                           research.data['research']['_id']);
                                     },
@@ -273,12 +272,34 @@ class ResearchWork extends StatelessWidget {
                                 color: Color(0xff00a368),
                               ),
                               Text(
+                                'Hits: ',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Flexible(
+                                child: Text(
+                                  '${research.data['hits']}',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 8,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.import_contacts,
+                                size: 17,
+                                color: Color(0xff00a368),
+                              ),
+                              Text(
                                 'Currently Reading: ',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Flexible(
                                 child: Text(
-                                  '300',
+                                  '330',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 8,
                                 ),
