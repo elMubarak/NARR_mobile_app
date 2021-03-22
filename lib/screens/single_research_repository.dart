@@ -272,6 +272,7 @@ class ResearchWork extends StatelessWidget {
                                 size: 17,
                                 color: Color(0xff00a368),
                               ),
+                              SizedBox(width: 5),
                               Text(
                                 'Currently Reading: ',
                                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -294,6 +295,7 @@ class ResearchWork extends StatelessWidget {
                                 size: 17,
                                 color: Color(0xff00a368),
                               ),
+                              SizedBox(width: 5),
                               Text(
                                 'Read By: ',
                                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -316,6 +318,7 @@ class ResearchWork extends StatelessWidget {
                                 size: 17,
                                 color: Color(0xff00a368),
                               ),
+                              SizedBox(width: 5),
                               Text(
                                 'Liked By: ',
                                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -338,6 +341,8 @@ class ResearchWork extends StatelessWidget {
                                 size: 17,
                                 color: Color(0xff00a368),
                               ),
+                              SizedBox(width: 5),
+
                               Text(
                                 'Rating: ',
                                 style: TextStyle(fontWeight: FontWeight.bold),

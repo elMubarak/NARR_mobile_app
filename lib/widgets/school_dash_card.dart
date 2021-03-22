@@ -34,40 +34,66 @@ class SchoolDashCard extends StatelessWidget {
           ],
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 45,
-              child: CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.white,
-                backgroundImage: NetworkImage(
-                    (institutionLogo != null) ? institutionLogo : ''),
-              ),
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 24,
+                  child: CircleAvatar(
+                    radius: 21,
+                    backgroundColor: Colors.white,
+                    backgroundImage: NetworkImage(
+                        (institutionLogo != null) ? institutionLogo : ''),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Column(
+                  children: [
+                    Text(
+                      (institutionName != null) ? institutionName : '',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      (institutionAcronym != null)
+                          ? '($institutionAcronym)'
+                          : '',
+                      style: TextStyle(
+                        fontSize: 10,
+                      ),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ],
             ),
-            SizedBox(height: 10),
-            Text(
-              (institutionName != null) ? institutionName : '',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-            Text(
-              (institutionAcronym != null) ? '($institutionAcronym)' : '',
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-            SizedBox(height: 10),
-            Text(
-              (studentNo != null) ? 'Students: $studentNo' : '',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
+            Divider(thickness: 1.3),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  (studentNo != null) ? 'Students: $studentNo' : '',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
+                ),
+                Text(
+                  (studentNo != null) ? 'Fr: ' : '',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

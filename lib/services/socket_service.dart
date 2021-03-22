@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/provider/app_data.dart';
+import 'package:narr/screens/home.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -63,6 +64,7 @@ class SocketService {
         String fullName = jsonDecode(data)['fullName'];
         String emailSent = user['email'];
         String emailRecieved = jsonDecode(data)['email'];
+
         // tempArray.add(jsonDecode(data));
         // var onlineUsers = tempArray;
         // final jsonList = onlineUsers.map((item) => jsonEncode(item)).toList();
@@ -83,6 +85,8 @@ class SocketService {
         String message;
         if (emailSent == emailRecieved) {
           message = "Welcome";
+          Navigator.pushReplacementNamed(context, HomeScreen.id);
+
           // print('$emailSent is = $emailRecieved');
           Provider.of<AppData>(context, listen: false).updatedUserLogInEvent(
               user: fullName, context: context, msg: message);

@@ -286,19 +286,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 15.0),
                   ReadingHistoryCard(
                     child: FutureBuilder(
-                        future: getReadHistory().then((value) {
-                          print(value);
-                        }),
-                        builder: (context, snapshot) {
-                          print(readingHistoryArray);
+                      future: getReadHistory().then((value) {
+                        print(value);
+                      }),
+                      builder: (context, snapshot) {
+                        print(readingHistoryArray);
+                        if (readingHistoryArray.length == 0) {
+                          return Center(
+                              child: Text('No reading History yet !'));
+                        } else {
                           return ListView.separated(
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                if (readingHistoryArray == []) {
-                                  return ListTile(
-                                    title: Text('No reading History'),
-                                  );
-                                }
                                 return ListTile(
                                   leading: CircleAvatar(),
                                   title: Text(
@@ -315,7 +314,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               },
                               itemCount: readingHistoryArray.length);
-                        }),
+                        }
+                      },
+                    ),
                     itemCount: readingHistoryArray.length,
                   ),
                   SizedBox(height: 15.0),

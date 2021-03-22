@@ -12,7 +12,7 @@ class ReadingHistoryCard extends StatelessWidget {
   final int itemCount;
   @override
   Widget build(BuildContext context) {
-    double height = 10;
+    double height = 40;
     if (itemCount == 1) {
       height = 90;
     } else if (itemCount == 2) {
@@ -20,7 +20,7 @@ class ReadingHistoryCard extends StatelessWidget {
     } else if (itemCount >= 3) {
       height = 250;
     } else {
-      height = 10;
+      height = 40;
     }
     return ContainerCard(
       child: Column(
