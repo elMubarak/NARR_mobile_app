@@ -6,6 +6,7 @@ import 'package:narr/screens/document_convert.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/screens/ictWorks.dart';
 import 'package:narr/screens/login.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/profile.dart';
@@ -95,6 +96,14 @@ class DrawerItems extends StatelessWidget {
                           // ...
                           Navigator.of(context)
                               .popAndPushNamed(CrowdFunding.id);
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(FontAwesomeIcons.laptopCode),
+                        title: Text('ICT Works'),
+                        onTap: () {
+                          // ...
+                          Navigator.of(context).popAndPushNamed(IctWorks.id);
                         },
                       ),
                     ],

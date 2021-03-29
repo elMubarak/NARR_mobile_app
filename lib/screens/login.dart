@@ -3,6 +3,8 @@ import 'package:narr/configs.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/services/backend_service.dart';
+import 'package:narr/services/socket_service.dart';
+import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 
@@ -27,10 +29,14 @@ class _LoginState extends State<Login> {
   String loginUrl = '$serverUrl/auth/login';
 
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  SocketService _socketService = SocketService();
+  HiveBox _box = HiveBox();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Color(0xff00a368),
       body: Center(
         child: SingleChildScrollView(
@@ -133,6 +139,8 @@ class _LoginState extends State<Login> {
                           isLoading: isClickable,
                           buttonTitle: 'Login',
                           onTap: () async {
+                            String savedToken = await _box.getUser('token');
+                            dynamic savedUser = await _box.getUser('user');
                             setState(() {});
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
@@ -146,9 +154,15 @@ class _LoginState extends State<Login> {
                                       email: email,
                                       password: password,
                                       context: context)
-                                  .whenComplete(() => setState(() {
-                                        isClickable = false;
-                                      }));
+                                  .whenComplete(
+                                    () => setState(() {
+                                      isClickable = false;
+                                    }),
+                                  );
+                              // _socketService.handleLoginEvent(
+                              //     token: savedToken,
+                              //     user: savedUser,
+                              //     context: context);
                               // loginUser();
                             }
                             setState(() {});

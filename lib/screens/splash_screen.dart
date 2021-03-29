@@ -9,7 +9,7 @@ import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const String id = 'SplashScreen';
+  static const String id = '/SplashScreen';
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
