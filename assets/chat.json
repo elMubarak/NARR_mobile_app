@@ -1,0 +1,66 @@
+[
+    {
+        "id": 1,
+        "name": "Mairo",
+        "lastMessage": "You know say i like you",
+        "profile": "https://sguru.org/wp-content/uploads/2017/06/cool-fb-profile-pictures-4YqjipqluVkJXfml-768x285.jpg",
+        "time": "11:56 pm",
+        "messages": ["Hello", "hi", "how are you", "am good and you", "All good whats up"]
+    },
+    {
+        "id": 2,
+        "name": "Uzlash",
+        "lastMessage": "Do vue js support android",
+        "profile": "https://sguru.org/wp-content/uploads/2017/06/cool-anime-profile-pictures-50422.jpg",
+        "time": "12:23 pm",
+        "messages": ["Hello", "hi", "how are you", "am good and you", "All good whats up"]
+    },
+    {
+        "id": 3,
+        "name": "Mallam Shams",
+        "lastMessage": "Are you done with the project?",
+        "profile": "https://sguru.org/wp-content/uploads/2017/06/cool-profile-pictures-63a5e8ee8cdcfab2f952bcd46a73e5c4.jpg",
+        "time": "02:38 am",
+        "messages": ["Hello", "hi", "how are you", "am good and you", "All good whats up"]
+    },
+    {
+        "id": 4,
+        "name": "Musjib",
+        "lastMessage": "Bag head where you dey?",
+        "profile": "https://sguru.org/wp-content/uploads/2017/06/cool-anonymous-profile-pictures-15.jpg",
+        "time": "01:56 pm",
+        "messages": ["Hello", "hi", "how are you", "am good and you", "All good whats up"]
+    },
+    {
+        "id": 5,
+        "name": "Safnah",
+        "lastMessage": "Where have you been loml😫💓",
+        "profile": "https://sguru.org/wp-content/uploads/2017/06/cool-fb-profile-pictures-4YqjipqluVkJXfml-768x285.jpg",
+        "time": "11:56 pm",
+        "messages": ["Hello", "hi", "how are you", "am good and you", "All good whats up"]
+    },
+    {
+        "id": 6,
+        "name": "Clerk Kent",
+        "lastMessage": "We have to destroy darkseid",
+        "profile": "https://imgix-media.wbdndc.net/cms/filer_public_thumbnails/filer_public/c3/62/c362e8eb-8d38-4b07-9aea-fafadd1f8efc/superman-profile-2561b3-manofsteel1-cover-2-v1-600x600-marquee-thumb.jpg__600x600_q85_crop_subsampling-2_upscale.jpg",
+        "time": "07:26 am",
+        "messages": ["Hello", "hi", "how are you", "am good and you", "All good whats up"]
+    },
+    {
+        "id": 7,
+        "name": "Bruce Wayne",
+        "lastMessage": "How much will i buy your house?",
+        "profile": "https://i.pinimg.com/originals/36/60/58/366058cd421e6a981e50c6f800abbbd0.png",
+        "time": "10:46 pm",
+        "messages": ["Hello", "hi", "how are you", "am good and you", "All good whats up"]
+    },
+    {
+        "id": 8,
+        "name": "Diana Prince",
+        "lastMessage": "Am crushing on you Diana",
+        "profile": "https://i.pinimg.com/originals/36/60/58/366058cd421e6a981e50c6f800abbbd0.png",
+        "time": "02:19 pm",
+        "messages": ["Hello", "hi", "how are you", "am good and you", "All good whats up"]
+    }
+]

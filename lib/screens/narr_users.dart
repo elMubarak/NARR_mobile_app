@@ -29,7 +29,7 @@ class _NarrUsersState extends State<NarrUsers> {
               SizedBox(
                 height: 20.0,
               ),
-              RaisedButton(
+              MaterialButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return UserData();
@@ -37,7 +37,7 @@ class _NarrUsersState extends State<NarrUsers> {
                 },
                 child: Text('Fetch Users'),
               ),
-              RaisedButton(
+              MaterialButton(
                 onPressed: () {
                   // loginUser();
                 },

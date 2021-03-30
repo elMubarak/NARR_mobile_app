@@ -1,22 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
-import 'package:narr/provider/app_data.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/store/hive_store.dart';
-import 'package:narr/widgets/flush_snackbar.dart';
-import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 //EVENT:MICROSERVICES
 Socket socket;
 HiveBox _box = HiveBox();
-List onlineUsers;
-int numberOfOnlineUsers = 0;
-
-dynamic getDataFromSocket(data) {
-  return data;
-}
+List usersOnlineArray = [];
 
 class SocketService {
   void connectToSocketServer() {
@@ -47,7 +39,7 @@ class SocketService {
       //checking if the token is not null
       if (savedToken != null) {
         //running the handle login even function
-        handleLoginEvent(token: savedToken, user: savedUser);
+        handleLoginEvent(token: savedToken, user: savedUser, context: context);
       } else {
         print('null token re route to login');
       }
@@ -65,7 +57,8 @@ class SocketService {
   }
 
   //handle login event function
-  void handleLoginEvent({String token, dynamic user}) async {
+  void handleLoginEvent(
+      {String token, dynamic user, BuildContext context}) async {
     dynamic savedUser = await _box.getUser('user');
 
     try {
@@ -79,12 +72,10 @@ class SocketService {
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
         //decodeing the response gotten from the server
         final decodedData = jsonDecode(data);
-        onlineUsers = getDataFromSocket(decodedData)['usersOnline'];
-        print(onlineUsers.length);
 
-        //saving the response to provider
-        // Provider.of<AppData>(context, listen: false)
-        //     .getAnalyticsStream(analytics: decodedData);
+        //saving the response to mobX
+        usersOnlineArray = decodedData['usersOnline'];
+        readingHistory.getReadingHistory(decodedData['readingHistory']);
 
         //listening for an event called EVENT:USER:LOGIN
         socket.on('EVENT:USER:LOGIN', (data) {
@@ -92,15 +83,17 @@ class SocketService {
           String fullName = res['fullName'];
           String emailSent = savedUser['email'];
           String emailRecieved = res['email'];
-          //   // tempArray.add(jsonDecode(data));
-          //   // var onlineUsers = tempArray;
-          //   // final jsonList = onlineUsers.map((item) => jsonEncode(item)).toList();
 
-          //   // // using toSet - toList strategy
-          //   // final uniqueJsonList = jsonList.toSet().toList();
+          usersOnlineArray.add(jsonDecode(data));
+          final jsonList =
+              usersOnlineArray.map((item) => jsonEncode(item)).toList();
 
-          //   // // convert each item back to the original form using JSON decoding
-          //   // final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+          // using toSet - toList strategy
+          final uniqueJsonList = jsonList.toSet().toList();
+
+          // convert each item back to the original form using JSON decoding
+          final result =
+              uniqueJsonList.map((item) => jsonDecode(item)).toList();
           //   // Provider.of<AppData>(context, listen: false)
           //   //     .updatedUsersOnline(usersOnline: result);
 
@@ -108,15 +101,17 @@ class SocketService {
           //     .analyticObj['usersOnline'];
           // print(onlineUsers);
 
-          onlineUsers.add(jsonDecode(data));
-          print(onlineUsers.length);
-          numberOfOnlineUsers = onlineUsers.length;
+          onlineUsers.getNumberOfUsersOnline(result);
+
+          print(usersOnlineArray.length);
 
           String message;
           if (emailSent == emailRecieved) {
             message = "Welcome";
 
             // print('$emailSent is = $emailRecieved');
+            // showFlushBar.updatedUserFlushBar(
+            //     userFullName: fullName, userMessage: message);
 
           } else {
             message = "is Online";
@@ -128,18 +123,17 @@ class SocketService {
 
       socket.on('EVENT:USER:LOGOUT', (data) {
         // String fullName = jsonDecode(data)['fullName'];
-        // String logoutEmail = jsonDecode(data)['email'];
-        // Provider.of<AppData>(context, listen: false)
-        //     .updatedUserOutEvent(usersEvent: fullName, context: context);
-        // var onlineUsers = Provider.of<AppData>(context, listen: false)
-        //     .analyticObj['usersOnline'];
-        // for (var i = 0; i < onlineUsers.length; i++) {
-        //   var obj = onlineUsers[i];
-        //   if (obj['email'] == logoutEmail) {
-        //     onlineUsers.removeAt(i);
-        //     // print("${obj['email']} and $logoutEmail");
-        //   }
-        // }
+        String logoutEmail = jsonDecode(data)['email'];
+
+        for (var i = 0; i < usersOnlineArray.length; i++) {
+          var obj = usersOnlineArray[i];
+          if (obj['email'] == logoutEmail) {
+            usersOnlineArray.removeAt(i);
+            print("${obj['email']} and $logoutEmail");
+            onlineUsers.getNumberOfUsersOnline(usersOnlineArray);
+            print(usersOnlineArray.length);
+          }
+        }
       });
     } catch (err) {
       print('Error >>> $err');

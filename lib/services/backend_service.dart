@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:narr/configs.dart';
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
@@ -21,6 +22,7 @@ Future displayDialog(BuildContext context, String title, String text) =>
     );
 SocketService _socketService = SocketService();
 dynamic userObj;
+List readingHistoryArr = [];
 
 Dio dio = new Dio();
 
@@ -117,6 +119,7 @@ class NetworkHelper {
         _socketService.handleLoginEvent(
           token: data['payload']['token'],
           user: data['payload']['user'],
+          context: context,
         );
 
         //navigating to the home screen
@@ -358,6 +361,30 @@ class NetworkHelper {
     } catch (e) {
       print("Error getting single research $e");
     }
+  }
+
+  Future addDocumentToResearchHistoryArr({id, currentPage}) async {
+    var research =
+        await NetworkHelper(url: '$serverUrl/research').getSingleResearch(id);
+
+    Map<String, dynamic> researchObj = {
+      "researchTitle": research['research']['researchTitle'],
+      "authors": research['research']['authors'],
+      "accessType": research['research']['accessType'],
+      "nPages": research['research']['nPages']
+    };
+    readingHistoryArr = readingHistory.readingHistoryDocument;
+    if (currentPage == 1) {
+      readingHistoryArr.add(researchObj);
+      readingHistory.getReadingHistory(readingHistoryArr);
+    }
+    if (currentPage == research['research']['nPages']) {
+      readingHistoryArr.remove(researchObj);
+      readingHistory.getReadingHistory(readingHistoryArr);
+    }
+    print(readingHistory.readingHistoryDocument);
+
+    return researchObj;
   }
 }
 

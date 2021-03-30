@@ -1,0 +1,50 @@
+[
+    {
+        "type": "University",
+        "name": "Ahmadu Bello University"
+    },
+    {
+        "type": "University",
+        "name": "Bayero University Kano"
+    },
+    {
+        "type": "University",
+        "name": "Kaduna State University"
+    },
+    {
+        "type": "Polytechnic",
+        "name": "Kaduna Polytechnic"
+    },
+    {
+        "type": "Polytechnic",
+        "name": "Nuhu Bamali Polytechnic"
+    },
+    {
+        "type": "Polytechnic",
+        "name": "Kastina State Polytechnic"
+    },
+    {
+        "type": "Collage of Education",
+        "name": "FCE Zaria"
+    },
+    {
+        "type": "Collage of Education",
+        "name": "FCE Kastina"
+    },
+    {
+        "type": "Collage of Education",
+        "name": "FCE Kano"
+    },
+    {
+        "type": "Monotechnic",
+        "name": "Dialogue Institute of Tech"
+    },
+    {
+        "type": "Monotechnic",
+        "name": "Khemsafe Computers"
+    },
+    {
+        "type": "Independent Researcher",
+        "name": ""
+    }
+]
