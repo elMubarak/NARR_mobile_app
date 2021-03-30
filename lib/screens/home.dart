@@ -279,57 +279,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: 1,
                   ),
                   SizedBox(height: 15.0),
-<<<<<<< HEAD
-                  ReadingHistoryCard(
-                    child: FutureBuilder(
-                      future: getReadHistory().then((value) {
-                        print(value);
-                      }),
-                      builder: (context, snapshot) {
-                        // print(readingHistoryArray);
-                        return ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                leading: CircleAvatar(
-                                  child: Icon(Icons.insert_drive_file),
-                                ),
-                                title: Text(
-                                  '${readingHistoryArray[index]['researchTitle']}',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                    '${readingHistoryArray[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
-                                trailing: Column(
-                                  children: [
-                                    Text(
-                                      '${readingHistoryArray[index]['accessType']}',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Text(
-                                      '${readingHistoryArray[index]['nPages']}',
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Divider(
-                                thickness: 1.3,
-                              );
-                            },
-                            itemCount: readingHistoryArray.length);
-                      },
-                    ),
-                    itemCount: readingHistoryArray.length,
-                  ),
-=======
                   // ReadingHistoryCard(
                   //   child: FutureBuilder(
                   //       future: getReadHistory().then((value) {
@@ -383,7 +332,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   //       }),
                   //   itemCount: readingHistoryArray.length,
                   // ),
->>>>>>> bf007e0d67b4229fc0c195ea8d305a23d7ee3167
                   SizedBox(height: 15.0),
                   SuggestionCard(
                     child: ListView.separated(
