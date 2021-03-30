@@ -3,15 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/store/hive_store.dart';
+import 'package:narr/widgets/flush_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 //EVENT:MICROSERVICES
 Socket socket;
 HiveBox _box = HiveBox();
+List onlineUsers;
+int numberOfOnlineUsers = 0;
+
+dynamic getDataFromSocket(data) {
+  return data;
+}
 
 class SocketService {
-  List readingHistory;
   void connectToSocketServer() {
     try {
       // Configure socket transports must be sepecified
@@ -33,19 +39,23 @@ class SocketService {
   }
 
   void connectToEvents(BuildContext context) async {
+    //getting token and user object from local storage
     String savedToken = await _box.getUser('token');
     dynamic savedUser = await _box.getUser('user');
     try {
+      //checking if the token is not null
       if (savedToken != null) {
-        handleLoginEvent(token: savedToken, user: savedUser, context: context);
+        //running the handle login even function
+        handleLoginEvent(token: savedToken, user: savedUser);
       } else {
         print('null token re route to login');
       }
 
+      //when the socket tries to reconnect
       socket.on('reconnect', (reason) {
         print('disconnect $reason');
-
-        handleLoginEvent(token: savedToken, user: savedUser, context: context);
+        //running the handle login even function
+        handleLoginEvent(token: savedToken, user: savedUser);
       });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
@@ -53,70 +63,82 @@ class SocketService {
     }
   }
 
-  Future<void> handleLoginEvent({String token, dynamic user, context}) async {
+  //handle login event function
+  void handleLoginEvent({String token, dynamic user}) async {
+    dynamic savedUser = await _box.getUser('user');
+
     try {
+      //Emitting the login event with token and user object
       socket.emit(
         'LOGIN',
         {"token": token, "user": user},
       );
-      socket.on('EVENT:USER:LOGIN', (data) {
-        String fullName = jsonDecode(data)['fullName'];
-        String emailSent = user['email'];
-        String emailRecieved = jsonDecode(data)['email'];
-        // tempArray.add(jsonDecode(data));
-        // var onlineUsers = tempArray;
-        // final jsonList = onlineUsers.map((item) => jsonEncode(item)).toList();
 
-        // // using toSet - toList strategy
-        // final uniqueJsonList = jsonList.toSet().toList();
-
-        // // convert each item back to the original form using JSON decoding
-        // final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
-        // Provider.of<AppData>(context, listen: false)
-        //     .updatedUsersOnline(usersOnline: result);
-
-        var onlineUsers = Provider.of<AppData>(context, listen: false)
-            .analyticObj['usersOnline'];
-
-        onlineUsers.add(jsonDecode(data));
-        print(onlineUsers);
-
-        String message;
-        if (emailSent == emailRecieved) {
-          message = "Welcome";
-          // print('$emailSent is = $emailRecieved');
-          Provider.of<AppData>(context, listen: false).updatedUserLogInEvent(
-              user: fullName, context: context, msg: message);
-        } else {
-          message = "is Online";
-          Provider.of<AppData>(context, listen: false).updatedUserLogInEvent(
-              user: fullName, context: context, msg: message);
-        }
-      });
+      //listening for an event called EVENT:USERS:CURRENTLY:ONLINE;
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
+        //decodeing the response gotten from the server
         final decodedData = jsonDecode(data);
+        onlineUsers = getDataFromSocket(decodedData)['usersOnline'];
+        print(onlineUsers.length);
+
+        //saving the response to provider
         // Provider.of<AppData>(context, listen: false)
-        //     .updatedUsersOnline(model: decodedData);
-        Provider.of<AppData>(context, listen: false)
-            .getAnalyticsStream(analytics: decodedData);
+        //     .getAnalyticsStream(analytics: decodedData);
+
+        //listening for an event called EVENT:USER:LOGIN
+        socket.on('EVENT:USER:LOGIN', (data) {
+          var res = jsonDecode(data);
+          String fullName = res['fullName'];
+          String emailSent = savedUser['email'];
+          String emailRecieved = res['email'];
+          //   // tempArray.add(jsonDecode(data));
+          //   // var onlineUsers = tempArray;
+          //   // final jsonList = onlineUsers.map((item) => jsonEncode(item)).toList();
+
+          //   // // using toSet - toList strategy
+          //   // final uniqueJsonList = jsonList.toSet().toList();
+
+          //   // // convert each item back to the original form using JSON decoding
+          //   // final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+          //   // Provider.of<AppData>(context, listen: false)
+          //   //     .updatedUsersOnline(usersOnline: result);
+
+          // List onlineUsers = Provider.of<AppData>(context, listen: false)
+          //     .analyticObj['usersOnline'];
+          // print(onlineUsers);
+
+          onlineUsers.add(jsonDecode(data));
+          print(onlineUsers.length);
+          numberOfOnlineUsers = onlineUsers.length;
+
+          String message;
+          if (emailSent == emailRecieved) {
+            message = "Welcome";
+
+            // print('$emailSent is = $emailRecieved');
+
+          } else {
+            message = "is Online";
+          }
+        });
 
         // tempArray = users;
       });
 
       socket.on('EVENT:USER:LOGOUT', (data) {
-        String fullName = jsonDecode(data)['fullName'];
-        String logoutEmail = jsonDecode(data)['email'];
-        Provider.of<AppData>(context, listen: false)
-            .updatedUserOutEvent(usersEvent: fullName, context: context);
-        var onlineUsers = Provider.of<AppData>(context, listen: false)
-            .analyticObj['usersOnline'];
-        for (var i = 0; i < onlineUsers.length; i++) {
-          var obj = onlineUsers[i];
-          if (obj['email'] == logoutEmail) {
-            onlineUsers.removeAt(i);
-            // print("${obj['email']} and $logoutEmail");
-          }
-        }
+        // String fullName = jsonDecode(data)['fullName'];
+        // String logoutEmail = jsonDecode(data)['email'];
+        // Provider.of<AppData>(context, listen: false)
+        //     .updatedUserOutEvent(usersEvent: fullName, context: context);
+        // var onlineUsers = Provider.of<AppData>(context, listen: false)
+        //     .analyticObj['usersOnline'];
+        // for (var i = 0; i < onlineUsers.length; i++) {
+        //   var obj = onlineUsers[i];
+        //   if (obj['email'] == logoutEmail) {
+        //     onlineUsers.removeAt(i);
+        //     // print("${obj['email']} and $logoutEmail");
+        //   }
+        // }
       });
     } catch (err) {
       print('Error >>> $err');

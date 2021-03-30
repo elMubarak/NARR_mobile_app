@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/screens/profile.dart';
+import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
@@ -89,17 +90,12 @@ class _HomeScreenState extends State<HomeScreen> {
       return savedUser;
     }
 
-    Future getReadHistory() async {
-      readingHistoryArray = await Provider.of<AppData>(context, listen: false)
-          .analyticObj['readingHistory'];
-      print(readingHistoryArray);
-      return readingHistoryArray;
-    }
-
-    Future getOnlineUsers() async {
-      onlineUsersArray = await Provider.of<AppData>(context, listen: false)
-          .analyticObj['usersOnline'];
-    }
+    // Future getReadHistory() async {
+    //   readingHistoryArray = await Provider.of<AppData>(context, listen: false)
+    //       .analyticObj['readingHistory'];
+    //   // print(readingHistoryArray);
+    //   return readingHistoryArray;
+    // }
 
     return Scaffold(
       drawer: Drawer(
@@ -240,21 +236,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (!snapshot.hasData) {
                   return CircularProgressIndicator();
                 }
-                return FutureBuilder(
-                    future: getOnlineUsers(),
-                    builder: (context, userSnapshot) {
-                      if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
-                      }
-                      return UsersOnlineCard(
-                        usersOnline: onlineUsersArray.length,
-                        userName: snapshot.data['fullName'],
-                        userEmail: snapshot.data['email'],
-                        onTap: () {
-                          Navigator.of(context).pushNamed(Profile.id);
-                        },
-                      );
-                    });
+                return UsersOnlineCard(
+                  usersOnline: numberOfOnlineUsers,
+                  userName: snapshot.data['fullName'],
+                  userEmail: snapshot.data['email'],
+                  onTap: () {
+                    Navigator.of(context).pushNamed(Profile.id);
+                  },
+                );
               },
             ),
             Container(
@@ -290,59 +279,59 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: 1,
                   ),
                   SizedBox(height: 15.0),
-                  ReadingHistoryCard(
-                    child: FutureBuilder(
-                        future: getReadHistory().then((value) {
-                          print(value);
-                        }),
-                        builder: (context, snapshot) {
-                          // print(readingHistoryArray);
-                          return ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                if (readingHistoryArray == []) {
-                                  return ListTile(
-                                    title: Text('No reading History'),
-                                  );
-                                }
-                                return ListTile(
-                                  leading: CircleAvatar(
-                                    child: Icon(Icons.insert_drive_file),
-                                  ),
-                                  title: Text(
-                                    '${readingHistoryArray[index]['researchTitle']}',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  subtitle: Text(
-                                      '${readingHistoryArray[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
-                                  trailing: Column(
-                                    children: [
-                                      Text(
-                                        '${readingHistoryArray[index]['accessType']}',
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        '${readingHistoryArray[index]['nPages']}',
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return Divider(
-                                  thickness: 1.3,
-                                );
-                              },
-                              itemCount: readingHistoryArray.length);
-                        }),
-                    itemCount: readingHistoryArray.length,
-                  ),
+                  // ReadingHistoryCard(
+                  //   child: FutureBuilder(
+                  //       future: getReadHistory().then((value) {
+                  //         print(value);
+                  //       }),
+                  //       builder: (context, snapshot) {
+                  //         // print(readingHistoryArray);
+                  //         return ListView.separated(
+                  //             physics: NeverScrollableScrollPhysics(),
+                  //             itemBuilder: (context, index) {
+                  //               if (readingHistoryArray == []) {
+                  //                 return ListTile(
+                  //                   title: Text('No reading History'),
+                  //                 );
+                  //               }
+                  //               return ListTile(
+                  //                 leading: CircleAvatar(
+                  //                   child: Icon(Icons.insert_drive_file),
+                  //                 ),
+                  //                 title: Text(
+                  //                   '${readingHistoryArray[index]['researchTitle']}',
+                  //                   maxLines: 1,
+                  //                   overflow: TextOverflow.ellipsis,
+                  //                 ),
+                  //                 subtitle: Text(
+                  //                     '${readingHistoryArray[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
+                  //                 trailing: Column(
+                  //                   children: [
+                  //                     Text(
+                  //                       '${readingHistoryArray[index]['accessType']}',
+                  //                       style: TextStyle(
+                  //                         color: Colors.blue,
+                  //                       ),
+                  //                     ),
+                  //                     SizedBox(
+                  //                       height: 8,
+                  //                     ),
+                  //                     Text(
+                  //                       '${readingHistoryArray[index]['nPages']}',
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //               );
+                  //             },
+                  //             separatorBuilder: (context, index) {
+                  //               return Divider(
+                  //                 thickness: 1.3,
+                  //               );
+                  //             },
+                  //             itemCount: readingHistoryArray.length);
+                  //       }),
+                  //   itemCount: readingHistoryArray.length,
+                  // ),
                   SizedBox(height: 15.0),
                   SuggestionCard(
                     child: ListView.separated(

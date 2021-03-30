@@ -85,51 +85,55 @@ class NetworkHelper {
     }
   }
 
-  Future<String> loginUser(
+  //function to login a user
+  Future loginUser(
       {String email, String password, BuildContext context}) async {
     try {
+      //making post request to a server
       final http.Response response = await http.post(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
+        //Encoding email and password and also sending to server
         body: jsonEncode(
           <String, dynamic>{"email": email, "password": password},
         ),
       );
 
+      //checking for success
       if (response.statusCode == 200) {
-        String data = response.body;
-        var token = jsonDecode(data)['payload']['token'];
-        var userObj = jsonDecode(data)['payload']['user'];
-        HiveBox().addToBox(token: token, userObj: userObj);
-        _socketService.handleLoginEvent(
-          context: context,
-          token: jsonDecode(data)['payload']['token'],
-          user: jsonDecode(data)['payload']['user'],
-        );
-        //socket authentication
+        var res = response.body;
+        //decoding response and getting token and user object from response
+        var data = jsonDecode(res);
+        var token = jsonDecode(res)['payload']['token'];
+        var userObj = jsonDecode(res)['payload']['user'];
 
+        //saving the token and user object to local storage
+        await HiveBox().addToBox(token: token, userObj: userObj);
+
+        //connecting to socket, emitting an even that is sending the local token and userobject to the socket server and listening for events
+
+        _socketService.handleLoginEvent(
+          token: data['payload']['token'],
+          user: data['payload']['user'],
+        );
+
+        //navigating to the home screen
         Navigator.pushReplacementNamed(context, HomeScreen.id);
 
-        //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
-
-        return data;
-      } else if (response.statusCode == 403) {
+        //checking for other status codes
+      } else {
         String data = response.body;
         var message = jsonDecode(data)['message'];
         print(data);
         displayDialog(
             context, "An Error Occurred", "${response.statusCode} $message");
-      } else {
-        displayDialog(context, "An Error Occurred",
-            "${response.statusCode} No account was found matching that username and password");
       }
       //loading to false
     } catch (err) {
-      displayDialog(context, "An Error Occurred",
-          "${err.osError.message} server not available");
-      print(err);
+      // displayDialog(context, "An Error Occurred", "Server not available");
+      print("Error from http >>>$err");
     }
     // isLoading = false;
   }
