@@ -30,8 +30,6 @@ class _LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  SocketService _socketService = SocketService();
-  HiveBox _box = HiveBox();
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +137,6 @@ class _LoginState extends State<Login> {
                           isLoading: isClickable,
                           buttonTitle: 'Login',
                           onTap: () async {
-                            String savedToken = await _box.getUser('token');
-                            dynamic savedUser = await _box.getUser('user');
                             setState(() {});
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
@@ -149,21 +145,10 @@ class _LoginState extends State<Login> {
                                 isClickable = true;
                               });
 
-                              NetworkHelper(url: loginUrl)
-                                  .loginUser(
-                                      email: email,
-                                      password: password,
-                                      context: context)
-                                  .whenComplete(
-                                    () => setState(() {
-                                      isClickable = false;
-                                    }),
-                                  );
-                              // _socketService.handleLoginEvent(
-                              //     token: savedToken,
-                              //     user: savedUser,
-                              //     context: context);
-                              // loginUser();
+                              await NetworkHelper(url: loginUrl).loginUser(
+                                  email: email,
+                                  password: password,
+                                  context: context);
                             }
                             setState(() {});
                           },

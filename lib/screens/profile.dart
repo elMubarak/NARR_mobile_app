@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/edit_profile.dart';
+import 'package:narr/services/socket_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:provider/provider.dart';
@@ -29,12 +30,6 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget build(BuildContext context) {
-    int numberOfUsersOnline = Provider.of<AppData>(context, listen: false)
-        .analyticObj['usersOnline']
-        .length;
-    List onlineUsersArray =
-        Provider.of<AppData>(context, listen: false).analyticObj['usersOnline'];
-
     return Scaffold(
       body: FutureBuilder(
         future: getStoredUserObject(),
@@ -237,7 +232,7 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                             Text(
-                              '$numberOfUsersOnline Online',
+                              '$numberOfOnlineUsers Online',
                               style: TextStyle(
                                 color: Color(0xff00a368),
                                 fontWeight: FontWeight.w600,
@@ -251,7 +246,7 @@ class _ProfileState extends State<Profile> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
                           child: ListView.builder(
-                            itemCount: onlineUsersArray.length,
+                            itemCount: onlineUsers.length,
                             itemBuilder: (context, index) {
                               // print(onlineUsersArray[index]['fullName']);
                               return GestureDetector(
@@ -259,7 +254,7 @@ class _ProfileState extends State<Profile> {
                                   Navigator.pushNamed(context, ChatScreen.id);
                                 },
                                 child: Users(
-                                  name: onlineUsersArray[index]['fullName'],
+                                  name: onlineUsers[index]['fullName'],
                                   userImage: 'images/profile.jpg',
                                 ),
                               );
