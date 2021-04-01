@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
-import 'package:narr/widgets/container_with_shadow.dart';
 
 class UploadOcr extends StatefulWidget {
   final File pickedCameraImage;
@@ -47,26 +45,62 @@ class _UploadOcrState extends State<UploadOcr> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          'convert OCR',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: ContainerWithShadow(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.only(left: 15, right: 15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(height: 5),
+                Text(
+                  'How To Use',
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(height: 5),
+                Divider(),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.done,
+                      color: Colors.green,
+                    ),
+                    SizedBox(width: 5),
+                    Flexible(
+                      child: Text(
+                          'Select image from file or snap the image you wish to get the text from'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.done,
+                      color: Colors.green,
+                    ),
+                    SizedBox(width: 5),
+                    Flexible(
+                        child: Text(
+                            'Click on the convert botton to extract the text from the image')),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.done,
+                      color: Colors.green,
+                    ),
+                    SizedBox(width: 5),
+                    Flexible(
+                      child:
+                          Text('Your text will be extracted and can be copied'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
                 Stack(
                   children: [
                     Container(
@@ -123,10 +157,6 @@ class _UploadOcrState extends State<UploadOcr> {
                             progress != null ? '${progress.toInt()} %' : ''),
                       )
                     : Container(),
-                Text('Select Convertion method'),
-                SizedBox(
-                  height: 15,
-                ),
                 SizedBox(
                   height: 25,
                 ),

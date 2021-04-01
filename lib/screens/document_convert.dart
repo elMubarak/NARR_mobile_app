@@ -74,14 +74,6 @@ class _DocumentConvertState extends State<DocumentConvert> {
                       DocumentServiceCard(
                         imagePath: 'images/pdf.png',
                         title: 'to PDF',
-                        // onTap: () async {
-                        //   String path = await ExtStorage
-                        //       .getExternalStoragePublicDirectory(
-                        //           ExtStorage.DIRECTORY_DOWNLOADS);
-                        //   String savePath = "$path/narrPdF.pdf";
-                        //   print('full path $savePath');
-                        //   docToPDF.downloadFile(dio, testFile, savePath);
-                        // },
                         onTap: () {
                           Navigator.push(
                             context,

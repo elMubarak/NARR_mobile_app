@@ -108,30 +108,26 @@ class NetworkHelper {
         var res = response.body;
         //decoding response and getting token and user object from response
         var data = jsonDecode(res);
-        var token = jsonDecode(res)['payload']['token'];
-        var userObj = jsonDecode(res)['payload']['user'];
+        var token = data['payload']['token'];
+        var userObj = data['payload']['user'];
 
         //saving the token and user object to local storage
         await HiveBox().addToBox(token: token, userObj: userObj);
 
         //connecting to socket, emitting an even that is sending the local token and userobject to the socket server and listening for events
 
-        _socketService.handleLoginEvent(
-          token: data['payload']['token'],
-          user: data['payload']['user'],
-          context: context,
-        );
-
         //navigating to the home screen
         Navigator.pushReplacementNamed(context, HomeScreen.id);
 
         //checking for other status codes
+        return data;
       } else {
         String data = response.body;
         var message = jsonDecode(data)['message'];
         print(data);
         displayDialog(
             context, "An Error Occurred", "${response.statusCode} $message");
+        return data;
       }
       //loading to false
     } catch (err) {
@@ -140,61 +136,6 @@ class NetworkHelper {
     }
     // isLoading = false;
   }
-
-// ignore: missing_return
-  // Future<String> loginUser(
-  //     {String email, String password, BuildContext context}) async {
-  //   try {
-  //     final http.Response response = await http.post(
-  //       url,
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json; charset=UTF-8',
-  //       },
-  //       body: jsonEncode(
-  //         <String, dynamic>{"email": email, "password": password},
-  //       ),
-  //     );
-  //     HiveBox().saveEmailPassword(email, password);
-
-  //     if (response.statusCode == 200) {
-  //       String data = response.body;
-  //       userObj = jsonDecode(data)['payload']['user'];
-  //       tok = jsonDecode(data)['payload']['token'];
-  //       var result = HiveBox().addToBox(token: tok, userObj: userObj);
-
-  //       String savedToken = await _box.getUser('token');
-  //       dynamic savedUser = await _box.getUser('user');
-  //       //socket authentication
-  //       await _socketService
-  //           .handleLoginEvent(
-  //             context: context,
-  //             token: savedToken,
-  //             user: savedUser,
-  //           )
-  //           .then((value) =>
-  //               Navigator.pushReplacementNamed(context, HomeScreen.id));
-
-  //       //api.narr.ng   events 'EVENT:USER:LOGIN' and 'LOGIN'
-
-  //       return data;
-  //     } else if (response.statusCode == 403) {
-  //       String data = response.body;
-  //       var message = jsonDecode(data)['message'];
-  //       print(data);
-  //       displayDialog(
-  //           context, "An Error Occurred", "${response.statusCode} $message");
-  //     } else {
-  //       displayDialog(context, "An Error Occurred",
-  //           "${response.statusCode} No account was found matching that username and password");
-  //     }
-  //     //loading to false
-  //   } catch (err) {
-  //     displayDialog(context, "An Error Occurred",
-  //         "${err.osError.message} server not available");
-  //     print(err);
-  //   }
-  //   // isLoading = false;
-  // }
 
   // get user profile
   HiveBox _box = HiveBox();

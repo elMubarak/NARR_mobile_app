@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/store/hive_store.dart';
+import 'package:narr/widgets/flush_snackbar.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 //EVENT:MICROSERVICES
@@ -94,27 +95,21 @@ class SocketService {
           // convert each item back to the original form using JSON decoding
           final result =
               uniqueJsonList.map((item) => jsonDecode(item)).toList();
-          //   // Provider.of<AppData>(context, listen: false)
-          //   //     .updatedUsersOnline(usersOnline: result);
-
-          // List onlineUsers = Provider.of<AppData>(context, listen: false)
-          //     .analyticObj['usersOnline'];
-          // print(onlineUsers);
 
           onlineUsers.getNumberOfUsersOnline(result);
-
-          print(usersOnlineArray.length);
+          print(onlineUsers.numberOfUsersOnline.length);
 
           String message;
           if (emailSent == emailRecieved) {
             message = "Welcome";
 
             // print('$emailSent is = $emailRecieved');
-            // showFlushBar.updatedUserFlushBar(
-            //     userFullName: fullName, userMessage: message);
-
+            showLoginFlushbar(
+                message: message, user: fullName, context: context);
           } else {
             message = "is Online";
+            showLoginFlushbar(
+                message: message, user: fullName, context: context);
           }
         });
 
@@ -131,7 +126,7 @@ class SocketService {
             usersOnlineArray.removeAt(i);
             print("${obj['email']} and $logoutEmail");
             onlineUsers.getNumberOfUsersOnline(usersOnlineArray);
-            print(usersOnlineArray.length);
+            print(onlineUsers.numberOfUsersOnline.length);
           }
         }
       });

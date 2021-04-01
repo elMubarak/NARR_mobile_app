@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
             brightness: Brightness.light),
         debugShowCheckedModeBanner: false,
         initialRoute: SplashScreen.id,
-        // initialRoute: VerifyAccount.id,
+        // initialRoute: OcrResult.id,
         routes: myRoute,
       ),
     );
