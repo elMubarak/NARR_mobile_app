@@ -327,6 +327,30 @@ class NetworkHelper {
 
     return researchObj;
   }
-}
 
-// /home/musjib/Documents/Miscellaneous.odt
+  Future getInstitutionType() async {
+    try {
+      http.Response response = await http.get(url);
+      String data = response.body;
+      var payload = jsonDecode(data)['institutionTypes']['payload'];
+      print(payload);
+      return payload;
+    } catch (error) {
+      print("Error getting all institution $error");
+    }
+  }
+
+  // institution/University/Federal
+
+  Future getInstitutionName() async {
+    try {
+      http.Response response = await http.get(url);
+      String data = response.body;
+      var payload = jsonDecode(data)['institutions']['payload'];
+      print(payload);
+      return payload;
+    } catch (error) {
+      print("Error getting all institution $error");
+    }
+  }
+}

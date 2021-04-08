@@ -40,7 +40,6 @@ class ClicksPerYear {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 20;
-  List readingHistoryArray = [];
 
   void incrementCounter() {
     setState(() {
@@ -49,13 +48,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   HiveBox _box = HiveBox();
-  @override
-  initState() {
-    super.initState();
-    readingHistoryArray = [];
+  final _refreshKey = GlobalKey<RefreshIndicatorState>();
+  List readingHistoryArry = [];
+  Future<void> getReadingHistory() async {
+    _refreshKey.currentState?.show(atTop: false);
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+      readingHistoryArry = readingHistory.readingHistoryDocument;
+    });
   }
 
   Widget build(BuildContext context) {
+    getReadingHistory();
     //
     // showSimpleFlushbar(context: context, message: message);
     var data = [
@@ -92,13 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
       return savedUser;
     }
 
-    // Future getReadHistory() async {
-    //   readingHistoryArray = await Provider.of<AppData>(context, listen: false)
-    //       .analyticObj['readingHistory'];
-    //   // print(readingHistoryArray);
-    //   return readingHistoryArray;
-    // }
-
     return Scaffold(
       drawer: Drawer(
         child: DrawerItems(),
@@ -132,228 +129,236 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Color(0xff00a368),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  )),
-              child: Column(
-                children: [
-                  SizedBox(height: 15),
-
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    // height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 2.5),
-                          blurRadius: 8,
-                          color: Colors.black.withOpacity(0.25),
-                        ),
-                      ],
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search NARR',
-                        border: InputBorder.none,
-                        suffixIcon: Icon(Icons.search),
-                      ),
-                    ),
-                  ), //search and ctgr
-
-                  SizedBox(height: 25),
-                  SchoolDashCard(
-                    institutionLogo:
-                        'https://banner2.cleanpng.com/20180423/ohw/kisspng-ahmadu-bello-university-kano-higher-education-scho-university-logo-5addf5f3546bc3.9903414015244958593458.jpg',
-                    institutionName: 'Ahmadu Bello University,Zaria',
-                    institutionAcronym: 'ABU',
-                    studentNo: 1202,
-                    onTap: () {},
-                  ),
-                  // SizedBox(height: 15),
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              child: ContainerCard(
+        child: RefreshIndicator(
+          key: _refreshKey,
+          onRefresh: getReadingHistory,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Color(0xff00a368),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    )),
                 child: Column(
                   children: [
-                    Text('Activities'),
-                    Divider(thickness: 1.2),
                     SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        HeaderCard(
-                          title: 'Documents \nUploaded',
-                          count: '22',
-                          color: Color(0xff00a368),
-                          icon: Icons.insert_drive_file,
+
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      // height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 2.5),
+                            blurRadius: 8,
+                            color: Colors.black.withOpacity(0.25),
+                          ),
+                        ],
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search NARR',
+                          border: InputBorder.none,
+                          suffixIcon: Icon(Icons.search),
                         ),
-                        HeaderCard(
-                          title: 'Read \nSuggestions',
-                          count: '22',
-                          color: Colors.blue,
-                          icon: Icons.import_contacts,
-                        ),
-                      ],
+                      ),
+                    ), //search and ctgr
+
+                    SizedBox(height: 25),
+                    SchoolDashCard(
+                      institutionLogo:
+                          'https://banner2.cleanpng.com/20180423/ohw/kisspng-ahmadu-bello-university-kano-higher-education-scho-university-logo-5addf5f3546bc3.9903414015244958593458.jpg',
+                      institutionName: 'Ahmadu Bello University,Zaria',
+                      institutionAcronym: 'ABU',
+                      studentNo: 1202,
+                      onTap: () {},
                     ),
-                    SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        HeaderCard(
-                            title: 'Mentions',
-                            info: 'Mentions in the last 1 year',
-                            count: '22',
-                            color: Colors.orange,
-                            icon: Icons.person),
-                        HeaderCard(
-                          title: 'Research Grants',
-                          count: '22',
-                          color: Colors.red,
-                          icon: Icons.insert_drive_file,
-                        ),
-                      ],
-                    ),
+                    // SizedBox(height: 15),
                   ],
                 ),
               ),
-            ),
-            FutureBuilder(
-              future: getStoredUserObject(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
-                }
-                return Observer(builder: (_) {
-                  return UsersOnlineCard(
-                    usersOnline: onlineUsers.numberOfUsersOnline.length,
-                    userName: snapshot.data['fullName'],
-                    userEmail: snapshot.data['email'],
-                    onTap: () {
-                      Navigator.of(context).pushNamed(Profile.id);
-                    },
-                  );
-                });
-              },
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 15,
+              SizedBox(height: 15),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                child: ContainerCard(
+                  child: Column(
+                    children: [
+                      Text('Activities'),
+                      Divider(thickness: 1.2),
+                      SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          HeaderCard(
+                            title: 'Documents \nUploaded',
+                            count: '22',
+                            color: Color(0xff00a368),
+                            icon: Icons.insert_drive_file,
+                          ),
+                          HeaderCard(
+                            title: 'Read \nSuggestions',
+                            count: '22',
+                            color: Colors.blue,
+                            icon: Icons.import_contacts,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          HeaderCard(
+                              title: 'Mentions',
+                              info: 'Mentions in the last 1 year',
+                              count: '22',
+                              color: Colors.orange,
+                              icon: Icons.person),
+                          HeaderCard(
+                            title: 'Research Grants',
+                            count: '22',
+                            color: Colors.red,
+                            icon: Icons.insert_drive_file,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: Column(
-                children: [
-                  ReadingHistoryCard(
-                    child: ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          print(readingHistory.readingHistoryDocument[index]
-                              ['researchTitle']);
-                          return ListTile(
-                            leading: CircleAvatar(
-                              child: Icon(Icons.insert_drive_file),
-                            ),
-                            title: Text(
-                              '${readingHistory.readingHistoryDocument[index]['researchTitle']}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            subtitle: Text(
-                                '${readingHistory.readingHistoryDocument[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
-                            trailing: Column(
-                              children: [
-                                Text(
-                                  '${readingHistory.readingHistoryDocument[index]['accessType']}',
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                  ),
+              FutureBuilder(
+                future: getStoredUserObject(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+                  return Observer(builder: (_) {
+                    return UsersOnlineCard(
+                      usersOnline: onlineUsers.numberOfUsersOnline.length,
+                      userName: snapshot.data['fullName'],
+                      userEmail: snapshot.data['email'],
+                      onTap: () {
+                        Navigator.of(context).pushNamed(Profile.id);
+                      },
+                    );
+                  });
+                },
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 15,
+                ),
+                child: Column(
+                  children: [
+                    ReadingHistoryCard(
+                      child: ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            print(readingHistory.readingHistoryDocument[index]
+                                ['researchTitle']);
+                            return (readingHistory
+                                        .readingHistoryDocument.length <
+                                    1)
+                                ? Text('No Reading History Yet')
+                                : ListTile(
+                                    leading: CircleAvatar(
+                                      child: Icon(Icons.insert_drive_file),
+                                    ),
+                                    title: Text(
+                                      '${readingHistory.readingHistoryDocument[index]['researchTitle']}',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    subtitle: Text(
+                                        '${readingHistory.readingHistoryDocument[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
+                                    trailing: Column(
+                                      children: [
+                                        Text(
+                                          '${readingHistory.readingHistoryDocument[index]['accessType']}',
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          '${readingHistory.readingHistoryDocument[index]['nPages']}',
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Divider(
+                              thickness: 1.3,
+                            );
+                          },
+                          itemCount:
+                              readingHistory.readingHistoryDocument.length),
+                      itemCount: readingHistory.readingHistoryDocument.length,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TrendinCard(
+                      child: ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                child: Icon(
+                                  Icons.insert_drive_file,
+                                  color: Colors.white,
                                 ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  '${readingHistory.readingHistoryDocument[index]['nPages']}',
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider(
-                            thickness: 1.3,
-                          );
-                        },
-                        itemCount:
-                            readingHistory.readingHistoryDocument.length),
-                    itemCount: readingHistory.readingHistoryDocument.length,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TrendinCard(
-                    child: ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: CircleAvatar(
-                              child: Icon(
-                                Icons.insert_drive_file,
-                                color: Colors.white,
+                                backgroundColor: Colors.blue,
                               ),
-                              backgroundColor: Colors.blue,
-                            ),
-                            title: Text('Linial Warhead'),
-                            subtitle: Text('Musa Damu'),
-                            trailing: Text('12-03-2020'),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider(
-                            thickness: 1.3,
-                          );
-                        },
-                        itemCount: 10),
-                    itemCount: 1,
-                  ),
-                  SizedBox(height: 15.0),
-                  SuggestionCard(
-                    child: ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: CircleAvatar(),
-                            title: Text('Axial Warhead'),
-                            subtitle: Text('Musa Damu'),
-                            trailing: Text('12-03-2020'),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider(
-                            thickness: 1.3,
-                          );
-                        },
-                        itemCount: 10),
-                    itemCount: 10,
-                  ),
-                  Analytics(chartWidget: chartWidget),
-                ],
+                              title: Text('Linial Warhead'),
+                              subtitle: Text('Musa Damu'),
+                              trailing: Text('12-03-2020'),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Divider(
+                              thickness: 1.3,
+                            );
+                          },
+                          itemCount: 10),
+                      itemCount: 1,
+                    ),
+                    SizedBox(height: 15.0),
+                    SuggestionCard(
+                      child: ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: CircleAvatar(),
+                              title: Text('Axial Warhead'),
+                              subtitle: Text('Musa Damu'),
+                              trailing: Text('12-03-2020'),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Divider(
+                              thickness: 1.3,
+                            );
+                          },
+                          itemCount: 10),
+                      itemCount: 10,
+                    ),
+                    Analytics(chartWidget: chartWidget),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(

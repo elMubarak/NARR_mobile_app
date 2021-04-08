@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/store/hive_store.dart';
-import 'package:narr/widgets/flush_snackbar.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 //EVENT:MICROSERVICES
@@ -99,18 +98,16 @@ class SocketService {
           onlineUsers.getNumberOfUsersOnline(result);
           print(onlineUsers.numberOfUsersOnline.length);
 
-          String message;
-          if (emailSent == emailRecieved) {
-            message = "Welcome";
+          // String message;
+          // if (emailSent == emailRecieved) {
+          //   message = "Welcome";
 
-            // print('$emailSent is = $emailRecieved');
-            showLoginFlushbar(
-                message: message, user: fullName, context: context);
-          } else {
-            message = "is Online";
-            showLoginFlushbar(
-                message: message, user: fullName, context: context);
-          }
+          //   // print('$emailSent is = $emailRecieved');
+
+          // } else {
+          //   message = "is Online";
+
+          // }
         });
 
         // tempArray = users;

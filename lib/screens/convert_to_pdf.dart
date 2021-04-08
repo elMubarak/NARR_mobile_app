@@ -4,7 +4,9 @@ import 'package:narr/configs.dart';
 import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
 import 'package:narr/helpers/permission_helper.dart';
+import 'package:narr/screens/document_convert.dart';
 import 'package:narr/widgets/custom_button.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ConvertToPDF extends StatefulWidget {
   static String id = 'convertToPdf';
@@ -99,7 +101,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                     SizedBox(width: 5),
                     Flexible(
                         child: Text(
-                            'Click on the convert botton to convert the document')),
+                            'Click on the convert button to convert the document')),
                   ],
                 ),
                 SizedBox(height: 8),
@@ -159,18 +161,40 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                           // _fileConvertHelper
                           _fileConvertHelper
                               .uploadDocument(
-                                filePath: _filePickerHelper.selectedfile,
-                                fileName: _filePickerHelper.fileName,
-                                context: context,
-                                url: docConvertUrl,
-                              )
-                              .whenComplete(
-                                () => setState(
-                                  () {
-                                    isClickable = false;
+                            filePath: _filePickerHelper.selectedfile,
+                            fileName: _filePickerHelper.fileName,
+                            context: context,
+                            url: docConvertUrl,
+                          )
+                              .then((value) {
+                            flag = false;
+                            Alert(
+                              context: context,
+                              type: AlertType.success,
+                              // image: Image.file(user.image),
+                              title: "SUCCESS",
+                              desc:
+                                  "${_filePickerHelper.fileName} has been converted",
+                              buttons: [
+                                DialogButton(
+                                  child: Text(
+                                    "Close",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
                                   },
-                                ),
-                              );
+                                  width: 120,
+                                )
+                              ],
+                            ).show();
+                            setState(
+                              () {
+                                isClickable = false;
+                              },
+                            );
+                          });
                           setState(() {});
                           //
                         },

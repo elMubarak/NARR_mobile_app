@@ -44,25 +44,22 @@ class _RegisterState extends State<Register> {
     }
   }
 
+  bool institutonTypeFlag = false;
+  bool institutonNameFlag = false;
   DropdownHelper _dropdownHelper = DropdownHelper();
   List<DropdownMenuItem> item;
+  List institutionType = [];
+  List institutionName = [];
+  List institutionCategory = ['Federal', 'State', 'Private', 'Independent'];
+  @override
+  void initState() {
+    super.initState();
+    institutionTypeDropdown();
+  }
 
   @override
   Widget build(BuildContext context) {
     String dob = '${selectedDate.toLocal()}'.split(' ')[0];
-    if (_dropdownHelper.selectedInstitutionType ==
-        _dropdownHelper.institutionType[0]) {
-      item = _dropdownHelper.getUniversityName();
-    } else if (_dropdownHelper.selectedInstitutionType ==
-        _dropdownHelper.institutionType[1]) {
-      item = _dropdownHelper.getPolyName();
-    } else if (_dropdownHelper.selectedInstitutionType ==
-        _dropdownHelper.institutionType[2]) {
-      item = _dropdownHelper.getCollegeOfEducationName();
-    } else if (_dropdownHelper.selectedInstitutionType ==
-        _dropdownHelper.institutionType[3]) {
-      item = _dropdownHelper.getMonotechnicName();
-    }
 
     return Scaffold(
       backgroundColor: Color(0xff00a368),
@@ -237,11 +234,17 @@ class _RegisterState extends State<Register> {
                               'Institution Type',
                               style: TextStyle(color: Colors.grey[700]),
                             ),
-                            items: _dropdownHelper
-                                .getInstitutionTypeDropdownItems(),
+                            items: institutionType?.map((item) {
+                                  return new DropdownMenuItem(
+                                    child: new Text(item),
+                                    value: item.toString(),
+                                  );
+                                })?.toList() ??
+                                [],
                             onChanged: (value) {
                               setState(() {
                                 _dropdownHelper.selectedInstitutionType = value;
+                                institutonTypeFlag = true;
                               });
                             },
                           ),
@@ -249,32 +252,86 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 15.0,
                         ),
-                        DropdownContainer(
-                          child: DropdownButtonFormField(
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Please select an institution name';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                              prefixIcon: Icon(Icons.school),
-                            ),
-                            hint: Text(
-                              'Institution Name',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                            items: item,
-                            onChanged: (value) {
-                              setState(() {
-                                _dropdownHelper.selectedInstitutionName = value;
-                              });
-                            },
-                          ),
+                        institutonTypeFlag
+                            ? DropdownContainer(
+                                child: DropdownButtonFormField(
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Please select an institution category';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    prefixIcon: Icon(Icons.school),
+                                  ),
+                                  hint: Text(
+                                    'Institution Category',
+                                    style: TextStyle(color: Colors.grey[700]),
+                                  ),
+                                  items: institutionCategory?.map((item) {
+                                        return new DropdownMenuItem(
+                                          child: new Text(item),
+                                          value: item.toString(),
+                                        );
+                                      })?.toList() ??
+                                      [],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dropdownHelper
+                                          .selectedInstitutionCategory = value;
+                                      institutionNameDropdown(
+                                          type: _dropdownHelper
+                                              .selectedInstitutionType,
+                                          category: _dropdownHelper
+                                              .selectedInstitutionCategory);
+                                      institutonNameFlag = true;
+                                    });
+                                  },
+                                ),
+                              )
+                            : Container(),
+                        SizedBox(
+                          height: 15.0,
                         ),
+                        institutonNameFlag
+                            ? DropdownContainer(
+                                child: DropdownButtonFormField(
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Please select an institution name';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    prefixIcon: Icon(Icons.school),
+                                  ),
+                                  hint: Text(
+                                    'Institution Name',
+                                    style: TextStyle(color: Colors.grey[700]),
+                                  ),
+                                  isExpanded: true,
+                                  items: institutionName?.map((item) {
+                                        return new DropdownMenuItem(
+                                          child: new Text(item['name']),
+                                          value: item.toString(),
+                                        );
+                                      })?.toList() ??
+                                      [],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dropdownHelper.selectedInstitutionName =
+                                          value;
+                                    });
+                                  },
+                                ),
+                              )
+                            : Container(),
                         SizedBox(
                           height: 15.0,
                         ),
@@ -412,6 +469,26 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  Future institutionTypeDropdown() async {
+    await NetworkHelper(url: '$serverUrl/institution/types')
+        .getInstitutionType()
+        .then((value) {
+      setState(() {
+        institutionType = value;
+      });
+    });
+  }
+
+  Future institutionNameDropdown({String type, String category}) async {
+    await NetworkHelper(url: '$serverUrl/institution/$type/$category')
+        .getInstitutionName()
+        .then((value) {
+      setState(() {
+        institutionName = value;
+      });
+    });
   }
 }
 
