@@ -50,6 +50,18 @@ class _MessageScreenState extends State<MessageScreen> {
               text: "Its one of the best tool for mobile development",
               isMe: true,
             ),
+            MessageBubble(
+              text: "Wow am goonna try it someday",
+              isMe: false,
+            ),
+            MessageBubble(
+              text: "Am sure you gonna like it 😊",
+              isMe: true,
+            ),
+            MessageBubble(
+              text: "Alright then",
+              isMe: false,
+            ),
             Container(
               alignment: Alignment.bottomCenter,
               child: Row(
