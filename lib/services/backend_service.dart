@@ -304,6 +304,7 @@ class NetworkHelper {
     }
   }
 
+  //add reading history
   Future addDocumentToResearchHistoryArr({id, currentPage}) async {
     var research =
         await NetworkHelper(url: '$serverUrl/research').getSingleResearch(id);
@@ -328,20 +329,20 @@ class NetworkHelper {
     return researchObj;
   }
 
+  //get all institution type
   Future getInstitutionType() async {
     try {
       http.Response response = await http.get(url);
       String data = response.body;
       var payload = jsonDecode(data)['institutionTypes']['payload'];
-      print(payload);
+
       return payload;
     } catch (error) {
       print("Error getting all institution $error");
     }
   }
 
-  // institution/University/Federal
-
+  // get all institution name
   Future getInstitutionName() async {
     try {
       http.Response response = await http.get(url);
@@ -351,6 +352,32 @@ class NetworkHelper {
       return payload;
     } catch (error) {
       print("Error getting all institution $error");
+    }
+  }
+
+  //get all ict works
+  Future getAllIctWorks() async {
+    String savedToken = await _box.getUser('token');
+    try {
+      http.Response response = await http.get(url, headers: {
+        'x-token': '$savedToken',
+      });
+      if (response.statusCode == 200) {
+        var res = response.body;
+        //decoding response and getting token and user object from response
+        var data = jsonDecode(res)['feeds']['payload'];
+        print(data);
+        return data;
+        //checking for other status codes
+
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
+    } catch (error) {
+      print("Error getting all ict works $error");
     }
   }
 }

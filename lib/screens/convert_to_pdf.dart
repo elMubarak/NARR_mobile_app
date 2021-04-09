@@ -4,7 +4,6 @@ import 'package:narr/configs.dart';
 import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
 import 'package:narr/helpers/permission_helper.dart';
-import 'package:narr/screens/document_convert.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -87,7 +86,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                     SizedBox(width: 5),
                     Flexible(
                       child: Text(
-                          'Select a document with valid extention i.e .doc, .docx, .txt'),
+                          'Select a document with valid extension i.e .doc, .docx, .txt'),
                     ),
                   ],
                 ),

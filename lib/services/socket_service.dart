@@ -59,7 +59,7 @@ class SocketService {
   //handle login event function
   void handleLoginEvent(
       {String token, dynamic user, BuildContext context}) async {
-    dynamic savedUser = await _box.getUser('user');
+    // dynamic savedUser = await _box.getUser('user');
 
     try {
       //Emitting the login event with token and user object
@@ -79,10 +79,10 @@ class SocketService {
 
         //listening for an event called EVENT:USER:LOGIN
         socket.on('EVENT:USER:LOGIN', (data) {
-          var res = jsonDecode(data);
-          String fullName = res['fullName'];
-          String emailSent = savedUser['email'];
-          String emailRecieved = res['email'];
+          // var res = jsonDecode(data);
+          // String fullName = res['fullName'];
+          // String emailSent = savedUser['email'];
+          // String emailRecieved = res['email'];
 
           usersOnlineArray.add(jsonDecode(data));
           final jsonList =

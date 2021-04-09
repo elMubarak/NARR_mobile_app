@@ -321,13 +321,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.0+1"
-  flutter_socket_io:
-    dependency: "direct main"
-    description:
-      name: flutter_socket_io
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.0"
   flutter_tags:
     dependency: "direct main"
     description:

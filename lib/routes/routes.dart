@@ -11,7 +11,6 @@ import 'package:narr/screens/splash_screen.dart';
 import '../screens/about.dart';
 import '../screens/bulk_file_upload.dart';
 import '../screens/chat.dart';
-import '../screens/document_convert.dart';
 import '../screens/forgotPassword.dart';
 import '../screens/history.dart';
 import '../screens/home.dart';
@@ -32,7 +31,6 @@ Map<String, WidgetBuilder> myRoute = {
   OCRScreen.id: (context) => OCRScreen(),
   AboutUs.id: (context) => AboutUs(),
   VideoConferenceScreen.id: (context) => VideoConferenceScreen(),
-  DocumentConvert.id: (context) => DocumentConvert(),
   Profile.id: (context) => Profile(),
   History.id: (context) => History(),
   Login.id: (context) => Login(),
