@@ -45,6 +45,7 @@ class _IctWorksState extends State<IctWorks> {
                   var content = data[index]['content:encoded'].split('<p>')[1];
                   var result = content.split('src=')[1];
                   var img = result.split('"')[1];
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -54,7 +55,7 @@ class _IctWorksState extends State<IctWorks> {
                           content: data[index]['content'] ?? "",
                           title: data[index]['title'] ?? "",
                           creator: data[index]['creator'] ?? "",
-                          imgUrl: img,
+                          imgUrl: img ?? '',
                           categories: data[index]['categories'] ?? "",
                           linkUrl: data[index]['link'] ?? "",
                           date: data[index]['pubDate'],
