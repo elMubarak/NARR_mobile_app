@@ -3,10 +3,10 @@ import 'package:narr/configs.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/services/backend_service.dart';
-import 'package:narr/services/socket_service.dart';
-import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
+
+import 'home.dart';
 
 String email;
 String password;

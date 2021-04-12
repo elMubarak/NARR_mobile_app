@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:narr/provider/app_data.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/edit_profile.dart';
-import 'package:narr/services/socket_service.dart';
+import 'package:narr/screens/home.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
-import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';
@@ -30,6 +29,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget build(BuildContext context) {
+    // print(onlineUsers.numberOfUsersOnline);
     return Scaffold(
       body: FutureBuilder(
         future: getStoredUserObject(),
@@ -217,57 +217,60 @@ class _ProfileState extends State<Profile> {
                     height: 10,
                   ),
 
-                  ContainerWithShadow(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Users Online',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              '$numberOfOnlineUsers Online',
-                              style: TextStyle(
-                                color: Color(0xff00a368),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          child: ListView.builder(
-                            itemCount: onlineUsers.length,
-                            itemBuilder: (context, index) {
-                              // print(onlineUsersArray[index]['fullName']);
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, ChatScreen.id);
-                                },
-                                child: Users(
-                                  name: onlineUsers[index]['fullName'],
-                                  userImage: 'images/profile.jpg',
+                  Observer(builder: (_) {
+                    return ContainerWithShadow(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Users Online',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              );
-                            },
-                            // children: usersOnlineWidgets,
+                              ),
+                              Text(
+                                '${onlineUsers.numberOfUsersOnline.length} Online',
+                                style: TextStyle(
+                                  color: Color(0xff00a368),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                      ],
-                    ),
-                  ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: ListView.builder(
+                              itemCount: onlineUsers.numberOfUsersOnline.length,
+                              itemBuilder: (context, index) {
+                                var onlineUserfullName = onlineUsers
+                                    .numberOfUsersOnline[index]['fullName'];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, ChatScreen.id);
+                                  },
+                                  child: Users(
+                                    name: '$onlineUserfullName',
+                                    userImage: 'images/profile.jpg',
+                                  ),
+                                );
+                              },
+                              // children: usersOnlineWidgets,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
                   SizedBox(height: 15),
                   //
                   // ContainerWithShadow(

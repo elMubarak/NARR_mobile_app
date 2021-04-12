@@ -68,5 +68,5 @@ flutter:
 
   assets:
     - images/
-    - assets/feed.json
+    - assets/
   

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:narr/provider/app_data.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:narr/provider/online_users_mobx.dart';
+import 'package:narr/provider/reading_history_mobx.dart';
 import 'package:narr/screens/profile.dart';
-import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
@@ -14,8 +15,10 @@ import 'package:narr/widgets/menu_drawer.dart';
 import 'package:narr/widgets/suggestion_card.dart';
 import 'package:narr/widgets/trending_card.dart';
 import 'package:narr/widgets/users_online_card.dart';
-import 'package:provider/provider.dart';
 import 'single_file_upload.dart';
+
+final onlineUsers = OnlineUsers();
+final readingHistory = ReadingHistory();
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({this.message});
@@ -38,7 +41,6 @@ class ClicksPerYear {
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 20;
   List readingHistoryArray = [];
-  List onlineUsersArray = [];
 
   void incrementCounter() {
     setState(() {
@@ -236,14 +238,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (!snapshot.hasData) {
                   return CircularProgressIndicator();
                 }
-                return UsersOnlineCard(
-                  usersOnline: numberOfOnlineUsers,
-                  userName: snapshot.data['fullName'],
-                  userEmail: snapshot.data['email'],
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Profile.id);
-                  },
-                );
+                return Observer(builder: (_) {
+                  return UsersOnlineCard(
+                    usersOnline: onlineUsers.numberOfUsersOnline.length,
+                    userName: snapshot.data['fullName'],
+                    userEmail: snapshot.data['email'],
+                    onTap: () {
+                      Navigator.of(context).pushNamed(Profile.id);
+                    },
+                  );
+                });
               },
             ),
             Container(
@@ -253,6 +257,53 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Column(
                 children: [
+                  ReadingHistoryCard(
+                    child: ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          print(readingHistory.readingHistoryDocument[index]
+                              ['researchTitle']);
+                          return ListTile(
+                            leading: CircleAvatar(
+                              child: Icon(Icons.insert_drive_file),
+                            ),
+                            title: Text(
+                              '${readingHistory.readingHistoryDocument[index]['researchTitle']}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            subtitle: Text(
+                                '${readingHistory.readingHistoryDocument[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
+                            trailing: Column(
+                              children: [
+                                Text(
+                                  '${readingHistory.readingHistoryDocument[index]['accessType']}',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  '${readingHistory.readingHistoryDocument[index]['nPages']}',
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider(
+                            thickness: 1.3,
+                          );
+                        },
+                        itemCount:
+                            readingHistory.readingHistoryDocument.length),
+                    itemCount: readingHistory.readingHistoryDocument.length,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   TrendinCard(
                     child: ListView.separated(
                         physics: NeverScrollableScrollPhysics(),
@@ -278,60 +329,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: 10),
                     itemCount: 1,
                   ),
-                  SizedBox(height: 15.0),
-                  // ReadingHistoryCard(
-                  //   child: FutureBuilder(
-                  //       future: getReadHistory().then((value) {
-                  //         print(value);
-                  //       }),
-                  //       builder: (context, snapshot) {
-                  //         // print(readingHistoryArray);
-                  //         return ListView.separated(
-                  //             physics: NeverScrollableScrollPhysics(),
-                  //             itemBuilder: (context, index) {
-                  //               if (readingHistoryArray == []) {
-                  //                 return ListTile(
-                  //                   title: Text('No reading History'),
-                  //                 );
-                  //               }
-                  //               return ListTile(
-                  //                 leading: CircleAvatar(
-                  //                   child: Icon(Icons.insert_drive_file),
-                  //                 ),
-                  //                 title: Text(
-                  //                   '${readingHistoryArray[index]['researchTitle']}',
-                  //                   maxLines: 1,
-                  //                   overflow: TextOverflow.ellipsis,
-                  //                 ),
-                  //                 subtitle: Text(
-                  //                     '${readingHistoryArray[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
-                  //                 trailing: Column(
-                  //                   children: [
-                  //                     Text(
-                  //                       '${readingHistoryArray[index]['accessType']}',
-                  //                       style: TextStyle(
-                  //                         color: Colors.blue,
-                  //                       ),
-                  //                     ),
-                  //                     SizedBox(
-                  //                       height: 8,
-                  //                     ),
-                  //                     Text(
-                  //                       '${readingHistoryArray[index]['nPages']}',
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //               );
-                  //             },
-                  //             separatorBuilder: (context, index) {
-                  //               return Divider(
-                  //                 thickness: 1.3,
-                  //               );
-                  //             },
-                  //             itemCount: readingHistoryArray.length);
-                  //       }),
-                  //   itemCount: readingHistoryArray.length,
-                  // ),
                   SizedBox(height: 15.0),
                   SuggestionCard(
                     child: ListView.separated(

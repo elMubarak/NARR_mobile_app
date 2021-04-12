@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:narr/provider/app_data.dart';
-import 'package:provider/provider.dart';
 
 class History extends StatefulWidget {
   static const String id = 'History';
