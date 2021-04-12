@@ -38,6 +38,8 @@ class _IctWorksState extends State<IctWorks> {
               return Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (!snapshot.hasData) {
+              return Text('No Data');
             } else if (snapshot.hasData) {
               return ListView.separated(
                 itemCount: data.length,
@@ -71,8 +73,6 @@ class _IctWorksState extends State<IctWorks> {
               );
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
-            } else if (!snapshot.hasData) {
-              return Text('No Data');
             } else {
               return Text('No Data');
             }
