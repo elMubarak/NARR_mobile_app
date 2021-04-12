@@ -40,7 +40,6 @@ class ClicksPerYear {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 20;
-  List readingHistoryArray = [];
 
   void incrementCounter() {
     setState(() {
@@ -49,13 +48,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   HiveBox _box = HiveBox();
-  @override
-  initState() {
-    super.initState();
-    readingHistoryArray = [];
-  }
+  // final _refreshKey = GlobalKey<RefreshIndicatorState>();
+  List readingHistoryArry = [];
+  // Future<void> getReadingHistory() async {
+  //   _refreshKey.currentState?.show();
+  //   await Future.delayed(Duration(seconds: 2));
+  //   setState(() {
+  //     readingHistoryArry = readingHistory.readingHistoryDocument;
+  //   });
+  // }
 
   Widget build(BuildContext context) {
+    // getReadingHistory();
     //
     // showSimpleFlushbar(context: context, message: message);
     var data = [
@@ -91,13 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
       dynamic savedUser = await _box.getUser('user');
       return savedUser;
     }
-
-    // Future getReadHistory() async {
-    //   readingHistoryArray = await Provider.of<AppData>(context, listen: false)
-    //       .analyticObj['readingHistory'];
-    //   // print(readingHistoryArray);
-    //   return readingHistoryArray;
-    // }
 
     return Scaffold(
       drawer: Drawer(
@@ -138,11 +135,12 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.only(left: 15, right: 15),
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Color(0xff00a368),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  )),
+                color: Color(0xff00a368),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              ),
               child: Column(
                 children: [
                   SizedBox(height: 15),
@@ -263,34 +261,37 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           print(readingHistory.readingHistoryDocument[index]
                               ['researchTitle']);
-                          return ListTile(
-                            leading: CircleAvatar(
-                              child: Icon(Icons.insert_drive_file),
-                            ),
-                            title: Text(
-                              '${readingHistory.readingHistoryDocument[index]['researchTitle']}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            subtitle: Text(
-                                '${readingHistory.readingHistoryDocument[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
-                            trailing: Column(
-                              children: [
-                                Text(
-                                  '${readingHistory.readingHistoryDocument[index]['accessType']}',
-                                  style: TextStyle(
-                                    color: Colors.blue,
+                          return (readingHistory.readingHistoryDocument.length <
+                                  1)
+                              ? Text('No Reading History Yet')
+                              : ListTile(
+                                  leading: CircleAvatar(
+                                    child: Icon(Icons.insert_drive_file),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  '${readingHistory.readingHistoryDocument[index]['nPages']}',
-                                ),
-                              ],
-                            ),
-                          );
+                                  title: Text(
+                                    '${readingHistory.readingHistoryDocument[index]['researchTitle']}',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  subtitle: Text(
+                                      '${readingHistory.readingHistoryDocument[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
+                                  trailing: Column(
+                                    children: [
+                                      Text(
+                                        '${readingHistory.readingHistoryDocument[index]['accessType']}',
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        '${readingHistory.readingHistoryDocument[index]['nPages']}',
+                                      ),
+                                    ],
+                                  ),
+                                );
                         },
                         separatorBuilder: (context, index) {
                           return Divider(

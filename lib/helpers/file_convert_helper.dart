@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:narr/screens/document_convert.dart';
 import 'package:narr/store/hive_store.dart';
 
 Future displayDialog(BuildContext context, String title, String text) =>
@@ -73,9 +72,6 @@ class FileConvertHelper {
           }
         });
 
-        displayDialog(context, "Success",
-            "$fileName file converted successfully converted file is located in the phone storage");
-        Navigator.pushReplacementNamed(context, DocumentConvert.id);
         print('file path => ${pickedFile.path}');
         print(
             'status code ::==> ${res.statusCode} and reason phrase ::==> ${res.reasonPhrase}');

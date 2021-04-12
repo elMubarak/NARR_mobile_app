@@ -39,26 +39,21 @@ class _MyAppState extends State<MyApp> {
   String token;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => AppData(),
       child: MaterialApp(
         title: 'Narr',
         theme: ThemeData(
-            primarySwatch: Colors.green,
-            primaryColor: Color(0xff00a368),
-            accentColor: Color(0xff00a368),
-            cursorColor: Color(0xff00a368),
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            brightness: Brightness.light),
+          primarySwatch: Colors.green,
+          primaryColor: Color(0xff00a368),
+          accentColor: Color(0xff00a368),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          brightness: Brightness.light,
+        ),
         debugShowCheckedModeBanner: false,
         initialRoute: SplashScreen.id,
-        // initialRoute: VerifyAccount.id,
+        // initialRoute: OcrResult.id,
         routes: myRoute,
       ),
     );

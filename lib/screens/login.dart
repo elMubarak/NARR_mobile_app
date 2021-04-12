@@ -3,10 +3,11 @@ import 'package:narr/configs.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/services/backend_service.dart';
+import 'package:narr/services/socket_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 
-import 'home.dart';
+// import 'home.dart';
 
 String email;
 String password;
@@ -30,6 +31,7 @@ class _LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  SocketService _socketService = SocketService();
 
   @override
   Widget build(BuildContext context) {
@@ -145,10 +147,22 @@ class _LoginState extends State<Login> {
                                 isClickable = true;
                               });
 
-                              await NetworkHelper(url: loginUrl).loginUser(
-                                  email: email,
-                                  password: password,
-                                  context: context);
+                              await NetworkHelper(url: loginUrl)
+                                  .loginUser(
+                                      email: email,
+                                      password: password,
+                                      context: context)
+                                  .then((value) {
+                                // print(value['payload']['token']);
+                                _socketService.handleLoginEvent(
+                                  token: value['payload']['token'],
+                                  user: value['payload']['user'],
+                                  context: context,
+                                );
+                                setState(() {
+                                  isClickable = false;
+                                });
+                              });
                             }
                             setState(() {});
                           },

@@ -8,9 +8,7 @@ import 'package:narr/store/hive_store.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';
-  // final String email;
-  // final String password;
-  // Profile({this.email, this.password});
+
   @override
   _ProfileState createState() => _ProfileState();
 }

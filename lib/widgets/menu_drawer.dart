@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/screens/chat.dart';
+import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
-import 'package:narr/screens/document_convert.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
@@ -130,7 +130,7 @@ class DrawerItems extends StatelessWidget {
                     leading: Icon(Icons.insert_drive_file),
                     title: Text('Document Conversion'),
                     onTap: () {
-                      Navigator.of(context).popAndPushNamed(DocumentConvert.id);
+                      Navigator.of(context).popAndPushNamed(ConvertToPDF.id);
                       // ...
                     },
                   ),

@@ -59,7 +59,7 @@ class SocketService {
   //handle login event function
   void handleLoginEvent(
       {String token, dynamic user, BuildContext context}) async {
-    dynamic savedUser = await _box.getUser('user');
+    // dynamic savedUser = await _box.getUser('user');
 
     try {
       //Emitting the login event with token and user object
@@ -79,10 +79,10 @@ class SocketService {
 
         //listening for an event called EVENT:USER:LOGIN
         socket.on('EVENT:USER:LOGIN', (data) {
-          var res = jsonDecode(data);
-          String fullName = res['fullName'];
-          String emailSent = savedUser['email'];
-          String emailRecieved = res['email'];
+          // var res = jsonDecode(data);
+          // String fullName = res['fullName'];
+          // String emailSent = savedUser['email'];
+          // String emailRecieved = res['email'];
 
           usersOnlineArray.add(jsonDecode(data));
           final jsonList =
@@ -94,28 +94,20 @@ class SocketService {
           // convert each item back to the original form using JSON decoding
           final result =
               uniqueJsonList.map((item) => jsonDecode(item)).toList();
-          //   // Provider.of<AppData>(context, listen: false)
-          //   //     .updatedUsersOnline(usersOnline: result);
-
-          // List onlineUsers = Provider.of<AppData>(context, listen: false)
-          //     .analyticObj['usersOnline'];
-          // print(onlineUsers);
 
           onlineUsers.getNumberOfUsersOnline(result);
+          print(onlineUsers.numberOfUsersOnline.length);
 
-          print(usersOnlineArray.length);
+          // String message;
+          // if (emailSent == emailRecieved) {
+          //   message = "Welcome";
 
-          String message;
-          if (emailSent == emailRecieved) {
-            message = "Welcome";
+          //   // print('$emailSent is = $emailRecieved');
 
-            // print('$emailSent is = $emailRecieved');
-            // showFlushBar.updatedUserFlushBar(
-            //     userFullName: fullName, userMessage: message);
+          // } else {
+          //   message = "is Online";
 
-          } else {
-            message = "is Online";
-          }
+          // }
         });
 
         // tempArray = users;
@@ -131,7 +123,7 @@ class SocketService {
             usersOnlineArray.removeAt(i);
             print("${obj['email']} and $logoutEmail");
             onlineUsers.getNumberOfUsersOnline(usersOnlineArray);
-            print(usersOnlineArray.length);
+            print(onlineUsers.numberOfUsersOnline.length);
           }
         }
       });

@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:narr/configs.dart';
+import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/grants_outlined_container.dart';
 import 'package:narr/widgets/ictWorksContent.dart';
 
@@ -29,7 +31,7 @@ class _IctWorksState extends State<IctWorks> {
       ),
       body: GrantsOutlinedContainer(
         child: FutureBuilder(
-          future: readJson(),
+          future: NetworkHelper(url: '$serverUrl/ictWorks').getAllIctWorks(),
           builder: (context, snapshot) {
             var data = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -42,7 +44,9 @@ class _IctWorksState extends State<IctWorks> {
                 separatorBuilder: (BuildContext context, int index) =>
                     Divider(),
                 itemBuilder: (BuildContext context, int index) {
-                  var content = data[index]['content:encoded'].split('<p>')[1];
+                  var tag =
+                      data[index]['contentEncoded'].replaceAll('<h3>', '<p>');
+                  var content = tag.split('<p>')[1];
                   var result = content.split('src=')[1];
                   var img = result.split('"')[1];
 
@@ -52,13 +56,13 @@ class _IctWorksState extends State<IctWorks> {
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: IctWorksContent(
-                          content: data[index]['content'] ?? "",
+                          content: data[index]['contentEncodedSnippet'] ?? "",
                           title: data[index]['title'] ?? "",
                           creator: data[index]['creator'] ?? "",
                           imgUrl: img ?? '',
                           categories: data[index]['categories'] ?? "",
                           linkUrl: data[index]['link'] ?? "",
-                          date: data[index]['pubDate'],
+                          date: data[index]['isoDate'],
                         ),
                       ),
                     ],
