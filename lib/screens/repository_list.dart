@@ -24,8 +24,82 @@ class _RepositoryListState extends State<RepositoryList> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     getToken();
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> contactTitleWidgets = [
+      Container(
+        margin: EdgeInsets.all(15),
+        child: Material(
+          elevation: 5.0,
+          borderRadius: BorderRadius.circular(50),
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Search Repository',
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              contentPadding: EdgeInsets.only(
+                left: 15,
+                bottom: 11,
+                top: 11,
+                right: 15,
+              ),
+            ),
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 15.0, right: 160),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                offset: Offset(0, 2.5),
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          child: DropdownButtonFormField(
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(
+                borderSide: BorderSide.none,
+              ),
+            ),
+            hint: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                'By Category',
+                style: TextStyle(color: Colors.grey[700]),
+              ),
+            ),
+            items: _dropdownHelper.getFilterDropdownItems(),
+            onChanged: (value) {
+              setState(() {
+                _dropdownHelper.selectedFilter = value;
+              });
+            },
+          ),
+        ),
+      ),
+      SizedBox(
+        height: 11,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8.0, left: 15),
+        child: Text(
+          'All Research',
+          style: TextStyle(fontSize: 20, color: Colors.grey),
+        ),
+      ),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -48,75 +122,6 @@ class _RepositoryListState extends State<RepositoryList> {
           }
 
           final payload = snapshot.data;
-
-          List<Widget> contactTitleWidgets = [
-            Container(
-              margin: EdgeInsets.all(15),
-              child: Material(
-                elevation: 5.0,
-                borderRadius: BorderRadius.circular(50),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search Repository',
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.only(
-                      left: 15,
-                      bottom: 11,
-                      top: 11,
-                      right: 15,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 160),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
-                      offset: Offset(0, 2.5),
-                      blurRadius: 5,
-                    ),
-                  ],
-                ),
-                child: DropdownButtonFormField(
-                  decoration: InputDecoration(
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  hint: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      'By Category',
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                  ),
-                  items: _dropdownHelper.getFilterDropdownItems(),
-                  onChanged: (value) {
-                    setState(() {
-                      _dropdownHelper.selectedFilter = value;
-                    });
-                  },
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 11,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0, left: 15),
-              child: Text(
-                'All Research',
-                style: TextStyle(fontSize: 20, color: Colors.grey),
-              ),
-            ),
-          ];
 
           for (var document in payload) {
             var title = document['researchTitle'];
