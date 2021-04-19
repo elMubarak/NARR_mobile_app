@@ -38,9 +38,12 @@ class _IctWorksState extends State<IctWorks> {
               return Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (snapshot.hasError) {
+              print('${snapshot.error}');
             } else if (!snapshot.hasData) {
               return Text('No Data');
             } else if (snapshot.hasData) {
+              print(data);
               return ListView.separated(
                 itemCount: data.length,
                 separatorBuilder: (BuildContext context, int index) =>
@@ -71,11 +74,10 @@ class _IctWorksState extends State<IctWorks> {
                   );
                 },
               );
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
             } else {
               return Text('No Data');
             }
+            return Text('${snapshot.error}');
           },
         ),
       ),
