@@ -5,6 +5,7 @@ import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/ictWorks.dart';
 import 'package:narr/screens/ocr_result.dart';
+import 'package:narr/screens/register_organisations.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/research_grants_proposal.dart';
 import 'package:narr/screens/splash_screen.dart';
@@ -35,6 +36,7 @@ Map<String, WidgetBuilder> myRoute = {
   History.id: (context) => History(),
   Login.id: (context) => Login(),
   Register.id: (context) => Register(),
+  RegisterOrg.id: (context) => RegisterOrg(),
   ForgotPassword.id: (context) => ForgotPassword(),
   NarrUsers.id: (context) => NarrUsers(),
   VerifyAccount.id: (context) => VerifyAccount(),

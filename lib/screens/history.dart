@@ -16,43 +16,44 @@ class _HistoryState extends State<History> {
         title: Text('NARR'),
         backgroundColor: Color(0xff00a368),
       ),
-      body: ListView.separated(
-          // itemCount: readingHistory.length,
-          // separatorBuilder: (BuildContext context, int index) => Divider(),
-          // itemBuilder: (context, index) {
-          //   return ListTile(
-          //     contentPadding: EdgeInsets.zero,
-          //     leading: CircleAvatar(
-          //       child: Icon(Icons.insert_drive_file),
-          //     ),
-          //     title: Text(
-          //       '${readingHistory[index]['researchTitle']}',
-          //       maxLines: 1,
-          //       overflow: TextOverflow.ellipsis,
-          //     ),
-          //     subtitle: Text(
-          //       '${readingHistory[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
-          //       maxLines: 1,
-          //       overflow: TextOverflow.ellipsis,
-          //     ),
-          //     trailing: Column(
-          //       mainAxisAlignment: MainAxisAlignment.end,
-          //       children: [
-          //         Text('${readingHistory[index]['accessType']},'),
-          //         SizedBox(
-          //           height: 8,
-          //         ),
-          //         Text(
-          //           '${readingHistory[index]['nPages']}',
-          //           style: TextStyle(
-          //             color: Color(0xff00a368),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          // );
-          // },
-          ),
+      body: Container(),
+      //  ListView.separated(
+      // itemCount: readingHistory.length,
+      // separatorBuilder: (BuildContext context, int index) => Divider(),
+      // itemBuilder: (context, index) {
+      //   return ListTile(
+      //     contentPadding: EdgeInsets.zero,
+      //     leading: CircleAvatar(
+      //       child: Icon(Icons.insert_drive_file),
+      //     ),
+      //     title: Text(
+      //       '${readingHistory[index]['researchTitle']}',
+      //       maxLines: 1,
+      //       overflow: TextOverflow.ellipsis,
+      //     ),
+      //     subtitle: Text(
+      //       '${readingHistory[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
+      //       maxLines: 1,
+      //       overflow: TextOverflow.ellipsis,
+      //     ),
+      //     trailing: Column(
+      //       mainAxisAlignment: MainAxisAlignment.end,
+      //       children: [
+      //         Text('${readingHistory[index]['accessType']},'),
+      //         SizedBox(
+      //           height: 8,
+      //         ),
+      //         Text(
+      //           '${readingHistory[index]['nPages']}',
+      //           style: TextStyle(
+      //             color: Color(0xff00a368),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      // );
+      // },
+      // ),
     );
   }
 }

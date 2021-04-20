@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/screens/login.dart';
-import 'package:narr/screens/register_organisations.dart';
+import 'package:narr/screens/register.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 import 'package:narr/widgets/dropdown_container.dart';
 
-class Register extends StatefulWidget {
-  static String id = 'register';
+class RegisterOrg extends StatefulWidget {
+  static String id = 'registerORG';
   @override
-  _RegisterState createState() => _RegisterState();
+  _RegisterOrgState createState() => _RegisterOrgState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterOrgState extends State<RegisterOrg> {
   String fname;
   String lname;
   String email;
@@ -71,7 +71,7 @@ class _RegisterState extends State<Register> {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Hello! Researcher ',
+                  'Hello! Organisation',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -437,10 +437,10 @@ class _RegisterState extends State<Register> {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context)
-                                .pushReplacementNamed(RegisterOrg.id);
+                                .pushReplacementNamed(Register.id);
                           },
                           child: Text(
-                            'Register as an Organisation',
+                            'Register as an idependent researcher',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.grey,
