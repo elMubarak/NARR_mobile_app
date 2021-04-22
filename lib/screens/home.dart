@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/provider/online_users_mobx.dart';
 import 'package:narr/provider/reading_history_mobx.dart';
 import 'package:narr/screens/profile.dart';
@@ -351,6 +352,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: 10,
                   ),
                   Analytics(chartWidget: chartWidget),
+                  QueueManagerContainer(
+                    queueTitle: 'Document Conversion Queue',
+                    activeQueue: 14,
+                    waitingQueue: 10,
+                    completedQueue: 2,
+                    failedQueue: 0,
+                  ),
+                  SizedBox(height: 15),
+                  QueueManagerContainer(
+                    queueTitle: 'OCR Queue',
+                    activeQueue: 14,
+                    waitingQueue: 10,
+                    completedQueue: 2,
+                    failedQueue: 0,
+                  ),
+                  SizedBox(height: 15),
+                  QueueManagerContainer(
+                    queueTitle: 'Research Upload Queue',
+                    activeQueue: 14,
+                    waitingQueue: 10,
+                    completedQueue: 2,
+                    failedQueue: 0,
+                  ),
                 ],
               ),
             ),
@@ -364,6 +388,147 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         label: Text('Upload Research'),
         icon: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class QueueManagerContainer extends StatelessWidget {
+  const QueueManagerContainer({
+    Key key,
+    this.queueTitle,
+    this.activeQueue = 0,
+    this.completedQueue = 0,
+    this.waitingQueue = 0,
+    this.failedQueue = 0,
+  }) : super(key: key);
+  final String queueTitle;
+  final int activeQueue, completedQueue, waitingQueue, failedQueue;
+  @override
+  Widget build(BuildContext context) {
+    return ContainerCard(
+      child: Column(
+        children: [
+          Text(
+            queueTitle ?? '',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Divider(thickness: 0.9),
+          SizedBox(height: 15),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 0.2),
+                  ),
+                  child: ListTile(
+                    leading: Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 0.3,
+                          color: Color(0xff00a368),
+                        ),
+                      ),
+                      child: Icon(
+                        FontAwesomeIcons.rocket,
+                        color: Color(0xff00a368),
+                      ),
+                    ),
+                    title: Text('Active'),
+                    subtitle: Text(activeQueue.toString() ?? 0),
+                  ),
+                ),
+              ),
+              SizedBox(width: 15),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 0.2),
+                  ),
+                  child: ListTile(
+                    leading: Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 0.3,
+                          color: Color(0xffd54b02),
+                        ),
+                      ),
+                      child: Icon(
+                        FontAwesomeIcons.history,
+                        color: Color(0xffd54b02),
+                      ),
+                    ),
+                    title: Text('Waiting'),
+                    subtitle: Text(waitingQueue.toString() ?? 0),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 15),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 0.2),
+                  ),
+                  child: ListTile(
+                    leading: Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 0.3,
+                          color: Color(0xff221173),
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.check,
+                        color: Color(0xff221173),
+                      ),
+                    ),
+                    title: Text('Completed'),
+                    subtitle: Text(completedQueue.toString() ?? 0),
+                  ),
+                ),
+              ),
+              SizedBox(width: 15),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 0.2),
+                  ),
+                  child: ListTile(
+                    leading: Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 0.3,
+                          color: Color(0xffc10a00),
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.warning,
+                        color: Color(0xffc10a00),
+                      ),
+                    ),
+                    title: Text('Failed'),
+                    subtitle: Text(failedQueue.toString() ?? 0),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
