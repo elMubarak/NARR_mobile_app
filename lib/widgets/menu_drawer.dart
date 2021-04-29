@@ -51,6 +51,19 @@ class DrawerItems extends StatelessWidget {
                           context, ModalRoute.withName(HomeScreen.id));
                     },
                   ),
+                  //
+                  ListTile(
+                    leading: Icon(Icons.home),
+                    title: Text('Dashboard'),
+                    enabled: true,
+                    onTap: () {
+                      // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                      // Update the state of the app.
+                      // ...
+                      Navigator.popUntil(
+                          context, ModalRoute.withName(HomeScreen.id));
+                    },
+                  ),
                   ListTile(
                     leading: Icon(FontAwesomeIcons.database),
                     title: Text('Repository'),
