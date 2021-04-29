@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
@@ -52,18 +53,21 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   //
-                  ListTile(
-                    leading: Icon(Icons.home),
-                    title: Text('Dashboard'),
-                    enabled: true,
-                    onTap: () {
-                      // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
-                      // Update the state of the app.
-                      // ...
-                      Navigator.popUntil(
-                          context, ModalRoute.withName(HomeScreen.id));
-                    },
-                  ),
+                  (true)
+                      ? ListTile(
+                          leading: Icon(Icons.dashboard),
+                          title: Text('Dashboard'),
+                          enabled: true,
+                          onTap: () {
+                            // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                            // Update the state of the app.
+                            // ...
+
+                            Navigator.of(context)
+                                .popAndPushNamed(AdminDashBoard.id);
+                          },
+                        )
+                      : Container(),
                   ListTile(
                     leading: Icon(FontAwesomeIcons.database),
                     title: Text('Repository'),

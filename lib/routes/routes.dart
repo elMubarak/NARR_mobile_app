@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/edit_profile.dart';
@@ -26,6 +27,7 @@ import '../screens/video_conf.dart';
 
 Map<String, WidgetBuilder> myRoute = {
   HomeScreen.id: (context) => HomeScreen(),
+  AdminDashBoard.id: (context) => AdminDashBoard(),
   SingleFileUpload.id: (context) => SingleFileUpload(),
   BulkFileUpload.id: (context) => BulkFileUpload(),
   ChatScreen.id: (context) => ChatScreen(),

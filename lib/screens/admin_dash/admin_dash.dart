@@ -3,13 +3,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:narr/widgets/cards.dart';
-import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
 import 'package:narr/widgets/menu_drawer.dart';
-import 'package:narr/widgets/reading_history_card.dart';
 import 'package:narr/widgets/school_dash_card.dart';
 
 class AdminDashBoard extends StatelessWidget {
+  static const String id = 'AdminDashBoard';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
