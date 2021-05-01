@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
@@ -40,20 +41,22 @@ class DrawerItems extends StatelessWidget {
             child: Container(
               child: ListView(
                 children: [
-                  ListTile(
-                    leading: Icon(Icons.home),
-                    title: Text('Home'),
-                    enabled: true,
-                    onTap: () {
-                      // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
-                      // Update the state of the app.
-                      // ...
-                      Navigator.popUntil(
-                          context, ModalRoute.withName(HomeScreen.id));
-                    },
-                  ),
+                  (currentUser.userRole == 'researcher')
+                      ? ListTile(
+                          leading: Icon(Icons.home),
+                          title: Text('Home'),
+                          enabled: true,
+                          onTap: () {
+                            // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                            // Update the state of the app.
+                            // ...
+                            Navigator.popUntil(
+                                context, ModalRoute.withName(HomeScreen.id));
+                          },
+                        )
+                      : Container(),
                   //
-                  (true)
+                  (currentUser.userRole == 'admin')
                       ? ListTile(
                           leading: Icon(Icons.dashboard),
                           title: Text('Dashboard'),
@@ -68,24 +71,29 @@ class DrawerItems extends StatelessWidget {
                           },
                         )
                       : Container(),
-                  ListTile(
-                    leading: Icon(FontAwesomeIcons.database),
-                    title: Text('Repository'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(RepositoryList.id);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.history),
-                    title: Text('Reading List'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(History.id);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
+                  (currentUser.userRole == 'researcher')
+                      ? ListTile(
+                          leading: Icon(FontAwesomeIcons.database),
+                          title: Text('Repository'),
+                          onTap: () {
+                            Navigator.of(context)
+                                .popAndPushNamed(RepositoryList.id);
+                            // Update the state of the app.
+                            // ...
+                          },
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'researcher')
+                      ? ListTile(
+                          leading: Icon(Icons.history),
+                          title: Text('Reading List'),
+                          onTap: () {
+                            Navigator.of(context).popAndPushNamed(History.id);
+                            // Update the state of the app.
+                            // ...
+                          },
+                        )
+                      : Container(),
                   ListTile(
                     leading: Icon(Icons.person),
                     title: Text('Profile'),
@@ -125,42 +133,52 @@ class DrawerItems extends StatelessWidget {
                       ),
                     ],
                   ),
-                  ListTile(
-                    leading: Icon(FontAwesomeIcons.solidComment),
-                    title: Text('Chat'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(ChatScreen.id);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(FontAwesomeIcons.textWidth),
-                    title: Text('Image to Text'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(OCRScreen.id);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.insert_drive_file),
-                    title: Text('Document Conversion'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(ConvertToPDF.id);
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.video_call),
-                    title: Text('Video Conferencing'),
-                    onTap: () {
-                      Navigator.of(context)
-                          .popAndPushNamed(VideoConferenceScreen.id);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
+                  (currentUser.userRole == 'researcher')
+                      ? ListTile(
+                          leading: Icon(FontAwesomeIcons.solidComment),
+                          title: Text('Chat'),
+                          onTap: () {
+                            Navigator.of(context)
+                                .popAndPushNamed(ChatScreen.id);
+                            // Update the state of the app.
+                            // ...
+                          },
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'researcher')
+                      ? ListTile(
+                          leading: Icon(FontAwesomeIcons.textWidth),
+                          title: Text('Image to Text'),
+                          onTap: () {
+                            Navigator.of(context).popAndPushNamed(OCRScreen.id);
+                            // Update the state of the app.
+                            // ...
+                          },
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'researcher')
+                      ? ListTile(
+                          leading: Icon(Icons.insert_drive_file),
+                          title: Text('Document Conversion'),
+                          onTap: () {
+                            Navigator.of(context)
+                                .popAndPushNamed(ConvertToPDF.id);
+                            // ...
+                          },
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'researcher')
+                      ? ListTile(
+                          leading: Icon(Icons.video_call),
+                          title: Text('Video Conferencing'),
+                          onTap: () {
+                            Navigator.of(context)
+                                .popAndPushNamed(VideoConferenceScreen.id);
+                            // Update the state of the app.
+                            // ...
+                          },
+                        )
+                      : Container(),
                 ],
               ),
             ),

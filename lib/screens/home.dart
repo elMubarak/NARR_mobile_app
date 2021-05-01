@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     Future getStoredUserObject() async {
-      dynamic savedUser = await _box.getUser('user');
+      Map<String, dynamic> savedUser = await _box.getSavedUser();
       return savedUser;
     }
 

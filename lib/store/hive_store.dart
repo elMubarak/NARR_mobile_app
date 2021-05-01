@@ -1,7 +1,17 @@
 import 'package:hive/hive.dart';
 
 class HiveBox {
-  Future addToBox({String token, dynamic userObj}) async {
+  void saveToken(String token) async {
+    var tokenStore = await Hive.openBox('saved_token');
+    tokenStore.put('token', '$token');
+  }
+
+  void saveUser(Map<String, dynamic> user) async {
+    var userStore = await Hive.openBox('saved_user');
+    userStore.put('user', user);
+  }
+
+  Future addToBox({String token, Map<String, dynamic> userObj}) async {
     var userStore = await Hive.openBox('local-user');
 
     userStore.put('token', '$token');
@@ -16,16 +26,15 @@ class HiveBox {
     return userInBox;
   }
 
-  saveEmailPassword(String email, String password) async {
-    var userStore = await Hive.openBox('local-user');
-    userStore.put('email', email);
-    userStore.put('password', password);
+  Future<String> getSavedToken() async {
+    var store = await Hive.openBox('saved_token');
+    String savedData = await store.get('token');
+    return savedData;
   }
 
-  getUser(String data) async {
-    var store = await Hive.openBox('local-user');
-    dynamic savedData = await store.get(data);
-
+  Future<Map<String, dynamic>> getSavedUser() async {
+    var store = await Hive.openBox('saved_user');
+    Map<String, dynamic> savedData = await store.get('user');
     return savedData;
   }
 

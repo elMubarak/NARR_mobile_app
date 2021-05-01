@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
+import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
 import 'package:narr/screens/register_organisations.dart';
@@ -154,7 +156,9 @@ class _LoginState extends State<Login> {
                                       password: password,
                                       context: context)
                                   .then((value) {
-                                // print(value['payload']['token']);
+                                currentUser = UserModel.fromJson(
+                                    value['payload']['user']);
+
                                 _socketService.handleLoginEvent(
                                   token: value['payload']['token'],
                                   user: value['payload']['user'],
@@ -179,7 +183,7 @@ class _LoginState extends State<Login> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Text('New researcher? register here'),
+                                  Text('New researcher? '),
                                   SizedBox(width: 5),
                                   Text(
                                     'Register',
@@ -204,7 +208,7 @@ class _LoginState extends State<Login> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Text('New Organisation? register here'),
+                                  Text('New Organisation? '),
                                   SizedBox(width: 5),
                                   Text(
                                     'Register',

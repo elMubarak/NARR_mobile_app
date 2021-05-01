@@ -19,7 +19,7 @@ class _RepositoryListState extends State<RepositoryList> {
   HiveBox _box = HiveBox();
   var token;
   getToken() async {
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     token = savedToken;
   }
 

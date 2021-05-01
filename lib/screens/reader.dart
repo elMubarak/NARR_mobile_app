@@ -50,7 +50,7 @@ class _SliderState extends State<Slider> {
 
   var token;
   getToken() async {
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     print("token from store $savedToken");
     token = savedToken;
     print("token from store $token");

@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
+import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
 // import 'package:narr/services/backend_service.dart';
@@ -37,13 +40,20 @@ class _SplashScreenState extends State<SplashScreen> {
   HiveBox _box = HiveBox();
 
   silentLogin() async {
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
+    // Map<String, dynamic> data = await _box.getSavedUser();
+    // print(data);
+    print(savedToken);
 
     if (savedToken != null) {
       _socketService.connectToEvents(context);
 
       Timer(Duration(seconds: 4), () {
         Navigator.pushReplacementNamed(context, HomeScreen.id);
+        // print(data);
+
+        // currentUser = UserModel.fromJson(data);
+        // print(data.runtimeType);
       });
     } else {
       Navigator.pushReplacementNamed(context, Login.id);
@@ -54,7 +64,14 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: GestureDetector(
+            onTap: () {
+              SocketService().hnadleLogOutEvent();
+              HiveBox().clearToken();
+              // socket.destroy();
+              Navigator.pushReplacementNamed(context, Login.id);
+            },
+            child: CircularProgressIndicator()),
       ),
     );
   }

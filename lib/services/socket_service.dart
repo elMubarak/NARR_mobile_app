@@ -33,8 +33,8 @@ class SocketService {
 
   void connectToEvents(BuildContext context) async {
     //getting token and user object from local storage
-    String savedToken = await _box.getUser('token');
-    dynamic savedUser = await _box.getUser('user');
+    String savedToken = await _box.getSavedToken();
+    Map<String, dynamic> savedUser = await _box.getSavedUser();
     try {
       //checking if the token is not null
       if (savedToken != null) {

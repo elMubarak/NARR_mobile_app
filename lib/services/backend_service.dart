@@ -112,7 +112,10 @@ class NetworkHelper {
         var userObj = data['payload']['user'];
 
         //saving the token and user object to local storage
-        await HiveBox().addToBox(token: token, userObj: userObj);
+        //
+        HiveBox().saveToken(token);
+        HiveBox().saveUser(userObj);
+        // await HiveBox().addToBox(token: token, userObj: userObj);
 
         //connecting to socket, emitting an even that is sending the local token and userobject to the socket server and listening for events
 
@@ -148,7 +151,7 @@ class NetworkHelper {
     BuildContext context,
   }) async {
     String uploadurl = url;
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     FormData formdata = FormData.fromMap({
       "image": await MultipartFile.fromFile(
         selectedfile,
@@ -213,8 +216,8 @@ class NetworkHelper {
     BuildContext context,
   }) async {
     String uploadurl = url;
-    dynamic savedUser = await _box.getUser('user');
-    String savedToken = await _box.getUser('token');
+    dynamic savedUser = await _box.getSavedUser();
+    String savedToken = await _box.getSavedToken();
 
     FormData formdata = FormData.fromMap({
       "meta": jsonEncode(<String, String>{
@@ -271,7 +274,7 @@ class NetworkHelper {
   }
 
   Future getAllResearch() async {
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     try {
       http.Response response = await http.get(url, headers: {
         'x-token': '$savedToken',
@@ -286,7 +289,7 @@ class NetworkHelper {
 
   //get one contact
   Future getSingleResearch(String id) async {
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     try {
       http.Response response = await http.get(
         '$url/$id',
@@ -357,7 +360,7 @@ class NetworkHelper {
 
   //get all ict works
   Future getAllIctWorks() async {
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     try {
       http.Response response = await http.get(url, headers: {
         'x-token': '$savedToken',
