@@ -21,7 +21,6 @@ Future displayDialog(BuildContext context, String title, String text) =>
       ),
     );
 SocketService _socketService = SocketService();
-dynamic userObj;
 List readingHistoryArr = [];
 
 Dio dio = new Dio();
@@ -108,8 +107,9 @@ class NetworkHelper {
         var res = response.body;
         //decoding response and getting token and user object from response
         var data = jsonDecode(res);
-        var token = data['payload']['token'];
-        var userObj = data['payload']['user'];
+        String token = data['payload']['token'];
+        Map<String, dynamic> userObj =
+            Map<String, dynamic>.from(data['payload']['user']);
 
         //saving the token and user object to local storage
         //

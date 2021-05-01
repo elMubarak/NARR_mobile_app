@@ -5,11 +5,13 @@ import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/ictWorks.dart';
+import 'package:narr/screens/investor_dash/investor_dasboard.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/register_organisations.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/research_grants_proposal.dart';
 import 'package:narr/screens/splash_screen.dart';
+import 'package:narr/screens/sponsor_das/sponsor_dashboard.dart';
 import '../screens/about.dart';
 import '../screens/bulk_file_upload.dart';
 import '../screens/chat.dart';
@@ -28,6 +30,8 @@ import '../screens/video_conf.dart';
 Map<String, WidgetBuilder> myRoute = {
   HomeScreen.id: (context) => HomeScreen(),
   AdminDashBoard.id: (context) => AdminDashBoard(),
+  SponsorDashboard.id: (context) => SponsorDashboard(),
+  InvestorDashboard.id: (context) => InvestorDashboard(),
   SingleFileUpload.id: (context) => SingleFileUpload(),
   BulkFileUpload.id: (context) => BulkFileUpload(),
   ChatScreen.id: (context) => ChatScreen(),

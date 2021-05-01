@@ -9,11 +9,13 @@ import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ictWorks.dart';
+import 'package:narr/screens/investor_dash/investor_dasboard.dart';
 import 'package:narr/screens/login.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/screens/repository_list.dart';
+import 'package:narr/screens/sponsor_das/sponsor_dashboard.dart';
 import 'package:narr/screens/video_conf.dart';
 import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
@@ -71,7 +73,47 @@ class DrawerItems extends StatelessWidget {
                           },
                         )
                       : Container(),
-                  (currentUser.userRole == 'researcher')
+                  (currentUser.userRole == 'sponsor')
+                      ? ListTile(
+                          leading: Icon(Icons.dashboard),
+                          title: Text('Dashboard'),
+                          enabled: true,
+                          onTap: () {
+                            // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                            // Update the state of the app.
+                            // ...
+
+                            Navigator.of(context)
+                                .popAndPushNamed(SponsorDashboard.id);
+                          },
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'investor')
+                      ? ListTile(
+                          leading: Icon(Icons.dashboard),
+                          title: Text('Dashboard'),
+                          enabled: true,
+                          onTap: () {
+                            // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                            // Update the state of the app.
+                            // ...
+
+                            Navigator.of(context)
+                                .popAndPushNamed(InvestorDashboard.id);
+                          },
+                        )
+                      : Container(),
+                  ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Profile'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(Profile.id);
+                      // Update the state of the app.
+                      // ...
+                    },
+                  ),
+                  (currentUser.userRole == 'researcher' ||
+                          currentUser.userRole == 'admin')
                       ? ListTile(
                           leading: Icon(FontAwesomeIcons.database),
                           title: Text('Repository'),
@@ -94,57 +136,88 @@ class DrawerItems extends StatelessWidget {
                           },
                         )
                       : Container(),
+
+                  (currentUser.userRole == 'researcher' ||
+                          currentUser.userRole == 'admin')
+                      ? CustomExpansionTile(
+                          title: Text('Grants & Funding'),
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.import_contacts),
+                              title: Text('Grants'),
+                              onTap: () {
+                                // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(Grants.id);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.handHoldingUsd),
+                              title: Text('Crowd Funding'),
+                              onTap: () {
+                                // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(CrowdFunding.id);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.laptopCode),
+                              title: Text('ICT Works'),
+                              onTap: () {
+                                // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(IctWorks.id);
+                              },
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'admin')
+                      ? CustomExpansionTile(
+                          title: Text('Manage'),
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.import_contacts),
+                              title: Text('Researchers'),
+                              onTap: () {
+                                // ...
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.user),
+                              title: Text('Administrators'),
+                              onTap: () {
+                                // ...
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.school),
+                              title: Text('Institution'),
+                              onTap: () {
+                                // ...
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.boxOpen),
+                              title: Text('Categories'),
+                              onTap: () {
+                                // ...
+                              },
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  // (currentUser.userRole == 'researcher')?
                   ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text('Profile'),
+                    leading: Icon(FontAwesomeIcons.solidComment),
+                    title: Text('Chat'),
                     onTap: () {
-                      Navigator.of(context).popAndPushNamed(Profile.id);
+                      Navigator.of(context).popAndPushNamed(ChatScreen.id);
                       // Update the state of the app.
                       // ...
                     },
                   ),
-                  CustomExpansionTile(
-                    title: Text('Grants & Funding'),
-                    children: <Widget>[
-                      ListTile(
-                        leading: Icon(Icons.import_contacts),
-                        title: Text('Grants'),
-                        onTap: () {
-                          // ...
-                          Navigator.of(context).popAndPushNamed(Grants.id);
-                        },
-                      ),
-                      ListTile(
-                        leading: Icon(FontAwesomeIcons.handHoldingUsd),
-                        title: Text('Crowd Funding'),
-                        onTap: () {
-                          // ...
-                          Navigator.of(context)
-                              .popAndPushNamed(CrowdFunding.id);
-                        },
-                      ),
-                      ListTile(
-                        leading: Icon(FontAwesomeIcons.laptopCode),
-                        title: Text('ICT Works'),
-                        onTap: () {
-                          // ...
-                          Navigator.of(context).popAndPushNamed(IctWorks.id);
-                        },
-                      ),
-                    ],
-                  ),
-                  (currentUser.userRole == 'researcher')
-                      ? ListTile(
-                          leading: Icon(FontAwesomeIcons.solidComment),
-                          title: Text('Chat'),
-                          onTap: () {
-                            Navigator.of(context)
-                                .popAndPushNamed(ChatScreen.id);
-                            // Update the state of the app.
-                            // ...
-                          },
-                        )
-                      : Container(),
+                  // : Container(),
                   (currentUser.userRole == 'researcher')
                       ? ListTile(
                           leading: Icon(FontAwesomeIcons.textWidth),

@@ -41,8 +41,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   silentLogin() async {
     String savedToken = await _box.getSavedToken();
-    // Map<String, dynamic> data = await _box.getSavedUser();
-    // print(data);
+    var data = await _box.getSavedUser();
+    print(data);
     print(savedToken);
 
     if (savedToken != null) {
@@ -50,10 +50,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
       Timer(Duration(seconds: 4), () {
         Navigator.pushReplacementNamed(context, HomeScreen.id);
-        // print(data);
-
-        // currentUser = UserModel.fromJson(data);
-        // print(data.runtimeType);
+        currentUser = UserModel.fromJson(data);
+        print(currentUser.id);
       });
     } else {
       Navigator.pushReplacementNamed(context, Login.id);

@@ -81,7 +81,7 @@ class UserModel {
       totalUpload: data['totalUploads'] as int,
       specialization: data['specialization'] as List,
       interest: data['interests'] as List,
-      // institution: Institution.fromJson(data['institution']),
+      institution: Institution.fromJson(data['institution']),
     );
   }
 }
@@ -92,7 +92,7 @@ class Institution {
 
   Institution({this.name, this.type});
 
-  factory Institution.fromJson(Map<String, dynamic> data) {
+  factory Institution.fromJson(Map<dynamic, dynamic> data) {
     return Institution(
       name: data['name'] as String,
       type: data['type'] as String,

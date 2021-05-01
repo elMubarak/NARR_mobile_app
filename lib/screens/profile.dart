@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/screens/home.dart';
@@ -79,7 +80,7 @@ class _ProfileState extends State<Profile> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    snapshot.data['fullName'],
+                                    currentUser.userName,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -91,7 +92,7 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    snapshot.data['userRole'],
+                                    currentUser.userRole,
                                   ),
                                 ],
                               ),
@@ -114,7 +115,7 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    snapshot.data['email'],
+                                    currentUser.email,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -133,7 +134,7 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    snapshot.data['institution']['name'],
+                                    currentUser.institution.name ?? '',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -150,7 +151,7 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    snapshot.data['phone'],
+                                    currentUser.phone,
                                   ),
                                 ],
                               ),
@@ -167,7 +168,7 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    snapshot.data['address'],
+                                    currentUser.address,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -186,7 +187,7 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    snapshot.data['dob'],
+                                    currentUser.dateOfBirth,
                                   ),
                                 ],
                               ),
@@ -249,6 +250,7 @@ class _ProfileState extends State<Profile> {
                               itemBuilder: (context, index) {
                                 var onlineUserfullName = onlineUsers
                                     .numberOfUsersOnline[index]['fullName'];
+
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.pushNamed(context, ChatScreen.id);
