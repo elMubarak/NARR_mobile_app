@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:narr/widgets/menu_drawer.dart';
@@ -19,7 +20,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
       ),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color(0xff00a368),
+        backgroundColor: determinePrimaryColor(context),
         centerTitle: true,
         actions: [
           IconButton(
@@ -52,7 +53,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
               padding: EdgeInsets.only(left: 15, right: 15),
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color(0xff00a368),
+                color: determinePrimaryColor(context),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),

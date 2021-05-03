@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:narr/widgets/cards.dart';
@@ -17,7 +18,7 @@ class AdminDashBoard extends StatelessWidget {
       ),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color(0xff00a368),
+        backgroundColor: determinePrimaryColor(context),
         centerTitle: true,
         actions: [
           IconButton(
@@ -50,7 +51,7 @@ class AdminDashBoard extends StatelessWidget {
               padding: EdgeInsets.only(left: 15, right: 15),
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color(0xff00a368),
+                color: determinePrimaryColor(context),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),

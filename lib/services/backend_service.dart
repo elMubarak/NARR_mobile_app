@@ -4,9 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/models/user_model.dart';
+import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/screens/investor_dash/investor_dasboard.dart';
 import 'package:narr/screens/ocr_result.dart';
+import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
 import 'package:narr/services/socket_service.dart';
@@ -119,8 +123,8 @@ class NetworkHelper {
 
         //connecting to socket, emitting an even that is sending the local token and userobject to the socket server and listening for events
 
-        //navigating to the home screen
-        Navigator.pushReplacementNamed(context, HomeScreen.id);
+        //navigating to a dasboard
+        determineDasboard(context);
 
         //checking for other status codes
         return data;

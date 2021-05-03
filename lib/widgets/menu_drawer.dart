@@ -15,7 +15,7 @@ import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/screens/repository_list.dart';
-import 'package:narr/screens/sponsor_das/sponsor_dashboard.dart';
+import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
 import 'package:narr/screens/video_conf.dart';
 import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
@@ -31,7 +31,7 @@ class DrawerItems extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: 15),
             height: 100,
-            color: Color(0xff00a368),
+            color: determinePrimaryColor(context),
             child: Center(
               child: Image.asset(
                 'images/narr.png',

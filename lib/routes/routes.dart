@@ -11,7 +11,7 @@ import 'package:narr/screens/register_organisations.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/research_grants_proposal.dart';
 import 'package:narr/screens/splash_screen.dart';
-import 'package:narr/screens/sponsor_das/sponsor_dashboard.dart';
+import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
 import '../screens/about.dart';
 import '../screens/bulk_file_upload.dart';
 import '../screens/chat.dart';

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/provider/app_data.dart';
 import 'package:narr/routes/routes.dart';
 import 'package:narr/screens/splash_screen.dart';
@@ -46,8 +47,8 @@ class _MyAppState extends State<MyApp> {
         title: 'Narr',
         theme: ThemeData(
           primarySwatch: Colors.green,
-          primaryColor: Color(0xff00a368),
-          accentColor: Color(0xff00a368),
+          primaryColor: determinePrimaryColor(context),
+          accentColor: determinePrimaryColor(context),
           visualDensity: VisualDensity.adaptivePlatformDensity,
           brightness: Brightness.light,
         ),

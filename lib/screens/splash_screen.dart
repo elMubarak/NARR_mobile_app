@@ -49,9 +49,8 @@ class _SplashScreenState extends State<SplashScreen> {
       _socketService.connectToEvents(context);
 
       Timer(Duration(seconds: 4), () {
-        Navigator.pushReplacementNamed(context, HomeScreen.id);
         currentUser = UserModel.fromJson(data);
-        print(currentUser.id);
+        determineDasboard(context);
       });
     } else {
       Navigator.pushReplacementNamed(context, Login.id);
