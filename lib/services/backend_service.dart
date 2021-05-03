@@ -124,7 +124,8 @@ class NetworkHelper {
         //connecting to socket, emitting an even that is sending the local token and userobject to the socket server and listening for events
 
         //navigating to a dasboard
-        determineDasboard(context);
+
+        Navigator.pushReplacementNamed(context, determineDasboard(context));
 
         //checking for other status codes
         return data;

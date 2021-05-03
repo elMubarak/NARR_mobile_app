@@ -158,15 +158,20 @@ class _LoginState extends State<Login> {
                                   .then((value) {
                                 currentUser = UserModel.fromJson(
                                     value['payload']['user']);
+                                Navigator.pushReplacementNamed(
+                                    context, determineDasboard(context));
 
                                 _socketService.handleLoginEvent(
                                   token: value['payload']['token'],
                                   user: value['payload']['user'],
                                   context: context,
                                 );
+
                                 setState(() {
                                   isClickable = false;
                                 });
+                                Navigator.pushReplacementNamed(
+                                    context, determineDasboard(context));
                               });
                             }
                             setState(() {});

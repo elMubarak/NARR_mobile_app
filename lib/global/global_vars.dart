@@ -8,18 +8,21 @@ import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
 String userRole = '';
 UserModel currentUser;
 
-void determineDasboard(BuildContext context) {
+String determineDasboard(BuildContext context) {
   if (currentUser != null) {
     if (currentUser.userRole == 'researcher') {
-      Navigator.pushReplacementNamed(context, HomeScreen.id);
+      return HomeScreen.id;
     } else if (currentUser.userRole == 'admin') {
-      Navigator.pushReplacementNamed(context, AdminDashBoard.id);
+      return AdminDashBoard.id;
     } else if (currentUser.userRole == 'investor') {
-      Navigator.pushReplacementNamed(context, InvestorDashboard.id);
+      return InvestorDashboard.id;
     } else if (currentUser.userRole == 'Sponsor') {
-      Navigator.pushReplacementNamed(context, SponsorDashboard.id);
+      return SponsorDashboard.id;
+    } else {
+      return HomeScreen.id;
     }
   }
+  return HomeScreen.id;
 }
 
 Color determinePrimaryColor(context) {
@@ -30,7 +33,7 @@ Color determinePrimaryColor(context) {
       return Colors.lightBlue;
     } else if (currentUser.userRole == 'investor') {
       return Colors.yellow;
-    } else if (currentUser.userRole == 'investor') {
+    } else if (currentUser.userRole == 'Sponsor') {
       return Colors.red;
     }
   } else {

@@ -49,11 +49,10 @@ class DrawerItems extends StatelessWidget {
                           title: Text('Home'),
                           enabled: true,
                           onTap: () {
-                            // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                            Navigator.of(context)
+                                .pushReplacementNamed(HomeScreen.id);
                             // Update the state of the app.
                             // ...
-                            Navigator.popUntil(
-                                context, ModalRoute.withName(HomeScreen.id));
                           },
                         )
                       : Container(),
@@ -64,12 +63,13 @@ class DrawerItems extends StatelessWidget {
                           title: Text('Dashboard'),
                           enabled: true,
                           onTap: () {
-                            // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                            Navigator.of(context)
+                                .pushReplacementNamed(AdminDashBoard.id);
                             // Update the state of the app.
                             // ...
 
-                            Navigator.of(context)
-                                .popAndPushNamed(AdminDashBoard.id);
+                            // Navigator.of(context)
+                            //     .popAndPushNamed(AdminDashBoard.id);
                           },
                         )
                       : Container(),
@@ -82,9 +82,10 @@ class DrawerItems extends StatelessWidget {
                             // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
                             // Update the state of the app.
                             // ...
-
                             Navigator.of(context)
-                                .popAndPushNamed(SponsorDashboard.id);
+                                .pushReplacementNamed(SponsorDashboard.id);
+                            // Navigator.of(context)
+                            //     .popAndPushNamed(SponsorDashboard.id);
                           },
                         )
                       : Container(),
@@ -94,12 +95,13 @@ class DrawerItems extends StatelessWidget {
                           title: Text('Dashboard'),
                           enabled: true,
                           onTap: () {
-                            // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                            Navigator.of(context)
+                                .pushReplacementNamed(InvestorDashboard.id);
                             // Update the state of the app.
                             // ...
 
-                            Navigator.of(context)
-                                .popAndPushNamed(InvestorDashboard.id);
+                            // Navigator.of(context)
+                            //     .popAndPushNamed(InvestorDashboard.id);
                           },
                         )
                       : Container(),

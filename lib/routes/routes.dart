@@ -3,6 +3,7 @@ import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/edit_profile.dart';
+import 'package:narr/screens/error_screen.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/ictWorks.dart';
 import 'package:narr/screens/investor_dash/investor_dasboard.dart';
@@ -54,5 +55,6 @@ Map<String, WidgetBuilder> myRoute = {
   RepositoryList.id: (context) => RepositoryList(),
   EditProfile.id: (context) => EditProfile(),
   SplashScreen.id: (context) => SplashScreen(),
-  IctWorks.id: (context) => IctWorks()
+  IctWorks.id: (context) => IctWorks(),
+  ErrorNavigation.id: (context) => ErrorNavigation(),
 };

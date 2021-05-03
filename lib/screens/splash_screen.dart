@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
       Timer(Duration(seconds: 4), () {
         currentUser = UserModel.fromJson(data);
-        determineDasboard(context);
+        Navigator.pushReplacementNamed(context, determineDasboard(context));
       });
     } else {
       Navigator.pushReplacementNamed(context, Login.id);
