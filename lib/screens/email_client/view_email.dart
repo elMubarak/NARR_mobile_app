@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/email_client/email_list.dart';
 
 class ViewEmail extends StatelessWidget {
@@ -10,6 +11,7 @@ class ViewEmail extends StatelessWidget {
     bool hasImage = email.isImage;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: determinePrimaryColor(context),
         elevation: 0,
         centerTitle: true,
         title: Text(

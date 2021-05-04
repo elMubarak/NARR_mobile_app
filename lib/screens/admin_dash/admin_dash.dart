@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/email_client/email_list.dart';
@@ -8,11 +9,13 @@ import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/container_card.dart';
 import 'package:narr/widgets/menu_drawer.dart';
 import 'package:narr/widgets/school_dash_card.dart';
+import 'package:narr/widgets/users_online_card.dart';
 
 class AdminDashBoard extends StatelessWidget {
   static const String id = 'AdminDashBoard';
   @override
   Widget build(BuildContext context) {
+    determinePrimaryColor(context);
     return Scaffold(
       drawer: Drawer(
         child: DrawerItems(),
@@ -108,6 +111,25 @@ class AdminDashBoard extends StatelessWidget {
                   // SizedBox(height: 15),
                 ],
               ),
+            ),
+            SizedBox(height: 15),
+            FutureBuilder(
+              future: getStoredUserObject(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return CircularProgressIndicator();
+                }
+                return Observer(builder: (_) {
+                  return UsersOnlineCard(
+                    usersOnline: onlineUsers.numberOfUsersOnline.length,
+                    userName: snapshot.data['fullName'],
+                    userEmail: snapshot.data['email'],
+                    onTap: () {
+                      Navigator.of(context).pushNamed(Profile.id);
+                    },
+                  );
+                });
+              },
             ),
             SizedBox(height: 15),
             Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/email_client/view_email.dart';
 
 import 'compose_email.dart';
@@ -12,8 +13,55 @@ class EmailList extends StatefulWidget {
 class _EmailListState extends State<EmailList> {
   @override
   Widget build(BuildContext context) {
+    determinePrimaryColor(context);
     return Scaffold(
+      endDrawer: Drawer(
+        child: Container(
+          height: 10,
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 15),
+                height: 100,
+                color: determinePrimaryColor(context),
+                child: Center(
+                  child: Text(
+                    'Email Client',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  children: [
+                    ListTile(
+                      title: Text('Inbox'),
+                      trailing: Text('20'),
+                    ),
+                    ListTile(
+                      title: Text('Outbox'),
+                      trailing: Text('2'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
+        backgroundColor: determinePrimaryColor(context),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Icons.arrow_back,
+          ),
+        ),
         title: Text(
           'Email',
           style: TextStyle(color: Colors.white),
@@ -75,6 +123,7 @@ class _EmailListState extends State<EmailList> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: determinePrimaryColor(context),
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(

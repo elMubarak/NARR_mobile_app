@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: chart,
       ),
     );
-
+    determinePrimaryColor(context);
     return Scaffold(
       drawer: Drawer(
         child: DrawerItems(),
