@@ -49,6 +49,8 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.green,
           primaryColor: determinePrimaryColor(context),
           accentColor: determinePrimaryColor(context),
+          appBarTheme:
+              AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
           visualDensity: VisualDensity.adaptivePlatformDensity,
           brightness: Brightness.light,
         ),

@@ -4,9 +4,11 @@ import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/investor_dash/investor_dasboard.dart';
 import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
+import 'package:narr/store/hive_store.dart';
 
 String userRole = '';
 UserModel currentUser;
+HiveBox _box = HiveBox();
 
 String determineDasboard(BuildContext context) {
   if (currentUser != null) {
@@ -40,4 +42,10 @@ Color determinePrimaryColor(context) {
     return Color(0xff00a368);
   }
   return Color(0xff00a368);
+}
+
+//
+Future getStoredUserObject() async {
+  Map<String, dynamic> savedUser = await _box.getSavedUser();
+  return savedUser;
 }

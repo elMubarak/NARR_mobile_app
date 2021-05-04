@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/provider/online_users_mobx.dart';
 import 'package:narr/provider/reading_history_mobx.dart';
+import 'package:narr/screens/email_client/email_list.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/cards.dart';
@@ -10,7 +12,6 @@ import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
 import 'package:narr/widgets/reading_history_card.dart';
 import 'package:narr/widgets/school_dash_card.dart';
-import 'dart:async';
 import 'package:narr/widgets/menu_drawer.dart';
 import 'package:narr/widgets/suggestion_card.dart';
 import 'package:narr/widgets/trending_card.dart';
@@ -91,11 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    Future getStoredUserObject() async {
-      Map<String, dynamic> savedUser = await _box.getSavedUser();
-      return savedUser;
-    }
-
     return Scaffold(
       drawer: Drawer(
         child: DrawerItems(),
@@ -124,6 +120,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: () async {
               Navigator.pushNamed(context, HomeScreen.id);
+            },
+          ),
+          IconButton(
+            padding: EdgeInsets.all(2),
+            tooltip: 'Email',
+            icon: Icon(
+              Icons.email,
+            ),
+            onPressed: () async {
+              Navigator.pushNamed(context, EmailList.id);
             },
           ),
         ],

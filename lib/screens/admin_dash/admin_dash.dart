@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/global/global_vars.dart';
+import 'package:narr/screens/email_client/email_list.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:narr/widgets/cards.dart';
@@ -40,6 +41,16 @@ class AdminDashBoard extends StatelessWidget {
             ),
             onPressed: () async {
               Navigator.pushNamed(context, HomeScreen.id);
+            },
+          ),
+          IconButton(
+            padding: EdgeInsets.all(2),
+            tooltip: 'Email',
+            icon: Icon(
+              Icons.email,
+            ),
+            onPressed: () async {
+              Navigator.pushNamed(context, EmailList.id);
             },
           ),
         ],

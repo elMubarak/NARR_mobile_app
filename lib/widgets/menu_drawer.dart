@@ -5,6 +5,7 @@ import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
+import 'package:narr/screens/email_client/email_list.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
@@ -220,40 +221,49 @@ class DrawerItems extends StatelessWidget {
                     },
                   ),
                   // : Container(),
-                  (currentUser.userRole == 'researcher')
-                      ? ListTile(
-                          leading: Icon(FontAwesomeIcons.textWidth),
-                          title: Text('Image to Text'),
-                          onTap: () {
-                            Navigator.of(context).popAndPushNamed(OCRScreen.id);
-                            // Update the state of the app.
-                            // ...
-                          },
-                        )
-                      : Container(),
-                  (currentUser.userRole == 'researcher')
-                      ? ListTile(
-                          leading: Icon(Icons.insert_drive_file),
-                          title: Text('Document Conversion'),
-                          onTap: () {
-                            Navigator.of(context)
-                                .popAndPushNamed(ConvertToPDF.id);
-                            // ...
-                          },
-                        )
-                      : Container(),
-                  (currentUser.userRole == 'researcher')
-                      ? ListTile(
-                          leading: Icon(Icons.video_call),
-                          title: Text('Video Conferencing'),
-                          onTap: () {
-                            Navigator.of(context)
-                                .popAndPushNamed(VideoConferenceScreen.id);
-                            // Update the state of the app.
-                            // ...
-                          },
-                        )
-                      : Container(),
+                  // (currentUser.userRole == 'researcher')
+
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.textWidth),
+                    title: Text('Image to Text'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(OCRScreen.id);
+                      // Update the state of the app.
+                      // ...
+                    },
+                  ),
+                  // : Container(),
+                  // (currentUser.userRole == 'researcher')
+                  ListTile(
+                    leading: Icon(Icons.insert_drive_file),
+                    title: Text('Document Conversion'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(ConvertToPDF.id);
+                      // ...
+                    },
+                  ),
+                  // : Container(),
+
+                  ListTile(
+                    leading: Icon(Icons.video_call),
+                    title: Text('Video Conferencing'),
+                    onTap: () {
+                      Navigator.of(context)
+                          .popAndPushNamed(VideoConferenceScreen.id);
+                      // Update the state of the app.
+                      // ...
+                    },
+                  ),
+
+                  ListTile(
+                    leading: Icon(Icons.email),
+                    title: Text('Email Client'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(EmailList.id);
+                      // Update the state of the app.
+                      // ...
+                    },
+                  )
                 ],
               ),
             ),
