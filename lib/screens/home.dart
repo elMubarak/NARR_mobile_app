@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  HiveBox _box = HiveBox();
+  HiveBox box = HiveBox();
   // final _refreshKey = GlobalKey<RefreshIndicatorState>();
   List readingHistoryArry = [];
   // Future<void> getReadingHistory() async {

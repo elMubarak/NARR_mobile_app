@@ -110,8 +110,58 @@ class _OCRScreenState extends State<OCRScreen> {
             ],
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(height: 5),
+              Text(
+                'How To Use',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(height: 5),
+              Divider(),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.green,
+                  ),
+                  SizedBox(width: 5),
+                  Flexible(
+                    child: Text(
+                        'Select image from file or snap the image you wish to get the text from'),
+                  ),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.green,
+                  ),
+                  SizedBox(width: 5),
+                  Flexible(
+                      child: Text(
+                          'Click on the convert botton to extract the text from the image')),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.green,
+                  ),
+                  SizedBox(width: 5),
+                  Flexible(
+                    child:
+                        Text('Your text will be extracted and can be copied'),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Spacer(),
               InkWell(
                 child: Text(
                   'Select Picture Upload Method',
@@ -147,6 +197,8 @@ class _OCRScreenState extends State<OCRScreen> {
                   ),
                 ],
               ),
+              SizedBox(height: 15),
+              Spacer(),
             ],
           ),
         ),
