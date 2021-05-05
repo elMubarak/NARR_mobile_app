@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/models/user_model.dart';
-import 'package:narr/screens/home.dart';
 import 'package:narr/screens/login.dart';
 // import 'package:narr/services/backend_service.dart';
 import 'package:narr/services/socket_service.dart';

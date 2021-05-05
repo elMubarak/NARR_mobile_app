@@ -26,21 +26,25 @@ class _OcrResultState extends State<OcrResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: Text(
+          'OCR Result',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Result',
-                style: TextStyle(
-                  color: Color(0xff00a368),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8),
+              SizedBox(height: 10),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.asset(

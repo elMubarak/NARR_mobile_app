@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/models/repository_model.dart';
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/home.dart';
@@ -8,6 +9,7 @@ import 'package:narr/store/hive_store.dart';
 
 String userRole = '';
 UserModel currentUser;
+RepositoryModel repositoryModel;
 HiveBox _box = HiveBox();
 
 String determineDasboard(BuildContext context) {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
+import 'package:narr/models/repository_model.dart';
 import 'package:narr/screens/single_file_upload.dart';
 import 'package:narr/screens/single_research_repository.dart';
 import 'package:narr/services/backend_service.dart';
+import 'package:narr/services/repository_service.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/menu_drawer.dart';
 
@@ -109,8 +112,8 @@ class _RepositoryListState extends State<RepositoryList> {
         child: DrawerItems(),
       ),
       body: FutureBuilder(
-        future: NetworkHelper(url: researchRepoUrl).getAllResearch(),
-        builder: (context, snapshot) {
+        future: RepoService().getRepositories(),
+        builder: (context, AsyncSnapshot<List<RepositoryModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
@@ -121,45 +124,47 @@ class _RepositoryListState extends State<RepositoryList> {
             );
           }
 
-          final payload = snapshot.data;
-
-          for (var document in payload) {
-            var title = document['researchTitle'];
-            var author = document['authors'];
-            var year = document['year'];
-            var image = document['thumbnail'];
-            var pages = document['nPages'];
-            String id = document['_id'];
-            final courseTitleWidget = ResearchRepositoryCard(
-              imageUrl:
-                  'https://api.narr.ng$image?action=thumbnail&token=$token',
-              researchTitle: title,
-              researchAuthor:
-                  author.toString().replaceAll('[', '').replaceAll(']', ''),
-              researchDate: year,
-              pages: pages,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return ResearchWork(
-                        researchId: id,
-                      );
-                    },
-                  ),
-                );
-              },
-            );
-            contactTitleWidgets.add(courseTitleWidget);
-          }
-          return ListView(
-            children: contactTitleWidgets,
+          // final payload = snapshot.data;
+          // // print(payload);
+          // for (var document in payload) {
+          //   var title = document['researchTitle'];
+          //   var author = document['authors'];
+          //   var year = document['year'];
+          //   var image = document['thumbnail'];
+          //   var pages = document['nPages'];
+          //   String id = document['_id'];
+          //   final courseTitleWidget = ResearchRepositoryCard(
+          //     imageUrl:
+          //         'https://api.narr.ng$image?action=thumbnail&token=$token',
+          //     researchTitle: title,
+          //     researchAuthor:
+          //         author.toString().replaceAll('[', '').replaceAll(']', ''),
+          //     researchDate: year,
+          //     pages: pages,
+          //     onTap: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) {
+          //             return ResearchWork(
+          //               researchId: id,
+          //             );
+          //           },
+          //         ),
+          //       );
+          //     },
+          //   );
+          //   contactTitleWidgets.add(courseTitleWidget);
+          // }
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              return Text(snapshot.data[index].category);
+            },
           );
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        // backgroundColor: Color(0xff00a368),
+        backgroundColor: determinePrimaryColor(context),
         onPressed: () {
           Navigator.of(context).pushNamed(SingleFileUpload.id);
         },

@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
+import 'package:narr/models/repository_model.dart';
 import 'package:narr/models/user_model.dart';
-import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/home.dart';
-import 'package:narr/screens/investor_dash/investor_dasboard.dart';
 import 'package:narr/screens/ocr_result.dart';
-import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
 import 'package:narr/services/socket_service.dart';
@@ -286,6 +284,24 @@ class NetworkHelper {
       });
       String data = response.body;
       var payload = jsonDecode(data)['payload'];
+      return payload;
+    } catch (error) {
+      print("Error getting all researches $error");
+    }
+  }
+
+  Future getResearchRepo() async {
+    String savedToken = await _box.getSavedToken();
+    try {
+      http.Response response = await http.get(url, headers: {
+        'x-token': '$savedToken',
+      });
+      String data = response.body;
+      var payload = jsonDecode(data)['payload'];
+      for (var repo in payload) {
+        repositoryModel = RepositoryModel.fromJson(repo);
+        print(repositoryModel.authors);
+      }
       return payload;
     } catch (error) {
       print("Error getting all researches $error");
