@@ -234,9 +234,6 @@ class NetworkHelper {
       ),
     });
     try {
-      // var responsez = httpClient.send(request);
-
-      // print('the upload token >> $uploadToken and email >> ${userObj}');
       print('Saved user email ${savedUser['email']}');
       response = await dio.post(
         uploadurl,
@@ -276,9 +273,17 @@ class NetworkHelper {
       http.Response response = await http.get(url, headers: {
         'x-token': '$savedToken',
       });
-      String data = response.body;
-      var payload = jsonDecode(data)['payload'];
-      return payload;
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data)['payload'];
+        print(jsonDecode(data));
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
     } catch (error) {
       print("Error getting all researches $error");
     }
@@ -295,10 +300,17 @@ class NetworkHelper {
           'x-token': '$savedToken',
         },
       );
-      var data = response.body;
-      var payload = jsonDecode(data)['payload'];
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data)['payload'];
 
-      return payload;
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
     } catch (e) {
       print("Error getting single research $e");
     }
@@ -366,7 +378,7 @@ class NetworkHelper {
         var res = response.body;
         //decoding response and getting token and user object from response
         var data = jsonDecode(res)['feeds']['payload'];
-        print(data);
+        print(jsonDecode(res));
         return data;
         //checking for other status codes
 

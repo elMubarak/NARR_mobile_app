@@ -33,6 +33,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
     'txt',
     'odt',
     'rft',
+    'xlsx',
   ];
 
   void dropFile() {
