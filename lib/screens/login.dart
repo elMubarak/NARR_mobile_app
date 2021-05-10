@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
+import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/forgotPassword.dart';
 import 'package:narr/screens/register.dart';
+import 'package:narr/screens/register_organisations.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/services/socket_service.dart';
 import 'package:narr/widgets/custom_button.dart';
@@ -153,15 +156,22 @@ class _LoginState extends State<Login> {
                                       password: password,
                                       context: context)
                                   .then((value) {
-                                // print(value['payload']['token']);
+                                currentUser = UserModel.fromJson(
+                                    value['payload']['user']);
+                                Navigator.pushReplacementNamed(
+                                    context, determineDasboard(context));
+
                                 _socketService.handleLoginEvent(
                                   token: value['payload']['token'],
                                   user: value['payload']['user'],
                                   context: context,
                                 );
+
                                 setState(() {
                                   isClickable = false;
                                 });
+                                Navigator.pushReplacementNamed(
+                                    context, determineDasboard(context));
                               });
                             }
                             setState(() {});
@@ -178,7 +188,32 @@ class _LoginState extends State<Login> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Text('Do not have an account'),
+                                  Text('New researcher? '),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Register',
+                                    style: TextStyle(
+                                      color: Color(0xff00a368),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 15.0),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(RegisterOrg.id);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Text('New Organisation? '),
                                   SizedBox(width: 5),
                                   Text(
                                     'Register',

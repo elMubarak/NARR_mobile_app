@@ -49,6 +49,7 @@ class SchoolDashCard extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       (institutionName != null) ? institutionName : '',

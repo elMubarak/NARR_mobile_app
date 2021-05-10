@@ -4,9 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/models/user_model.dart';
+import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/screens/investor_dash/investor_dasboard.dart';
 import 'package:narr/screens/ocr_result.dart';
+import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
 import 'package:narr/services/socket_service.dart';
@@ -21,7 +25,6 @@ Future displayDialog(BuildContext context, String title, String text) =>
       ),
     );
 SocketService _socketService = SocketService();
-dynamic userObj;
 List readingHistoryArr = [];
 
 Dio dio = new Dio();
@@ -108,16 +111,21 @@ class NetworkHelper {
         var res = response.body;
         //decoding response and getting token and user object from response
         var data = jsonDecode(res);
-        var token = data['payload']['token'];
-        var userObj = data['payload']['user'];
+        String token = data['payload']['token'];
+        Map<String, dynamic> userObj =
+            Map<String, dynamic>.from(data['payload']['user']);
 
         //saving the token and user object to local storage
-        await HiveBox().addToBox(token: token, userObj: userObj);
+        //
+        HiveBox().saveToken(token);
+        HiveBox().saveUser(userObj);
+        // await HiveBox().addToBox(token: token, userObj: userObj);
 
         //connecting to socket, emitting an even that is sending the local token and userobject to the socket server and listening for events
 
-        //navigating to the home screen
-        Navigator.pushReplacementNamed(context, HomeScreen.id);
+        //navigating to a dasboard
+
+        Navigator.pushReplacementNamed(context, determineDasboard(context));
 
         //checking for other status codes
         return data;
@@ -148,7 +156,7 @@ class NetworkHelper {
     BuildContext context,
   }) async {
     String uploadurl = url;
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     FormData formdata = FormData.fromMap({
       "image": await MultipartFile.fromFile(
         selectedfile,
@@ -213,8 +221,8 @@ class NetworkHelper {
     BuildContext context,
   }) async {
     String uploadurl = url;
-    dynamic savedUser = await _box.getUser('user');
-    String savedToken = await _box.getUser('token');
+    dynamic savedUser = await _box.getSavedUser();
+    String savedToken = await _box.getSavedToken();
 
     FormData formdata = FormData.fromMap({
       "meta": jsonEncode(<String, String>{
@@ -268,7 +276,7 @@ class NetworkHelper {
   }
 
   Future getAllResearch() async {
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     try {
       http.Response response = await http.get(url, headers: {
         'x-token': '$savedToken',
@@ -291,7 +299,7 @@ class NetworkHelper {
 
   //get one contact
   Future getSingleResearch(String id) async {
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     try {
       http.Response response = await http.get(
         '$url/$id',
@@ -369,7 +377,7 @@ class NetworkHelper {
 
   //get all ict works
   Future getAllIctWorks() async {
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     try {
       http.Response response = await http.get(url, headers: {
         'x-token': '$savedToken',

@@ -26,7 +26,7 @@ class FileConvertHelper {
       String url,
       BuildContext context}) async {
     HiveBox _box = HiveBox();
-    String savedToken = await _box.getUser('token');
+    String savedToken = await _box.getSavedToken();
     try {
       Map<String, String> headers = {"x-token": "$savedToken"};
       final request = http.MultipartRequest('POST', Uri.parse(url));

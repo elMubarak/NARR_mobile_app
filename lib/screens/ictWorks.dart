@@ -38,7 +38,12 @@ class _IctWorksState extends State<IctWorks> {
               return Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (snapshot.hasError) {
+              print('${snapshot.error}');
+            } else if (!snapshot.hasData) {
+              return Text('No Data');
             } else if (snapshot.hasData) {
+              print(data);
               return ListView.separated(
                 itemCount: data.length,
                 separatorBuilder: (BuildContext context, int index) =>
@@ -49,6 +54,7 @@ class _IctWorksState extends State<IctWorks> {
                   var content = tag.split('<p>')[1];
                   var result = content.split('src=')[1];
                   var img = result.split('"')[1];
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -58,7 +64,7 @@ class _IctWorksState extends State<IctWorks> {
                           content: data[index]['contentEncodedSnippet'] ?? "",
                           title: data[index]['title'] ?? "",
                           creator: data[index]['creator'] ?? "",
-                          imgUrl: img,
+                          imgUrl: img ?? '',
                           categories: data[index]['categories'] ?? "",
                           linkUrl: data[index]['link'] ?? "",
                           date: data[index]['isoDate'],
@@ -68,13 +74,10 @@ class _IctWorksState extends State<IctWorks> {
                   );
                 },
               );
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            } else if (!snapshot.hasData) {
-              return Text('No Data');
             } else {
               return Text('No Data');
             }
+            return Text('${snapshot.error}');
           },
         ),
       ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class DropdownHelper {
   String selectedInstitutionType = '';
+  String selectedOrganisationType = '';
+
   String selectedInstitutionName = '';
   String selectedInstitutionCategory = '';
   String selectedCategory = '';

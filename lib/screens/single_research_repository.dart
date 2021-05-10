@@ -19,7 +19,7 @@ class ResearchWork extends StatelessWidget {
 
     var token;
     getToken() async {
-      String savedToken = await _box.getUser('token');
+      String savedToken = await _box.getSavedToken();
       token = savedToken;
     }
 

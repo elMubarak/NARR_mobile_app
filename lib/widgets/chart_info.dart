@@ -4,9 +4,13 @@ class Analytics extends StatelessWidget {
   const Analytics({
     Key key,
     @required this.chartWidget,
+    this.title,
+    this.child,
   }) : super(key: key);
 
   final Padding chartWidget;
+  final String title;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +39,9 @@ class Analytics extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Overview'),
+                    Text(title ?? ''),
                     Text(
-                      '2019',
+                      '2021',
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.5),
                         fontWeight: FontWeight.bold,
@@ -52,23 +56,24 @@ class Analytics extends StatelessWidget {
                 //charts
                 chartWidget,
                 SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ChartInfoG(
-                      color: Colors.red,
-                      info: 'Reading',
+                child ??
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ChartInfoG(
+                          color: Colors.red,
+                          info: 'Reading',
+                        ),
+                        ChartInfoG(
+                          color: Colors.yellow,
+                          info: 'Mention',
+                        ),
+                        ChartInfoG(
+                          color: Colors.green,
+                          info: 'Recomendations',
+                        ),
+                      ],
                     ),
-                    ChartInfoG(
-                      color: Colors.yellow,
-                      info: 'Mention',
-                    ),
-                    ChartInfoG(
-                      color: Colors.green,
-                      info: 'Recomendations',
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
@@ -79,7 +84,7 @@ class Analytics extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'January 15 - Febuary 16',
+                'Febuary 6 - May',
                 style: TextStyle(
                   fontSize: 9,
                   fontWeight: FontWeight.bold,

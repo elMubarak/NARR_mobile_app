@@ -1,17 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/global/global_vars.dart';
+import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
+import 'package:narr/screens/email_client/email_list.dart';
 import 'package:narr/screens/grants.dart';
 import 'package:narr/screens/history.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ictWorks.dart';
+import 'package:narr/screens/investor_dash/investor_dasboard.dart';
 import 'package:narr/screens/login.dart';
 import 'package:narr/screens/ocr.dart';
 import 'package:narr/screens/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/screens/repository_list.dart';
+import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
 import 'package:narr/screens/video_conf.dart';
 import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
@@ -27,7 +32,7 @@ class DrawerItems extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: 15),
             height: 100,
-            color: Color(0xff00a368),
+            color: determinePrimaryColor(context),
             child: Center(
               child: Image.asset(
                 'images/narr.png',
@@ -39,36 +44,68 @@ class DrawerItems extends StatelessWidget {
             child: Container(
               child: ListView(
                 children: [
-                  ListTile(
-                    leading: Icon(Icons.home),
-                    title: Text('Home'),
-                    enabled: true,
-                    onTap: () {
-                      // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
-                      // Update the state of the app.
-                      // ...
-                      Navigator.popUntil(
-                          context, ModalRoute.withName(HomeScreen.id));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(FontAwesomeIcons.database),
-                    title: Text('Repository'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(RepositoryList.id);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.history),
-                    title: Text('Reading List'),
-                    onTap: () {
-                      Navigator.of(context).popAndPushNamed(History.id);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
+                  (currentUser.userRole == 'researcher')
+                      ? ListTile(
+                          leading: Icon(Icons.home),
+                          title: Text('Home'),
+                          enabled: true,
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(HomeScreen.id);
+                            // Update the state of the app.
+                            // ...
+                          },
+                        )
+                      : Container(),
+                  //
+                  (currentUser.userRole == 'admin')
+                      ? ListTile(
+                          leading: Icon(Icons.dashboard),
+                          title: Text('Dashboard'),
+                          enabled: true,
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(AdminDashBoard.id);
+                            // Update the state of the app.
+                            // ...
+
+                            // Navigator.of(context)
+                            //     .popAndPushNamed(AdminDashBoard.id);
+                          },
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'sponsor')
+                      ? ListTile(
+                          leading: Icon(Icons.dashboard),
+                          title: Text('Dashboard'),
+                          enabled: true,
+                          onTap: () {
+                            // Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+                            // Update the state of the app.
+                            // ...
+                            Navigator.of(context)
+                                .pushReplacementNamed(SponsorDashboard.id);
+                            // Navigator.of(context)
+                            //     .popAndPushNamed(SponsorDashboard.id);
+                          },
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'investor')
+                      ? ListTile(
+                          leading: Icon(Icons.dashboard),
+                          title: Text('Dashboard'),
+                          enabled: true,
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(InvestorDashboard.id);
+                            // Update the state of the app.
+                            // ...
+
+                            // Navigator.of(context)
+                            //     .popAndPushNamed(InvestorDashboard.id);
+                          },
+                        )
+                      : Container(),
                   ListTile(
                     leading: Icon(Icons.person),
                     title: Text('Profile'),
@@ -78,36 +115,102 @@ class DrawerItems extends StatelessWidget {
                       // ...
                     },
                   ),
-                  CustomExpansionTile(
-                    title: Text('Grants & Funding'),
-                    children: <Widget>[
-                      ListTile(
-                        leading: Icon(Icons.import_contacts),
-                        title: Text('Grants'),
-                        onTap: () {
-                          // ...
-                          Navigator.of(context).popAndPushNamed(Grants.id);
-                        },
-                      ),
-                      ListTile(
-                        leading: Icon(FontAwesomeIcons.handHoldingUsd),
-                        title: Text('Crowd Funding'),
-                        onTap: () {
-                          // ...
-                          Navigator.of(context)
-                              .popAndPushNamed(CrowdFunding.id);
-                        },
-                      ),
-                      ListTile(
-                        leading: Icon(FontAwesomeIcons.laptopCode),
-                        title: Text('ICT Works'),
-                        onTap: () {
-                          // ...
-                          Navigator.of(context).popAndPushNamed(IctWorks.id);
-                        },
-                      ),
-                    ],
-                  ),
+                  (currentUser.userRole == 'researcher' ||
+                          currentUser.userRole == 'admin')
+                      ? ListTile(
+                          leading: Icon(FontAwesomeIcons.database),
+                          title: Text('Repository'),
+                          onTap: () {
+                            Navigator.of(context)
+                                .popAndPushNamed(RepositoryList.id);
+                            // Update the state of the app.
+                            // ...
+                          },
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'researcher')
+                      ? ListTile(
+                          leading: Icon(Icons.history),
+                          title: Text('Reading List'),
+                          onTap: () {
+                            Navigator.of(context).popAndPushNamed(History.id);
+                            // Update the state of the app.
+                            // ...
+                          },
+                        )
+                      : Container(),
+
+                  (currentUser.userRole == 'researcher' ||
+                          currentUser.userRole == 'admin')
+                      ? CustomExpansionTile(
+                          title: Text('Grants & Funding'),
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.import_contacts),
+                              title: Text('Grants'),
+                              onTap: () {
+                                // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(Grants.id);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.handHoldingUsd),
+                              title: Text('Crowd Funding'),
+                              onTap: () {
+                                // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(CrowdFunding.id);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.laptopCode),
+                              title: Text('ICT Works'),
+                              onTap: () {
+                                // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(IctWorks.id);
+                              },
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  (currentUser.userRole == 'admin')
+                      ? CustomExpansionTile(
+                          title: Text('Manage'),
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.import_contacts),
+                              title: Text('Researchers'),
+                              onTap: () {
+                                // ...
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.user),
+                              title: Text('Administrators'),
+                              onTap: () {
+                                // ...
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.school),
+                              title: Text('Institution'),
+                              onTap: () {
+                                // ...
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(FontAwesomeIcons.boxOpen),
+                              title: Text('Categories'),
+                              onTap: () {
+                                // ...
+                              },
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  // (currentUser.userRole == 'researcher')?
                   ListTile(
                     leading: Icon(FontAwesomeIcons.solidComment),
                     title: Text('Chat'),
@@ -117,6 +220,9 @@ class DrawerItems extends StatelessWidget {
                       // ...
                     },
                   ),
+                  // : Container(),
+                  // (currentUser.userRole == 'researcher')
+
                   ListTile(
                     leading: Icon(FontAwesomeIcons.textWidth),
                     title: Text('Image to Text'),
@@ -126,6 +232,8 @@ class DrawerItems extends StatelessWidget {
                       // ...
                     },
                   ),
+                  // : Container(),
+                  // (currentUser.userRole == 'researcher')
                   ListTile(
                     leading: Icon(Icons.insert_drive_file),
                     title: Text('Document Conversion'),
@@ -134,6 +242,8 @@ class DrawerItems extends StatelessWidget {
                       // ...
                     },
                   ),
+                  // : Container(),
+
                   ListTile(
                     leading: Icon(Icons.video_call),
                     title: Text('Video Conferencing'),
@@ -144,6 +254,16 @@ class DrawerItems extends StatelessWidget {
                       // ...
                     },
                   ),
+
+                  ListTile(
+                    leading: Icon(Icons.email),
+                    title: Text('Email Client'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(EmailList.id);
+                      // Update the state of the app.
+                      // ...
+                    },
+                  )
                 ],
               ),
             ),
