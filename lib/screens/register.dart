@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
@@ -52,6 +54,7 @@ class _RegisterState extends State<Register> {
   List institutionType = [];
   List institutionName = [];
   List institutionCategory = ['Federal', 'State', 'Private', 'Independent'];
+  Map<String, dynamic> institutionObject;
   @override
   void initState() {
     super.initState();
@@ -317,17 +320,17 @@ class _RegisterState extends State<Register> {
                                     style: TextStyle(color: Colors.grey[700]),
                                   ),
                                   isExpanded: true,
-                                  items: institutionName?.map((item) {
-                                        return new DropdownMenuItem(
-                                          child: new Text(item['name']),
-                                          value: item.toString(),
-                                        );
-                                      })?.toList() ??
+                                  items: _dropdownHelper
+                                          .getInstitutionNameDropdownItems(
+                                              institutionName) ??
                                       [],
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _dropdownHelper.selectedInstitutionName =
-                                          value;
+                                  onChanged: (value) async {
+                                    await NetworkHelper(
+                                            url:
+                                                '$serverUrl/institution/getbyname')
+                                        .getSingleInstitutionByName(value)
+                                        .then((value) {
+                                      institutionObject = value;
                                     });
                                   },
                                 ),
@@ -412,22 +415,23 @@ class _RegisterState extends State<Register> {
                                   url: myUrl,
                                 )
                                     .userRegistration(
-                                      email,
-                                      password,
-                                      fname,
-                                      lname,
-                                      dob,
-                                      phone,
-                                      address,
-                                      _dropdownHelper.selectedInstitutionType,
-                                      _dropdownHelper.selectedInstitutionName,
-                                      context,
-                                    )
-                                    .whenComplete(
-                                      () => setState(() {
-                                        isClickable = false;
-                                      }),
-                                    );
+                                  username: email,
+                                  password: password,
+                                  fname: fname,
+                                  lname: lname,
+                                  dob: dob,
+                                  phone: phone,
+                                  address: address,
+                                  institution: institutionObject['institution'],
+                                  // _dropdownHelper.selectedInstitutionType,
+                                  // _dropdownHelper.selectedInstitutionName,
+                                  context: context,
+                                )
+                                    .then((value) {
+                                  setState(() {
+                                    isClickable = false;
+                                  });
+                                });
 
                                 // Navigator.pushNamed(context, VerifyAccount.id);
 

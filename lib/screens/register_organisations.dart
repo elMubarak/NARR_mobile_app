@@ -354,16 +354,14 @@ class _RegisterOrgState extends State<RegisterOrg> {
                                   url: myUrl,
                                 )
                                     .userRegistration(
-                                      email,
-                                      password,
-                                      fname,
-                                      lname,
-                                      dob,
-                                      phone,
-                                      address,
-                                      _dropdownHelper.selectedOrganisationType,
-                                      _dropdownHelper.selectedOrganisationType,
-                                      context,
+                                      username: email,
+                                      password: password,
+                                      fname: fname,
+                                      lname: lname,
+                                      dob: dob,
+                                      phone: phone,
+                                      address: address,
+                                      context: context,
                                     )
                                     .then(
                                       (d) => setState(() {
