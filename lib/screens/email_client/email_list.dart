@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:narr/global/global_vars.dart';
+import 'package:narr/models/email_model.dart';
 import 'package:narr/screens/email_client/view_email.dart';
 
 import 'compose_email.dart';
@@ -69,58 +70,87 @@ class _EmailListState extends State<EmailList> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15.0),
-        child: ListView.builder(
-          itemCount: mockEmails.length,
-          itemBuilder: (context, index) {
-            bool hasImage = mockEmails[index].isImage;
-            String iamge = mockEmails[index].senderImage;
-            String abrv = mockEmails[index].abrv;
+        child: FutureBuilder(
+            future: getEmails(),
+            builder: (context, AsyncSnapshot<List<EmailsModel>> snapshot) {
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  EmailsModel data = snapshot.data[index];
 
-            String icon = hasImage ? iamge : abrv;
-            return ListTile(
-              contentPadding: EdgeInsets.all(10),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ViewEmail(mockEmails[index]),
-                ));
-              },
-              leading: (hasImage == true)
-                  ? CircleAvatar(
-                      backgroundImage: NetworkImage(icon),
-                    )
-                  : CircleAvatar(
-                      child: Text(abrv),
-                      backgroundColor: mockEmails[index].color,
+                  return ListTile(
+                    // selected: selectedEmail.contains(data.to),
+                    tileColor: test.contains(index)
+                        ? Colors.green.withOpacity(0.5)
+                        : Colors.white,
+                    contentPadding: EdgeInsets.all(10),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ViewEmail(data),
+                      ));
+                    },
+                    onLongPress: () {
+                      if (!test.contains(index)) {
+                        setState(() {
+                          test.add(index);
+                        });
+                        print('added');
+                        print(test.length);
+                      } else if (test.contains(index)) {
+                        setState(() {
+                          test.removeWhere((val) => val == index);
+                        });
+                        print('removed');
+                        print(test.length);
+                      }
+                      // if ((selectedEmail.singleWhere(
+                      //         (EmailsModel item) => item.to == data.to,
+                      //         orElse: () => null)) !=
+                      //     null) {
+                      //   print('Already exists!');
+
+                      //   setState(() {
+                      //     selectedEmail.removeWhere(
+                      //         (EmailsModel item) => item.to == data.to);
+                      //   });
+                      // } else {
+                      //   print('Added!');
+                      //   setState(() {
+                      //     selectedEmail.add(data);
+                      //   });
+                      // }
+                    },
+                    leading: CircleAvatar(),
+                    title: Text(
+                      data.from,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-              title: Text(
-                mockEmails[index].sender,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    mockEmails[index].title,
-                    style: TextStyle(
-                      color: Colors.black,
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          data.subject,
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          data.body,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Text(
-                    mockEmails[index].message,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-              trailing: Text(mockEmails[index].dateTime),
-            );
-          },
-        ),
+                    trailing: Text('12:30 a.m'),
+                  );
+                },
+              );
+            }),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: determinePrimaryColor(context),
@@ -136,6 +166,8 @@ class _EmailListState extends State<EmailList> {
     );
   }
 }
+
+List<int> test = <int>[];
 
 class EmailModel {
   final String sender;
