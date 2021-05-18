@@ -6,11 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/models/user_model.dart';
-import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/home.dart';
-import 'package:narr/screens/investor_dash/investor_dasboard.dart';
 import 'package:narr/screens/ocr_result.dart';
-import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
 import 'package:narr/services/socket_service.dart';
@@ -38,7 +35,7 @@ class NetworkHelper {
 
   //registration
 // ignore: missing_return
-  Future<UserRegistrationModel> userRegistration(
+  Future<UserRegistrationModel> userRegistration({
     String username,
     String password,
     String fname,
@@ -46,10 +43,11 @@ class NetworkHelper {
     String dob,
     String phone,
     String address,
-    String institutionType,
-    String institutionName,
+    Map<String, dynamic> institution,
+    // String institutionType,
+    // String institutionName,
     BuildContext context,
-  ) async {
+  }) async {
     try {
       final http.Response response = await http.post(
         url,
@@ -65,10 +63,7 @@ class NetworkHelper {
             "dob": dob,
             "phone": phone,
             "address": address,
-            "institution": {
-              "name": institutionName,
-              "type": institutionType,
-            },
+            "institution": institution,
           },
         ),
       );
@@ -80,12 +75,13 @@ class NetworkHelper {
         Navigator.pushReplacementNamed(context, VerifyAccount.id);
         return UserRegistrationModel.fromData(jsonDecode(response.body));
       } else {
-        displayDialog(context, "An Error Occurred",
-            "${response.statusCode} Failed to create a user");
+        String data = response.body;
+        var message = jsonDecode(data)['message'];
+        displayDialog(context, "Failed ❌", "$message");
         print(response.body);
       }
     } catch (err) {
-      displayDialog(context, "An Error Occurred", "${err.osError.message}");
+      displayDialog(context, "Failed ❌", "An Error Occured");
       print(err);
     }
   }
@@ -133,8 +129,7 @@ class NetworkHelper {
         String data = response.body;
         var message = jsonDecode(data)['message'];
         print(data);
-        displayDialog(
-            context, "An Error Occurred", "${response.statusCode} $message");
+        displayDialog(context, "Failed ❌", "$message");
         return data;
       }
       //loading to false
@@ -186,7 +181,7 @@ class NetworkHelper {
             },
           ),
         );
-        displayDialog(context, "Success",
+        displayDialog(context, "Success ✅",
             "${basename(selectedfile)} file converted successfully");
         //print response from server
       } else {
@@ -194,8 +189,7 @@ class NetworkHelper {
       }
     } catch (err) {
       print(err);
-      displayDialog(
-          context, "An Error Occurred", "Error while converting to text");
+      displayDialog(context, "Failed ❌", "Error while converting to text");
     }
   }
 
@@ -242,9 +236,6 @@ class NetworkHelper {
       ),
     });
     try {
-      // var responsez = httpClient.send(request);
-
-      // print('the upload token >> $uploadToken and email >> ${userObj}');
       print('Saved user email ${savedUser['email']}');
       response = await dio.post(
         uploadurl,
@@ -258,6 +249,8 @@ class NetworkHelper {
       if (response.statusCode == 200) {
         print(response.statusMessage);
 
+        displayDialog(
+            context, "Success ✅", "${basename(selectedfile)} $alertMessage");
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -266,8 +259,6 @@ class NetworkHelper {
             },
           ),
         );
-        displayDialog(
-            context, "Success", "${basename(selectedfile)} $alertMessage");
         //print response from server
       } else {
         print(response.statusMessage);
@@ -278,21 +269,30 @@ class NetworkHelper {
     }
   }
 
+  //get all researches
   Future getAllResearch() async {
     String savedToken = await _box.getSavedToken();
     try {
       http.Response response = await http.get(url, headers: {
         'x-token': '$savedToken',
       });
-      String data = response.body;
-      var payload = jsonDecode(data)['payload'];
-      return payload;
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data)['payload'];
+        print(jsonDecode(data));
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
     } catch (error) {
       print("Error getting all researches $error");
     }
   }
 
-  //get one contact
+  //get one research
   Future getSingleResearch(String id) async {
     String savedToken = await _box.getSavedToken();
     try {
@@ -303,10 +303,17 @@ class NetworkHelper {
           'x-token': '$savedToken',
         },
       );
-      var data = response.body;
-      var payload = jsonDecode(data)['payload'];
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data)['payload'];
 
-      return payload;
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
     } catch (e) {
       print("Error getting single research $e");
     }
@@ -356,10 +363,29 @@ class NetworkHelper {
       http.Response response = await http.get(url);
       String data = response.body;
       var payload = jsonDecode(data)['institutions']['payload'];
-      print(payload);
       return payload;
     } catch (error) {
       print("Error getting all institution $error");
+    }
+  }
+
+  // get all institution name
+  Future getSingleInstitutionByName(String name) async {
+    try {
+      http.Response response = await http.get('$url?name=$name');
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data);
+
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
+    } catch (e) {
+      print("Error getting single research $e");
     }
   }
 
@@ -374,7 +400,7 @@ class NetworkHelper {
         var res = response.body;
         //decoding response and getting token and user object from response
         var data = jsonDecode(res)['feeds']['payload'];
-        print(data);
+        print(jsonDecode(res));
         return data;
         //checking for other status codes
 
@@ -386,6 +412,113 @@ class NetworkHelper {
       }
     } catch (error) {
       print("Error getting all ict works $error");
+    }
+  }
+
+  //get all mails
+  Future getAllMail() async {
+    String savedToken = await _box.getSavedToken();
+    try {
+      http.Response response = await http.get(url, headers: {
+        'x-token': '$savedToken',
+      });
+      if (response.statusCode == 200) {
+        var res = response.body;
+        //decoding response and getting token and user object from response
+        var data = jsonDecode(res);
+        print(jsonDecode(res));
+        return data;
+        //checking for other status codes
+
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
+    } catch (error) {
+      print("Error getting all mails $error");
+    }
+  }
+
+  //get single mail
+  Future getSingleMail(String id) async {
+    String savedToken = await _box.getSavedToken();
+    try {
+      http.Response response = await http.get(
+        '$url/$id',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-token': '$savedToken',
+        },
+      );
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data);
+
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
+    } catch (e) {
+      print("Error getting single research $e");
+    }
+  }
+
+  //send a mail
+  Future sendMail(
+      {Response response,
+      String attachmentfile,
+      String from,
+      String to,
+      String subject,
+      String cc,
+      String bcc,
+      BuildContext context}) async {
+    String uploadurl = url;
+
+    String savedToken = await _box.getSavedToken();
+
+    FormData formdata = FormData.fromMap({
+      "meta": jsonEncode(<String, String>{
+        "researchTitle": "$from",
+        "authors": "$to",
+        "category": "$subject",
+        'genre': "$cc",
+        'accessType': "$bcc",
+      }),
+      "file": await MultipartFile.fromFile(
+        attachmentfile,
+        filename: basename(attachmentfile),
+      ),
+    });
+    try {
+      response = await dio.post(
+        uploadurl,
+        data: formdata,
+        // onSendProgress: onSendProgress,
+        options: Options(headers: {
+          'x-token': '$savedToken',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        var data = response.data;
+        var payload = jsonDecode(data);
+        print(payload);
+        return payload;
+      } else {
+        String data = response.data;
+        print(data);
+
+        return data;
+      }
+    } catch (err) {
+      displayDialog(context, "Failed ❌", "Error Sending mail");
+      print(err);
     }
   }
 }

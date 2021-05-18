@@ -78,6 +78,19 @@ class DropdownHelper {
     return dropdowmItems;
   }
 
+  List<DropdownMenuItem> getInstitutionNameDropdownItems(List institutionName) {
+    List<DropdownMenuItem<dynamic>> dropdowmItems = [];
+
+    for (var name in institutionName) {
+      var newItem = DropdownMenuItem(
+        child: Text(name['name']),
+        value: name['name'],
+      );
+      dropdowmItems.add(newItem);
+    }
+    return dropdowmItems;
+  }
+
   List<DropdownMenuItem> getUniversityName() {
     List<DropdownMenuItem<String>> dropdowmItems = [];
 
