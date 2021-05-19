@@ -521,4 +521,54 @@ class NetworkHelper {
       print(err);
     }
   }
+
+  //admin routes
+
+  //getting all registered users
+  Future getAllRegisteredUser() async {
+    String savedToken = await _box.getSavedToken();
+    try {
+      http.Response response = await http.get(url, headers: {
+        'x-token': '$savedToken',
+      });
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data)['payload'];
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
+    } catch (error) {
+      print("Error getting all researches $error");
+    }
+  }
+
+  //get one research
+  Future getSingleRegisteredUser(String id) async {
+    String savedToken = await _box.getSavedToken();
+    try {
+      http.Response response = await http.get(
+        '$url/$id',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-token': '$savedToken',
+        },
+      );
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data)['payload'];
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
+    } catch (e) {
+      print("Error getting single research $e");
+    }
+  }
 }
