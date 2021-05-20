@@ -150,7 +150,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                         'https://zenprospect-production.s3.amazonaws.com/uploads/pictures/5eda650bfbfd210001258bb3/picture',
                     institutionName: 'Tetiary Educational Fund',
                     institutionAcronym: 'TETFUND',
-                    studentNo: 1202,
+                    institutionType: currentUser.institution.type,
                     onTap: () {},
                   ),
                   // SizedBox(height: 15),

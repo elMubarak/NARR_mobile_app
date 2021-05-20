@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:narr/configs.dart';
-import 'package:narr/global/global_vars.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 
@@ -252,7 +252,7 @@ class _SingleresearcherState extends State<Singleresearcher> {
                         Row(
                           children: [
                             Image.network(
-                              'https://api.narr.ng${user['institution']['logo']}',
+                              '$baseUrl${user['institution']['logo']}',
                               width: 60,
                             ),
                             SizedBox(width: 5),
@@ -322,6 +322,32 @@ class _SingleresearcherState extends State<Singleresearcher> {
             ),
           );
         },
+      ),
+      floatingActionButton: SpeedDial(
+        child: Icon(
+          Icons.person,
+          color: Colors.white,
+        ),
+        activeIcon: Icons.close,
+        backgroundColor: Colors.blue,
+        children: [
+          SpeedDialChild(
+            child: Icon(
+              Icons.person_remove,
+              color: Colors.white,
+            ),
+            label: 'Remove',
+            backgroundColor: Colors.red,
+          ),
+          SpeedDialChild(
+            child: Icon(
+              Icons.how_to_reg,
+              color: Colors.white,
+            ),
+            label: 'Activate',
+            backgroundColor: Colors.green,
+          ),
+        ],
       ),
     );
   }

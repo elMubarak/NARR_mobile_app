@@ -107,6 +107,7 @@ class NetworkHelper {
         var res = response.body;
         //decoding response and getting token and user object from response
         var data = jsonDecode(res);
+        // print(data);
         String token = data['payload']['token'];
         Map<String, dynamic> userObj =
             Map<String, dynamic>.from(data['payload']['user']);
@@ -279,7 +280,6 @@ class NetworkHelper {
       if (response.statusCode == 200) {
         var data = response.body;
         var payload = jsonDecode(data)['payload'];
-        print(jsonDecode(data));
         return payload;
       } else {
         String data = response.body;

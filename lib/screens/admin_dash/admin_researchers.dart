@@ -20,6 +20,7 @@ class _ResearchersState extends State<Researchers> {
           'All Researchers',
           style: TextStyle(color: Colors.white),
         ),
+        backgroundColor: Colors.blue,
       ),
       body: FutureBuilder(
         future: NetworkHelper(url: myUrl).getAllRegisteredUser(),
@@ -66,6 +67,7 @@ class _ResearchersState extends State<Researchers> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
         child: Icon(
           Icons.person_add,
           color: Colors.white,

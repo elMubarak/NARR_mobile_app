@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/provider/online_users_mobx.dart';
 import 'package:narr/provider/reading_history_mobx.dart';
@@ -177,11 +178,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   SizedBox(height: 25),
                   SchoolDashCard(
-                    institutionLogo:
-                        'https://banner2.cleanpng.com/20180423/ohw/kisspng-ahmadu-bello-university-kano-higher-education-scho-university-logo-5addf5f3546bc3.9903414015244958593458.jpg',
-                    institutionName: 'Ahmadu Bello University,Zaria',
-                    institutionAcronym: 'ABU',
-                    studentNo: 1202,
+                    institutionLogo: '$baseUrl${currentUser.institution.logo}',
+                    institutionName: currentUser.institution.name,
+                    institutionAcronym: currentUser.institution.acronym,
+                    institutionType: currentUser.institution.type,
                     onTap: () {},
                   ),
                   // SizedBox(height: 15),
