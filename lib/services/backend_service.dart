@@ -267,6 +267,7 @@ class NetworkHelper {
         displayDialog(
             context, "Success", "${basename(selectedfile)} $alertMessage");
         //print response from server
+        SocketService().documentUploadProccess();
       } else {
         print(response.statusMessage);
       }

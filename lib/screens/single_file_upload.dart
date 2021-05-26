@@ -5,6 +5,7 @@ import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/screens/upload_progress.dart';
 import 'package:narr/widgets/dropdown_container.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
@@ -371,6 +372,9 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                     }),
                                   );
                             }
+                            // next screen
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => UploadProcessProgress()));
                           },
                         ),
                       ],

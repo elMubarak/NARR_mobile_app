@@ -178,10 +178,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 25),
                   SchoolDashCard(
                     institutionLogo:
-                        'https://banner2.cleanpng.com/20180423/ohw/kisspng-ahmadu-bello-university-kano-higher-education-scho-university-logo-5addf5f3546bc3.9903414015244958593458.jpg',
-                    institutionName: 'Ahmadu Bello University,Zaria',
-                    institutionAcronym: 'ABU',
-                    studentNo: 1202,
+                        'https://narr.ng${currentUser.institution.logo}',
+                    institutionName: currentUser.institution.name,
+                    institutionAcronym: currentUser.institution.acronym,
+                    // studentNo: 1202,
                     onTap: () {},
                   ),
                   // SizedBox(height: 15),

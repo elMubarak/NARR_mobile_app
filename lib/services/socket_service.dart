@@ -72,6 +72,7 @@ class SocketService {
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
         //decodeing the response gotten from the server
         final decodedData = jsonDecode(data);
+        // print(decodedData);
 
         //saving the response to mobX
         usersOnlineArray = decodedData['usersOnline'];
@@ -79,6 +80,14 @@ class SocketService {
 
         //listening for an event called EVENT:USER:LOGIN
         socket.on('EVENT:USER:LOGIN', (data) {
+          // final decodedData = jsonDecode(data);
+          // print('logged in $decodedData');
+          //
+          socket.on('EVENT:RESEARCH:PROCESSING', (data) {
+            print('Research processing  $data');
+            return data;
+          });
+
           // var res = jsonDecode(data);
           // String fullName = res['fullName'];
           // String emailSent = savedUser['email'];
@@ -127,6 +136,8 @@ class SocketService {
           }
         }
       });
+      // handleSignupEvent(user);
+      documentUploadProccess();
     } catch (err) {
       print('Error >>> $err');
     }
@@ -143,7 +154,7 @@ class SocketService {
   void handleSignupEvent(user) {
     try {
       socket.on('EVENT:USER:SIGNUP', (data) {
-        print('Event  $data');
+        print('Event Sign up $data');
         return data;
       });
     } catch (err) {
@@ -156,6 +167,7 @@ class SocketService {
     try {
       socket.on('EVENT:RESEARCH:NEW', (data) {
         print('Research upload event $data');
+        documentUploadProccess();
         return data;
       });
     } catch (e) {
@@ -165,5 +177,27 @@ class SocketService {
 
   void disconnectFromServer() {
     socket.close();
+  }
+
+  void documentUploadProccess() {
+    try {
+      socket.on('EVENT:RESEARCH:PROCESSING', (data) {
+        print('Research processing  $data');
+        return data;
+      });
+    } catch (e) {
+      print('Error ==> $e');
+    }
+  }
+
+  void documentQueue() {
+    try {
+      socket.on('EVENT:DOCUMENT:QUEUE', (data) {
+        print('Research processing  $data');
+        return data;
+      });
+    } catch (e) {
+      print('Error ==> $e');
+    }
   }
 }

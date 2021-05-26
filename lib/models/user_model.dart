@@ -44,6 +44,7 @@ class UserModel {
   final String phone;
   final String address;
   final String dateOfBirth;
+
   final Institution institution;
   final String userType;
   final String userRole;
@@ -51,11 +52,13 @@ class UserModel {
   final int totalUpload;
   final List specialization;
   final List interest;
+  final dynamic lastLogin;
 
   UserModel(
       {this.id,
       this.userName,
       this.email,
+      this.lastLogin,
       this.phone,
       this.address,
       this.dateOfBirth,
@@ -78,6 +81,7 @@ class UserModel {
       status: data['status'] as String,
       userRole: data['userRole'] as String,
       userType: data['userType'] as String,
+      lastLogin: data['lastLoggedIn'] as dynamic,
       totalUpload: data['totalUploads'] as int,
       specialization: data['specialization'] as List,
       interest: data['interests'] as List,
@@ -89,13 +93,29 @@ class UserModel {
 class Institution {
   final String name;
   final String type;
+  final String acronym;
+  final String ownerShip;
+  final String logo;
+  final String url;
+  final String year;
 
-  Institution({this.name, this.type});
+  Institution(
+      {this.acronym,
+      this.ownerShip,
+      this.logo,
+      this.url,
+      this.year,
+      this.name,
+      this.type});
 
   factory Institution.fromJson(Map<dynamic, dynamic> data) {
     return Institution(
       name: data['name'] as String,
       type: data['type'] as String,
+      acronym: data['acronym'] as String,
+      url: data['url'] as String,
+      year: data['year'] as String,
+      logo: data['logo'] as String,
     );
   }
 }
