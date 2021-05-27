@@ -352,7 +352,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                     selectedfile:
                                         _filePickerHelper.selectedfile,
                                     onSendProgress: onSendProgress,
-                                    trancitionedScreen: HomeScreen(),
+                                    trancitionedScreen: UploadProcessProgress(),
                                     researchTitle: researchTitle,
                                     authors: authors,
                                     category: _dropdownHelper.selectedCategory,
@@ -373,8 +373,6 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                   );
                             }
                             // next screen
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => UploadProcessProgress()));
                           },
                         ),
                       ],

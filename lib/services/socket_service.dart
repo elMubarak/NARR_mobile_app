@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
+import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -83,10 +85,6 @@ class SocketService {
           // final decodedData = jsonDecode(data);
           // print('logged in $decodedData');
           //
-          socket.on('EVENT:RESEARCH:PROCESSING', (data) {
-            print('Research processing  $data');
-            return data;
-          });
 
           // var res = jsonDecode(data);
           // String fullName = res['fullName'];
@@ -106,6 +104,10 @@ class SocketService {
 
           onlineUsers.getNumberOfUsersOnline(result);
           print(onlineUsers.numberOfUsersOnline.length);
+          // socket.on('EVENT:DOCUMENT:QUEUE', (data) {
+          //   print('all queue  $data');
+          //   return data;
+          // });
 
           // String message;
           // if (emailSent == emailRecieved) {
@@ -137,7 +139,7 @@ class SocketService {
         }
       });
       // handleSignupEvent(user);
-      documentUploadProccess();
+      // documentUploadProccess();
     } catch (err) {
       print('Error >>> $err');
     }
@@ -180,10 +182,17 @@ class SocketService {
   }
 
   void documentUploadProccess() {
+    print('called');
     try {
       socket.on('EVENT:RESEARCH:PROCESSING', (data) {
         print('Research processing  $data');
-        return data;
+        dynamic decodedData = jsonDecode(data);
+        ProcessModel newProcces = ProcessModel.fromJson(decodedData);
+
+        processes.add(newProcces);
+        print(processes[0].percentage);
+
+        return decodedData;
       });
     } catch (e) {
       print('Error ==> $e');

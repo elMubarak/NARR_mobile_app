@@ -90,6 +90,23 @@ class UserModel {
   }
 }
 
+class ProcessModel {
+  final String id;
+  final String stage;
+  final String status;
+  final int percentage;
+
+  ProcessModel({this.id, this.stage, this.status, this.percentage});
+  factory ProcessModel.fromJson(Map<dynamic, dynamic> data) {
+    return ProcessModel(
+      id: data['id'] as String,
+      stage: data['stage'] as String,
+      status: data['status'] as String,
+      percentage: data['percentage'] as int,
+    );
+  }
+}
+
 class Institution {
   final String name;
   final String type;

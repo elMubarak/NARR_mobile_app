@@ -10,6 +10,8 @@ import 'package:narr/store/hive_store.dart';
 String userRole = '';
 UserModel currentUser;
 RepositoryModel repositoryModel;
+ProcessModel currentProccess;
+List<ProcessModel> processes = <ProcessModel>[];
 HiveBox _box = HiveBox();
 
 String determineDasboard(BuildContext context) {

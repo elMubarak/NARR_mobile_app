@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 
 class UploadProcessProgress extends StatefulWidget {
@@ -9,19 +10,6 @@ class UploadProcessProgress extends StatefulWidget {
 }
 
 class _UploadProcessProgressState extends State<UploadProcessProgress> {
-  List<ProcessesData> processes = <ProcessesData>[];
-  @override
-  void initState() {
-    processes.add(ProcessesData(
-      proccessName: 'testing',
-      processStatus: 'Processing',
-      isProccessing: true,
-      done: false,
-    ));
-    super.initState();
-  }
-
-  bool isDone1 = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,11 +45,11 @@ class _UploadProcessProgressState extends State<UploadProcessProgress> {
                   final int steps = index + 1;
 
                   return ProcessesContainer(
+                    isDone: false,
+                    isStart: false,
                     step: steps.toString(),
-                    isStart: processes[index].isProccessing,
-                    isDone: processes[index].done,
-                    proccessName: processes[index].proccessName,
-                    stage: processes[index].processStatus,
+                    proccessName: processes[index].status,
+                    stage: processes[index].stage,
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {

@@ -9,6 +9,7 @@ import 'package:narr/models/repository_model.dart';
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
+import 'package:narr/screens/upload_progress.dart';
 import 'package:narr/screens/verify_email.dart';
 import 'package:path/path.dart';
 import 'package:narr/services/socket_service.dart';
@@ -255,6 +256,7 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         print(response.statusMessage);
+        SocketService().documentUploadProccess();
 
         Navigator.pushReplacement(
           context,
@@ -267,7 +269,6 @@ class NetworkHelper {
         displayDialog(
             context, "Success", "${basename(selectedfile)} $alertMessage");
         //print response from server
-        SocketService().documentUploadProccess();
       } else {
         print(response.statusMessage);
       }

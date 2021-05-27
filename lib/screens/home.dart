@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // }
 
   Widget build(BuildContext context) {
+    print(processes.length);
     // getReadingHistory();
     //
     // showSimpleFlushbar(context: context, message: message);
