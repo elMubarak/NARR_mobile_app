@@ -358,7 +358,7 @@ class NetworkHelper {
     }
   }
 
-  // get all institution name
+  // get all institution
   Future getInstitutionName() async {
     try {
       http.Response response = await http.get(url);
@@ -370,7 +370,7 @@ class NetworkHelper {
     }
   }
 
-  // get all institution name
+  // get all institution by name
   Future getSingleInstitutionByName(String name) async {
     try {
       http.Response response = await http.get('$url?name=$name');

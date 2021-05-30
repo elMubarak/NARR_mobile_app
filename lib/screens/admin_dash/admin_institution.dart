@@ -81,9 +81,19 @@ class _AllInstitutionState extends State<AllInstitution> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
-        child: Icon(
-          Icons.school_sharp,
-          color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.school_sharp,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 11,
+            ),
+          ],
         ),
         onPressed: null,
       ),

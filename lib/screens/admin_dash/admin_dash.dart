@@ -274,6 +274,7 @@ class QueueManagerContainer extends StatelessWidget {
                       ),
                       child: Icon(
                         FontAwesomeIcons.rocket,
+                        size: 20,
                         color: Color(0xff00a368),
                       ),
                     ),
@@ -300,6 +301,7 @@ class QueueManagerContainer extends StatelessWidget {
                       ),
                       child: Icon(
                         FontAwesomeIcons.history,
+                        size: 20,
                         color: Color(0xffd54b02),
                       ),
                     ),
@@ -330,6 +332,7 @@ class QueueManagerContainer extends StatelessWidget {
                       ),
                       child: Icon(
                         Icons.check,
+                        size: 20,
                         color: Color(0xff221173),
                       ),
                     ),
@@ -356,6 +359,7 @@ class QueueManagerContainer extends StatelessWidget {
                       ),
                       child: Icon(
                         Icons.warning,
+                        size: 20,
                         color: Color(0xffc10a00),
                       ),
                     ),

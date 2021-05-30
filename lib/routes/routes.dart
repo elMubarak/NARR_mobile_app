@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/admin_dash/admin_allAdmins.dart';
 import 'package:narr/screens/admin_dash/admin_dash.dart';
 import 'package:narr/screens/admin_dash/admin_institution.dart';
 import 'package:narr/screens/admin_dash/admin_researchers.dart';
@@ -62,5 +63,6 @@ Map<String, WidgetBuilder> myRoute = {
   ErrorNavigation.id: (context) => ErrorNavigation(),
   EmailList.id: (context) => EmailList(),
   Researchers.id: (context) => Researchers(),
+  Administrators.id: (context) => Administrators(),
   AllInstitution.id: (context) => AllInstitution(),
 };
