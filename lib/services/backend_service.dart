@@ -107,6 +107,7 @@ class NetworkHelper {
         var res = response.body;
         //decoding response and getting token and user object from response
         var data = jsonDecode(res);
+        print(data);
         // print(data);
         String token = data['payload']['token'];
         Map<String, dynamic> userObj =

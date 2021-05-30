@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/admin_dash/admin_dash.dart';
+import 'package:narr/screens/admin_dash/admin_institution.dart';
 import 'package:narr/screens/admin_dash/admin_researchers.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
@@ -154,6 +155,8 @@ class DrawerItems extends StatelessWidget {
                               title: Text('Institutions'),
                               onTap: () {
                                 // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(AllInstitution.id);
                               },
                             ),
                           ],

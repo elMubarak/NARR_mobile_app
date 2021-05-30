@@ -14,9 +14,7 @@ class DropdownHelper {
   List<String> institutionType = [
     'University',
     'Polytechnic',
-    'Collage of Education',
-    'Monotechnic',
-    'Independent Researcher'
+    'Collage',
   ];
   List<String> universites = [
     'Ahmadu Bello University',
