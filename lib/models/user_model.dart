@@ -92,11 +92,28 @@ class UserModel {
 class Institution {
   final String name;
   final String type;
+  final String acronym;
+  final String ownership;
+  final String logo;
+  final String year;
+  final String url;
 
-  Institution({this.name, this.type});
+  Institution(
+      {this.acronym,
+      this.ownership,
+      this.logo,
+      this.year,
+      this.url,
+      this.name,
+      this.type});
 
   factory Institution.fromJson(Map<dynamic, dynamic> data) {
     return Institution(
+      acronym: data['acronym'] as String,
+      ownership: data['ownership'] as String,
+      logo: data['logo'] as String,
+      year: data['year'] as String,
+      url: data['url'] as String,
       name: data['name'] as String,
       type: data['type'] as String,
     );

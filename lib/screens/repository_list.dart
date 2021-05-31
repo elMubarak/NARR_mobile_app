@@ -129,6 +129,8 @@ class _RepositoryListState extends State<RepositoryList> {
             var year = document['year'];
             var image = document['thumbnail'];
             var pages = document['nPages'];
+            var categories = document['category'];
+            var genre = document['genre'];
             String id = document['_id'];
             final courseTitleWidget = ResearchRepositoryCard(
               imageUrl:
@@ -136,8 +138,11 @@ class _RepositoryListState extends State<RepositoryList> {
               researchTitle: title,
               researchAuthor:
                   author.toString().replaceAll('[', '').replaceAll(']', ''),
-              researchDate: year,
+              researchYear: year,
               pages: pages,
+              category:
+                  categories.toString().replaceAll('[', '').replaceAll(']', ''),
+              genre: genre,
               onTap: () {
                 Navigator.push(
                   context,
@@ -175,12 +180,14 @@ class ResearchRepositoryCard extends StatelessWidget {
     Key key,
     this.imageUrl,
     this.researchTitle,
-    this.researchDate,
+    this.researchYear,
     this.researchAuthor,
     this.pages,
     this.onTap,
+    this.category,
+    this.genre,
   }) : super(key: key);
-  final String researchTitle, researchDate, imageUrl;
+  final String researchTitle, researchYear, imageUrl, category, genre;
   final int pages;
   final String researchAuthor;
   final Function onTap;
@@ -223,6 +230,13 @@ class ResearchRepositoryCard extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              child: Divider(
+                color: Color(0xff00a368),
+              ),
+            ),
             Container(
               padding: EdgeInsets.all(15),
               child: Column(
@@ -247,25 +261,6 @@ class ResearchRepositoryCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Date Published: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xff1b5e20),
-                            ),
-                          ),
-                          Text(
-                            '$researchDate',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Text(
                             'Authors: ',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -287,6 +282,25 @@ class ResearchRepositoryCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
+                            'Year: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff1b5e20),
+                            ),
+                          ),
+                          Text(
+                            '$researchYear',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Text(
                             'Pages: ',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -295,6 +309,42 @@ class ResearchRepositoryCard extends StatelessWidget {
                           ),
                           Text(
                             '$pages',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Category: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff1b5e20),
+                            ),
+                          ),
+                          Text(
+                            '$category',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Genre: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff1b5e20),
+                            ),
+                          ),
+                          Text(
+                            '$genre',
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],

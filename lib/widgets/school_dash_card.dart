@@ -6,13 +6,15 @@ class SchoolDashCard extends StatelessWidget {
     this.institutionName,
     this.institutionLogo,
     this.institutionAcronym,
-    this.studentNo,
+    this.institutionType,
+    this.year,
     this.onTap,
   }) : super(key: key);
   final String institutionName;
   final String institutionLogo;
   final String institutionAcronym;
-  final int studentNo;
+  final String institutionType;
+  final String year;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
@@ -81,14 +83,14 @@ class SchoolDashCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  (studentNo != null) ? 'Students: $studentNo' : '',
+                  (institutionType != null) ? 'Type: $institutionType' : '',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 10,
                   ),
                 ),
                 Text(
-                  (studentNo != null) ? 'Fr: ' : '',
+                  (year != null) ? 'Year: $year' : '',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 10,

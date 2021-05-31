@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/admin_dash/admin_allAdmins.dart';
 import 'package:narr/screens/admin_dash/admin_dash.dart';
+import 'package:narr/screens/admin_dash/admin_institution.dart';
+import 'package:narr/screens/admin_dash/admin_researchers.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
 import 'package:narr/screens/edit_profile.dart';
@@ -59,4 +62,7 @@ Map<String, WidgetBuilder> myRoute = {
   IctWorks.id: (context) => IctWorks(),
   ErrorNavigation.id: (context) => ErrorNavigation(),
   EmailList.id: (context) => EmailList(),
+  Researchers.id: (context) => Researchers(),
+  Administrators.id: (context) => Administrators(),
+  AllInstitution.id: (context) => AllInstitution(),
 };

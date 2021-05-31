@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
@@ -531,12 +529,12 @@ class _RegisterState extends State<Register> {
   }
 
   Future institutionNameDropdown({String type, String category}) async {
-    await NetworkHelper(url: '$serverUrl/institution/$type/$category')
-        .getAllInstitution()
-        .then((value) {
-      setState(() {
-        institutions = value;
-      });
-    });
+    // await NetworkHelper(url: '$serverUrl/institution/$type/$category')
+    //     .getAllInstitution()
+    //     .then((value) {
+    //   setState(() {
+    //     institutions = value;
+    //   });
+    // });
   }
 }

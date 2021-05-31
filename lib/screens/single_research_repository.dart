@@ -96,7 +96,7 @@ class ResearchWork extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Date Published: ',
+                                  'Year: ',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Flexible(
@@ -196,54 +196,21 @@ class ResearchWork extends StatelessWidget {
                             SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Description: ',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    '${research.data['research']['description']}',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 8,
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                              ],
-                            ),
                             SizedBox(
                               height: 15,
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Reader(
-                                          research.data['research']['_id']);
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    left: 18, right: 18, top: 10, bottom: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Color(0xff00a368),
-                                  ),
-                                  borderRadius: BorderRadius.circular(5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ReadButton(
+                                  title: 'Read',
+                                  id: research.data['research']['_id'],
                                 ),
-                                child: Text(
-                                  'READ',
-                                  style: TextStyle(
-                                    color: Color(0xff00a368),
-                                  ),
+                                ReadButton(
+                                  title: 'Bookmark',
+                                  id: research.data['research']['_id'],
                                 ),
-                              ),
+                              ],
                             ),
                           ],
                         ),
@@ -251,8 +218,32 @@ class ResearchWork extends StatelessWidget {
                     ),
                   ),
                   ContainerWithShadow(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Description',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff00a368),
+                          ),
+                        ),
+                        Divider(
+                          color: Colors.green,
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          '${research.data['research']['description']}',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ContainerWithShadow(
                     child: Container(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Analytics',
@@ -262,6 +253,7 @@ class ResearchWork extends StatelessWidget {
                               color: Color(0xff00a368),
                             ),
                           ),
+                          Divider(color: Colors.green),
                           SizedBox(height: 15),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,7 +270,7 @@ class ResearchWork extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  '${research.data['hits']}',
+                                  '${research.data['research']['hits']}',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 8,
                                 ),
@@ -399,6 +391,42 @@ class ResearchWork extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class ReadButton extends StatelessWidget {
+  const ReadButton({this.id, this.title});
+  final String id, title;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return Reader(id);
+            },
+          ),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.only(left: 18, right: 18, top: 10, bottom: 10),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Color(0xff00a368),
+          ),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Text(
+          title,
+          style: TextStyle(
+            color: Color(0xff00a368),
+          ),
+        ),
+      ),
     );
   }
 }

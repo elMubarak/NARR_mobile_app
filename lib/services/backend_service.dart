@@ -107,6 +107,8 @@ class NetworkHelper {
         var res = response.body;
         //decoding response and getting token and user object from response
         var data = jsonDecode(res);
+        print(data);
+        // print(data);
         String token = data['payload']['token'];
         Map<String, dynamic> userObj =
             Map<String, dynamic>.from(data['payload']['user']);
@@ -279,7 +281,6 @@ class NetworkHelper {
       if (response.statusCode == 200) {
         var data = response.body;
         var payload = jsonDecode(data)['payload'];
-        print(jsonDecode(data));
         return payload;
       } else {
         String data = response.body;
@@ -357,8 +358,8 @@ class NetworkHelper {
     }
   }
 
-  // get all institutions
-  Future<List<dynamic>> getAllInstitution() async {
+  // get all institution
+  Future getInstitutionName() async {
     try {
       http.Response response = await http.get(url);
       String data = response.body;
@@ -370,7 +371,7 @@ class NetworkHelper {
     return ['null'];
   }
 
-  // get all institution name
+  // get all institution by name
   Future getSingleInstitutionByName(String name) async {
     try {
       http.Response response = await http.get('$url?name=$name');
@@ -519,6 +520,56 @@ class NetworkHelper {
     } catch (err) {
       displayDialog(context, "Failed ❌", "Error Sending mail");
       print(err);
+    }
+  }
+
+  //admin routes
+
+  //getting all registered users
+  Future getAllRegisteredUser() async {
+    String savedToken = await _box.getSavedToken();
+    try {
+      http.Response response = await http.get(url, headers: {
+        'x-token': '$savedToken',
+      });
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data)['payload'];
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
+    } catch (error) {
+      print("Error getting all researches $error");
+    }
+  }
+
+  //get one research
+  Future getSingleRegisteredUser(String id) async {
+    String savedToken = await _box.getSavedToken();
+    try {
+      http.Response response = await http.get(
+        '$url/$id',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-token': '$savedToken',
+        },
+      );
+      if (response.statusCode == 200) {
+        var data = response.body;
+        var payload = jsonDecode(data)['payload'];
+        return payload;
+      } else {
+        String data = response.body;
+        print(data);
+
+        return data;
+      }
+    } catch (e) {
+      print("Error getting single research $e");
     }
   }
 }

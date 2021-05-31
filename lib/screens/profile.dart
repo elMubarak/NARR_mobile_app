@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/edit_profile.dart';
@@ -214,6 +215,109 @@ class _ProfileState extends State<Profile> {
                   ),
                   SizedBox(
                     height: 10,
+                  ),
+                  ContainerWithShadow(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Institution Information',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff00a368),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Divider(),
+                        Row(
+                          children: [
+                            Image.network(
+                              '$baseUrl${currentUser.institution.logo}',
+                              width: 60,
+                            ),
+                            SizedBox(width: 5),
+                            Text(currentUser.institution.acronym)
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.school,
+                              size: 20.0,
+                            ),
+                            SizedBox(
+                              width: 4.0,
+                            ),
+                            Text(
+                              currentUser.institution.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.school,
+                              size: 20.0,
+                            ),
+                            SizedBox(
+                              width: 4.0,
+                            ),
+                            Text(
+                              currentUser.institution.type,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.calendar_today,
+                              size: 20.0,
+                            ),
+                            SizedBox(
+                              width: 4.0,
+                            ),
+                            Text(
+                              currentUser.institution.year,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.link,
+                              size: 20.0,
+                            ),
+                            SizedBox(
+                              width: 4.0,
+                            ),
+                            Text(
+                              currentUser.institution.url,
+                              style: TextStyle(color: Colors.blue),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
 
                   Observer(builder: (_) {

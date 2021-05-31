@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/global/global_vars.dart';
+import 'package:narr/screens/admin_dash/admin_allAdmins.dart';
 import 'package:narr/screens/admin_dash/admin_dash.dart';
+import 'package:narr/screens/admin_dash/admin_institution.dart';
+import 'package:narr/screens/admin_dash/admin_researchers.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/convert_to_pdf.dart';
 import 'package:narr/screens/crowd_funding.dart';
@@ -128,6 +131,40 @@ class DrawerItems extends StatelessWidget {
                           },
                         )
                       : Container(),
+                  (currentUser.userRole == 'admin')
+                      ? CustomExpansionTile(
+                          title: Text('Manage'),
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.people),
+                              title: Text('Researchers'),
+                              onTap: () {
+                                // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(Researchers.id);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.person),
+                              title: Text('Administrators'),
+                              onTap: () {
+                                // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(Administrators.id);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.school),
+                              title: Text('Institutions'),
+                              onTap: () {
+                                // ...
+                                Navigator.of(context)
+                                    .popAndPushNamed(AllInstitution.id);
+                              },
+                            ),
+                          ],
+                        )
+                      : Container(),
                   (currentUser.userRole == 'researcher')
                       ? ListTile(
                           leading: Icon(Icons.history),
@@ -175,41 +212,7 @@ class DrawerItems extends StatelessWidget {
                           ],
                         )
                       : Container(),
-                  (currentUser.userRole == 'admin')
-                      ? CustomExpansionTile(
-                          title: Text('Manage'),
-                          children: <Widget>[
-                            ListTile(
-                              leading: Icon(Icons.import_contacts),
-                              title: Text('Researchers'),
-                              onTap: () {
-                                // ...
-                              },
-                            ),
-                            ListTile(
-                              leading: Icon(FontAwesomeIcons.user),
-                              title: Text('Administrators'),
-                              onTap: () {
-                                // ...
-                              },
-                            ),
-                            ListTile(
-                              leading: Icon(FontAwesomeIcons.school),
-                              title: Text('Institution'),
-                              onTap: () {
-                                // ...
-                              },
-                            ),
-                            ListTile(
-                              leading: Icon(FontAwesomeIcons.boxOpen),
-                              title: Text('Categories'),
-                              onTap: () {
-                                // ...
-                              },
-                            ),
-                          ],
-                        )
-                      : Container(),
+
                   // (currentUser.userRole == 'researcher')?
                   ListTile(
                     leading: Icon(FontAwesomeIcons.solidComment),
