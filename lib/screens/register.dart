@@ -50,9 +50,9 @@ class _RegisterState extends State<Register> {
   bool institutonTypeFlag = false;
   bool institutonNameFlag = false;
   DropdownHelper _dropdownHelper = DropdownHelper();
-  List<DropdownMenuItem> item;
+  List<DropdownMenuItem> items;
   List institutionType = [];
-  List institutionName = [];
+  List institutions = [];
   List institutionCategory = ['Federal', 'State', 'Private', 'Independent'];
   Map<String, dynamic> institutionObject;
   @override
@@ -61,6 +61,7 @@ class _RegisterState extends State<Register> {
     institutionTypeDropdown();
   }
 
+  String schoolLogo = 'https://';
   @override
   Widget build(BuildContext context) {
     String dob = '${selectedDate.toLocal()}'.split(' ')[0];
@@ -81,6 +82,12 @@ class _RegisterState extends State<Register> {
                     fontSize: 25,
                     // fontWeight: FontWeight.bold,
                   ),
+                ),
+                SizedBox(height: 15),
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 50,
+                  backgroundImage: NetworkImage(schoolLogo ?? 'https://'),
                 ),
                 SizedBox(height: 15),
                 FormCard(
@@ -250,6 +257,8 @@ class _RegisterState extends State<Register> {
                                 _dropdownHelper.selectedInstitutionType = value;
                                 institutonTypeFlag = true;
                               });
+                              // institutions = null;
+                              // institutionCategory = null;
                             },
                           ),
                         ),
@@ -293,6 +302,7 @@ class _RegisterState extends State<Register> {
                                               .selectedInstitutionCategory);
                                       institutonNameFlag = true;
                                     });
+                                    // institutions = null;
                                   },
                                 ),
                               )
@@ -320,18 +330,39 @@ class _RegisterState extends State<Register> {
                                     style: TextStyle(color: Colors.grey[700]),
                                   ),
                                   isExpanded: true,
-                                  items: _dropdownHelper
-                                          .getInstitutionNameDropdownItems(
-                                              institutionName) ??
+                                  items: institutions.map((e) {
+                                        InstitutionModel gotInstitutions =
+                                            InstitutionModel.fromJson(e);
+                                        return new DropdownMenuItem(
+                                          child: new Text(gotInstitutions.name),
+                                          value:
+                                              gotInstitutions.name.toString(),
+                                        );
+                                      }).toList() ??
                                       [],
                                   onChanged: (value) async {
                                     await NetworkHelper(
                                             url:
                                                 '$serverUrl/institution/getbyname')
                                         .getSingleInstitutionByName(value)
-                                        .then((value) {
-                                      institutionObject = value;
+                                        .then((ins) {
+                                      // print(ins['institution']);
+                                      InstitutionModel model =
+                                          InstitutionModel.fromJson(
+                                              ins['institution']);
+                                      print(model);
+                                      String logos =
+                                          'https://narr.ng${model.logo}';
+                                      institutionObject = ins['institution'];
+                                      print(logos);
+                                      setState(() {
+                                        schoolLogo = logos;
+                                      });
+                                      //
                                     });
+                                    // institutions = null;
+
+                                    // institutionCategory = null;
                                   },
                                 ),
                               )
@@ -492,6 +523,7 @@ class _RegisterState extends State<Register> {
     await NetworkHelper(url: '$serverUrl/institution/types')
         .getInstitutionType()
         .then((value) {
+      print('ins type $value');
       setState(() {
         institutionType = value;
       });
@@ -500,24 +532,11 @@ class _RegisterState extends State<Register> {
 
   Future institutionNameDropdown({String type, String category}) async {
     await NetworkHelper(url: '$serverUrl/institution/$type/$category')
-        .getInstitutionName()
+        .getAllInstitution()
         .then((value) {
       setState(() {
-        institutionName = value;
+        institutions = value;
       });
     });
-  }
-}
-
-class Institution {
-  String name;
-  String type;
-  Institution({this.name, this.type});
-
-  factory Institution.fromJson(Map<String, dynamic> json) {
-    return Institution(
-      name: json['name'],
-      type: json['type'],
-    );
   }
 }
