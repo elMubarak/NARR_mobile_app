@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:narr/global/global_vars.dart';
-import 'package:narr/screens/email_client/email_list.dart';
+import 'package:narr/models/email_model.dart';
 
 class ViewEmail extends StatelessWidget {
-  final EmailModel email;
+  final EmailsModel email;
 
   const ViewEmail(this.email);
   @override
   Widget build(BuildContext context) {
-    bool hasImage = email.isImage;
+    bool hasImage = false;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: determinePrimaryColor(context),
         elevation: 0,
         centerTitle: true,
         title: Text(
-          email.title,
+          email.subject,
           style: TextStyle(color: Colors.white),
         ),
         bottom: PreferredSize(
@@ -25,15 +25,9 @@ class ViewEmail extends StatelessWidget {
                 color: Colors.white,
               ),
               ListTile(
-                leading: hasImage
-                    ? CircleAvatar(
-                        backgroundImage: NetworkImage(email.senderImage),
-                      )
-                    : CircleAvatar(
-                        child: Text(email.abrv),
-                      ),
+                leading: CircleAvatar(),
                 title: Text(
-                  email.sender,
+                  email.from,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -44,7 +38,7 @@ class ViewEmail extends StatelessWidget {
                       color: Colors.white,
                       // fontWeight: FontWeight.bold,
                     )),
-                trailing: Text('${email.dateTime} (ago)',
+                trailing: Text('12 30',
                     style: TextStyle(
                       color: Colors.white,
                     )),
@@ -63,11 +57,11 @@ class ViewEmail extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    email.message,
+                    email.body,
                     style: TextStyle(fontSize: 21),
                   ),
                   SizedBox(height: 100),
-                  Attachment(color: email.color),
+                  Attachment(color: Colors.green),
                 ],
               ),
             ),

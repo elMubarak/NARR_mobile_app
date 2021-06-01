@@ -45,7 +45,8 @@ class UserModel {
   final String address;
   final String dateOfBirth;
   final Institution institution;
-  final String userType;
+  // final String userType;
+  final String narrEmail;
   final String userRole;
   final String status;
   final int totalUpload;
@@ -56,11 +57,12 @@ class UserModel {
       {this.id,
       this.userName,
       this.email,
+      this.narrEmail,
       this.phone,
       this.address,
       this.dateOfBirth,
       this.institution,
-      this.userType,
+      // this.userType,
       this.userRole,
       this.status,
       this.totalUpload,
@@ -77,7 +79,8 @@ class UserModel {
       dateOfBirth: data['dob'] as String,
       status: data['status'] as String,
       userRole: data['userRole'] as String,
-      userType: data['userType'] as String,
+      narrEmail: data['narr_email'] as String,
+      // userType: data['userType'] as String,
       totalUpload: data['totalUploads'] as int,
       specialization: data['specialization'] as List,
       interest: data['interests'] as List,

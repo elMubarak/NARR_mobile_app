@@ -10,7 +10,7 @@ class VideoConferenceScreen extends StatefulWidget {
 
 class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
   InAppWebViewController webViewController;
-  String url = "https://meetings.lvs.ng";
+  String url = "https://meetings.narr.ng";
   double progress = 0;
   bool isWebLoaded = false;
   Future getPermissions() async {

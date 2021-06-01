@@ -346,13 +346,13 @@ class NetworkHelper {
     return researchObj;
   }
 
-  //get all institution type
+  //get all institution cate
   Future getInstitutionType() async {
     try {
       http.Response response = await http.get(url);
       String data = response.body;
       var payload = jsonDecode(data)['institutionTypes']['payload'];
-
+      print(payload);
       return payload;
     } catch (error) {
       print("Error getting all institution $error");
@@ -364,11 +364,12 @@ class NetworkHelper {
     try {
       http.Response response = await http.get(url);
       String data = response.body;
-      var payload = jsonDecode(data)['institutions']['payload'];
+      List<dynamic> payload = jsonDecode(data)['institutions']['payload'];
       return payload;
     } catch (error) {
       print("Error getting all institution $error");
     }
+    return ['null'];
   }
 
   // get all institution by name
@@ -378,7 +379,6 @@ class NetworkHelper {
       if (response.statusCode == 200) {
         var data = response.body;
         var payload = jsonDecode(data);
-
         return payload;
       } else {
         String data = response.body;

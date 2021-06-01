@@ -66,7 +66,7 @@ class DropdownHelper {
   List<DropdownMenuItem> getInstitutionTypeDropdownItems() {
     List<DropdownMenuItem<String>> dropdowmItems = [];
 
-    for (String type in institutionType) {
+    for (var type in institutionType) {
       var newItem = DropdownMenuItem(
         child: Text(type),
         value: type,
@@ -84,6 +84,7 @@ class DropdownHelper {
         child: Text(name['name']),
         value: name['name'],
       );
+
       dropdowmItems.add(newItem);
     }
     return dropdowmItems;
@@ -95,6 +96,8 @@ class DropdownHelper {
     for (String name in universites) {
       var newItem = DropdownMenuItem(child: Text(name), value: name);
       dropdowmItems.add(newItem);
+      //  String logo = name['logo'];
+      // print('https://narr.ng$logo');
     }
     return dropdowmItems;
   }
@@ -105,6 +108,7 @@ class DropdownHelper {
     for (String name in poly) {
       var newItem = DropdownMenuItem(child: Text(name), value: name);
       dropdowmItems.add(newItem);
+      print(name);
     }
     return dropdowmItems;
   }
@@ -119,6 +123,7 @@ class DropdownHelper {
           ),
           value: name);
       dropdowmItems.add(newItem);
+      print(name);
     }
     return dropdowmItems;
   }
@@ -133,7 +138,9 @@ class DropdownHelper {
           ),
           value: name);
       dropdowmItems.add(newItem);
+      print(name);
     }
+
     return dropdowmItems;
   }
 
@@ -201,5 +208,43 @@ class DropdownHelper {
       dropdowmItems.add(newItem);
     }
     return dropdowmItems;
+  }
+}
+
+//TODO: move
+
+//drop down
+
+//model
+class InstitutionModel {
+  final String name;
+  final String acronym;
+  final String url;
+  final String year;
+  final String logo;
+  final String id;
+  final String ownership;
+  final String type;
+
+  InstitutionModel(
+      {this.name,
+      this.acronym,
+      this.url,
+      this.year,
+      this.logo,
+      this.id,
+      this.ownership,
+      this.type});
+  factory InstitutionModel.fromJson(Map<String, dynamic> data) {
+    return InstitutionModel(
+      id: data['_id'] as String,
+      name: data['name'] as String,
+      acronym: data['acronym'] as String,
+      url: data['url'] as String,
+      ownership: data['ownership'] as String,
+      type: data['type'] as String,
+      logo: data['logo'] as String,
+      year: data['year'] as String,
+    );
   }
 }
