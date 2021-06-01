@@ -412,7 +412,7 @@ class _RegisterState extends State<Register> {
                                 });
 
                                 NetworkHelper(
-                                  url: myUrl,
+                                  url: '$mockServerUrl/auth/register',
                                 )
                                     .userRegistration(
                                   username: email,
@@ -423,8 +423,6 @@ class _RegisterState extends State<Register> {
                                   phone: phone,
                                   address: address,
                                   institution: institutionObject['institution'],
-                                  // _dropdownHelper.selectedInstitutionType,
-                                  // _dropdownHelper.selectedInstitutionName,
                                   context: context,
                                 )
                                     .then((value) {
