@@ -44,25 +44,26 @@ class UserModel {
   final String phone;
   final String address;
   final String dateOfBirth;
+
   final Institution institution;
-  // final String userType;
-  final String narrEmail;
+  final String userType;
   final String userRole;
   final String status;
   final int totalUpload;
   final List specialization;
   final List interest;
+  final dynamic lastLogin;
 
   UserModel(
       {this.id,
       this.userName,
       this.email,
-      this.narrEmail,
+      this.lastLogin,
       this.phone,
       this.address,
       this.dateOfBirth,
       this.institution,
-      // this.userType,
+      this.userType,
       this.userRole,
       this.status,
       this.totalUpload,
@@ -79,8 +80,8 @@ class UserModel {
       dateOfBirth: data['dob'] as String,
       status: data['status'] as String,
       userRole: data['userRole'] as String,
-      narrEmail: data['narr_email'] as String,
-      // userType: data['userType'] as String,
+      userType: data['userType'] as String,
+      lastLogin: data['lastLoggedIn'] as dynamic,
       totalUpload: data['totalUploads'] as int,
       specialization: data['specialization'] as List,
       interest: data['interests'] as List,
@@ -89,33 +90,49 @@ class UserModel {
   }
 }
 
+class ProcessModel {
+  final String id;
+  final String stage;
+  final String status;
+  final int percentage;
+
+  ProcessModel({this.id, this.stage, this.status, this.percentage});
+  factory ProcessModel.fromJson(Map<dynamic, dynamic> data) {
+    return ProcessModel(
+      id: data['id'] as String,
+      stage: data['stage'] as String,
+      status: data['status'] as String,
+      percentage: data['percentage'] as int,
+    );
+  }
+}
+
 class Institution {
   final String name;
   final String type;
   final String acronym;
-  final String ownership;
+  final String ownerShip;
   final String logo;
-  final String year;
   final String url;
+  final String year;
 
   Institution(
       {this.acronym,
-      this.ownership,
+      this.ownerShip,
       this.logo,
-      this.year,
       this.url,
+      this.year,
       this.name,
       this.type});
 
   factory Institution.fromJson(Map<dynamic, dynamic> data) {
     return Institution(
-      acronym: data['acronym'] as String,
-      ownership: data['ownership'] as String,
-      logo: data['logo'] as String,
-      year: data['year'] as String,
-      url: data['url'] as String,
       name: data['name'] as String,
       type: data['type'] as String,
+      acronym: data['acronym'] as String,
+      url: data['url'] as String,
+      year: data['year'] as String,
+      logo: data['logo'] as String,
     );
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
+import 'package:narr/widgets/school_dash_card.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';
@@ -30,6 +30,11 @@ class _ProfileState extends State<Profile> {
 
   Widget build(BuildContext context) {
     // print(onlineUsers.numberOfUsersOnline);
+    DateTime date = DateTime.parse(currentUser.lastLogin);
+    DateTime localDate = date.toLocal();
+    String dateSlug =
+        "${localDate.year.toString()}-${localDate.month.toString().padLeft(2, '0')}-${localDate.day.toString().padLeft(2, '0')}, ${localDate.hour}:${localDate.minute}";
+    // print(dateSlug);
     return Scaffold(
       body: FutureBuilder(
         future: getStoredUserObject(),
@@ -108,9 +113,9 @@ class _ProfileState extends State<Profile> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.email,
-                                    size: 20.0,
+                                  CircleAvatar(
+                                    radius: 15,
+                                    child: Icon(Icons.email, size: 20.0),
                                   ),
                                   SizedBox(
                                     width: 4.0,
@@ -127,9 +132,11 @@ class _ProfileState extends State<Profile> {
                               ),
                               Row(
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.domain,
-                                    size: 20.0,
+                                  CircleAvatar(
+                                    radius: 15,
+                                    foregroundImage: NetworkImage(
+                                      'https://narr.ng${currentUser.institution.logo}',
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 4.0,
@@ -144,9 +151,9 @@ class _ProfileState extends State<Profile> {
                               SizedBox(height: 10.0),
                               Row(
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.phone,
-                                    size: 20.0,
+                                  CircleAvatar(
+                                    radius: 15,
+                                    child: Icon(Icons.phone, size: 20.0),
                                   ),
                                   SizedBox(
                                     width: 4.0,
@@ -161,9 +168,9 @@ class _ProfileState extends State<Profile> {
                               ),
                               Row(
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.house,
-                                    size: 20.0,
+                                  CircleAvatar(
+                                    radius: 15,
+                                    child: Icon(Icons.house, size: 20.0),
                                   ),
                                   SizedBox(
                                     width: 4.0,
@@ -180,9 +187,10 @@ class _ProfileState extends State<Profile> {
                               ),
                               Row(
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.calendar_today,
-                                    size: 20.0,
+                                  CircleAvatar(
+                                    radius: 15,
+                                    child:
+                                        Icon(Icons.calendar_today, size: 20.0),
                                   ),
                                   SizedBox(
                                     width: 4.0,
@@ -202,11 +210,27 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    '20 munites ago',
+                                    dateSlug,
                                     style: TextStyle(color: Colors.orange),
                                   ),
                                 ],
                               ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text('Total Upload'),
+                                  SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(
+                                    currentUser.totalUpload.toString(),
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 15),
                             ],
                           ),
                         ),
@@ -215,109 +239,6 @@ class _ProfileState extends State<Profile> {
                   ),
                   SizedBox(
                     height: 10,
-                  ),
-                  ContainerWithShadow(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Institution Information',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff00a368),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Divider(),
-                        Row(
-                          children: [
-                            Image.network(
-                              '$baseUrl${currentUser.institution.logo}',
-                              width: 60,
-                            ),
-                            SizedBox(width: 5),
-                            Text(currentUser.institution.acronym)
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.school,
-                              size: 20.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              currentUser.institution.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.school,
-                              size: 20.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              currentUser.institution.type,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.calendar_today,
-                              size: 20.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              currentUser.institution.year,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.link,
-                              size: 20.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              currentUser.institution.url,
-                              style: TextStyle(color: Colors.blue),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
                   ),
 
                   Observer(builder: (_) {
