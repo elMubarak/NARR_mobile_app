@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SchoolDashCard extends StatelessWidget {
   const SchoolDashCard({
@@ -8,8 +9,14 @@ class SchoolDashCard extends StatelessWidget {
     this.institutionAcronym,
     this.studentNo,
     this.onTap,
+    this.institutionType,
+    this.institutionYear,
+    this.institutionUrl,
   }) : super(key: key);
   final String institutionName;
+  final String institutionType;
+  final String institutionYear;
+  final String institutionUrl;
   final String institutionLogo;
   final String institutionAcronym;
   final int studentNo;
@@ -75,6 +82,45 @@ class SchoolDashCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
+                  SizedBox(height: 16),
+                  Column(
+                    children: [
+                      Text(
+                        (institutionType != null) ? '$institutionType' : '',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      Text(
+                        (institutionYear != null) ? '$institutionYear' : '',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          launch(institutionUrl);
+                        },
+                        child: Text(
+                          (institutionUrl != null) ? '$institutionUrl' : '',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ],
