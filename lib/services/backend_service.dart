@@ -70,6 +70,7 @@ class NetworkHelper {
 
       if (response.statusCode == 200) {
         String data = response.body;
+        print(jsonDecode(data));
         _socketService.handleSignupEvent(jsonDecode(data)['payload']);
 
         Navigator.pushReplacementNamed(context, VerifyAccount.id);
