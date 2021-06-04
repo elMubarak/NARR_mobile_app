@@ -166,4 +166,15 @@ class SocketService {
   void disconnectFromServer() {
     socket.close();
   }
+
+  void trendingEvent() {
+    try {
+      socket.on('EVENT:TRENDING', (data) {
+        print('Trending  event $data');
+        return data;
+      });
+    } catch (e) {
+      print('Error ==> $e');
+    }
+  }
 }

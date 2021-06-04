@@ -26,7 +26,7 @@ class _RegisterState extends State<Register> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
-  String myUrl = '$mubixyMockServer/auth/register';
+  String myUrl = '$serverUrl/auth/register';
   final _formKey = GlobalKey<FormState>();
 
   static DateTime selectedDate = DateTime.now();
@@ -347,7 +347,7 @@ class _RegisterState extends State<Register> {
                                           InstitutionModel.fromJson(
                                               ins['institution']);
                                       String logos =
-                                          'https://narr.ng${model.logo}';
+                                          'https://$baseUrl${model.logo}';
                                       institutionObject = ins['institution'];
                                       print(logos);
                                       setState(() {
@@ -440,7 +440,7 @@ class _RegisterState extends State<Register> {
                                 });
 
                                 NetworkHelper(
-                                  url: '$mubixyMockServer/auth/register',
+                                  url: '$serverUrl/auth/register',
                                 )
                                     .userRegistration(
                                   username: email,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/edit_profile.dart';
@@ -135,7 +136,7 @@ class _ProfileState extends State<Profile> {
                                   CircleAvatar(
                                     radius: 15,
                                     foregroundImage: NetworkImage(
-                                      'https://narr.ng${currentUser.institution.logo}',
+                                      '$baseUrl${currentUser.institution.logo}',
                                     ),
                                   ),
                                   SizedBox(

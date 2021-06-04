@@ -178,8 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   SizedBox(height: 25),
                   SchoolDashCard(
-                    institutionLogo:
-                        'https://narr.ng${currentUser.institution.logo}',
+                    institutionLogo: '$baseUrl${currentUser.institution.logo}',
                     institutionName: currentUser.institution.name,
                     institutionAcronym: currentUser.institution.acronym,
                     institutionType: currentUser.institution.type,

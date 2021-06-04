@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
-  String loginUrl = '$mubixyMockServer/auth/login';
+  String loginUrl = '$serverUrl/auth/login';
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
