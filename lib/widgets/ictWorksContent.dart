@@ -83,13 +83,15 @@ class IctWorksContent extends StatelessWidget {
         ),
         Row(
           children: [
-            RaisedButton(
+            ElevatedButton(
               onPressed: _launchURL,
               child: Text(
                 'Link',
                 style: TextStyle(color: Colors.white),
               ),
-              color: Color(0xff00a368),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xff00a368),
+              ),
             ),
           ],
         ),

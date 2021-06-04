@@ -111,6 +111,7 @@ class _RepositoryListState extends State<RepositoryList> {
       body: FutureBuilder(
         future: NetworkHelper(url: researchRepoUrl).getAllResearch(),
         builder: (context, snapshot) {
+          print(snapshot);
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),

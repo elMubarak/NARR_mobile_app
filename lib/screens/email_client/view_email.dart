@@ -8,7 +8,7 @@ class ViewEmail extends StatelessWidget {
   const ViewEmail(this.email);
   @override
   Widget build(BuildContext context) {
-    bool hasImage = false;
+    // bool hasImage = false;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: determinePrimaryColor(context),

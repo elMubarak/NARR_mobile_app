@@ -7,7 +7,6 @@ import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
-import 'package:narr/widgets/school_dash_card.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';

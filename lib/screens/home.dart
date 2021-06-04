@@ -7,7 +7,6 @@ import 'package:narr/provider/online_users_mobx.dart';
 import 'package:narr/provider/reading_history_mobx.dart';
 import 'package:narr/screens/email_client/email_list.dart';
 import 'package:narr/screens/profile.dart';
-import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
@@ -49,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  HiveBox _box = HiveBox();
+  // HiveBox _box = HiveBox();
   // final _refreshKey = GlobalKey<RefreshIndicatorState>();
   List readingHistoryArry = [];
   // Future<void> getReadingHistory() async {
