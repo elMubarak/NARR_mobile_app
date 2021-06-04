@@ -26,7 +26,7 @@ class _RegisterState extends State<Register> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
-  String myUrl = '$serverUrl/auth/register';
+  String myUrl = '$mubixyMockServer/auth/register';
   final _formKey = GlobalKey<FormState>();
 
   static DateTime selectedDate = DateTime.now();
@@ -329,13 +329,11 @@ class _RegisterState extends State<Register> {
                                   ),
                                   isExpanded: true,
                                   items: institutions.map((e) {
-                                        InstitutionModel gotInstitutions =
-                                            InstitutionModel.fromJson(e);
+                                        // InstitutionModel gotInstitutions =
+                                        //     InstitutionModel.fromJson(e);
+                                        String name = e['name'];
                                         return new DropdownMenuItem(
-                                          child: new Text(gotInstitutions.name),
-                                          value:
-                                              gotInstitutions.name.toString(),
-                                        );
+                                            child: new Text(name), value: name);
                                       }).toList() ??
                                       [],
                                   onChanged: (value) async {
@@ -348,13 +346,14 @@ class _RegisterState extends State<Register> {
                                       InstitutionModel model =
                                           InstitutionModel.fromJson(
                                               ins['institution']);
-                                      print(model);
                                       String logos =
                                           'https://narr.ng${model.logo}';
                                       institutionObject = ins['institution'];
                                       print(logos);
                                       setState(() {
                                         schoolLogo = logos;
+                                        //name
+                                        //type
                                       });
                                       //
                                     });
@@ -441,7 +440,7 @@ class _RegisterState extends State<Register> {
                                 });
 
                                 NetworkHelper(
-                                  url: '$mockServerUrl/auth/register',
+                                  url: '$mubixyMockServer/auth/register',
                                 )
                                     .userRegistration(
                                   username: email,
@@ -450,8 +449,8 @@ class _RegisterState extends State<Register> {
                                   lname: lname,
                                   dob: dob,
                                   phone: phone,
+                                  institution: institutionObject,
                                   address: address,
-                                  institution: institutionObject['institution'],
                                   context: context,
                                 )
                                     .then((value) {
@@ -527,12 +526,13 @@ class _RegisterState extends State<Register> {
   }
 
   Future institutionNameDropdown({String type, String category}) async {
-    // await NetworkHelper(url: '$serverUrl/institution/$type/$category')
-    //     .getAllInstitution()
-    //     .then((value) {
-    //   setState(() {
-    //     institutions = value;
-    //   });
-    // });
+    await NetworkHelper(url: '$serverUrl/institution/$type/$category')
+        .getInstitutionName()
+        .then((value) {
+      setState(() {
+        institutions = value;
+        // print(value);
+      });
+    });
   }
 }

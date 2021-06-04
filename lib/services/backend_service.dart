@@ -264,10 +264,11 @@ class NetworkHelper {
         );
         //print response from server
       } else {
-        print(response.statusMessage);
+        print('ERROR UPLOAD ${response.statusCode} ${response.statusMessage}');
       }
     } catch (err) {
-      displayDialog(context, "An Error Occurred", "Error Uploading Research");
+      displayDialog(context, "${response.statusCode}\n An Error Occurred",
+          "Error Uploading Research");
       print(err);
     }
   }
@@ -350,7 +351,7 @@ class NetworkHelper {
   Future getInstitutionType() async {
     try {
       http.Response response = await http.get(url);
-      String data = response.body;
+      dynamic data = response.body;
       var payload = jsonDecode(data)['institutionTypes']['payload'];
       print(payload);
       return payload;
@@ -363,7 +364,8 @@ class NetworkHelper {
   Future getInstitutionName() async {
     try {
       http.Response response = await http.get(url);
-      String data = response.body;
+      dynamic data = response.body;
+      // print('obj $data');
       List<dynamic> payload = jsonDecode(data)['institutions']['payload'];
       return payload;
     } catch (error) {

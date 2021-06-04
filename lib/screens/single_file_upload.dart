@@ -18,7 +18,7 @@ class SingleFileUpload extends StatefulWidget {
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
   String baseUrl = 'http://192.168.43.219:3000/upload';
-  String uploadUrl = '$serverUrl/research/upload';
+  String uploadUrl = '$mubixyMockServer/research/upload';
 
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   // FileWaterMarkHelper _fileWaterMarkHelper = FileWaterMarkHelper();
