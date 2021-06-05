@@ -10,14 +10,14 @@ class SchoolDashCard extends StatelessWidget {
     this.institutionType,
     this.year,
     this.onTap,
-    this.ownerShip,
+    this.ownership,
     this.url,
-  });
+  }) : super(key: key);
   final String institutionName;
   final String institutionLogo;
   final String institutionAcronym;
   final String institutionType;
-  final String year, ownerShip, url;
+  final String year, ownership, url;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
@@ -89,46 +89,46 @@ class SchoolDashCard extends StatelessWidget {
                   (institutionType != null) ? 'Type: $institutionType' : '',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 10,
+                    fontSize: 12,
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 5),
                 Text(
-                  (year != null) ? 'Year: $year' : '',
+                  (ownership != null) ? 'Ownership: $ownership' : '',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 10,
+                    fontSize: 12,
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 5),
                 Text(
-                  (ownerShip != null) ? 'Ownership: $ownerShip' : '',
+                  (year != null) ? 'Established: $year' : '',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 10,
+                    fontSize: 12,
                   ),
                 ),
-                SizedBox(height: 8),
-                InkWell(
-                  onTap: () => launchURL(url),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Link: ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                        ),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    Text(
+                      'Website: ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
                       ),
-                      Text(
+                    ),
+                    InkWell(
+                      onTap: () => launchURL(url),
+                      child: Text(
                         (url != null) ? '$url' : '',
                         style: TextStyle(
                           color: Colors.blue,
-                          fontSize: 10,
+                          fontSize: 12,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),

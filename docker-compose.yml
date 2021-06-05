@@ -4,12 +4,13 @@ services:
     mongo:
         image: mongo
         ports:
-            - "27017:27017"
+            - "27020:27017"
         environment:
             MONGO_INITDB_ROOT_USERNAME: "musjib"
             MONGO_INITDB_ROOT_PASSWORD: "123456"
+            
         volumes: 
-            - /home/musjib/Documents/dev/node/projects/Narr-gateway/src/storage:/data/db
+            - /Users/lectro/Documents/devSpace/server/node/narr/storage:/data/db
         networks:
             - narrnet
         

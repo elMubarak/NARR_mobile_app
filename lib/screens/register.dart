@@ -26,7 +26,7 @@ class _RegisterState extends State<Register> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
-  String myUrl = '$serverUrl/auth/register';
+  String myUrl = '$mubixyMockServer/auth/register';
   final _formKey = GlobalKey<FormState>();
 
   static DateTime selectedDate = DateTime.now();
@@ -410,7 +410,7 @@ class _RegisterState extends State<Register> {
                                 });
 
                                 NetworkHelper(
-                                  url: '$mockServerUrl/auth/register',
+                                  url: '$mubixyMockServer/auth/register',
                                 )
                                     .userRegistration(
                                   username: email,
@@ -419,8 +419,8 @@ class _RegisterState extends State<Register> {
                                   lname: lname,
                                   dob: dob,
                                   phone: phone,
+                                  institution: institutionObject,
                                   address: address,
-                                  institution: institutionObject['institution'],
                                   context: context,
                                 )
                                     .then((value) {

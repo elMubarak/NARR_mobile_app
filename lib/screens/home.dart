@@ -7,6 +7,7 @@ import 'package:narr/provider/online_users_mobx.dart';
 import 'package:narr/provider/reading_history_mobx.dart';
 import 'package:narr/screens/email_client/email_list.dart';
 import 'package:narr/screens/profile.dart';
+import 'package:narr/screens/single_research_repository.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
@@ -165,12 +166,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   SizedBox(height: 25),
                   SchoolDashCard(
-                    institutionLogo: '$baseUrl${currentUser.institution.logo}',
+                    institutionLogo:
+                        'https://api.narr.ng${currentUser.institution.logo}',
                     institutionName: currentUser.institution.name,
                     institutionAcronym: currentUser.institution.acronym,
                     institutionType: currentUser.institution.type,
                     year: currentUser.institution.year,
-                    ownerShip: currentUser.institution.ownership,
+                    ownership: currentUser.institution.ownerShip,
                     url: currentUser.institution.url,
                     onTap: () {},
                   ),
@@ -253,49 +255,55 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   ReadingHistoryCard(
                     child: ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          print(readingHistory.readingHistoryDocument[index]
-                              ['researchTitle']);
-                          return (readingHistory.readingHistoryDocument.length <
-                                  1)
-                              ? Text('No Reading History Yet')
-                              : ListTile(
-                                  leading: CircleAvatar(
-                                    child: Icon(Icons.insert_drive_file),
-                                  ),
-                                  title: Text(
-                                    '${readingHistory.readingHistoryDocument[index]['researchTitle']}',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  subtitle: Text(
-                                      '${readingHistory.readingHistoryDocument[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
-                                  trailing: Column(
-                                    children: [
-                                      Text(
-                                        '${readingHistory.readingHistoryDocument[index]['accessType']}',
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        '${readingHistory.readingHistoryDocument[index]['nPages']}',
-                                      ),
-                                    ],
-                                  ),
-                                );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider(
-                            thickness: 1.3,
-                          );
-                        },
-                        itemCount:
-                            readingHistory.readingHistoryDocument.length),
+                      itemCount: readingHistory.readingHistoryDocument.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(),
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: CircleAvatar(
+                            child: Icon(Icons.insert_drive_file),
+                          ),
+                          title: Text(
+                            '${readingHistory.readingHistoryDocument[index]['researchTitle']}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(
+                            '${readingHistory.readingHistoryDocument[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                  '${readingHistory.readingHistoryDocument[index]['accessType']},'),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                '${readingHistory.readingHistoryDocument[index]['nPages']}',
+                                style: TextStyle(
+                                  color: Color(0xff00a368),
+                                ),
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ResearchWork(
+                                  researchId: readingHistory
+                                      .readingHistoryDocument[index]['_id'],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                     itemCount: readingHistory.readingHistoryDocument.length,
                   ),
                   SizedBox(
