@@ -107,6 +107,8 @@ class AdminDashBoard extends StatelessWidget {
                     institutionAcronym: currentUser.institution.acronym,
                     institutionType: currentUser.institution.type,
                     year: currentUser.institution.year,
+                    ownerShip: currentUser.institution.ownership,
+                    url: currentUser.institution.url,
                     onTap: () {},
                   ),
                   // SizedBox(height: 15),

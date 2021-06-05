@@ -7,7 +7,6 @@ import 'package:narr/provider/online_users_mobx.dart';
 import 'package:narr/provider/reading_history_mobx.dart';
 import 'package:narr/screens/email_client/email_list.dart';
 import 'package:narr/screens/profile.dart';
-import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
@@ -49,21 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  HiveBox _box = HiveBox();
-  // final _refreshKey = GlobalKey<RefreshIndicatorState>();
   List readingHistoryArry = [];
-  // Future<void> getReadingHistory() async {
-  //   _refreshKey.currentState?.show();
-  //   await Future.delayed(Duration(seconds: 2));
-  //   setState(() {
-  //     readingHistoryArry = readingHistory.readingHistoryDocument;
-  //   });
-  // }
 
   Widget build(BuildContext context) {
-    // getReadingHistory();
-    //
-    // showSimpleFlushbar(context: context, message: message);
     var data = [
       ClicksPerYear('22', 42, Colors.red),
       ClicksPerYear('52', 52, Colors.yellow),
@@ -182,6 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     institutionName: currentUser.institution.name,
                     institutionAcronym: currentUser.institution.acronym,
                     institutionType: currentUser.institution.type,
+                    year: currentUser.institution.year,
+                    ownerShip: currentUser.institution.ownership,
+                    url: currentUser.institution.url,
                     onTap: () {},
                   ),
                   // SizedBox(height: 15),

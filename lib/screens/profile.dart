@@ -5,6 +5,7 @@ import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/edit_profile.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/services/url_luncher.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
 
@@ -202,7 +203,7 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    '20 munites ago',
+                                    '${DateTime.parse(currentUser.lastLogin).hour}:${DateTime.parse(currentUser.lastLogin).minute}',
                                     style: TextStyle(color: Colors.orange),
                                   ),
                                 ],
@@ -285,7 +286,7 @@ class _ProfileState extends State<Profile> {
                         Row(
                           children: <Widget>[
                             Icon(
-                              Icons.calendar_today,
+                              Icons.event,
                               size: 20.0,
                             ),
                             SizedBox(
@@ -293,6 +294,25 @@ class _ProfileState extends State<Profile> {
                             ),
                             Text(
                               currentUser.institution.year,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.apartment,
+                              size: 20.0,
+                            ),
+                            SizedBox(
+                              width: 4.0,
+                            ),
+                            Text(
+                              currentUser.institution.ownership,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -308,18 +328,23 @@ class _ProfileState extends State<Profile> {
                             SizedBox(
                               width: 4.0,
                             ),
-                            Text(
-                              currentUser.institution.url,
-                              style: TextStyle(color: Colors.blue),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Flexible(
+                              child: InkWell(
+                                onTap: () =>
+                                    launchURL(currentUser.institution.url),
+                                child: Text(
+                                  currentUser.institution.url,
+                                  style: TextStyle(color: Colors.blue),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ),
                           ],
                         ),
                       ],
                     ),
                   ),
-
                   Observer(builder: (_) {
                     return ContainerWithShadow(
                       child: Column(
@@ -376,45 +401,6 @@ class _ProfileState extends State<Profile> {
                     );
                   }),
                   SizedBox(height: 15),
-                  //
-                  // ContainerWithShadow(
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: <Widget>[
-                  //       Row(
-                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         children: <Widget>[
-                  //           Text(
-                  //             'My Researches',
-                  //             style: TextStyle(
-                  //               fontSize: 18.0,
-                  //               fontWeight: FontWeight.bold,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //       SizedBox(
-                  //         height: 15,
-                  //       ),
-                  //       Projects(
-                  //         title: 'Urban Planning',
-                  //       ),
-                  //       Projects(
-                  //         title: 'Conflict',
-                  //       ),
-                  //       Projects(
-                  //         title: 'Covid-19',
-                  //       ),
-                  //       SizedBox(
-                  //         height: 30,
-                  //       ),
-                  //       Text(
-                  //         'See more+',
-                  //         style: TextStyle(color: Colors.blue),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),

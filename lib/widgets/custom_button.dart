@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomBotton extends StatelessWidget {
   final String buttonTitle;
+  final Color buttonColor;
   final Function onTap;
   final bool isLoading;
-  CustomBotton({this.buttonTitle, this.onTap, this.isLoading});
+  CustomBotton(
+      {this.buttonTitle, this.onTap, this.isLoading, this.buttonColor});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +24,13 @@ class CustomBotton extends StatelessWidget {
           right: 55,
         ),
         decoration: BoxDecoration(
-          color: (isLoading != null)
-              ? (isLoading)
-                  ? Colors.grey
-                  : Color(0xff00a368)
-              : Color(0xff00a368),
+          color: (buttonColor == null)
+              ? Color(0xff00a368)
+              : (isLoading != null)
+                  ? (isLoading)
+                      ? Colors.grey
+                      : buttonColor
+                  : Color(0xff00a368),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(

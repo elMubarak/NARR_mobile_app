@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
-import 'package:narr/screens/login.dart';
-import 'package:narr/screens/register_organisations.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
-import 'package:narr/widgets/formCard.dart';
 import 'package:narr/widgets/dropdown_container.dart';
+import 'package:narr/widgets/formCard.dart';
 
-class Register extends StatefulWidget {
-  static String id = 'register';
+import '../../configs.dart';
+
+class AddResearcher extends StatefulWidget {
+  static String id = '/addResearcher';
   @override
-  _RegisterState createState() => _RegisterState();
+  _AddResearcherState createState() => _AddResearcherState();
 }
 
-class _RegisterState extends State<Register> {
+class _AddResearcherState extends State<AddResearcher> {
   String fname;
   String lname;
   String email;
@@ -62,25 +61,14 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     String dob = '${selectedDate.toLocal()}'.split(' ')[0];
-
     return Scaffold(
-      backgroundColor: Color(0xff00a368),
+      backgroundColor: Colors.blue,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
             margin: EdgeInsets.only(top: 15),
             child: Column(
               children: <Widget>[
-                Text(
-                  'Hello! Researcher ',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    // fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 15),
                 FormCard(
                   child: Form(
                     key: _formKey,
@@ -89,10 +77,10 @@ class _RegisterState extends State<Register> {
                       children: <Widget>[
                         SizedBox(height: 15),
                         Text(
-                          'CREATE ACCOUNT',
+                          'Add Researcher',
                           style: TextStyle(
                             fontSize: 25.0,
-                            color: Color(0xff00a368),
+                            color: Colors.blue,
                           ),
                         ),
                         SizedBox(height: 15),
@@ -400,6 +388,7 @@ class _RegisterState extends State<Register> {
                           height: 15.0,
                         ),
                         CustomBotton(
+                            buttonColor: Colors.blue,
                             isLoading: isClickable,
                             buttonTitle: 'Register',
                             onTap: () {
@@ -412,7 +401,7 @@ class _RegisterState extends State<Register> {
                                 NetworkHelper(
                                   url: '$mockServerUrl/auth/register',
                                 )
-                                    .userRegistration(
+                                    .addResearcher(
                                   username: email,
                                   password: password,
                                   fname: fname,
@@ -428,50 +417,9 @@ class _RegisterState extends State<Register> {
                                     isClickable = false;
                                   });
                                 });
-
-                                // Navigator.pushNamed(context, VerifyAccount.id);
-
                               }
                             }),
                         SizedBox(height: 35),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(RegisterOrg.id);
-                          },
-                          child: Text(
-                            'Register as an Organisation',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 35),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(Login.id);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text('Already have an account?'),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Login',
-                                    style: TextStyle(
-                                      color: Color(0xff00a368),
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),

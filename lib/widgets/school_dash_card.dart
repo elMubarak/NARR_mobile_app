@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/services/url_luncher.dart';
 
 class SchoolDashCard extends StatelessWidget {
   const SchoolDashCard({
@@ -9,12 +10,14 @@ class SchoolDashCard extends StatelessWidget {
     this.institutionType,
     this.year,
     this.onTap,
-  }) : super(key: key);
+    this.ownerShip,
+    this.url,
+  });
   final String institutionName;
   final String institutionLogo;
   final String institutionAcronym;
   final String institutionType;
-  final String year;
+  final String year, ownerShip, url;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
@@ -89,11 +92,42 @@ class SchoolDashCard extends StatelessWidget {
                     fontSize: 10,
                   ),
                 ),
+                SizedBox(height: 8),
                 Text(
                   (year != null) ? 'Year: $year' : '',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 10,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  (ownerShip != null) ? 'Ownership: $ownerShip' : '',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
+                ),
+                SizedBox(height: 8),
+                InkWell(
+                  onTap: () => launchURL(url),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Link: ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                        ),
+                      ),
+                      Text(
+                        (url != null) ? '$url' : '',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

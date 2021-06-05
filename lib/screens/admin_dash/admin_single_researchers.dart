@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/services/backend_service.dart';
+import 'package:narr/services/url_luncher.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 
 class Singleresearcher extends StatefulWidget {
@@ -154,10 +155,12 @@ class _SingleresearcherState extends State<Singleresearcher> {
                             SizedBox(
                               width: 4.0,
                             ),
-                            Text(
-                              user['email'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Flexible(
+                              child: Text(
+                                user['email'],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),
@@ -190,10 +193,12 @@ class _SingleresearcherState extends State<Singleresearcher> {
                             SizedBox(
                               width: 4.0,
                             ),
-                            Text(
-                              user['address'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Flexible(
+                              child: Text(
+                                user['address'],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),
@@ -269,10 +274,12 @@ class _SingleresearcherState extends State<Singleresearcher> {
                             SizedBox(
                               width: 4.0,
                             ),
-                            Text(
-                              user['institution']['name'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Flexible(
+                              child: Text(
+                                user['institution']['name'],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),
@@ -301,7 +308,7 @@ class _SingleresearcherState extends State<Singleresearcher> {
                         Row(
                           children: <Widget>[
                             Icon(
-                              Icons.calendar_today,
+                              Icons.event,
                               size: 20.0,
                             ),
                             SizedBox(
@@ -314,9 +321,55 @@ class _SingleresearcherState extends State<Singleresearcher> {
                             ),
                           ],
                         ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.apartment,
+                              size: 20.0,
+                            ),
+                            SizedBox(
+                              width: 4.0,
+                            ),
+                            Text(
+                              user['institution']['ownership'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.link,
+                              size: 20.0,
+                            ),
+                            SizedBox(
+                              width: 4.0,
+                            ),
+                            Flexible(
+                              child: InkWell(
+                                onTap: () =>
+                                    launchURL(user['institution']['url']),
+                                child: Text(
+                                  user['institution']['url'],
+                                  style: TextStyle(color: Colors.blue),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
+                  SizedBox(height: 15)
                 ],
               ),
             ),

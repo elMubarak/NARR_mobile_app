@@ -49,6 +49,7 @@ class UserModel {
   final String narrEmail;
   final String userRole;
   final String status;
+  final String lastLogin;
   final int totalUpload;
   final List specialization;
   final List interest;
@@ -65,6 +66,7 @@ class UserModel {
       // this.userType,
       this.userRole,
       this.status,
+      this.lastLogin,
       this.totalUpload,
       this.specialization,
       this.interest});
@@ -80,6 +82,7 @@ class UserModel {
       status: data['status'] as String,
       userRole: data['userRole'] as String,
       narrEmail: data['narr_email'] as String,
+      lastLogin: data['lastLoggedIn'] as String,
       // userType: data['userType'] as String,
       totalUpload: data['totalUploads'] as int,
       specialization: data['specialization'] as List,
