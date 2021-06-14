@@ -131,6 +131,7 @@ class Institution {
       type: data['type'] as String,
       acronym: data['acronym'] as String,
       url: data['url'] as String,
+      ownerShip: data['ownership'] as String,
       year: data['year'] as String,
       logo: data['logo'] as String,
     );

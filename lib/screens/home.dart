@@ -7,7 +7,7 @@ import 'package:narr/provider/online_users_mobx.dart';
 import 'package:narr/provider/reading_history_mobx.dart';
 import 'package:narr/screens/email_client/email_list.dart';
 import 'package:narr/screens/profile.dart';
-import 'package:narr/store/hive_store.dart';
+import 'package:narr/screens/single_research_repository.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';
@@ -49,21 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  HiveBox _box = HiveBox();
-  // final _refreshKey = GlobalKey<RefreshIndicatorState>();
   List readingHistoryArry = [];
-  // Future<void> getReadingHistory() async {
-  //   _refreshKey.currentState?.show();
-  //   await Future.delayed(Duration(seconds: 2));
-  //   setState(() {
-  //     readingHistoryArry = readingHistory.readingHistoryDocument;
-  //   });
-  // }
 
   Widget build(BuildContext context) {
-    // getReadingHistory();
-    //
-    // showSimpleFlushbar(context: context, message: message);
     var data = [
       ClicksPerYear('22', 42, Colors.red),
       ClicksPerYear('52', 52, Colors.yellow),
@@ -182,9 +170,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     institutionName: currentUser.institution.name,
                     institutionAcronym: currentUser.institution.acronym,
                     institutionType: currentUser.institution.type,
-                    // institutionYear: currentUser.institution.year,
-                    // institutionUrl: currentUser.institution.url,
-                    // studentNo: 1202,
+                    year: currentUser.institution.year,
+                    ownership: currentUser.institution.ownerShip,
+                    url: currentUser.institution.url,
                     onTap: () {},
                   ),
                   // SizedBox(height: 15),
@@ -266,49 +254,55 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   ReadingHistoryCard(
                     child: ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          print(readingHistory.readingHistoryDocument[index]
-                              ['researchTitle']);
-                          return (readingHistory.readingHistoryDocument.length <
-                                  1)
-                              ? Text('No Reading History Yet')
-                              : ListTile(
-                                  leading: CircleAvatar(
-                                    child: Icon(Icons.insert_drive_file),
-                                  ),
-                                  title: Text(
-                                    '${readingHistory.readingHistoryDocument[index]['researchTitle']}',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  subtitle: Text(
-                                      '${readingHistory.readingHistoryDocument[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}'),
-                                  trailing: Column(
-                                    children: [
-                                      Text(
-                                        '${readingHistory.readingHistoryDocument[index]['accessType']}',
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        '${readingHistory.readingHistoryDocument[index]['nPages']}',
-                                      ),
-                                    ],
-                                  ),
-                                );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider(
-                            thickness: 1.3,
-                          );
-                        },
-                        itemCount:
-                            readingHistory.readingHistoryDocument.length),
+                      itemCount: readingHistory.readingHistoryDocument.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(),
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: CircleAvatar(
+                            child: Icon(Icons.insert_drive_file),
+                          ),
+                          title: Text(
+                            '${readingHistory.readingHistoryDocument[index]['researchTitle']}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(
+                            '${readingHistory.readingHistoryDocument[index]['authors'].toString().replaceAll('[', '').replaceAll(']', '')}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                  '${readingHistory.readingHistoryDocument[index]['accessType']},'),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                '${readingHistory.readingHistoryDocument[index]['nPages']}',
+                                style: TextStyle(
+                                  color: Color(0xff00a368),
+                                ),
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ResearchWork(
+                                  researchId: readingHistory
+                                      .readingHistoryDocument[index]['_id'],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                     itemCount: readingHistory.readingHistoryDocument.length,
                   ),
                   SizedBox(

@@ -156,6 +156,9 @@ class _LoginState extends State<Login> {
                                       password: password,
                                       context: context)
                                   .then((value) {
+                                setState(() {
+                                  isClickable = false;
+                                });
                                 currentUser = UserModel.fromJson(
                                     value['payload']['user']);
                                 Navigator.pushReplacementNamed(
@@ -167,9 +170,6 @@ class _LoginState extends State<Login> {
                                   context: context,
                                 );
 
-                                setState(() {
-                                  isClickable = false;
-                                });
                                 Navigator.pushReplacementNamed(
                                     context, determineDasboard(context));
                               });

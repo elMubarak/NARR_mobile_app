@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/models/user_model.dart';
+import 'package:narr/screens/admin_dash/admin_add_researcher.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/screens/ocr_result.dart';
 import 'package:narr/screens/verify_email.dart';
@@ -573,6 +574,56 @@ class NetworkHelper {
       }
     } catch (e) {
       print("Error getting single research $e");
+    }
+  }
+
+  //add a researcher
+  // ignore: missing_return
+  Future<UserRegistrationModel> addResearcher({
+    String username,
+    String password,
+    String fname,
+    String lname,
+    String dob,
+    String phone,
+    String address,
+    Map<String, dynamic> institution,
+    BuildContext context,
+  }) async {
+    try {
+      final http.Response response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            "email": username,
+            "password": password,
+            "fName": fname,
+            "lName": lname,
+            "dob": dob,
+            "phone": phone,
+            "address": address,
+            "institution": institution,
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        String data = response.body;
+        var message = jsonDecode(data)['message'];
+        displayDialog(context, "Success ✅", "$message");
+      } else {
+        String data = response.body;
+        var message = jsonDecode(data)['message'];
+        displayDialog(context, "Failed ❌", "$message");
+        print(response.body);
+      }
+    } catch (err) {
+      displayDialog(
+          context, "Failed ❌", "An Error Occured, check internent connection");
+      print(err);
     }
   }
 }

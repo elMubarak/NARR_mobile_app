@@ -72,6 +72,7 @@ class SocketService {
       socket.on('EVENT:USERS:CURRENTLY:ONLINE', (data) {
         //decodeing the response gotten from the server
         final decodedData = jsonDecode(data);
+        print(decodedData['readingHistory']);
 
         //saving the response to mobX
         usersOnlineArray = decodedData['usersOnline'];
@@ -79,11 +80,6 @@ class SocketService {
 
         //listening for an event called EVENT:USER:LOGIN
         socket.on('EVENT:USER:LOGIN', (data) {
-          // var res = jsonDecode(data);
-          // String fullName = res['fullName'];
-          // String emailSent = savedUser['email'];
-          // String emailRecieved = res['email'];
-
           usersOnlineArray.add(jsonDecode(data));
           final jsonList =
               usersOnlineArray.map((item) => jsonEncode(item)).toList();
@@ -97,17 +93,6 @@ class SocketService {
 
           onlineUsers.getNumberOfUsersOnline(result);
           print(onlineUsers.numberOfUsersOnline.length);
-
-          // String message;
-          // if (emailSent == emailRecieved) {
-          //   message = "Welcome";
-
-          //   // print('$emailSent is = $emailRecieved');
-
-          // } else {
-          //   message = "is Online";
-
-          // }
         });
 
         // tempArray = users;

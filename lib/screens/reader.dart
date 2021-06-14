@@ -8,7 +8,9 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'dart:math';
 
-String singleResearchUrl = 'https://api.narr.ng/api/v1/research';
+import '../configs.dart';
+
+String singleResearchUrl = '$serverUrl/research';
 
 class Reader extends StatefulWidget {
   final String id;
@@ -78,10 +80,19 @@ class _SliderState extends State<Slider> {
       future:
           NetworkHelper(url: singleResearchUrl).getSingleResearch(widget.id),
       builder: (context, research) {
+        var readPath = research.data['research']['readPath'];
+        var nPages = research.data['research']['nPages'];
+        var researchTitle = research.data['research']['researchTitle'];
+        var authors = research.data['research']['authors'];
+        var genre = research.data['research']['genre'];
+        var category = research.data['research']['category'];
+        var accessType = research.data['research']['accessType'];
+        var year = research.data['research']['year'];
+
         String requestUrl() {
           // int ranNum = _random.nextInt(8163907) * _random.nextInt(2765309);
           String url =
-              'https://api.narr.ng${research.data['research']['readPath']}$_currentPage.jpg?token=$token${_currentPage == research.data['research']['nPages'] ? '&end=true' : ''}&nPages=${research.data['research']['nPages']}';
+              'https://api.narr.ng$readPath$_currentPage.jpg?token=$token&nPages=$nPages&researchTitle=$researchTitle&authors=$authors&genre=$genre&category=$category&accessType=$accessType&year=$year${_currentPage == research.data['research']['nPages'] ? '&end=true' : ''}';
           return url;
         }
 

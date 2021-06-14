@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_tags/flutter_tags.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:narr/services/url_luncher.dart';
 
 class IctWorksContent extends StatelessWidget {
   const IctWorksContent(
@@ -17,9 +17,6 @@ class IctWorksContent extends StatelessWidget {
 
   final String content, title, creator, imgUrl, linkUrl, date;
   final categories;
-  void _launchURL() async => await canLaunch(linkUrl)
-      ? await launch(linkUrl)
-      : throw 'Could not launch $linkUrl';
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +81,7 @@ class IctWorksContent extends StatelessWidget {
         Row(
           children: [
             RaisedButton(
-              onPressed: _launchURL,
+              onPressed: () => launchURL(linkUrl),
               child: Text(
                 'Link',
                 style: TextStyle(color: Colors.white),

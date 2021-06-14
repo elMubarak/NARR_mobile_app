@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/screens/admin_dash/admin_add_researcher.dart';
 import 'package:narr/screens/admin_dash/admin_single_researchers.dart';
 import 'package:narr/services/backend_service.dart';
 
@@ -72,7 +73,7 @@ class _ResearchersState extends State<Researchers> {
           Icons.person_add,
           color: Colors.white,
         ),
-        onPressed: null,
+        onPressed: () => Navigator.pushNamed(context, AddResearcher.id),
       ),
     );
   }
