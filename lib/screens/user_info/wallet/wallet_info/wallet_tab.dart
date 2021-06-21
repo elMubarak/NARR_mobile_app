@@ -22,7 +22,7 @@ class WalletTab extends StatelessWidget {
                     child: Text('NGR 0.504'),
                   ),
                   SizedBox(height: 10),
-                  Text('Balance'),
+                  Text('Token'),
                   SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +41,7 @@ class WalletTab extends StatelessWidget {
                           thickness: 2,
                         ),
                       ),
-                      Text('Tokens'),
+                      Text('Gas Balance'),
                     ],
                   ),
                   SizedBox(height: 15),

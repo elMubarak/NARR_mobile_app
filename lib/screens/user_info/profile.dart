@@ -5,8 +5,9 @@ import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/chat.dart';
 import 'package:narr/screens/user_info/edit_profile.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/screens/user_info/personal_info/personal_info.dart';
+import 'package:narr/screens/user_info/trans_history/transaction_history.dart';
 import 'package:narr/screens/user_info/wallet/pay_info_screen.dart';
-import 'package:narr/services/url_luncher.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
 import '../../configs.dart';
@@ -136,6 +137,13 @@ class _ProfileState extends State<Profile> {
                                   child: VerticalDivider(
                                       thickness: 2, width: 1.8)),
                               GestureDetector(
+                                onTap: () {
+                                  print('tap');
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        TransactionHistoryScreen(),
+                                  ));
+                                },
                                 child: Column(
                                   children: [
                                     Icon(Icons.history, size: 30),
@@ -148,6 +156,13 @@ class _ProfileState extends State<Profile> {
                                   child: VerticalDivider(
                                       thickness: 2, width: 1.8)),
                               GestureDetector(
+                                onTap: () {
+                                  print('tap');
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        PersonalInfo(currentUser),
+                                  ));
+                                },
                                 child: Column(
                                   children: [
                                     Icon(Icons.person, size: 30),
