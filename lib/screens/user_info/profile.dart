@@ -3,12 +3,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/chat.dart';
-import 'package:narr/screens/edit_profile.dart';
+import 'package:narr/screens/user_info/edit_profile.dart';
 import 'package:narr/screens/home.dart';
+import 'package:narr/screens/user_info/wallet/pay_info_screen.dart';
 import 'package:narr/services/url_luncher.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/store/hive_store.dart';
-import '../configs.dart';
+import '../../configs.dart';
 
 class Profile extends StatefulWidget {
   static String id = 'profile';
@@ -107,9 +108,57 @@ class _ProfileState extends State<Profile> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 15,
+                        SizedBox(height: 15),
+                        ContainerWithShadow(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  print('tap');
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => PaymentInfoScreen(),
+                                  ));
+                                },
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.account_balance_wallet,
+                                      size: 30,
+                                    ),
+                                    Text('Wallet'),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                  height: 50,
+                                  child: VerticalDivider(
+                                      thickness: 2, width: 1.8)),
+                              GestureDetector(
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.history, size: 30),
+                                    Text('Transaction History'),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                  height: 50,
+                                  child: VerticalDivider(
+                                      thickness: 2, width: 1.8)),
+                              GestureDetector(
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.person, size: 30),
+                                    Text('Personal info'),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                        SizedBox(height: 32.0),
                         Container(
                           child: Column(
                             children: <Widget>[
@@ -150,7 +199,6 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 10.0),
                               Row(
                                 children: <Widget>[
                                   CircleAvatar(
@@ -242,134 +290,6 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 10,
                   ),
-                  ContainerWithShadow(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Institution Information',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff00a368),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Divider(),
-                        Row(
-                          children: [
-                            Image.network(
-                              '$baseUrl${currentUser.institution.logo}',
-                              width: 60,
-                            ),
-                            SizedBox(width: 5),
-                            Text(currentUser.institution.acronym)
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.school,
-                              size: 20.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              currentUser.institution.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.school,
-                              size: 20.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              currentUser.institution.type,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.event,
-                              size: 20.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              currentUser.institution.year,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.apartment,
-                              size: 20.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              currentUser.institution.ownerShip,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.link,
-                              size: 20.0,
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Flexible(
-                              child: InkWell(
-                                onTap: () =>
-                                    launchURL(currentUser.institution.url),
-                                child: Text(
-                                  currentUser.institution.url,
-                                  style: TextStyle(color: Colors.blue),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                   Observer(builder: (_) {
                     return ContainerWithShadow(
                       child: Column(
@@ -397,26 +317,25 @@ class _ProfileState extends State<Profile> {
                           SizedBox(
                             height: 15,
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            child: ListView.builder(
-                              itemCount: onlineUsers.numberOfUsersOnline.length,
-                              itemBuilder: (context, index) {
-                                var onlineUserfullName = onlineUsers
-                                    .numberOfUsersOnline[index]['fullName'];
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: onlineUsers.numberOfUsersOnline.length,
+                            itemBuilder: (context, index) {
+                              var onlineUserfullName = onlineUsers
+                                  .numberOfUsersOnline[index]['fullName'];
 
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(context, ChatScreen.id);
-                                  },
-                                  child: Users(
-                                    name: '$onlineUserfullName',
-                                    userImage: 'images/profile.jpg',
-                                  ),
-                                );
-                              },
-                              // children: usersOnlineWidgets,
-                            ),
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, ChatScreen.id);
+                                },
+                                child: Users(
+                                  name: '$onlineUserfullName',
+                                  userImage: 'images/profile.jpg',
+                                ),
+                              );
+                            },
+                            // children: usersOnlineWidgets,
                           ),
                           SizedBox(
                             height: 15,
@@ -431,6 +350,10 @@ class _ProfileState extends State<Profile> {
             ),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.upload),
+        onPressed: () {},
       ),
     );
   }

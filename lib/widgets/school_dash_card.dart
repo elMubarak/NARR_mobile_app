@@ -124,6 +124,7 @@ class SchoolDashCard extends StatelessWidget {
                         (url != null) ? '$url' : '',
                         style: TextStyle(
                           color: Colors.blue,
+                          decoration: TextDecoration.underline,
                           fontSize: 12,
                         ),
                       ),

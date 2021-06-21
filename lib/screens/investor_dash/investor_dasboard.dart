@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/email_client/email_list.dart';
 import 'package:narr/screens/home.dart';
-import 'package:narr/screens/profile.dart';
+import 'package:narr/screens/user_info/profile.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';
 import 'package:narr/widgets/container_card.dart';

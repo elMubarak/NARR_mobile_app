@@ -6,7 +6,7 @@ import 'package:narr/global/global_vars.dart';
 import 'package:narr/provider/online_users_mobx.dart';
 import 'package:narr/provider/reading_history_mobx.dart';
 import 'package:narr/screens/email_client/email_list.dart';
-import 'package:narr/screens/profile.dart';
+import 'package:narr/screens/user_info/profile.dart';
 import 'package:narr/screens/single_research_repository.dart';
 import 'package:narr/widgets/cards.dart';
 import 'package:narr/widgets/chart_info.dart';

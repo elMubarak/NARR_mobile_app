@@ -16,7 +16,7 @@ import 'package:narr/screens/ictWorks.dart';
 import 'package:narr/screens/investor_dash/investor_dasboard.dart';
 import 'package:narr/screens/login.dart';
 import 'package:narr/screens/ocr.dart';
-import 'package:narr/screens/profile.dart';
+import 'package:narr/screens/user_info/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
