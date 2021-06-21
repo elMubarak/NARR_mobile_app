@@ -10,7 +10,7 @@ import 'package:narr/services/socket_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 
-// import 'home.dart';
+//! import 'home.dart';
 
 String email;
 String password;
@@ -156,6 +156,8 @@ class _LoginState extends State<Login> {
                                       password: password,
                                       context: context)
                                   .then((value) {
+                                print(value);
+
                                 setState(() {
                                   isClickable = false;
                                 });
