@@ -210,7 +210,7 @@ class NetworkHelper {
     String researchTitle,
     List<String> authors,
     List<CitationModel> citation,
-    String category,
+    List<dynamic> category,
     String genre,
     String accessType,
     String fee,

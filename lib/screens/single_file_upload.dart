@@ -1,7 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
+
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
@@ -35,9 +39,18 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
     'odt',
   ];
   TextEditingController authorController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
 
   DropdownHelper _dropdownHelper = DropdownHelper();
   final List<CitationModel> _addedCitations = <CitationModel>[];
+  List<dynamic> _selectedCategories = <dynamic>[];
+  final List<dynamic> categories = <dynamic>[
+    "Arts",
+    "Education",
+    "Engineering",
+    "Sciences",
+    "Social sciences",
+  ];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -314,35 +327,25 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               ),
 
                               SizedBox(height: 14),
-
-                              DropdownContainer(
-                                child: DropdownButtonFormField(
-                                  validator: (value) {
-                                    if (value == null) {
-                                      return 'Please select category';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  ),
-                                  hint: Padding(
-                                    padding: const EdgeInsets.only(left: 13.0),
-                                    child: Text(
-                                      'Category',
-                                      style: TextStyle(color: Colors.grey[700]),
-                                    ),
-                                  ),
-                                  items: _dropdownHelper
-                                      .getCategoryDropdownItems(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _dropdownHelper.selectedCategory = value;
-                                    });
-                                  },
-                                ),
+                              MultiSelectBottomSheetField(
+                                decoration:
+                                    BoxDecoration(color: Colors.grey[200]),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'at least one category is required';
+                                  }
+                                  return null;
+                                },
+                                searchable: true,
+                                title: Text('Categories'),
+                                buttonText: Text('Categories'),
+                                items: categories
+                                    .map((e) => MultiSelectItem(e, e))
+                                    .toList(),
+                                listType: MultiSelectListType.CHIP,
+                                onConfirm: (values) {
+                                  _selectedCategories = values;
+                                },
                               ),
                               SizedBox(height: 14),
                               DropdownContainer(
@@ -379,7 +382,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                 child: DropdownButtonFormField(
                                   validator: (value) {
                                     if (value == null) {
-                                      return 'Please select category';
+                                      return 'Please select Access Type';
                                     }
                                     return null;
                                   },
@@ -405,9 +408,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                   },
                                 ),
                               ),
-                              SizedBox(
-                                height: 14,
-                              ),
+                              SizedBox(height: 14),
                               _dropdownHelper.selectedAccessType ==
                                       _dropdownHelper.accessType[1]
                                   ? TextField(
@@ -473,7 +474,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                     trancitionedScreen: HomeScreen(),
                                     researchTitle: researchTitle,
                                     authors: addedAuthors,
-                                    category: _dropdownHelper.selectedCategory,
+                                    category: _selectedCategories,
                                     genre: _dropdownHelper.selectedGenre,
                                     accessType:
                                         _dropdownHelper.selectedAccessType,
