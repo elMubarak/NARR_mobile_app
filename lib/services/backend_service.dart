@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:narr/configs.dart';
 import 'package:narr/global/global_vars.dart';
+import 'package:narr/models/citation_mode.dart';
 import 'package:narr/models/user_model.dart';
 import 'package:narr/screens/admin_dash/admin_add_researcher.dart';
 import 'package:narr/screens/home.dart';
@@ -207,7 +208,8 @@ class NetworkHelper {
     String selectedfile,
     Function onSendProgress,
     String researchTitle,
-    String authors,
+    List<String> authors,
+    List<CitationModel> citation,
     String category,
     String genre,
     String accessType,
@@ -226,6 +228,7 @@ class NetworkHelper {
       "meta": jsonEncode(<String, String>{
         "researchTitle": "$researchTitle",
         "authors": "$authors",
+        "citations": citation == null ? [] : '$citation',
         "category": "$category",
         'genre': "$genre",
         'accessType': "$accessType",

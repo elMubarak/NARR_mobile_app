@@ -1,9 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
+import 'package:narr/models/citation_mode.dart';
+import 'package:narr/screens/add_citations.dart';
 import 'package:narr/screens/home.dart';
 import 'package:narr/widgets/dropdown_container.dart';
 import 'package:narr/services/backend_service.dart';
@@ -30,8 +34,11 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
     'pdf',
     'odt',
   ];
+  TextEditingController authorController = TextEditingController();
 
   DropdownHelper _dropdownHelper = DropdownHelper();
+  final List<CitationModel> _addedCitations = <CitationModel>[];
+
   final _formKey = GlobalKey<FormState>();
 
   bool isClickable = false;
@@ -140,17 +147,18 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                         Form(
                           key: _formKey,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextFormField(
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return 'Research topic is required';
+                                    return 'Research Title is required';
                                   }
                                   return null;
                                 },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Research Topic',
+                                  hintText: 'Research Title',
                                   filled: true,
                                   fillColor: Colors.grey[200],
                                 ),
@@ -160,23 +168,153 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               ),
                               SizedBox(height: 14),
                               TextFormField(
+                                maxLines: 5,
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return 'Research topic is required';
+                                    return 'Description of publication is required';
                                   }
                                   return null;
                                 },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Author',
+                                  hintText: 'Research Description',
+                                  filled: true,
+                                  fillColor: Colors.grey[200],
+                                ),
+                                onChanged: (value) {
+                                  description = value;
+                                  setState(() {});
+                                },
+                              ),
+                              SizedBox(height: 14),
+                              TextFormField(
+                                controller: authorController,
+                                validator: (value) {
+                                  if (addedAuthors.isEmpty) {
+                                    return 'at least one authors is required';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  suffixIcon: authorController.text.length >= 3
+                                      ? Container(
+                                          width: 100,
+                                          child: Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    addedAuthors.add(
+                                                        authorController.text);
+                                                    authorController.clear();
+                                                    setState(() {});
+                                                  },
+                                                  child: Text(
+                                                    'Add author',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                        color:
+                                                            determinePrimaryColor(
+                                                                context)),
+                                                  ),
+                                                ),
+                                              )),
+                                        )
+                                      : Container(width: 10),
+                                  border: InputBorder.none,
+                                  hintText: 'Authors',
                                   filled: true,
                                   fillColor: Colors.grey[200],
                                 ),
                                 onChanged: (value) {
                                   authors = value;
+                                  setState(() {});
+                                },
+                                onFieldSubmitted: (String value) {
+                                  addedAuthors.add(value);
+                                  authorController.clear();
+                                  setState(() {});
+                                },
+                                textInputAction: TextInputAction.go,
+                                textCapitalization: TextCapitalization.words,
+                              ),
+                              // SizedBox(height: 14),
+                              Wrap(
+                                children: addedAuthors
+                                    .map((String author) => Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          child: Chip(
+                                            label: Text(author),
+                                            deleteButtonTooltipMessage:
+                                                'Remove Author',
+                                            onDeleted: () {
+                                              addedAuthors.remove(author);
+                                              setState(() {});
+                                            },
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                              SizedBox(height: 14),
+                              //citation
+                              ElevatedButton(
+                                child: Text('Add Citation'),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CitationDialog(),
+                                  ).then((value) {
+                                    CitationModel newCitation = value;
+                                    _addedCitations.add(newCitation);
+                                    setState(() {});
+                                  });
                                 },
                               ),
                               SizedBox(height: 14),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Added Citations'),
+                                  Divider(),
+                                  SizedBox(height: 8),
+                                  _addedCitations.isNotEmpty
+                                      ? Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(width: 0.1)),
+                                          child: DataTable(
+                                            columns: [
+                                              DataColumn(label: Text('Name')),
+                                              DataColumn(label: Text('Year')),
+                                              DataColumn(label: Text('Website'))
+                                            ],
+                                            rows: _addedCitations
+                                                .map((CitationModel
+                                                        citations) =>
+                                                    DataRow(
+                                                      cells: [
+                                                        DataCell(Text(citations
+                                                            .fullName)),
+                                                        DataCell(Text(
+                                                            citations.date)),
+                                                        DataCell(Text(
+                                                            citations.url)),
+                                                      ],
+                                                    ))
+                                                .toList(),
+                                          ),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
+
+                              SizedBox(height: 14),
+
                               DropdownContainer(
                                 child: DropdownButtonFormField(
                                   validator: (value) {
@@ -308,26 +446,6 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                   year = value;
                                 },
                               ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Description of publication is required';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Description',
-                                  filled: true,
-                                  fillColor: Colors.grey[200],
-                                ),
-                                onChanged: (value) {
-                                  description = value;
-                                },
-                              ),
                             ],
                           ),
                         ),
@@ -347,13 +465,14 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               });
                               NetworkHelper(url: uploadUrl)
                                   .uploadFile(
+                                    citation: _addedCitations,
                                     response: response,
                                     selectedfile:
                                         _filePickerHelper.selectedfile,
                                     onSendProgress: onSendProgress,
                                     trancitionedScreen: HomeScreen(),
                                     researchTitle: researchTitle,
-                                    authors: authors,
+                                    authors: addedAuthors,
                                     category: _dropdownHelper.selectedCategory,
                                     genre: _dropdownHelper.selectedGenre,
                                     accessType:
@@ -442,4 +561,9 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
             ),
     );
   }
+
+  List<String> addedAuthors = <String>[];
+  List<CitationModel> addedCitations = <CitationModel>[];
+
+  _addCitation() {}
 }

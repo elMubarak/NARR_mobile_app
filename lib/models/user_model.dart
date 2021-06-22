@@ -49,8 +49,8 @@ class UserModel {
   final String dateOfBirth;
 
   final Institution institution;
-  final BankDetailsModel bankDetailsModel;
-  final BlockchainDtails blockChaindetails;
+  // final BankDetailsModel bankDetailsModel;
+  // final BlockchainDtails blockChaindetails;
   final String userType;
   final String userRole;
   final String status;
@@ -68,8 +68,8 @@ class UserModel {
       this.address,
       this.dateOfBirth,
       this.institution,
-      this.bankDetailsModel,
-      this.blockChaindetails,
+      // this.bankDetailsModel,
+      // this.blockChaindetails,
       this.userType,
       this.userRole,
       this.status,
@@ -93,8 +93,8 @@ class UserModel {
       specialization: data['specialization'] as List,
       interest: data['interests'] as List,
       institution: Institution.fromJson(data['institution']),
-      bankDetailsModel: BankDetailsModel.fromJson(data['bank']),
-      blockChaindetails: BlockchainDtails.fromJson(data['blockChain']),
+      // bankDetailsModel: BankDetailsModel.fromJson(data['bank']),
+      // blockChaindetails: BlockchainDtails.fromJson(data['blockChain']),
     );
   }
 }
