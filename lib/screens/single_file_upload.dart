@@ -446,6 +446,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                 onChanged: (value) {
                                   year = value;
                                 },
+                                keyboardType: TextInputType.datetime,
                               ),
                             ],
                           ),
