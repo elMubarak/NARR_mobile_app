@@ -20,6 +20,8 @@ import 'package:narr/screens/user_info/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/screens/repository_list.dart';
 import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
+import 'package:narr/screens/user_info/wallet/pay_info_screen.dart';
+import 'package:narr/screens/user_info/wallet/wallet_info/wallet_tab.dart';
 import 'package:narr/screens/video_conf.dart';
 import 'package:narr/services/socket_service.dart';
 import 'package:narr/store/hive_store.dart';
@@ -212,7 +214,28 @@ class DrawerItems extends StatelessWidget {
                           ],
                         )
                       : Container(),
-
+                  CustomExpansionTile(
+                    title: Text('Blockchain'),
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(FontAwesomeIcons.wallet),
+                        title: Text('Wallet'),
+                        onTap: () {
+                          // ...
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PaymentInfoScreen()));
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(FontAwesomeIcons.history),
+                        title: Text('History'),
+                        onTap: () {
+                          // ...
+                          Navigator.of(context).popAndPushNamed(IctWorks.id);
+                        },
+                      ),
+                    ],
+                  ),
                   // (currentUser.userRole == 'researcher')?
                   ListTile(
                     leading: Icon(FontAwesomeIcons.solidComment),

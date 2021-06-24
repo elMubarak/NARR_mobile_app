@@ -48,6 +48,8 @@ dependencies:
   flutter_speed_dial: ^3.0.5
   flutter_typeahead: ^2.0.0
   multi_select_flutter: ^3.1.8
+  flutter_paystack: ^1.0.4+1
+  currency_text_input_formatter: ^1.0.0
 
 
 
