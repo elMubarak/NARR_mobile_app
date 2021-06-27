@@ -12,7 +12,7 @@ class Researchers extends StatefulWidget {
 }
 
 class _ResearchersState extends State<Researchers> {
-  String myUrl = '$serverUrl/user';
+  Uri myUrl = Uri.parse('$serverUrl/user');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +23,7 @@ class _ResearchersState extends State<Researchers> {
         ),
         backgroundColor: Colors.blue,
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<dynamic>(
         future: NetworkHelper(url: myUrl).getAllRegisteredUser(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {

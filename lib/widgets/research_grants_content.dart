@@ -4,15 +4,15 @@ import 'package:narr/widgets/tags.dart';
 
 class ResearchGrantsContent extends StatelessWidget {
   const ResearchGrantsContent(
-      {Key key,
-      this.loremIpsum,
-      this.iconButtonOnPressed,
-      this.iconButtonIcon,
-      this.iconButtonIconColor})
+      {Key? key,
+      required this.loremIpsum,
+      required this.iconButtonOnPressed,
+      required this.iconButtonIcon,
+      required this.iconButtonIconColor})
       : super(key: key);
 
   final String loremIpsum;
-  final Function iconButtonOnPressed;
+  final VoidCallback iconButtonOnPressed;
   final IconData iconButtonIcon;
   final Color iconButtonIconColor;
 
@@ -37,6 +37,7 @@ class ResearchGrantsContent extends StatelessWidget {
             RoundedSocialButton(
               icon: Icons.thumb_down_outlined,
               iconColor: Colors.green,
+              onPressed: () {},
             ),
           ],
         ),

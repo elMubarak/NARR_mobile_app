@@ -28,7 +28,7 @@ mixin _$ShowFlushBar on ShowFlushBarBase, Store {
       ActionController(name: 'ShowFlushBarBase');
 
   @override
-  void updatedUserFlushBar({String userFullName, String userMessage}) {
+  void updatedUserFlushBar({required String userFullName, required String userMessage}) {
     final _$actionInfo = _$ShowFlushBarBaseActionController.startAction(
         name: 'ShowFlushBarBase.updatedUserFlushBar');
     try {

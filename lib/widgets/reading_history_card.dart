@@ -4,9 +4,9 @@ import 'package:narr/widgets/container_card.dart';
 
 class ReadingHistoryCard extends StatelessWidget {
   const ReadingHistoryCard({
-    Key key,
-    this.child,
-    this.itemCount,
+    Key? key,
+    required this.child,
+    required this.itemCount,
   }) : super(key: key);
   final Widget child;
   final int itemCount;

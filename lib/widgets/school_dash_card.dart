@@ -3,22 +3,22 @@ import 'package:narr/services/url_luncher.dart';
 
 class SchoolDashCard extends StatelessWidget {
   const SchoolDashCard({
-    Key key,
-    this.institutionName,
-    this.institutionLogo,
-    this.institutionAcronym,
-    this.institutionType,
-    this.year,
-    this.onTap,
-    this.ownership,
-    this.url,
+    Key? key,
+    required this.institutionName,
+    required this.institutionLogo,
+    required this.institutionAcronym,
+    required this.institutionType,
+    required this.year,
+    required this.onTap,
+    required this.ownership,
+    required this.url,
   }) : super(key: key);
   final String institutionName;
   final String institutionLogo;
   final String institutionAcronym;
   final String institutionType;
   final String year, ownership, url;
-  final Function onTap;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

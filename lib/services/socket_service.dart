@@ -6,7 +6,7 @@ import 'package:narr/store/hive_store.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 //EVENT:MICROSERVICES
-Socket socket;
+late Socket socket;
 HiveBox _box = HiveBox();
 List usersOnlineArray = [];
 
@@ -48,7 +48,7 @@ class SocketService {
       socket.on('reconnect', (reason) {
         print('disconnect $reason');
         //running the handle login even function
-        handleLoginEvent(token: savedToken, user: savedUser);
+        handleLoginEvent(token: savedToken, user: savedUser, context: context);
       });
       socket.on('error', (err) => print('Error: $err'));
     } catch (e) {
@@ -58,7 +58,9 @@ class SocketService {
 
   //handle login event function
   void handleLoginEvent(
-      {String token, dynamic user, BuildContext context}) async {
+      {required String token,
+      dynamic user,
+      required BuildContext context}) async {
     // dynamic savedUser = await _box.getUser('user');
 
     try {

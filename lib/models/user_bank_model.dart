@@ -5,10 +5,10 @@ class BankDetailsModel {
   final String bvn;
 
   BankDetailsModel({
-    this.bankName,
-    this.bankAccountName,
-    this.bankAccountNumber,
-    this.bvn,
+    required this.bankName,
+    required this.bankAccountName,
+    required this.bankAccountNumber,
+    required this.bvn,
   });
 
   factory BankDetailsModel.fromJson(Map<String, dynamic> data) {

@@ -1,13 +1,13 @@
 import 'package:file_picker/file_picker.dart';
 
 class FilePickerHelper {
-  String selectedfile;
-  String fileExtension;
-  String fileName;
+  String selectedfile = '';
+  String fileExtension = '';
+  String fileName = '';
   Future<String> selectDoc({
-    List allowedExtensions,
+    required List<String> allowedExtensions,
   }) async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       onFileLoading: (val) {
         if (val != null) {
           // do something
@@ -19,8 +19,8 @@ class FilePickerHelper {
 
     if (result != null) {
       fileName = result.files.first.name;
-      selectedfile = result.files.first.path;
-      fileExtension = result.files.first.extension;
+      selectedfile = result.files.first.path!;
+      fileExtension = result.files.first.extension!;
       print('File Name $selectedfile');
       print('File Extension: $fileExtension');
     }

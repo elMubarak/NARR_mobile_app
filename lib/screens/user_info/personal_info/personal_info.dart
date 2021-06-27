@@ -100,7 +100,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    user.institution.name ?? '',
+                                    user.institution.name,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),

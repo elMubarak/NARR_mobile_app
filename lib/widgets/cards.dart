@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 
 class HeaderCard extends StatelessWidget {
   const HeaderCard(
-      {Key key,
-      this.title,
-      this.count,
-      this.onTap,
-      this.color,
-      this.icon,
-      this.info})
-      : super(key: key);
+      {required this.title,
+      required this.count,
+      required this.onTap,
+      required this.color,
+      required this.icon,
+      required this.info});
   final String title;
   final String info;
   final String count;
-  final Function onTap;
+  final VoidCallback onTap;
   final Color color;
   final IconData icon;
 
@@ -27,13 +25,13 @@ class HeaderCard extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(1),
             color: Colors.white,
-            border: Border.all(color: Colors.grey[200])),
+            border: Border.all(color: Colors.grey.shade300)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              (title != null) ? title : '',
+              title,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.bold,

@@ -25,7 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         title: Text('Chat'),
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<dynamic>(
         future: readChats(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {

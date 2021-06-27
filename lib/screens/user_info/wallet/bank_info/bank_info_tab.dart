@@ -4,7 +4,7 @@ import 'package:narr/widgets/container_with_shadow.dart';
 
 class BankInfoTab extends StatelessWidget {
   const BankInfoTab({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -98,7 +98,7 @@ class BankInfoTab extends StatelessWidget {
 
 class InfoTextField extends StatelessWidget {
   const InfoTextField({
-    Key key,
+    Key? key,
     this.data = '',
     this.value = '',
   }) : super(key: key);

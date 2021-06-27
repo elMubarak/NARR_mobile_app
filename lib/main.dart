@@ -23,8 +23,7 @@ main() async {
 }
 
 class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext context) {
+  HttpClient createClient(SecurityContext context) {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
@@ -37,7 +36,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String token;
+  String token = '';
 
   @override
   Widget build(BuildContext context) {

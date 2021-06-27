@@ -9,10 +9,11 @@ abstract class ShowFlushBarBase with Store {
   @observable
   String fullName = '';
   String message = '';
-  BuildContext context;
+  late BuildContext context;
 
   @action
-  void updatedUserFlushBar({String userFullName, String userMessage}) {
+  void updatedUserFlushBar(
+      {required String userFullName, required String userMessage}) {
     print(userFullName);
     print(userMessage);
   }

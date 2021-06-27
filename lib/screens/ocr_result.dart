@@ -1,4 +1,4 @@
-import 'package:clipboard/clipboard.dart';
+// import 'package:clipboard/clipboard.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
@@ -7,9 +7,13 @@ class OcrResult extends StatefulWidget {
   static String id = 'ocrResult';
   final String imagePicked;
   final String selectedFile;
-  final Response response;
-  final Map headers;
-  OcrResult({this.response, this.imagePicked, this.selectedFile, this.headers});
+  Response response;
+  Map headers;
+  OcrResult(
+      {required this.response,
+      this.imagePicked = '',
+      this.selectedFile = '',
+      required this.headers});
 
   @override
   _OcrResultState createState() => _OcrResultState();
@@ -60,7 +64,7 @@ class _OcrResultState extends State<OcrResult> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: Colors.grey[600].withOpacity(0.5),
+                          color: Colors.grey.shade600.withOpacity(0.5),
                           width: 1.0,
                         ),
                       ),
@@ -72,18 +76,18 @@ class _OcrResultState extends State<OcrResult> {
                               IconButton(
                                 icon: Icon(Icons.copy),
                                 onPressed: () {
-                                  FlutterClipboard.copy(widget.response.data)
-                                      .then(
-                                    (value) {
-                                      final snackBar = SnackBar(
-                                        content: Text('Text Copied'),
-                                      );
+                                  // FlutterClipboard.copy(widget.response.data)
+                                  //     .then(
+                                  //   (value) {
+                                  //     final snackBar = SnackBar(
+                                  //       content: Text('Text Copied'),
+                                  //     );
 
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                                      print('Copied');
-                                    },
-                                  );
+                                  //     ScaffoldMessenger.of(context)
+                                  //         .showSnackBar(snackBar);
+                                  //     print('Copied');
+                                  //   },
+                                  // );
                                 },
                               ),
                             ],

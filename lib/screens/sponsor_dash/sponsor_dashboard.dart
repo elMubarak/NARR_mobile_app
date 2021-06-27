@@ -152,6 +152,9 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                     institutionAcronym: 'TETFUND',
                     institutionType: currentUser.institution.type,
                     onTap: () {},
+                    year: '',
+                    url: '',
+                    ownership: '',
                   ),
                   // SizedBox(height: 15),
                 ],
@@ -167,8 +170,8 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                 return Observer(builder: (_) {
                   return UsersOnlineCard(
                     usersOnline: onlineUsers.numberOfUsersOnline.length,
-                    userName: snapshot.data['fullName'],
-                    userEmail: snapshot.data['email'],
+                    userName: currentUser.userName,
+                    userEmail: currentUser.email,
                     onTap: () {
                       Navigator.of(context).pushNamed(Profile.id);
                     },
@@ -193,12 +196,16 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                           count: '10',
                           color: Color(0xff00a368),
                           icon: Icons.school_outlined,
+                          onTap: () {},
+                          info: '',
                         ),
                         HeaderCard(
                           title: 'Polytechnics',
                           count: '12',
                           color: Colors.red,
                           icon: Icons.school_outlined,
+                          onTap: () {},
+                          info: '',
                         ),
                       ],
                     ),
@@ -211,7 +218,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                           // info: 'Mentions in the last 1 year',
                           count: '22',
                           color: Colors.orange,
-                          icon: Icons.school_outlined,
+                          icon: Icons.school_outlined, info: '', onTap: () {},
                         ),
                         // HeaderCard(
                         //   title: 'Research Grants',
@@ -258,7 +265,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                         RoleOnlineCard(
                           title: 'Investors online',
                           count: '22',
-                          color: Colors.yellow[600],
+                          color: Colors.yellow,
                           icon: Icons.attach_money,
                         ),
                         RoleOnlineCard(
@@ -322,12 +329,11 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
 
 class RoleOnlineCard extends StatelessWidget {
   const RoleOnlineCard({
-    Key key,
-    this.title,
-    this.color,
-    this.count,
-    this.icon,
-  }) : super(key: key);
+    required this.title,
+    required this.color,
+    required this.count,
+    required this.icon,
+  });
   final String title;
   final Color color;
   final String count;
@@ -340,13 +346,15 @@ class RoleOnlineCard extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(1),
           color: Colors.white,
-          border: Border.all(color: Colors.grey[200])),
+          border: Border.all(
+            color: Colors.grey,
+          )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            (title != null) ? title : 'r',
+            title,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,

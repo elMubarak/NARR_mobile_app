@@ -15,24 +15,24 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  String fname;
-  String lname;
-  String email;
-  String phone;
-  String address;
-  String password;
-  String cPassword;
+  String fname = '';
+  String lname = '';
+  String email = '';
+  String phone = '';
+  String address = '';
+  String password = '';
+  String cPassword = '';
 
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
-  String myUrl = '$serverUrl/auth/register';
+  Uri myUrl = Uri.parse('$serverUrl/auth/register');
   final _formKey = GlobalKey<FormState>();
 
   static DateTime selectedDate = DateTime.now();
   bool isPicked = false;
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(1990, 1),
@@ -48,11 +48,11 @@ class _RegisterState extends State<Register> {
   bool institutonTypeFlag = false;
   bool institutonNameFlag = false;
   DropdownHelper _dropdownHelper = DropdownHelper();
-  List<DropdownMenuItem> item;
+  List<DropdownMenuItem> item = [];
   List institutionType = [];
   List institutionName = [];
   List institutionCategory = ['Federal', 'State', 'Private', 'Independent'];
-  Map<String, dynamic> institutionObject;
+  Map<String, dynamic> institutionObject = {};
   @override
   void initState() {
     super.initState();
@@ -98,7 +98,7 @@ class _RegisterState extends State<Register> {
                         SizedBox(height: 15),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'First Name is required';
                             }
                             return null;
@@ -119,7 +119,7 @@ class _RegisterState extends State<Register> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Last Name is required';
                             }
                             return null;
@@ -140,7 +140,7 @@ class _RegisterState extends State<Register> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Email is required';
                             } else if (!value.contains('@')) {
                               return 'Invalid email';
@@ -219,7 +219,7 @@ class _RegisterState extends State<Register> {
                         ),
                         SizedBox(height: 15.0),
                         DropdownContainer(
-                          child: DropdownButtonFormField(
+                          child: DropdownButtonFormField<dynamic>(
                             validator: (value) {
                               if (value == null) {
                                 return 'Please select an institution type';
@@ -236,13 +236,12 @@ class _RegisterState extends State<Register> {
                               'Institution Type',
                               style: TextStyle(color: Colors.grey[700]),
                             ),
-                            items: institutionType?.map((item) {
-                                  return new DropdownMenuItem(
-                                    child: new Text(item),
-                                    value: item.toString(),
-                                  );
-                                })?.toList() ??
-                                [],
+                            items: institutionType.map((item) {
+                              return new DropdownMenuItem(
+                                child: new Text(item),
+                                value: item.toString(),
+                              );
+                            })?.toList(),
                             onChanged: (value) {
                               setState(() {
                                 _dropdownHelper.selectedInstitutionType = value;
@@ -256,7 +255,7 @@ class _RegisterState extends State<Register> {
                         ),
                         institutonTypeFlag
                             ? DropdownContainer(
-                                child: DropdownButtonFormField(
+                                child: DropdownButtonFormField<dynamic>(
                                   validator: (value) {
                                     if (value == null) {
                                       return 'Please select an institution category';
@@ -273,13 +272,12 @@ class _RegisterState extends State<Register> {
                                     'Institution Category',
                                     style: TextStyle(color: Colors.grey[700]),
                                   ),
-                                  items: institutionCategory?.map((item) {
-                                        return new DropdownMenuItem(
-                                          child: new Text(item),
-                                          value: item.toString(),
-                                        );
-                                      })?.toList() ??
-                                      [],
+                                  items: institutionCategory.map((item) {
+                                    return new DropdownMenuItem(
+                                      child: new Text(item),
+                                      value: item.toString(),
+                                    );
+                                  })?.toList(),
                                   onChanged: (value) {
                                     setState(() {
                                       _dropdownHelper
@@ -300,7 +298,7 @@ class _RegisterState extends State<Register> {
                         ),
                         institutonNameFlag
                             ? DropdownContainer(
-                                child: DropdownButtonFormField(
+                                child: DropdownButtonFormField<dynamic>(
                                   validator: (value) {
                                     if (value == null) {
                                       return 'Please select an institution name';
@@ -319,13 +317,12 @@ class _RegisterState extends State<Register> {
                                   ),
                                   isExpanded: true,
                                   items: _dropdownHelper
-                                          .getInstitutionNameDropdownItems(
-                                              institutionName) ??
-                                      [],
+                                      .getInstitutionNameDropdownItems(
+                                          institutionName),
                                   onChanged: (value) async {
-                                    await NetworkHelper(
-                                            url:
-                                                '$serverUrl/institution/getbyname')
+                                    Uri getByName = Uri.parse(
+                                        '$serverUrl/institution/getbyname');
+                                    await NetworkHelper(url: getByName)
                                         .getSingleInstitutionByName(value)
                                         .then((value) {
                                       institutionObject = value;
@@ -339,7 +336,7 @@ class _RegisterState extends State<Register> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Password is required';
                             } else if (value.length < 6) {
                               return 'Password can\t be less than 6 characters';
@@ -370,7 +367,7 @@ class _RegisterState extends State<Register> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Password is required';
                             } else if (password != cPassword) {
                               return 'Passwords not matched';
@@ -400,39 +397,42 @@ class _RegisterState extends State<Register> {
                           height: 15.0,
                         ),
                         CustomBotton(
-                            isLoading: isClickable,
-                            buttonTitle: 'Register',
-                            onTap: () {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
+                          isLoading: isClickable,
+                          buttonTitle: 'Register',
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              setState(() {
+                                isClickable = true;
+                              });
+                              Uri serverUri =
+                                  Uri.parse('$serverUrl/auth/register');
+                              NetworkHelper(
+                                url: serverUri,
+                              )
+                                  .userRegistration(
+                                username: email,
+                                password: password,
+                                fname: fname,
+                                lname: lname,
+                                dob: dob,
+                                phone: phone,
+                                institution: institutionObject,
+                                address: address,
+                                context: context,
+                              )
+                                  .then((value) {
                                 setState(() {
-                                  isClickable = true;
+                                  isClickable = false;
                                 });
+                              });
 
-                                NetworkHelper(
-                                  url: '$serverUrl/auth/register',
-                                )
-                                    .userRegistration(
-                                  username: email,
-                                  password: password,
-                                  fname: fname,
-                                  lname: lname,
-                                  dob: dob,
-                                  phone: phone,
-                                  institution: institutionObject,
-                                  address: address,
-                                  context: context,
-                                )
-                                    .then((value) {
-                                  setState(() {
-                                    isClickable = false;
-                                  });
-                                });
+                              // Navigator.pushNamed(context, VerifyAccount.id);
 
-                                // Navigator.pushNamed(context, VerifyAccount.id);
-
-                              }
-                            }),
+                            }
+                          },
+                          buttonColor: Color(0xff00a368),
+                        ),
                         SizedBox(height: 35),
                         GestureDetector(
                           onTap: () {
@@ -485,19 +485,19 @@ class _RegisterState extends State<Register> {
   }
 
   Future institutionTypeDropdown() async {
-    await NetworkHelper(url: '$serverUrl/institution/types')
-        .getInstitutionType()
-        .then((value) {
+    Uri getUri = Uri.parse('$serverUrl/institution/types');
+    await NetworkHelper(url: getUri).getInstitutionType().then((value) {
       setState(() {
         institutionType = value;
       });
     });
   }
 
-  Future institutionNameDropdown({String type, String category}) async {
-    await NetworkHelper(url: '$serverUrl/institution/$type/$category')
-        .getInstitutionName()
-        .then((value) {
+  Future institutionNameDropdown(
+      {required String type, required String category}) async {
+    Uri getUri = Uri.parse('$serverUrl/institution/$type/$category');
+
+    await NetworkHelper(url: getUri).getInstitutionName().then((value) {
       setState(() {
         institutionName = value;
       });

@@ -14,10 +14,10 @@ Future displayDialog(BuildContext context, String title, String text) =>
 
 class FileWaterMarkHelper {
   Future uploadDocument(
-      {String filePath,
-      String fileName,
-      String url,
-      BuildContext context}) async {
+      {String filePath = '',
+      String fileName = '',
+      String url = '',
+      required BuildContext context}) async {
     try {
       final request = http.MultipartRequest('POST', Uri.parse(url));
       request.files.add(

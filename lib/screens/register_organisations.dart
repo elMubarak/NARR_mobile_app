@@ -3,39 +3,37 @@ import 'package:narr/configs.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/screens/login.dart';
 import 'package:narr/screens/register.dart';
+import 'package:narr/screens/register_organisations.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 import 'package:narr/widgets/formCard.dart';
 import 'package:narr/widgets/dropdown_container.dart';
 
 class RegisterOrg extends StatefulWidget {
-  static String id = 'registerORG';
+  static String id = 'register';
   @override
   _RegisterOrgState createState() => _RegisterOrgState();
 }
 
 class _RegisterOrgState extends State<RegisterOrg> {
-  String fname;
-  String lname;
-  String email;
-  String phone;
-  String address;
-  String organisationwebSite;
-  String organisationEmail;
-  String organisationAddress;
-  String password;
-  String cPassword;
+  String fname = '';
+  String lname = '';
+  String email = '';
+  String phone = '';
+  String address = '';
+  String password = '';
+  String cPassword = '';
 
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
-  String myUrl = '$serverUrl/auth/register';
+  Uri myUrl = Uri.parse('$serverUrl/auth/register');
   final _formKey = GlobalKey<FormState>();
 
   static DateTime selectedDate = DateTime.now();
   bool isPicked = false;
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(1990, 1),
@@ -51,14 +49,11 @@ class _RegisterOrgState extends State<RegisterOrg> {
   bool institutonTypeFlag = false;
   bool institutonNameFlag = false;
   DropdownHelper _dropdownHelper = DropdownHelper();
-  List<DropdownMenuItem> item;
-  List organisationType = [];
-  // List institutionName = [];
-  List organisationCategory = [
-    'Governmental',
-    'Non-Governmental',
-    'Individual',
-  ];
+  List<DropdownMenuItem> item = [];
+  List institutionType = [];
+  List institutionName = [];
+  List institutionCategory = ['Federal', 'State', 'Private', 'Independent'];
+  Map<String, dynamic> institutionObject = {};
   @override
   void initState() {
     super.initState();
@@ -78,11 +73,12 @@ class _RegisterOrgState extends State<RegisterOrg> {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Hello! Organisation',
+                  'Hello! Researcher ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 25,
+                    // fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 15),
@@ -103,7 +99,7 @@ class _RegisterOrgState extends State<RegisterOrg> {
                         SizedBox(height: 15),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'First Name is required';
                             }
                             return null;
@@ -124,7 +120,7 @@ class _RegisterOrgState extends State<RegisterOrg> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Last Name is required';
                             }
                             return null;
@@ -145,7 +141,7 @@ class _RegisterOrgState extends State<RegisterOrg> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Email is required';
                             } else if (!value.contains('@')) {
                               return 'Invalid email';
@@ -222,14 +218,12 @@ class _RegisterOrgState extends State<RegisterOrg> {
                             address = value;
                           },
                         ),
-                        //
                         SizedBox(height: 15.0),
-
                         DropdownContainer(
-                          child: DropdownButtonFormField(
+                          child: DropdownButtonFormField<dynamic>(
                             validator: (value) {
                               if (value == null) {
-                                return 'Please select an Organisation type';
+                                return 'Please select an institution type';
                               }
                               return null;
                             },
@@ -240,24 +234,20 @@ class _RegisterOrgState extends State<RegisterOrg> {
                               prefixIcon: Icon(Icons.school),
                             ),
                             hint: Text(
-                              'Organisation Type',
+                              'Institution Type',
                               style: TextStyle(color: Colors.grey[700]),
                             ),
-                            items: organisationType?.map((item) {
-                                  return new DropdownMenuItem(
-                                    child: new Text(item),
-                                    value: item.toString(),
-                                  );
-                                })?.toList() ??
-                                [],
+                            items: institutionType.map((item) {
+                              return new DropdownMenuItem(
+                                child: new Text(item),
+                                value: item.toString(),
+                              );
+                            })?.toList(),
                             onChanged: (value) {
                               setState(() {
-                                _dropdownHelper.selectedOrganisationType =
-                                    value;
+                                _dropdownHelper.selectedInstitutionType = value;
                                 institutonTypeFlag = true;
                               });
-                              if (_dropdownHelper.selectedOrganisationType ==
-                                  '') {}
                             },
                           ),
                         ),
@@ -265,22 +255,89 @@ class _RegisterOrgState extends State<RegisterOrg> {
                           height: 15.0,
                         ),
                         institutonTypeFlag
-                            ? Column(
-                                children: [
-                                  Text('Safe'),
-                                ],
+                            ? DropdownContainer(
+                                child: DropdownButtonFormField<dynamic>(
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Please select an institution category';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    prefixIcon: Icon(Icons.school),
+                                  ),
+                                  hint: Text(
+                                    'Institution Category',
+                                    style: TextStyle(color: Colors.grey[700]),
+                                  ),
+                                  items: institutionCategory.map((item) {
+                                    return new DropdownMenuItem(
+                                      child: new Text(item),
+                                      value: item.toString(),
+                                    );
+                                  })?.toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dropdownHelper
+                                          .selectedInstitutionCategory = value;
+                                      institutionNameDropdown(
+                                          type: _dropdownHelper
+                                              .selectedInstitutionType,
+                                          category: _dropdownHelper
+                                              .selectedInstitutionCategory);
+                                      institutonNameFlag = true;
+                                    });
+                                  },
+                                ),
                               )
                             : Container(),
                         SizedBox(
                           height: 15.0,
                         ),
-
+                        institutonNameFlag
+                            ? DropdownContainer(
+                                child: DropdownButtonFormField<dynamic>(
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Please select an institution name';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    prefixIcon: Icon(Icons.school),
+                                  ),
+                                  hint: Text(
+                                    'Institution Name',
+                                    style: TextStyle(color: Colors.grey[700]),
+                                  ),
+                                  isExpanded: true,
+                                  items: _dropdownHelper
+                                      .getInstitutionNameDropdownItems(
+                                          institutionName),
+                                  onChanged: (value) async {
+                                    Uri getByName = Uri.parse(
+                                        '$serverUrl/institution/getbyname');
+                                    await NetworkHelper(url: getByName)
+                                        .getSingleInstitutionByName(value)
+                                        .then((value) {
+                                      institutionObject = value;
+                                    });
+                                  },
+                                ),
+                              )
+                            : Container(),
                         SizedBox(
                           height: 15.0,
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Password is required';
                             } else if (value.length < 6) {
                               return 'Password can\t be less than 6 characters';
@@ -311,7 +368,7 @@ class _RegisterOrgState extends State<RegisterOrg> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Password is required';
                             } else if (password != cPassword) {
                               return 'Passwords not matched';
@@ -341,38 +398,42 @@ class _RegisterOrgState extends State<RegisterOrg> {
                           height: 15.0,
                         ),
                         CustomBotton(
-                            isLoading: isClickable,
-                            buttonTitle: 'Register',
-                            onTap: () {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
+                          isLoading: isClickable,
+                          buttonTitle: 'Register',
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              setState(() {
+                                isClickable = true;
+                              });
+                              Uri serverUri =
+                                  Uri.parse('$serverUrl/auth/register');
+                              NetworkHelper(
+                                url: serverUri,
+                              )
+                                  .userRegistration(
+                                username: email,
+                                password: password,
+                                fname: fname,
+                                lname: lname,
+                                dob: dob,
+                                phone: phone,
+                                institution: institutionObject,
+                                address: address,
+                                context: context,
+                              )
+                                  .then((value) {
                                 setState(() {
-                                  isClickable = true;
+                                  isClickable = false;
                                 });
+                              });
 
-                                NetworkHelper(
-                                  url: myUrl,
-                                )
-                                    .userRegistration(
-                                      username: email,
-                                      password: password,
-                                      fname: fname,
-                                      lname: lname,
-                                      dob: dob,
-                                      phone: phone,
-                                      address: address,
-                                      context: context,
-                                    )
-                                    .then(
-                                      (d) => setState(() {
-                                        isClickable = false;
-                                      }),
-                                    );
+                              // Navigator.pushNamed(context, VerifyAccount.id);
 
-                                // Navigator.pushNamed(context, VerifyAccount.id);
-
-                              }
-                            }),
+                            }
+                          },
+                          buttonColor: Color(0xff00a368),
+                        ),
                         SizedBox(height: 35),
                         GestureDetector(
                           onTap: () {
@@ -380,7 +441,7 @@ class _RegisterOrgState extends State<RegisterOrg> {
                                 .pushReplacementNamed(Register.id);
                           },
                           child: Text(
-                            'Register as an idependent researcher',
+                            'Register as an individual',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.grey,
@@ -425,25 +486,22 @@ class _RegisterOrgState extends State<RegisterOrg> {
   }
 
   Future institutionTypeDropdown() async {
-    await NetworkHelper(url: '$serverUrl/institution/types')
-        .getInstitutionType()
-        .then((value) {
+    Uri getUri = Uri.parse('$serverUrl/institution/types');
+    await NetworkHelper(url: getUri).getInstitutionType().then((value) {
       setState(() {
-        organisationType = value;
+        institutionType = value;
       });
     });
   }
-}
 
-class Institution {
-  String name;
-  String type;
-  Institution({this.name, this.type});
+  Future institutionNameDropdown(
+      {required String type, required String category}) async {
+    Uri getUri = Uri.parse('$serverUrl/institution/$type/$category');
 
-  factory Institution.fromJson(Map<String, dynamic> json) {
-    return Institution(
-      name: json['name'],
-      type: json['type'],
-    );
+    await NetworkHelper(url: getUri).getInstitutionName().then((value) {
+      setState(() {
+        institutionName = value;
+      });
+    });
   }
 }

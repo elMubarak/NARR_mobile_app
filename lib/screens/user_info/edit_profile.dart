@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/helpers/dropdownHelper.dart';
 import 'package:narr/store/hive_store.dart';
 import 'package:narr/widgets/custom_button.dart';
@@ -25,7 +26,7 @@ class _EditProfileState extends State<EditProfile> {
       appBar: AppBar(
         title: Text('Edit Profile'),
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<dynamic>(
         future: getStoredUserObject(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -67,7 +68,7 @@ class _EditProfileState extends State<EditProfile> {
                       height: 15.0,
                     ),
                     DropdownContainer(
-                      child: DropdownButtonFormField(
+                      child: DropdownButtonFormField<dynamic>(
                         decoration: InputDecoration(
                           border: UnderlineInputBorder(
                             borderSide: BorderSide.none,
@@ -91,7 +92,7 @@ class _EditProfileState extends State<EditProfile> {
                       height: 15,
                     ),
                     DropdownContainer(
-                      child: DropdownButtonFormField(
+                      child: DropdownButtonFormField<dynamic>(
                         decoration: InputDecoration(
                           border: UnderlineInputBorder(
                             borderSide: BorderSide.none,
@@ -129,6 +130,8 @@ class _EditProfileState extends State<EditProfile> {
                     CustomBotton(
                       buttonTitle: 'Confirm',
                       isLoading: false,
+                      onTap: () {},
+                      buttonColor: determinePrimaryColor(context),
                     )
                   ],
                 ),

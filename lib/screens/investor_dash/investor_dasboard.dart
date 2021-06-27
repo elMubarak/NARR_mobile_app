@@ -157,7 +157,7 @@ class _InvestorDashboardState extends State<InvestorDashboard> {
               ),
             ),
             SizedBox(height: 15),
-            FutureBuilder(
+            FutureBuilder<dynamic>(
               future: getStoredUserObject(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -192,12 +192,16 @@ class _InvestorDashboardState extends State<InvestorDashboard> {
                           count: '10',
                           color: Color(0xff00a368),
                           icon: Icons.school_outlined,
+                          info: '',
+                          onTap: () {},
                         ),
                         HeaderCard(
                           title: 'Federal institution',
                           count: '2',
                           color: Colors.red,
                           icon: Icons.school_outlined,
+                          info: '',
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -210,13 +214,15 @@ class _InvestorDashboardState extends State<InvestorDashboard> {
                           // info: 'Mentions in the last 1 year',
                           count: '5',
                           color: Colors.orange,
-                          icon: Icons.school_outlined,
+                          icon: Icons.school_outlined, info: '', onTap: () {},
                         ),
                         HeaderCard(
                           title: 'Privateinstitution',
                           count: '3',
                           color: Colors.red,
                           icon: Icons.school_outlined,
+                          info: '',
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -321,11 +327,11 @@ class _InvestorDashboardState extends State<InvestorDashboard> {
 
 class RoleOnlineCard extends StatelessWidget {
   const RoleOnlineCard({
-    Key key,
-    this.title,
-    this.color,
-    this.count,
-    this.icon,
+    Key? key,
+    required this.title,
+    required this.color,
+    required this.count,
+    required this.icon,
   }) : super(key: key);
   final String title;
   final Color color;
@@ -339,7 +345,7 @@ class RoleOnlineCard extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(1),
           color: Colors.white,
-          border: Border.all(color: Colors.grey[200])),
+          border: Border.all(color: Colors.grey.shade200)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

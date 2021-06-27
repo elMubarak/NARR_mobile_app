@@ -1,22 +1,16 @@
-class BlockchainDtails {
-  final String privateKey;
-  final String publicKey;
-  final num blockChaintokens;
-  final String gasBalance;
+class BlockchainDetails {
+  final num blockChainTokens;
+  final num gasBalance;
 
-  BlockchainDtails({
-    this.privateKey,
-    this.publicKey,
-    this.blockChaintokens,
-    this.gasBalance,
+  BlockchainDetails({
+    this.blockChainTokens = 0,
+    this.gasBalance = 0,
   });
 
-  factory BlockchainDtails.fromJson(Map<String, dynamic> data) {
-    return BlockchainDtails(
-      privateKey: data['privateKey'] as String,
-      publicKey: data['publicKey'] as String,
-      blockChaintokens: data['tokens'] as num,
-      gasBalance: data['gasBalancre'] as String,
+  factory BlockchainDetails.fromJson(Map<String, dynamic> data) {
+    return BlockchainDetails(
+      blockChainTokens: data['tokens'] as num,
+      gasBalance: data['gasBalancre'] as num,
     );
   }
 }

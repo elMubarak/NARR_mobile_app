@@ -1,14 +1,14 @@
 class InstitutionModel {
-  String schoolType;
-  String alias;
-  List<String> schoolName;
-
-  InstitutionModel({this.schoolType, this.alias, this.schoolName});
+  late String schoolType;
+  late String alias;
+  late List<String> schoolName;
+  InstitutionModel(
+      {this.schoolType = '', this.alias = '', required this.schoolName});
 
   InstitutionModel.fromJson(Map<String, dynamic> json) {
-    schoolType = json['schooltype'];
-    alias = json['alias'];
-    schoolName = json['schoolname'].cast<String>();
+    this.schoolType = json['schooltype'];
+    this.alias = json['alias'];
+    this.schoolName = json['schoolname'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {

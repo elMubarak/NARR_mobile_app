@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/login.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/widgets/custom_button.dart';
@@ -50,6 +51,7 @@ class _VerifyAccountState extends State<VerifyAccount> {
                       onTap: () {
                         Navigator.pushReplacementNamed(context, Login.id);
                       },
+                      buttonColor: determinePrimaryColor(context),
                     ),
                   ],
                 ),

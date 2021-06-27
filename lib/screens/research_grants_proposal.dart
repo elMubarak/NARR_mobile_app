@@ -30,6 +30,7 @@ class _ResearchGrantsProposalState extends State<ResearchGrantsProposal> {
                   loremIpsum: loremIpsum,
                   iconButtonIcon: FontAwesomeIcons.heart,
                   iconButtonIconColor: Colors.green,
+                  iconButtonOnPressed: () {},
                 ),
               ),
               Padding(

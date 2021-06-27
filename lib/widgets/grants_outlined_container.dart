@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class GrantsOutlinedContainer extends StatelessWidget {
   final Widget child;
-  const GrantsOutlinedContainer({Key key, this.child});
+  const GrantsOutlinedContainer({Key? key,required this.child});
 
   @override
   Widget build(BuildContext context) {

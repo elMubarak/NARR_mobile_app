@@ -3,16 +3,16 @@ import 'package:narr/widgets/container_card.dart';
 
 class UsersOnlineCard extends StatelessWidget {
   const UsersOnlineCard({
-    Key key,
-    this.usersOnline,
-    this.onTap,
-    this.userName,
-    this.userEmail,
+    Key? key,
+    required this.usersOnline,
+    required this.onTap,
+    required this.userName,
+    required this.userEmail,
   }) : super(key: key);
   final int usersOnline;
   final String userName;
   final String userEmail;
-  final Function onTap;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

@@ -109,14 +109,15 @@ class AdminDashBoard extends StatelessWidget {
                     year: currentUser.institution.year,
                     // ownerShip: currentUser.institution.ownerShip,
                     // url: currentUser.institution.url,
-                    onTap: () {},
+                    onTap: () {}, url: currentUser.institution.url,
+                    ownership: currentUser.institution.ownerShip,
                   ),
                   // SizedBox(height: 15),
                 ],
               ),
             ),
             SizedBox(height: 15),
-            FutureBuilder(
+            FutureBuilder<dynamic>(
               future: getStoredUserObject(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -151,12 +152,16 @@ class AdminDashBoard extends StatelessWidget {
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.insert_drive_file,
+                          info: '',
+                          onTap: () {},
                         ),
                         HeaderCard(
                           title: 'Read \nSuggestions',
                           count: '22',
                           color: Colors.blue,
                           icon: Icons.import_contacts,
+                          info: '',
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -165,16 +170,20 @@ class AdminDashBoard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         HeaderCard(
-                            title: 'Mentions',
-                            info: 'Mentions in the last 1 year',
-                            count: '22',
-                            color: Colors.orange,
-                            icon: Icons.person),
+                          title: 'Mentions',
+                          info: 'Mentions in the last 1 year',
+                          count: '22',
+                          color: Colors.orange,
+                          icon: Icons.person,
+                          onTap: () {},
+                        ),
                         HeaderCard(
                           title: 'Research Grants',
                           count: '22',
                           color: Colors.red,
                           icon: Icons.insert_drive_file,
+                          onTap: () {},
+                          info: '',
                         ),
                       ],
                     ),
@@ -235,8 +244,8 @@ class AdminDashBoard extends StatelessWidget {
 
 class QueueManagerContainer extends StatelessWidget {
   const QueueManagerContainer({
-    Key key,
-    this.queueTitle,
+    Key? key,
+    required this.queueTitle,
     this.activeQueue = 0,
     this.completedQueue = 0,
     this.waitingQueue = 0,
@@ -250,7 +259,7 @@ class QueueManagerContainer extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            queueTitle ?? '',
+            queueTitle,
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -281,7 +290,7 @@ class QueueManagerContainer extends StatelessWidget {
                       ),
                     ),
                     title: Text('Active'),
-                    subtitle: Text(activeQueue.toString() ?? 0),
+                    subtitle: Text(activeQueue.toString()),
                   ),
                 ),
               ),
@@ -308,7 +317,7 @@ class QueueManagerContainer extends StatelessWidget {
                       ),
                     ),
                     title: Text('Waiting'),
-                    subtitle: Text(waitingQueue.toString() ?? 0),
+                    subtitle: Text(waitingQueue.toString()),
                   ),
                 ),
               ),
@@ -339,7 +348,7 @@ class QueueManagerContainer extends StatelessWidget {
                       ),
                     ),
                     title: Text('Completed'),
-                    subtitle: Text(completedQueue.toString() ?? 0),
+                    subtitle: Text(completedQueue.toString()),
                   ),
                 ),
               ),
@@ -366,7 +375,7 @@ class QueueManagerContainer extends StatelessWidget {
                       ),
                     ),
                     title: Text('Failed'),
-                    subtitle: Text(failedQueue.toString() ?? 0),
+                    subtitle: Text(failedQueue.toString()),
                   ),
                 ),
               ),

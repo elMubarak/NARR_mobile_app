@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class OcrCard extends StatelessWidget {
   final IconData icon;
   final String cardTitle;
-  const OcrCard({Key key, this.icon, this.cardTitle}) : super(key: key);
+  const OcrCard({Key? key, required this.icon, required this.cardTitle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class OcrCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: Colors.grey[600].withOpacity(0.5),
+          color: Colors.grey.shade300.withOpacity(0.5),
           width: 1.0,
         ),
       ),

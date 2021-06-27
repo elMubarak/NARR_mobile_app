@@ -11,7 +11,7 @@ class AllInstitution extends StatefulWidget {
 
 class _AllInstitutionState extends State<AllInstitution> {
   DropdownHelper _dropdownHelper = DropdownHelper();
-  String url = '$serverUrl/institution';
+  Uri url = Uri.parse('$serverUrl/institution');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,7 @@ class _AllInstitutionState extends State<AllInstitution> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: DropdownButton(
+            child: DropdownButton<dynamic>(
               items: _dropdownHelper.getInstitutionTypeDropdownItems(),
               onChanged: (value) {
                 setState(() {
@@ -41,7 +41,7 @@ class _AllInstitutionState extends State<AllInstitution> {
           ),
         ],
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<dynamic>(
         future: NetworkHelper(url: url).getInstitutionName(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -51,7 +51,7 @@ class _AllInstitutionState extends State<AllInstitution> {
           }
           return ListView.separated(
             itemBuilder: (BuildContext context, int index) {
-              var institution = snapshot.data[index];
+              var institution = snapshot.data![index];
               return ListTile(
                 leading: CircleAvatar(
                   backgroundImage:

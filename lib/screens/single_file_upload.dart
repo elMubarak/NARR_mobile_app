@@ -25,8 +25,8 @@ class SingleFileUpload extends StatefulWidget {
 }
 
 class _SingleFileUploadState extends State<SingleFileUpload> {
-  String baseUrl = 'http://192.168.43.219:3000/upload';
-  String uploadUrl = '$mubixyMockServer/research/upload';
+  Uri baseUrl = Uri.parse('http://192.168.43.219:3000/upload');
+  Uri uploadUrl = Uri.parse('$serverUrl/research/upload');
 
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   // FileWaterMarkHelper _fileWaterMarkHelper = FileWaterMarkHelper();
@@ -59,16 +59,16 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
   //
   Dio dio = Dio();
   bool flag = false;
-  Response response;
-  double progress;
-  int bytesSent;
-  int bytesTotal;
+  late Response response;
+  double progress = 0;
+  int bytesSent = 0;
+  int bytesTotal = 0;
 
-  static String researchTitle;
-  static String authors;
-  static String fee;
-  static String year;
-  static String description;
+  static String researchTitle = '';
+  static String authors = '';
+  static String fee = '';
+  static String year = '';
+  static String description = '';
 
   void onSendProgress(int sent, int total) {
     double percentage = (sent / total * 100);
@@ -82,9 +82,9 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
 
 // drop file
   void dropFile() {
-    _filePickerHelper.fileName = null;
-    _filePickerHelper.fileExtension = null;
-    _filePickerHelper.selectedfile = null;
+    _filePickerHelper.fileName = '';
+    _filePickerHelper.fileExtension = '';
+    _filePickerHelper.selectedfile = '';
     setState(() {
       flag = false;
     });
@@ -164,7 +164,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                             children: [
                               TextFormField(
                                 validator: (value) {
-                                  if (value.isEmpty) {
+                                  if (value!.isEmpty) {
                                     return 'Research Title is required';
                                   }
                                   return null;
@@ -183,7 +183,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               TextFormField(
                                 maxLines: 5,
                                 validator: (value) {
-                                  if (value.isEmpty) {
+                                  if (value!.isEmpty) {
                                     return 'Description of publication is required';
                                   }
                                   return null;
@@ -349,7 +349,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               ),
                               SizedBox(height: 14),
                               DropdownContainer(
-                                child: DropdownButtonFormField(
+                                child: DropdownButtonFormField<dynamic>(
                                   validator: (value) {
                                     if (value == null) {
                                       return 'Please select a genre';
@@ -379,7 +379,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               ),
                               SizedBox(height: 14),
                               DropdownContainer(
-                                child: DropdownButtonFormField(
+                                child: DropdownButtonFormField<dynamic>(
                                   validator: (value) {
                                     if (value == null) {
                                       return 'Please select Access Type';
@@ -432,7 +432,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               ),
                               TextFormField(
                                 validator: (value) {
-                                  if (value.isEmpty) {
+                                  if (value!.isEmpty) {
                                     return 'Year of publication is required';
                                   }
                                   return null;
@@ -459,8 +459,8 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                             // onSendProgress();
 
                             // await _uploadFile();
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
                               setState(() {
                                 flag = true;
                                 isClickable = true;
@@ -493,6 +493,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                                   );
                             }
                           },
+                          buttonColor: determinePrimaryColor(context),
                         ),
                       ],
                     ),
@@ -523,7 +524,7 @@ class _SingleFileUploadState extends State<SingleFileUpload> {
                               'Click the upload file \n button to start \n upload proccess.',
                               maxLines: 3,
                               style: TextStyle(
-                                color: Colors.grey[900].withOpacity(0.25),
+                                color: Colors.grey.shade900.withOpacity(0.25),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                               ),

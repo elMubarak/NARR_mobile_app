@@ -103,9 +103,9 @@ class ViewEmail extends StatelessWidget {
 
 class IconTitle extends StatelessWidget {
   const IconTitle({
-    Key key,
-    this.icon,
-    this.title,
+    Key? key,
+    required this.icon,
+    required this.title,
   }) : super(key: key);
   final IconData icon;
   final String title;
@@ -126,8 +126,8 @@ class IconTitle extends StatelessWidget {
 
 class Attachment extends StatelessWidget {
   const Attachment({
-    Key key,
-    this.color,
+    Key? key,
+    required this.color,
   }) : super(key: key);
   final Color color;
   @override

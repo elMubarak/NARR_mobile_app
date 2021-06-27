@@ -74,9 +74,9 @@ class _EmailListState extends State<EmailList> {
             future: getEmails(),
             builder: (context, AsyncSnapshot<List<EmailsModel>> snapshot) {
               return ListView.builder(
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  EmailsModel data = snapshot.data[index];
+                  EmailsModel data = snapshot.data![index];
 
                   return ListTile(
                     // selected: selectedEmail.contains(data.to),
@@ -181,13 +181,13 @@ class EmailModel {
 
   EmailModel(
     this.isImage, {
-    this.abrv,
-    this.sender,
-    this.dateTime,
-    this.senderImage,
-    this.title,
-    this.message,
-    this.color,
+    required this.abrv,
+    required this.sender,
+    required this.dateTime,
+    required this.senderImage,
+    required this.title,
+    required this.message,
+    required this.color,
   });
 }
 
@@ -199,10 +199,12 @@ List<EmailModel> mockEmails = [
       message:
           'Hello Sir, this is the verified version of the agreed documents to be used, we are now ready for the next phase',
       dateTime: '12:09 am',
-      color: Colors.green),
+      color: Colors.green,
+      senderImage: ''),
   EmailModel(false,
       sender: 'Asiya Jibson',
       abrv: 'A',
+      senderImage: '',
       title: 'Submition of the grant proposal',
       message:
           'Submition of of the proposal stated for the use in acordance to change in the system, given entropy is vial',
@@ -216,7 +218,8 @@ List<EmailModel> mockEmails = [
       message:
           'Hello Sir, this is the verified version of the agreed documents to be used, we are now ready for the next phase',
       dateTime: '12:09 am',
-      color: Colors.grey),
+      color: Colors.grey,
+      abrv: ''),
   EmailModel(false,
       sender: 'Titan Amored',
       abrv: 'T',
@@ -224,7 +227,8 @@ List<EmailModel> mockEmails = [
       message:
           'Hello Sir, this is the verified version of the agreed documents to be used, we are now ready for the next phase',
       dateTime: '9:09 pm',
-      color: Colors.red),
+      color: Colors.red,
+      senderImage: ''),
   EmailModel(true,
       sender: 'Mr. Moses',
       senderImage:
@@ -233,7 +237,8 @@ List<EmailModel> mockEmails = [
       message:
           'Hello Sir, this is the verified version of the agreed documents to be used, we are now ready for the next phase',
       dateTime: '4 May',
-      color: Colors.grey),
+      color: Colors.grey,
+      abrv: ''),
   EmailModel(true,
       sender: 'Zainab Bashir',
       senderImage:
@@ -242,7 +247,8 @@ List<EmailModel> mockEmails = [
       message:
           'Hello Sir, this is the verified version of the agreed documents to be used, we are now ready for the next phase',
       dateTime: '3 May',
-      color: Colors.grey),
+      color: Colors.grey,
+      abrv: ''),
   EmailModel(false,
       sender: 'Usman  Murtala',
       abrv: 'UM',
@@ -250,5 +256,6 @@ List<EmailModel> mockEmails = [
       message:
           ' this is the verified version of the agreed documents to be used, we are now ready for the next phase',
       dateTime: '2 May',
-      color: Colors.grey),
+      color: Colors.grey,
+      senderImage: ''),
 ];

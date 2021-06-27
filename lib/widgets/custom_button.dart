@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 class CustomBotton extends StatelessWidget {
   final String buttonTitle;
   final Color buttonColor;
-  final Function onTap;
+  final VoidCallback onTap;
   final bool isLoading;
   CustomBotton(
-      {this.buttonTitle, this.onTap, this.isLoading, this.buttonColor});
+      {required this.buttonTitle,
+      required this.onTap,
+      required this.isLoading,
+      required this.buttonColor});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (isLoading)
+      onTap: isLoading
           ? () {
               print('Loading!!!');
             }
