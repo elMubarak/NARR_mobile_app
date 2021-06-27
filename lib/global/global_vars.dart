@@ -7,7 +7,7 @@ import 'package:narr/screens/sponsor_dash/sponsor_dashboard.dart';
 import 'package:narr/store/hive_store.dart';
 
 String userRole = '';
-UserModel currentUser;
+late UserModel currentUser;
 HiveBox _box = HiveBox();
 
 String determineDasboard(BuildContext context) {

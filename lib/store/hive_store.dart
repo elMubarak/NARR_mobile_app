@@ -24,7 +24,7 @@ class HiveBox {
     Map<dynamic, dynamic> savedUser = await store.get('user');
     if (savedUser != null) {
       Map<String, dynamic> hashedUser =
-          savedUser.map((key, value) => MapEntry(key?.toString(), value));
+          savedUser.map((key, value) => MapEntry(key.toString(), value));
 
       return hashedUser;
     }

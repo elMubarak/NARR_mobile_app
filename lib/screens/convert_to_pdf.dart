@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/helpers/file_convert_helper.dart';
 import 'package:narr/helpers/file_picker_helper.dart';
 import 'package:narr/helpers/permission_helper.dart';
@@ -19,10 +20,10 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
   String mylocalUrl = 'http://192.168.43.70:3000/convert';
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  String filePicked;
+  String filePicked = '';
   bool isClickable = false;
-  String selectedFile;
-  Response response;
+  String selectedFile = '';
+  late Response response;
 
   FilePickerHelper _filePickerHelper = FilePickerHelper();
   FileConvertHelper _fileConvertHelper = FileConvertHelper();
@@ -38,9 +39,9 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
 
   void dropFile() {
     setState(() {
-      _filePickerHelper.fileName = null;
-      _filePickerHelper.fileExtension = null;
-      _filePickerHelper.selectedfile = null;
+      _filePickerHelper.fileName = '';
+      _filePickerHelper.fileExtension = '';
+      _filePickerHelper.selectedfile = '';
     });
 
     setState(() {
@@ -50,9 +51,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
 
   @override
   void initState() {
-    _permissionService.requestPermission(onPermissionDenied: () {
-      _permissionService.requestPermission();
-    });
+    _permissionService.requestPermission();
     super.initState();
   }
 
@@ -198,6 +197,7 @@ class _ConvertToPDFState extends State<ConvertToPDF> {
                           setState(() {});
                           //
                         },
+                        buttonColor: determinePrimaryColor(context),
                       )
                     : Container(),
               ],

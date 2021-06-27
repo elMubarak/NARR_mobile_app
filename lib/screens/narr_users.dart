@@ -79,7 +79,7 @@ class _UserDataState extends State<UserData> {
               SizedBox(
                 height: 20.0,
               ),
-              FutureBuilder(
+              FutureBuilder<dynamic>(
                 // future: loginUser(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {

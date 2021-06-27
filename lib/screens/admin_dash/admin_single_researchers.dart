@@ -7,14 +7,14 @@ import 'package:narr/widgets/container_with_shadow.dart';
 
 class Singleresearcher extends StatefulWidget {
   final String researcherId;
-  Singleresearcher({this.researcherId});
+  Singleresearcher({required this.researcherId});
 
   @override
   _SingleresearcherState createState() => _SingleresearcherState();
 }
 
 class _SingleresearcherState extends State<Singleresearcher> {
-  String server = '$serverUrl/user';
+  Uri server = Uri.parse('$serverUrl/user');
   @override
   initState() {
     super.initState();
@@ -23,7 +23,7 @@ class _SingleresearcherState extends State<Singleresearcher> {
   Widget build(BuildContext context) {
     // print(onlineUsers.numberOfUsersOnline);
     return Scaffold(
-      body: FutureBuilder(
+      body: FutureBuilder<dynamic>(
         future: NetworkHelper(url: server)
             .getSingleRegisteredUser(widget.researcherId),
         builder: (context, snapshot) {

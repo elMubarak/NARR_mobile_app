@@ -4,11 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:narr/global/global_vars.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 import 'package:narr/widgets/custom_button.dart';
-import 'package:flutter_paystack/flutter_paystack.dart';
+// import 'package:flutter_paystack/flutter_paystack.dart';
 
 class WalletTab extends StatefulWidget {
   const WalletTab({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -16,12 +16,14 @@ class WalletTab extends StatefulWidget {
 }
 
 class _WalletTabState extends State<WalletTab> {
-  var publicKey = 'pk_test_b448c10aa89a7654b88480a95b1d787e9f3f61c3';
+  String payStackKey = 'pk_test_b448c10aa89a7654b88480a95b1d787e9f3f61c3';
 
   TextEditingController fundController = TextEditingController();
   TextEditingController cashout = TextEditingController();
   TextEditingController transferAmount = TextEditingController();
   TextEditingController transferRecipient = TextEditingController();
+
+  String address = 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh';
   @override
   void initState() {
     _initPayStack();
@@ -29,24 +31,24 @@ class _WalletTabState extends State<WalletTab> {
   }
 
   void _initPayStack() {
-    PaystackPlugin.initialize(publicKey: publicKey)
-        .then((PaystackPlugin value) {
-      print(value);
-    });
+    // PaystackPlugin.initialize(publicKey: publicKey)
+    //     .then((PaystackPlugin value) {
+    //   print(value);
+    // });
   }
 
-  _charge(context, {int ammount}) async {
-    Charge charge = Charge()
-      ..amount = ammount
-      ..reference = 'test2'
-      // or ..accessCode = _getAccessCodeFrmInitialization()
-      ..email = 'elmubarak333@gmail.com';
-    CheckoutResponse response = await PaystackPlugin.checkout(
-      context,
-      method: CheckoutMethod.card,
-      charge: charge,
-    );
-    print(response.status);
+  _charge(context, {required num ammount}) async {
+    // Charge charge = Charge()
+    //   ..amount = ammount
+    //   ..reference = 'test2'
+    //   // or ..accessCode = _getAccessCodeFrmInitialization()
+    //   ..email = 'elmubarak333@gmail.com';
+    // CheckoutResponse response = await PaystackPlugin.checkout(
+    //   context,
+    //   method: CheckoutMethod.card,
+    //   charge: charge,
+    // );
+    // print(response.status);
   }
 
   @override
@@ -75,7 +77,7 @@ class _WalletTabState extends State<WalletTab> {
                         ),
                         children: [
                           TextSpan(
-                            text: ' NARR COIN = N45,000',
+                            text: ' NARR COIN = N25,000',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 9,
@@ -104,17 +106,19 @@ class _WalletTabState extends State<WalletTab> {
                         Row(
                           children: [
                             Icon(
-                              FontAwesomeIcons.addressBook,
+                              FontAwesomeIcons.shieldVirus,
                               size: 14,
-                              color: Colors.grey[700],
+                              color: determinePrimaryColor(context),
                             ),
                             SizedBox(width: 5),
+                            Text('Address: '),
                             Expanded(
-                              child: Row(
+                              flex: 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Address: '),
                                   SelectableText(
-                                    'fj30fre8430438fbhfffferkjgnjernknjnbn0bc',
+                                    address.toLowerCase(),
                                     maxLines: 1,
                                   ),
                                 ],
@@ -128,7 +132,7 @@ class _WalletTabState extends State<WalletTab> {
                             Icon(
                               FontAwesomeIcons.moneyBill,
                               size: 14,
-                              color: Colors.grey[700],
+                              color: determinePrimaryColor(context),
                             ),
                             SizedBox(width: 5),
                             Container(
@@ -154,7 +158,7 @@ class _WalletTabState extends State<WalletTab> {
                             Icon(
                               FontAwesomeIcons.moneyBill,
                               size: 14,
-                              color: Colors.grey[700],
+                              color: determinePrimaryColor(context),
                             ),
                             SizedBox(width: 5),
                             Container(
@@ -180,7 +184,7 @@ class _WalletTabState extends State<WalletTab> {
                             Icon(
                               FontAwesomeIcons.moneyBill,
                               size: 14,
-                              color: Colors.grey[700],
+                              color: determinePrimaryColor(context),
                             ),
                             SizedBox(width: 5),
                             Container(
@@ -207,7 +211,7 @@ class _WalletTabState extends State<WalletTab> {
                             Icon(
                               FontAwesomeIcons.ethereum,
                               size: 14,
-                              color: Colors.grey[700],
+                              color: determinePrimaryColor(context),
                             ),
                             SizedBox(width: 5),
                             Container(
@@ -220,6 +224,31 @@ class _WalletTabState extends State<WalletTab> {
                               ),
                             ),
                           ],
+                        ),
+                        SizedBox(height: 16),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Note:',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            children: [
+                              TextSpan(
+                                  text:
+                                      'If you want to manage your wallet externally, you can download ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ))
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(height: 32),
+                        CustomBotton(
+                          isLoading: false,
+                          buttonTitle: 'Download wallet',
+                          buttonColor: determinePrimaryColor(context),
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -268,6 +297,7 @@ class _WalletTabState extends State<WalletTab> {
                           _charge(context, ammount: _currentAmount);
                         },
                         isLoading: false,
+                        buttonColor: determinePrimaryColor(context),
                       ),
                     ),
                   ],
@@ -308,6 +338,7 @@ class _WalletTabState extends State<WalletTab> {
                       alignment: Alignment.centerRight,
                       child: CustomBotton(
                         buttonTitle: 'Cashout',
+                        buttonColor: determinePrimaryColor(context),
                         isLoading: false,
                         onTap: () {},
                       ),
@@ -336,8 +367,10 @@ class _WalletTabState extends State<WalletTab> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: CustomBotton(
+                        buttonColor: determinePrimaryColor(context),
                         buttonTitle: 'Transfer',
                         isLoading: false,
+                        onTap: () {},
                       ),
                     ),
                   ],
@@ -369,8 +402,8 @@ class _WalletTabState extends State<WalletTab> {
     }
   }
 
-  String _convertToNarrCoin(int naira) {
-    double value = naira / 1000000;
+  String _convertToNarrCoin(num naira) {
+    num value = naira / 1000000;
     final String finalValue = value.toString();
     setState(() {});
     return finalValue;

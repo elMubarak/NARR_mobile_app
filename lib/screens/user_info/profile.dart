@@ -208,7 +208,7 @@ class _ProfileState extends State<Profile> {
                                     width: 4.0,
                                   ),
                                   Text(
-                                    currentUser.institution.name ?? '',
+                                    currentUser.institution.name,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -347,6 +347,7 @@ class _ProfileState extends State<Profile> {
                                 child: Users(
                                   name: '$onlineUserfullName',
                                   userImage: 'images/profile.jpg',
+                                  institution: '',
                                 ),
                               );
                             },
@@ -379,7 +380,8 @@ class Users extends StatelessWidget {
   final String institution;
 
   final String userImage;
-  Users({@required this.name, this.institution, this.userImage});
+  Users(
+      {required this.name, required this.institution, required this.userImage});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -441,7 +443,7 @@ class Users extends StatelessWidget {
 
 class ReuseableCard extends StatelessWidget {
   final Widget child;
-  ReuseableCard({this.child});
+  ReuseableCard({required this.child});
 
   @override
   Widget build(BuildContext context) {

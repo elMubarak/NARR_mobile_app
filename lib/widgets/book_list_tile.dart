@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BookListTile extends StatelessWidget {
-  const BookListTile({
-    Key key,
-  }) : super(key: key);
+  const BookListTile();
 
   @override
   Widget build(BuildContext context) {

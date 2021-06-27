@@ -7,7 +7,7 @@ class DonutAutoLabelChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
 
-  DonutAutoLabelChart(this.seriesList, {this.animate});
+  DonutAutoLabelChart(this.seriesList, {required this.animate});
 
   /// Creates a [PieChart] with sample data and no transition.
   factory DonutAutoLabelChart.withSampleData() {

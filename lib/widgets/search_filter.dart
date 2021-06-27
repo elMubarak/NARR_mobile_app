@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class BottomSheet extends StatelessWidget {
   const BottomSheet({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -44,8 +44,8 @@ class BottomSheet extends StatelessWidget {
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem({
-    Key key,
-    this.item,
+    Key? key,
+    required this.item,
   }) : super(key: key);
   final String item;
   @override

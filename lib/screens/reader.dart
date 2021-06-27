@@ -10,7 +10,7 @@ import 'dart:math';
 
 import '../configs.dart';
 
-String singleResearchUrl = '$serverUrl/research';
+Uri singleResearchUrl = Uri.parse('$serverUrl/research');
 
 class Reader extends StatefulWidget {
   final String id;
@@ -43,12 +43,12 @@ class Slider extends StatefulWidget {
 }
 
 class _SliderState extends State<Slider> {
-  bool isDark = false;
+  bool? isDark = false;
   // Random _random = Random();
-  CarouselSlider carouselSlider;
+  late CarouselSlider carouselSlider;
   CarouselController buttonCarouselController = CarouselController();
   HiveBox _box = HiveBox();
-  NetworkHelper _networkHelper = NetworkHelper();
+  NetworkHelper _networkHelper = NetworkHelper(url: singleResearchUrl);
 
   var token;
   getToken() async {
@@ -67,7 +67,7 @@ class _SliderState extends State<Slider> {
     return result;
   }
 
-  int _currentPage = 1;
+  int? _currentPage = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +76,9 @@ class _SliderState extends State<Slider> {
     _networkHelper.addDocumentToResearchHistoryArr(
         id: widget.id, currentPage: _currentPage);
 
-    return FutureBuilder(
-      future:
-          NetworkHelper(url: singleResearchUrl).getSingleResearch(widget.id),
+    return FutureBuilder<dynamic>(
+      future: NetworkHelper(url: singleResearchUrl)
+          .getSingleResearch(widget.id, singleResearchUrl.toString()),
       builder: (context, research) {
         var readPath = research.data['research']['readPath'];
         var nPages = research.data['research']['nPages'];
@@ -126,7 +126,7 @@ class _SliderState extends State<Slider> {
                   children: [
                     Checkbox(
                       value: isDark,
-                      onChanged: (val) {
+                      onChanged: (bool? val) {
                         setState(() {
                           isDark = val;
                         });
@@ -157,10 +157,10 @@ class _SliderState extends State<Slider> {
                           icon: Icon(Icons.chevron_left),
                           onPressed: () {
                             setState(() {
-                              if (_currentPage < 2) {
+                              if (_currentPage! < 2) {
                                 _currentPage = 1;
                               } else {
-                                _currentPage--;
+                                _currentPage = (_currentPage! - 1);
                               }
                             });
                             print(_currentPage);
@@ -174,11 +174,11 @@ class _SliderState extends State<Slider> {
                             showDialog<int>(
                               context: context,
                               builder: (BuildContext context) {
-                                return NumberPickerDialog.integer(
-                                  initialIntegerValue:
-                                      (_currentPage != null) ? _currentPage : 1,
+                                return NumberPicker(
+                                  value: _currentPage!,
                                   minValue: 1,
                                   maxValue: research.data['research']['nPages'],
+                                  onChanged: (int value) {},
                                   // onChanged: (value) {
 
                                   // },
@@ -204,7 +204,7 @@ class _SliderState extends State<Slider> {
                                 _currentPage =
                                     research.data['research']['nPages'];
                               } else {
-                                _currentPage++;
+                                _currentPage = _currentPage! + 1;
                               }
                             });
                           },
@@ -236,10 +236,10 @@ class _SliderState extends State<Slider> {
 
 class PageSlider extends StatelessWidget {
   const PageSlider({
-    Key key,
-    @required this.buttonCarouselController,
-    @required this.imgList,
-    this.isDark,
+    Key? key,
+    required this.buttonCarouselController,
+    required this.imgList,
+    required this.isDark,
   }) : super(key: key);
 
   final CarouselController buttonCarouselController;
@@ -285,11 +285,6 @@ class PageSlider extends StatelessWidget {
                       print(error);
                       return Text('Some errors occurred!');
                     },
-                    loadFailedChild: Container(
-                      height: 100,
-                      width: 100,
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
                     imageProvider: NetworkImage(url),
                     minScale: PhotoViewComputedScale.contained * 1.0,
                     maxScale: PhotoViewComputedScale.contained * 2.5,

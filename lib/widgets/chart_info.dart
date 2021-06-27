@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class Analytics extends StatelessWidget {
   const Analytics({
-    Key key,
-    @required this.chartWidget,
-    this.title,
-    this.child,
+    Key? key,
+    required this.chartWidget,
+    required this.title,
+    required this.child,
   }) : super(key: key);
 
   final Padding chartWidget;
@@ -39,7 +39,7 @@ class Analytics extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(title ?? ''),
+                    Text(title),
                     Text(
                       '2021',
                       style: TextStyle(
@@ -56,24 +56,7 @@ class Analytics extends StatelessWidget {
                 //charts
                 chartWidget,
                 SizedBox(height: 10),
-                child ??
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ChartInfoG(
-                          color: Colors.red,
-                          info: 'Reading',
-                        ),
-                        ChartInfoG(
-                          color: Colors.yellow,
-                          info: 'Mention',
-                        ),
-                        ChartInfoG(
-                          color: Colors.green,
-                          info: 'Recomendations',
-                        ),
-                      ],
-                    ),
+                child,
               ],
             ),
           ),
@@ -117,9 +100,9 @@ class Analytics extends StatelessWidget {
 
 class ChartInfoG extends StatelessWidget {
   const ChartInfoG({
-    Key key,
-    this.color,
-    this.info,
+    Key? key,
+    required this.color,
+    required this.info,
   }) : super(key: key);
   final Color color;
   final String info;

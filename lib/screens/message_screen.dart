@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MessageScreen extends StatefulWidget {
   final messages;
   final String name;
-  MessageScreen({this.messages, @required this.name});
+  MessageScreen({this.messages, required this.name});
   @override
   _MessageScreenState createState() => _MessageScreenState();
 }
@@ -94,7 +94,7 @@ class _MessageScreenState extends State<MessageScreen> {
 }
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble({this.text, this.isMe});
+  MessageBubble({required this.text, required this.isMe});
 
   final String text;
   final bool isMe;

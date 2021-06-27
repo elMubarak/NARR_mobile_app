@@ -8,16 +8,19 @@ class EmailsModel {
   final dynamic attachment;
 
   EmailsModel({
-    this.subject,
-    this.from,
-    this.to,
-    this.cc,
-    this.vcc,
+    this.subject = '',
+    this.from = '',
+    this.to = '',
+    required this.cc,
+    required this.vcc,
     this.attachment,
-    this.body,
+    this.body = '',
   });
   factory EmailsModel.fromJson(Map<String, dynamic> data) {
-    return EmailsModel();
+    return EmailsModel(
+      cc: [],
+      vcc: [],
+    );
   }
 }
 
@@ -31,18 +34,24 @@ Future<List<EmailsModel>> getEmails() {
       to: 'musadams@narr.ng',
       subject: 'Feild study',
       body: 'Testing something cool',
+      vcc: [],
+      cc: [],
     ),
     EmailsModel(
       from: 'mubarak@narr.ng',
       to: 'zainabjj@narr.ng',
       subject: 'Narr study',
       body: 'Testing something cool',
+      cc: [],
+      vcc: [],
     ),
     EmailsModel(
       from: 'mubarak@narr.ng',
       subject: 'Game',
       to: 'aliyu@narr.ng',
       body: 'Testing something cool',
+      vcc: [],
+      cc: [],
     ),
   ];
 

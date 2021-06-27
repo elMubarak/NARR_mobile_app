@@ -12,8 +12,8 @@ import 'package:narr/widgets/formCard.dart';
 
 //! import 'home.dart';
 
-String email;
-String password;
+String email = '';
+String password = '';
 
 class Login extends StatefulWidget {
   static String id = 'login';
@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
   bool _obscureText = true;
   bool showSpiner = false;
   bool isClickable = false;
-  String loginUrl = '$serverUrl/auth/login';
+  Uri loginUrl = Uri.parse('$serverUrl/auth/login');
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
                         SizedBox(height: 15),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Email is required';
                             } else if (!value.contains('@')) {
                               return 'Invalid email';
@@ -93,7 +93,7 @@ class _LoginState extends State<Login> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Password is required';
                             } else if (value.length < 6) {
                               return 'Password less than 6 characters';
@@ -143,8 +143,8 @@ class _LoginState extends State<Login> {
                           buttonTitle: 'Login',
                           onTap: () async {
                             setState(() {});
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
 
                               setState(() {
                                 isClickable = true;
@@ -178,6 +178,7 @@ class _LoginState extends State<Login> {
                             }
                             setState(() {});
                           },
+                          buttonColor: Color(0xff00a368),
                         ),
                         SizedBox(height: 30.0),
                         GestureDetector(

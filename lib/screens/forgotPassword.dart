@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/screens/home.dart';
 // import 'package:narr/screens/register.dart';
 import 'package:narr/widgets/custom_button.dart';
@@ -80,6 +81,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   onTap: () {
                     Navigator.of(context).pushNamed(HomeScreen.id);
                   },
+                  buttonColor: determinePrimaryColor(context),
                 ),
               ],
             ),

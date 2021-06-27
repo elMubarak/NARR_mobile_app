@@ -9,14 +9,12 @@ class VideoConferenceScreen extends StatefulWidget {
 }
 
 class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
-  InAppWebViewController webViewController;
-  String url = "https://meetings.narr.ng";
+  late InAppWebViewController webViewController;
+  Uri url = Uri.parse("https://meetings.narr.ng");
   double progress = 0;
   bool isWebLoaded = false;
   Future getPermissions() async {
-    PermissionService().requestPermission(onPermissionDenied: () {
-      print('Permission has been denied');
-    });
+    PermissionService().requestPermission();
   }
 
   @override
@@ -41,23 +39,23 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
         children: [
           Container(
             child: InAppWebView(
-                initialUrl: url,
+                // initialUrl: url,
                 initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform: InAppWebViewOptions(debuggingEnabled: true),
+                  crossPlatform: InAppWebViewOptions(javaScriptEnabled: true),
                 ),
                 onWebViewCreated: (InAppWebViewController controller) {
                   webViewController = controller;
                 },
-                onLoadStart: (InAppWebViewController controller, String url) {
+                onLoadStart: (InAppWebViewController controller, Uri? url) {
                   setState(() {
-                    this.url = url;
+                    this.url = url!;
                     print('loaded!');
                   });
                 },
                 onLoadStop:
-                    (InAppWebViewController controller, String url) async {
+                    (InAppWebViewController controller, Uri? url) async {
                   setState(() {
-                    this.url = url;
+                    this.url = url!;
                     print('Stoped!');
                     isWebLoaded = true;
                   });

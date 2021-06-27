@@ -24,14 +24,15 @@ class _IctWorksState extends State<IctWorks> {
   }
 
   @override
+  Uri uri = Uri.parse('$serverUrl/ictWorks');
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('ICT Works'),
       ),
       body: GrantsOutlinedContainer(
-        child: FutureBuilder(
-          future: NetworkHelper(url: '$serverUrl/ictWorks').getAllIctWorks(),
+        child: FutureBuilder<dynamic>(
+          future: NetworkHelper(url: uri).getAllIctWorks(),
           builder: (context, snapshot) {
             var data = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {

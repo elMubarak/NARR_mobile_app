@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DropdownContainer extends StatelessWidget {
   final Widget child;
 
-  DropdownContainer({this.child});
+  DropdownContainer({required this.child});
 
   @override
   Widget build(BuildContext context) {

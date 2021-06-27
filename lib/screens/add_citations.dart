@@ -43,7 +43,7 @@ class _CitationDialogState extends State<CitationDialog> {
                 SizedBox(height: 15),
                 TypeAheadFormField(
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'person name can not be empty';
                     }
                     return null;
@@ -57,7 +57,7 @@ class _CitationDialogState extends State<CitationDialog> {
                         hintText: 'Name'),
                   ),
                   suggestionsCallback: (String pattern) async {
-                    final List<String> list = suggestCitation ?? <String>[];
+                    final List<String> list = suggestCitation;
 
                     return list
                         .where((String element) => element
@@ -79,7 +79,7 @@ class _CitationDialogState extends State<CitationDialog> {
                 SizedBox(height: 15),
                 TextFormField(
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Citation year can not be empty';
                     }
                     return null;
@@ -110,10 +110,10 @@ class _CitationDialogState extends State<CitationDialog> {
                   children: [
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                // background color    this is color:
-                                (Set<MaterialState> states) => Colors.red[600]),
+                        backgroundColor: MaterialStateProperty.resolveWith<
+                                Color>(
+                            // background color    this is color:
+                            (Set<MaterialState> states) => Colors.red.shade600),
                       ),
                       onPressed: () {
                         Navigator.pop(context, false);
@@ -123,8 +123,8 @@ class _CitationDialogState extends State<CitationDialog> {
                     SizedBox(width: 15),
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
                           setState(() {});
                           CitationModel _newCitation = CitationModel(
                             fullName: citationNameController.text,

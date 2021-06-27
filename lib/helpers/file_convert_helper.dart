@@ -14,17 +14,17 @@ Future displayDialog(BuildContext context, String title, String text) =>
       ),
     );
 
-File pickedFile;
+File pickedFile = File('');
 List<int> bytes = [];
 int recieved = 0;
 int total = 0;
 
 class FileConvertHelper {
   Future uploadDocument(
-      {String filePath,
-      String fileName,
-      String url,
-      BuildContext context}) async {
+      {String filePath = '',
+      String fileName = '',
+      String url = '',
+      required BuildContext context}) async {
     HiveBox _box = HiveBox();
     String savedToken = await _box.getSavedToken();
     try {
@@ -36,7 +36,7 @@ class FileConvertHelper {
       );
       var res = await request.send();
       //works at once
-      total = res.contentLength;
+      total = res.contentLength!;
       print('start size before write $recieved');
       if (res.contentLength == 0) {
         return res.contentLength;

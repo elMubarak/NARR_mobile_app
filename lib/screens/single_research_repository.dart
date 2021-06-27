@@ -8,11 +8,11 @@ import 'package:narr/widgets/container_with_shadow.dart';
 
 class ResearchWork extends StatelessWidget {
   final String researchId;
-  ResearchWork({this.researchId});
+  ResearchWork({required this.researchId});
 
   @override
   Widget build(BuildContext context) {
-    String singleResearchUrl = '$serverUrl/research';
+    Uri singleResearchUrl = Uri.parse('$serverUrl/research');
     HiveBox _box = HiveBox();
     bool _isVertical = false;
     IconData _selectedIcon;
@@ -24,9 +24,9 @@ class ResearchWork extends StatelessWidget {
     }
 
     getToken();
-    return FutureBuilder(
-      future:
-          NetworkHelper(url: singleResearchUrl).getSingleResearch(researchId),
+    return FutureBuilder<dynamic>(
+      future: NetworkHelper(url: singleResearchUrl)
+          .getSingleResearch(researchId, singleResearchUrl.toString()),
       builder: (context, research) {
         if (!research.hasData) {
           return Scaffold(
@@ -374,9 +374,10 @@ class ResearchWork extends StatelessWidget {
                                 itemPadding:
                                     EdgeInsets.symmetric(horizontal: 4.0),
                                 itemBuilder: (context, _) => Icon(
-                                  _selectedIcon ?? Icons.star,
+                                  Icons.star,
                                   color: Colors.amber,
                                 ),
+                                onRatingUpdate: (double value) {},
                               ),
                             ],
                           ),
@@ -396,7 +397,7 @@ class ResearchWork extends StatelessWidget {
 }
 
 class ReadButton extends StatelessWidget {
-  const ReadButton({this.id, this.title});
+  const ReadButton({required this.id, required this.title});
   final String id, title;
 
   @override

@@ -29,26 +29,24 @@ List readingHistoryArr = [];
 Dio dio = new Dio();
 
 class NetworkHelper {
-  static String tok;
-  static dynamic email;
+  static String tok = '';
+  static String email = '';
 
-  final String url;
-  NetworkHelper({this.url});
+  final Uri url;
+  NetworkHelper({required this.url});
 
   //registration
 // ignore: missing_return
-  Future<UserRegistrationModel> userRegistration({
-    String username,
-    String password,
-    String fname,
-    String lname,
-    String dob,
-    String phone,
-    String address,
-    Map<String, dynamic> institution,
-    // String institutionType,
-    // String institutionName,
-    BuildContext context,
+  Future<UserRegistrationModel?> userRegistration({
+    required String username,
+    required String password,
+    required String fname,
+    required String lname,
+    required String dob,
+    required String phone,
+    required String address,
+    required Map<String, dynamic> institution,
+    required BuildContext context,
   }) async {
     try {
       final http.Response response = await http.post(
@@ -82,6 +80,7 @@ class NetworkHelper {
         var message = jsonDecode(data)['message'];
         displayDialog(context, "Failed ❌", "$message");
         print(response.body);
+        return UserRegistrationModel.fromData(jsonDecode(response.body));
       }
     } catch (err) {
       displayDialog(context, "Failed ❌", "An Error Occured");
@@ -91,7 +90,9 @@ class NetworkHelper {
 
   //function to login a user
   Future loginUser(
-      {String email, String password, BuildContext context}) async {
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
     try {
       //making post request to a server
       final http.Response response = await http.post(
@@ -150,12 +151,12 @@ class NetworkHelper {
 
   //upload image
   Future uploadPhoto({
-    Response response,
-    String selectedfile,
-    Function onSendProgress,
-    BuildContext context,
+    required Response response,
+    required String selectedfile,
+    required Function(int, int) onSendProgress,
+    required BuildContext context,
   }) async {
-    String uploadurl = url;
+    String uploadurl = url.toString();
     String savedToken = await _box.getSavedToken();
     FormData formdata = FormData.fromMap({
       "image": await MultipartFile.fromFile(
@@ -182,6 +183,9 @@ class NetworkHelper {
             builder: (context) {
               return OcrResult(
                 response: response,
+                selectedFile: '',
+                imagePicked: '',
+                headers: {},
               );
             },
           ),
@@ -204,23 +208,23 @@ class NetworkHelper {
   String uploadEmail = email;
 
   Future uploadFile({
-    Response response,
-    String selectedfile,
-    Function onSendProgress,
-    String researchTitle,
-    List<String> authors,
-    List<CitationModel> citation,
-    List<dynamic> category,
-    String genre,
-    String accessType,
-    String fee,
-    String year,
-    String description,
-    Widget trancitionedScreen,
-    String alertMessage,
-    BuildContext context,
+    required Response response,
+    required String selectedfile,
+    required Function(int, int) onSendProgress,
+    required String researchTitle,
+    required List<String> authors,
+    required List<CitationModel> citation,
+    required List<dynamic> category,
+    required String genre,
+    required String accessType,
+    required String fee,
+    required String year,
+    required String description,
+    required Widget trancitionedScreen,
+    required String alertMessage,
+    required BuildContext context,
   }) async {
-    String uploadurl = url;
+    String uploadurl = url.toString();
     dynamic savedUser = await _box.getSavedUser();
     String savedToken = await _box.getSavedToken();
 
@@ -228,11 +232,11 @@ class NetworkHelper {
       "meta": jsonEncode(<String, String>{
         "researchTitle": "$researchTitle",
         "authors": "$authors",
-        "citations": citation == null ? [] : '$citation',
+        "citations": '$citation',
         "category": "$category",
         'genre': "$genre",
         'accessType': "$accessType",
-        'monthlyFee': fee == null ? "0" : fee,
+        'monthlyFee': fee,
         'year': '$year',
         'ownerEmail': "${savedUser['email']}",
         'description': "$description",
@@ -300,11 +304,12 @@ class NetworkHelper {
   }
 
   //get one research
-  Future getSingleResearch(String id) async {
+  Future getSingleResearch(String id, String url) async {
     String savedToken = await _box.getSavedToken();
+    final Uri uri = Uri.parse('$url/$id');
     try {
       http.Response response = await http.get(
-        '$url/$id',
+        uri,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'x-token': '$savedToken',
@@ -328,8 +333,10 @@ class NetworkHelper {
 
   //add reading history
   Future addDocumentToResearchHistoryArr({id, currentPage}) async {
+    final Uri uri = Uri.parse('$serverUrl/research');
+
     var research =
-        await NetworkHelper(url: '$serverUrl/research').getSingleResearch(id);
+        await NetworkHelper(url: uri).getSingleResearch(id, currentPage);
 
     Map<String, dynamic> researchObj = {
       "researchTitle": research['research']['researchTitle'],
@@ -380,8 +387,10 @@ class NetworkHelper {
 
   // get all institution by name
   Future getSingleInstitutionByName(String name) async {
+    final Uri uri = Uri.parse('$url?name=$name');
+
     try {
-      http.Response response = await http.get('$url?name=$name');
+      http.Response response = await http.get(uri);
       if (response.statusCode == 200) {
         var data = response.body;
         var payload = jsonDecode(data);
@@ -451,10 +460,12 @@ class NetworkHelper {
 
   //get single mail
   Future getSingleMail(String id) async {
+    final Uri uri = Uri.parse('$url/$id');
+
     String savedToken = await _box.getSavedToken();
     try {
       http.Response response = await http.get(
-        '$url/$id',
+        uri,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'x-token': '$savedToken',
@@ -478,15 +489,15 @@ class NetworkHelper {
 
   //send a mail
   Future sendMail(
-      {Response response,
-      String attachmentfile,
-      String from,
-      String to,
-      String subject,
-      String cc,
-      String bcc,
-      BuildContext context}) async {
-    String uploadurl = url;
+      {required Response response,
+      required String attachmentfile,
+      required String from,
+      required String to,
+      required String subject,
+      required String cc,
+      required String bcc,
+      required BuildContext context}) async {
+    String uploadurl = url.toString();
 
     String savedToken = await _box.getSavedToken();
 
@@ -556,10 +567,11 @@ class NetworkHelper {
 
   //get one research
   Future getSingleRegisteredUser(String id) async {
+    Uri uri = Uri.parse('$url/$id');
     String savedToken = await _box.getSavedToken();
     try {
       http.Response response = await http.get(
-        '$url/$id',
+        uri,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'x-token': '$savedToken',
@@ -582,16 +594,16 @@ class NetworkHelper {
 
   //add a researcher
   // ignore: missing_return
-  Future<UserRegistrationModel> addResearcher({
-    String username,
-    String password,
-    String fname,
-    String lname,
-    String dob,
-    String phone,
-    String address,
-    Map<String, dynamic> institution,
-    BuildContext context,
+  Future<UserRegistrationModel?> addResearcher({
+    required String username,
+    required String password,
+    required String fname,
+    required String lname,
+    required String dob,
+    required String phone,
+    required String address,
+    required Map<String, dynamic> institution,
+    required BuildContext context,
   }) async {
     try {
       final http.Response response = await http.post(

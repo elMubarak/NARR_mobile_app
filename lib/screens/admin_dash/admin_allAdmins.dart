@@ -10,7 +10,7 @@ class Administrators extends StatefulWidget {
 }
 
 class _AdministratorsState extends State<Administrators> {
-  String myUrl = '$serverUrl/user';
+  Uri myUrl = Uri.parse('$serverUrl/user');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class _AdministratorsState extends State<Administrators> {
         ),
         backgroundColor: Colors.blue,
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<dynamic>(
         future: NetworkHelper(url: myUrl).getAllRegisteredUser(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {

@@ -14,13 +14,14 @@ class AddResearcher extends StatefulWidget {
 }
 
 class _AddResearcherState extends State<AddResearcher> {
-  String fname;
-  String lname;
-  String email;
-  String phone;
-  String address;
-  String password;
-  String cPassword;
+  String fname = '';
+  String lname = '';
+
+  String email = '';
+  String phone = '';
+  String address = '';
+  String password = '';
+  String cPassword = '';
 
   bool _obscureText = true;
   bool showSpiner = false;
@@ -31,7 +32,7 @@ class _AddResearcherState extends State<AddResearcher> {
   static DateTime selectedDate = DateTime.now();
   bool isPicked = false;
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(1990, 1),
@@ -47,11 +48,11 @@ class _AddResearcherState extends State<AddResearcher> {
   bool institutonTypeFlag = false;
   bool institutonNameFlag = false;
   DropdownHelper _dropdownHelper = DropdownHelper();
-  List<DropdownMenuItem> item;
+  List<DropdownMenuItem> item = <DropdownMenuItem>[];
   List institutionType = [];
   List institutionName = [];
   List institutionCategory = ['Federal', 'State', 'Private', 'Independent'];
-  Map<String, dynamic> institutionObject;
+  Map<String, dynamic> institutionObject = <String, dynamic>{};
   @override
   void initState() {
     super.initState();
@@ -86,7 +87,7 @@ class _AddResearcherState extends State<AddResearcher> {
                         SizedBox(height: 15),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'First Name is required';
                             }
                             return null;
@@ -107,7 +108,7 @@ class _AddResearcherState extends State<AddResearcher> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Last Name is required';
                             }
                             return null;
@@ -128,7 +129,7 @@ class _AddResearcherState extends State<AddResearcher> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Email is required';
                             } else if (!value.contains('@')) {
                               return 'Invalid email';
@@ -207,7 +208,7 @@ class _AddResearcherState extends State<AddResearcher> {
                         ),
                         SizedBox(height: 15.0),
                         DropdownContainer(
-                          child: DropdownButtonFormField(
+                          child: DropdownButtonFormField<String>(
                             validator: (value) {
                               if (value == null) {
                                 return 'Please select an institution type';
@@ -224,16 +225,16 @@ class _AddResearcherState extends State<AddResearcher> {
                               'Institution Type',
                               style: TextStyle(color: Colors.grey[700]),
                             ),
-                            items: institutionType?.map((item) {
-                                  return new DropdownMenuItem(
-                                    child: new Text(item),
-                                    value: item.toString(),
-                                  );
-                                })?.toList() ??
-                                [],
+                            items: institutionType.map((item) {
+                              return new DropdownMenuItem(
+                                child: new Text(item),
+                                value: item.toString(),
+                              );
+                            }).toList(),
                             onChanged: (value) {
                               setState(() {
-                                _dropdownHelper.selectedInstitutionType = value;
+                                _dropdownHelper.selectedInstitutionType =
+                                    value!;
                                 institutonTypeFlag = true;
                               });
                             },
@@ -244,7 +245,7 @@ class _AddResearcherState extends State<AddResearcher> {
                         ),
                         institutonTypeFlag
                             ? DropdownContainer(
-                                child: DropdownButtonFormField(
+                                child: DropdownButtonFormField<String>(
                                   validator: (value) {
                                     if (value == null) {
                                       return 'Please select an institution category';
@@ -261,17 +262,16 @@ class _AddResearcherState extends State<AddResearcher> {
                                     'Institution Category',
                                     style: TextStyle(color: Colors.grey[700]),
                                   ),
-                                  items: institutionCategory?.map((item) {
-                                        return new DropdownMenuItem(
-                                          child: new Text(item),
-                                          value: item.toString(),
-                                        );
-                                      })?.toList() ??
-                                      [],
+                                  items: institutionCategory.map((item) {
+                                    return new DropdownMenuItem(
+                                      child: new Text(item),
+                                      value: item.toString(),
+                                    );
+                                  }).toList(),
                                   onChanged: (value) {
                                     setState(() {
                                       _dropdownHelper
-                                          .selectedInstitutionCategory = value;
+                                          .selectedInstitutionCategory = value!;
                                       institutionNameDropdown(
                                           type: _dropdownHelper
                                               .selectedInstitutionType,
@@ -288,7 +288,7 @@ class _AddResearcherState extends State<AddResearcher> {
                         ),
                         institutonNameFlag
                             ? DropdownContainer(
-                                child: DropdownButtonFormField(
+                                child: DropdownButtonFormField<dynamic>(
                                   validator: (value) {
                                     if (value == null) {
                                       return 'Please select an institution name';
@@ -307,13 +307,12 @@ class _AddResearcherState extends State<AddResearcher> {
                                   ),
                                   isExpanded: true,
                                   items: _dropdownHelper
-                                          .getInstitutionNameDropdownItems(
-                                              institutionName) ??
-                                      [],
+                                      .getInstitutionNameDropdownItems(
+                                          institutionName),
                                   onChanged: (value) async {
-                                    await NetworkHelper(
-                                            url:
-                                                '$serverUrl/institution/getbyname')
+                                    Uri uri = Uri.parse(
+                                        '$serverUrl/institution/getbyname');
+                                    await NetworkHelper(url: uri)
                                         .getSingleInstitutionByName(value)
                                         .then((value) {
                                       institutionObject = value;
@@ -327,7 +326,7 @@ class _AddResearcherState extends State<AddResearcher> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Password is required';
                             } else if (value.length < 6) {
                               return 'Password can\t be less than 6 characters';
@@ -358,7 +357,7 @@ class _AddResearcherState extends State<AddResearcher> {
                         ),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Password is required';
                             } else if (password != cPassword) {
                               return 'Passwords not matched';
@@ -392,14 +391,15 @@ class _AddResearcherState extends State<AddResearcher> {
                             isLoading: isClickable,
                             buttonTitle: 'Register',
                             onTap: () {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
                                 setState(() {
                                   isClickable = true;
                                 });
-
+                                Uri uri =
+                                    Uri.parse('$mockServerUrl/auth/register');
                                 NetworkHelper(
-                                  url: '$mockServerUrl/auth/register',
+                                  url: uri,
                                 )
                                     .addResearcher(
                                   username: email,
@@ -433,19 +433,20 @@ class _AddResearcherState extends State<AddResearcher> {
   }
 
   Future institutionTypeDropdown() async {
-    await NetworkHelper(url: '$serverUrl/institution/types')
-        .getInstitutionType()
-        .then((value) {
+    Uri uri = Uri.parse('$serverUrl/institution/types');
+
+    await NetworkHelper(url: uri).getInstitutionType().then((value) {
       setState(() {
         institutionType = value;
       });
     });
   }
 
-  Future institutionNameDropdown({String type, String category}) async {
-    await NetworkHelper(url: '$serverUrl/institution/$type/$category')
-        .getInstitutionName()
-        .then((value) {
+  Future institutionNameDropdown(
+      {required String type, required String category}) async {
+    Uri uri = Uri.parse('$serverUrl/institution/$type/$category');
+
+    await NetworkHelper(url: uri).getInstitutionName().then((value) {
       setState(() {
         institutionName = value;
       });

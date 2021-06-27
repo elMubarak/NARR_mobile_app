@@ -5,14 +5,14 @@ import 'package:narr/services/url_luncher.dart';
 
 class IctWorksContent extends StatelessWidget {
   const IctWorksContent(
-      {Key key,
-      this.content,
-      this.title,
-      this.creator,
-      this.imgUrl,
-      this.categories,
-      this.linkUrl,
-      this.date})
+      {Key? key,
+      required this.content,
+      required this.title,
+      required this.creator,
+      required this.imgUrl,
+      required this.categories,
+      required this.linkUrl,
+      required this.date})
       : super(key: key);
 
   final String content, title, creator, imgUrl, linkUrl, date;

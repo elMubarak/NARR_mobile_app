@@ -1,7 +1,10 @@
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
-void showLoginFlushbar({BuildContext context, String message, String user}) {
+void showLoginFlushbar(
+    {required BuildContext context,
+    required String message,
+    required String user}) {
   Flushbar(
     title: "$user",
     icon: Icon(
@@ -18,7 +21,8 @@ void showLoginFlushbar({BuildContext context, String message, String user}) {
   )..show(context);
 }
 
-void showLogoutFlushbar({BuildContext context, String message}) {
+void showLogoutFlushbar(
+    {required BuildContext context, required String message}) {
   Flushbar(
     title: "$message",
     icon: Icon(

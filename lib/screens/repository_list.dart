@@ -14,7 +14,7 @@ class RepositoryList extends StatefulWidget {
 }
 
 class _RepositoryListState extends State<RepositoryList> {
-  String researchRepoUrl = '$serverUrl/research';
+  Uri researchRepoUrl = Uri.parse('$serverUrl/research');
   DropdownHelper _dropdownHelper = DropdownHelper();
   HiveBox _box = HiveBox();
   var token;
@@ -67,7 +67,7 @@ class _RepositoryListState extends State<RepositoryList> {
               ),
             ],
           ),
-          child: DropdownButtonFormField(
+          child: DropdownButtonFormField<dynamic>(
             decoration: InputDecoration(
               border: UnderlineInputBorder(
                 borderSide: BorderSide.none,
@@ -108,7 +108,7 @@ class _RepositoryListState extends State<RepositoryList> {
       drawer: Drawer(
         child: DrawerItems(),
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<dynamic>(
         future: NetworkHelper(url: researchRepoUrl).getAllResearch(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -177,20 +177,20 @@ class _RepositoryListState extends State<RepositoryList> {
 
 class ResearchRepositoryCard extends StatelessWidget {
   const ResearchRepositoryCard({
-    Key key,
-    this.imageUrl,
-    this.researchTitle,
-    this.researchYear,
-    this.researchAuthor,
-    this.pages,
-    this.onTap,
-    this.category,
-    this.genre,
+    Key? key,
+    required this.imageUrl,
+    required this.researchTitle,
+    required this.researchYear,
+    required this.researchAuthor,
+    required this.pages,
+    required this.onTap,
+    required this.category,
+    required this.genre,
   }) : super(key: key);
   final String researchTitle, researchYear, imageUrl, category, genre;
   final int pages;
   final String researchAuthor;
-  final Function onTap;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

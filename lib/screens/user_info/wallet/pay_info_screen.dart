@@ -5,7 +5,7 @@ import 'package:narr/screens/user_info/wallet/bank_info/bank_info_tab.dart';
 import 'package:narr/screens/user_info/wallet/wallet_info/wallet_tab.dart';
 
 class PaymentInfoScreen extends StatefulWidget {
-  const PaymentInfoScreen({Key key}) : super(key: key);
+  const PaymentInfoScreen({Key? key}) : super(key: key);
 
   @override
   _PaymentInfoScreenState createState() => _PaymentInfoScreenState();

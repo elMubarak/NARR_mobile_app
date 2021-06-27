@@ -3,8 +3,8 @@ import 'package:narr/widgets/container_card.dart';
 
 class SuggestionCard extends StatelessWidget {
   SuggestionCard({
-    Key key,
-    this.child,
+    Key? key,
+    required this.child,
     this.itemCount = 0,
   }) : super(key: key);
   final Widget child;

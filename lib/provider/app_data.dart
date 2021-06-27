@@ -28,7 +28,7 @@ class AppData extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Map<String, dynamic> analyticObj;
+  late Map<String, dynamic> analyticObj;
   void getAnalyticsStream({dynamic analytics, context}) {
     analyticObj = {
       "usersOnline": analytics['usersOnline'],

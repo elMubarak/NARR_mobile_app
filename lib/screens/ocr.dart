@@ -12,15 +12,15 @@ class OCRScreen extends StatefulWidget {
 }
 
 class _OCRScreenState extends State<OCRScreen> {
-  File _pickedImage;
-  String _pickedSImage;
+  late File _pickedImage;
+  String _pickedSImage = '';
   final picker = ImagePicker();
   bool isFileSelected = false;
-  String imageFileName;
-  String selectedImageFile;
-  String imageExtension;
+  String imageFileName = '';
+  String selectedImageFile = '';
+  String imageExtension = '';
   Dio dio = Dio();
-  Response response;
+  late Response response;
 //
   Future _cameraImage() async {
     final pickedFile =
@@ -41,7 +41,7 @@ class _OCRScreenState extends State<OCRScreen> {
             imagePicked: _pickedSImage,
             pickedCameraImage: _pickedImage,
             response: response,
-            selectedFile: _pickedSImage,
+            selectedFile: _pickedSImage, onSendProgress: () {},
             // onSendProgress: onSendProgress(bytesSent, bytesTotal),
           );
         }),
@@ -69,6 +69,7 @@ class _OCRScreenState extends State<OCRScreen> {
             pickedCameraImage: _pickedImage,
             response: response,
             selectedFile: _pickedSImage,
+            onSendProgress: () {},
           );
         }),
       );

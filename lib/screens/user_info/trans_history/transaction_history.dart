@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:narr/widgets/container_with_shadow.dart';
 
 class TransactionHistoryScreen extends StatefulWidget {
-  const TransactionHistoryScreen({Key key}) : super(key: key);
+  const TransactionHistoryScreen({Key? key}) : super(key: key);
 
   @override
   _TransactionHistoryScreenState createState() =>

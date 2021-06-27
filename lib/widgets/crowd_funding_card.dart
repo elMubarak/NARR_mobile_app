@@ -5,14 +5,14 @@ String networkImageUri =
 
 class CrowdFundingCard extends StatelessWidget {
   const CrowdFundingCard({
-    Key key,
-    this.researchTitle,
-    this.researchContent,
-    this.onTap,
+    Key? key,
+    required this.researchTitle,
+    required this.researchContent,
+    required this.onTap,
   }) : super(key: key);
   final String researchTitle, researchContent;
 
-  final Function onTap;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

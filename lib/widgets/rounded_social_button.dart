@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class RoundedSocialButton extends StatelessWidget {
   final IconData icon;
-  final Function onPressed;
+  final VoidCallback onPressed;
   final Color iconColor;
-  const RoundedSocialButton({this.icon, this.onPressed, this.iconColor});
+  const RoundedSocialButton(
+      {required this.icon, required this.onPressed, required this.iconColor});
 
   @override
   Widget build(BuildContext context) {

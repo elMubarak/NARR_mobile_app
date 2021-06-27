@@ -196,12 +196,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           count: '22',
                           color: Color(0xff00a368),
                           icon: Icons.insert_drive_file,
+                          onTap: () {},
+                          info: '',
                         ),
                         HeaderCard(
                           title: 'Read \nSuggestions',
                           count: '22',
                           color: Colors.blue,
                           icon: Icons.import_contacts,
+                          info: '',
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -210,16 +214,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         HeaderCard(
-                            title: 'Mentions',
-                            info: 'Mentions in the last 1 year',
-                            count: '22',
-                            color: Colors.orange,
-                            icon: Icons.person),
+                          title: 'Mentions',
+                          info: 'Mentions in the last 1 year',
+                          count: '22',
+                          color: Colors.orange,
+                          icon: Icons.person,
+                          onTap: () {},
+                        ),
                         HeaderCard(
                           title: 'Research Grants',
                           count: '22',
                           color: Colors.red,
                           icon: Icons.insert_drive_file,
+                          onTap: () {},
+                          info: '',
                         ),
                       ],
                     ),
@@ -227,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            FutureBuilder(
+            FutureBuilder<dynamic>(
               future: getStoredUserObject(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -353,7 +361,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: 10),
                     itemCount: 10,
                   ),
-                  Analytics(chartWidget: chartWidget),
+                  Analytics(
+                    chartWidget: chartWidget,
+                    title: '',
+                    child: Container(),
+                  ),
                 ],
               ),
             ),

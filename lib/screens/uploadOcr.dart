@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:narr/configs.dart';
+import 'package:narr/global/global_vars.dart';
 import 'package:narr/services/backend_service.dart';
 import 'package:narr/widgets/custom_button.dart';
 
@@ -10,14 +11,14 @@ class UploadOcr extends StatefulWidget {
   final String imagePicked;
   final String selectedFile;
   final Response response;
-  final Function onSendProgress;
+  final VoidCallback onSendProgress;
 
   UploadOcr(
-      {this.imagePicked,
-      this.response,
-      this.selectedFile,
-      this.onSendProgress,
-      this.pickedCameraImage});
+      {required this.imagePicked,
+      required this.response,
+      required this.selectedFile,
+      required this.onSendProgress,
+      required this.pickedCameraImage});
 
   @override
   _UploadOcrState createState() => _UploadOcrState();
@@ -26,11 +27,11 @@ class UploadOcr extends StatefulWidget {
 class _UploadOcrState extends State<UploadOcr> {
   bool flag = false;
   bool isClickable = false;
-  String imageToText = '$baseUrl/ocr';
+  Uri imageToText = Uri.parse('$baseUrl/ocr');
 
-  double progress;
-  int bytesSent;
-  int bytesTotal;
+  double progress = 0;
+  int bytesSent = 0;
+  int bytesTotal = 0;
   void onSendProgress(int sent, int total) {
     double percentage = (sent / total * 100);
     setState(() {
@@ -188,6 +189,7 @@ class _UploadOcrState extends State<UploadOcr> {
                           }),
                         );
                   },
+                  buttonColor: determinePrimaryColor(context),
                 ),
               ],
             ),
